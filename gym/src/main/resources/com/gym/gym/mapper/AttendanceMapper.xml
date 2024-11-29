@@ -7,37 +7,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.gym.gym.mapper.AttendanceMapper">
 
 
-
-
-<!-- 값을 조회하는 부분은 resultType필요! -->
-<!-- 별칭 Attendance로 통일 -->
-    
-
 <!-- 출석 내역 조회 -->
-<select id="list" resultType="Attendance">
+<select id="list" resultType="Attendance">   <!-- 별칭 Attendance로  -->
     SELECT *
     FROM attendance
 </select>
 
 
 
-<!-- 출석 등록-->
-
-
-
+<!-- 출석 체크 ( 등록 )-->
+<insert id="insertAttendance">
+    INSERT INTO attendance ( qrId, userNo, checkTime )
+    VALUES(#{qrId}, #{userNo}, #{checkTime})
+</insert>
 
 
 
 <!-- 유저 검색 -->
-
-
-
-
+<select id="getAttendanceByUserNo" resultType="Attendance"> 
+    SELECT *
+    FROM attendance
+    WHERE user_no = #{userNo}
+</select>
 
 
 
 <!-- 출석 랭킹 -->
-
+<select id="getAttendanceRanking" resultType="Attendance">
+    SELECT user_no, COUNT(*) as attendance_count
+    FROM attendance
+    GROUP BY user_no
+    ORDER BY attendance_count DESC
+</select>
 
 
 
