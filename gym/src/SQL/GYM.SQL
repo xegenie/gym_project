@@ -47,7 +47,7 @@ CREATE TABLE `buy_list` (
 	`trainer_no`	INT	NOT NULL,
 	`user_no`	INT	NOT NULL,
 	`buy_date`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
-	`p_id`	VARCHAR(100)	NOT NULL
+	`p_id`	INT	NOT NULL
 );
 
 DROP TABLE IF EXISTS `trainer_profile`;
@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS `file`;
 
 CREATE TABLE `file` (
 	`file_no`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`profile_id`	VARCHAR(100)	NOT NULL,
+	`profile_id`	INT	NOT NULL,
 	`file_type`	VARCHAR(100)	NOT NULL,
 	`file_name`	VARCHAR(100)	NOT NULL,
 	`file_path`	VARCHAR(100)	NOT NULL,
@@ -140,3 +140,116 @@ CREATE TABLE `qr_code` (
 	`uuid`	VARCHAR(100)	NOT NULL,
 	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE `user_auth` ADD CONSTRAINT `FK_users_TO_user_auth_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `attendance` ADD CONSTRAINT `FK_users_TO_attendance_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `buy_list` ADD CONSTRAINT `FK_users_TO_buy_list_1` FOREIGN KEY (
+	`trainer_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `buy_list` ADD CONSTRAINT `FK_users_TO_buy_list_2` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `buy_list` ADD CONSTRAINT `FK_ticket_TO_buy_list_1` FOREIGN KEY (
+	`p_id`
+)
+REFERENCES `ticket` (
+	`p_no`
+);
+
+ALTER TABLE `trainer_profile` ADD CONSTRAINT `FK_users_TO_trainer_profile_1` FOREIGN KEY (
+	`trainer_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_users_TO_reservation_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_users_TO_reservation_2` FOREIGN KEY (
+	`tranier_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `file` ADD CONSTRAINT `FK_trainer_profile_TO_file_1` FOREIGN KEY (
+	`profile_id`
+)
+REFERENCES `trainer_profile` (
+	`profile_no`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_plan_TO_comment_1` FOREIGN KEY (
+	`plan_no`
+)
+REFERENCES `plan` (
+	`plan_no`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_users_TO_comment_1` FOREIGN KEY (
+	`trainer_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `plan` ADD CONSTRAINT `FK_users_TO_plan_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `plan` ADD CONSTRAINT `FK_user_auth_TO_plan_1` FOREIGN KEY (
+	`writer_auth`
+)
+REFERENCES `user_auth` (
+	`auth_no`
+);
+
+ALTER TABLE `board` ADD CONSTRAINT `FK_users_TO_board_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
+ALTER TABLE `answer` ADD CONSTRAINT `FK_board_TO_answer_1` FOREIGN KEY (
+	`board_no`
+)
+REFERENCES `board` (
+	`board_no`
+);
+
+ALTER TABLE `answer` ADD CONSTRAINT `FK_users_TO_answer_1` FOREIGN KEY (
+	`user_no`
+)
+REFERENCES `users` (
+	`user_no`
+);
+
