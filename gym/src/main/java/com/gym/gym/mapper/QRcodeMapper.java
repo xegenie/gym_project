@@ -1,5 +1,5 @@
 package com.gym.gym.mapper;
 
-public class QRMapper {
+public class QRcodeMapper {
     
 }
