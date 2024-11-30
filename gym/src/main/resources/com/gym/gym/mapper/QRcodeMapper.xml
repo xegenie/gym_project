@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.gym.gym.mapper.QRcodeMapper">
+
+
+ <!-- QR 코드 발급 (생성) -->
+    <insert id="insertQRcode" parameterType="com.gym.gym.domain.QRcode">
+        INSERT INTO QRcode (user_no, uuid)
+        VALUES (#{userNo}, #{uuid} )
+    </insert>
