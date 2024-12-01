@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- link -->
     <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
 <body>
-    <!-- th:replace : 프래그먼트를 가져오는 속성 -->
-    <!-- th:replace="~{폴더명/파일명::프래그먼트명}" -->
+    <!-- header -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
-    <div class="container">
-        <h3>프레그먼트 적용</h3>
+    <!-- ⭐ content -->
+    <!-- layout:fragment="레이아웃의 프레그먼트 영역 이름" -->
+    <th:block layout:fragment="content"></th:block>
     
-    </div>
-    
+    <!-- footer -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
 
+    <!-- script -->
     <th:block th:replace="~{fragment/script::script}"></th:block>
-
-
 </body>
 </html>
