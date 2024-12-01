@@ -1,10 +1,10 @@
 package com.gym.gym.mapper;
 
-import org.apache.ibatis.type.Alias;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.gym.gym.domain.QRcode;
 
-@Alias("QRcode")
+@Mapper
 public interface QRcodeMapper {
 
     // 출석 체크 ( 등록 )

@@ -2,8 +2,11 @@ package com.gym.gym.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.gym.gym.domain.Attendance;
 
+@Mapper
 public interface AttendanceMapper {
 
     // 출석 내역 조회
