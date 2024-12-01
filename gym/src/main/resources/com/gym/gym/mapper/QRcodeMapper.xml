@@ -12,3 +12,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INSERT INTO QRcode (user_no, uuid)
         VALUES (#{userNo}, #{uuid} )
     </insert>
+
+    </mapper>
