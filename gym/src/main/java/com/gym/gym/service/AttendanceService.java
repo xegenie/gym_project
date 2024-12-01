@@ -1,10 +1,13 @@
-package com.gym.gym.mapper;
+package com.gym.gym.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.gym.gym.domain.Attendance;
 
-public interface AttendanceMapper {
+@Service
+public interface AttendanceService {
 
     // 출석 내역 조회
     List<Attendance> list() throws Exception;
@@ -12,10 +15,9 @@ public interface AttendanceMapper {
     // 출석 체크 ( 등록 )
     int insertAttendance(Attendance attendance) throws Exception;
 
-    // 유저 검색
+    // 유저 출석 내역 조회
     List<Attendance> getAttendanceByUserNo(int userNo) throws Exception;
 
-    // 출석 랭킹
+    // 출석 랭킹 조회
     List<Attendance> getAttendanceRanking() throws Exception;
-
 }
