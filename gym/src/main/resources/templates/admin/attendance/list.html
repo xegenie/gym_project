@@ -1,11 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>출석내역</title>
+    <title>출석 내역</title>
+    <!-- 공통 링크 추가 -->
+    <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
+
 <body>
-        <h1>출석내역화면입니다.</h1>
+    <!-- 공통 헤더 추가 -->
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+
+    <!-- 검색 폼 추가 -->
+    <form action="/admin/attendance/search" method="get">
+        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
+        <button type="submit">검색</button>
+    </form>
+    
+
+    <!-- 출석 내역 표시 -->
+    <h2>출석 내역</h2>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <th style="padding: 8px; text-align: left;">No</th>
+                <th style="padding: 8px; text-align: left;">아이디</th>
+                <th style="padding: 8px; text-align: left;">이름</th>
+                <th style="padding: 8px; text-align: left;">이메일</th>
+                <th style="padding: 8px; text-align: left;">핸드폰 번호</th>
+                <th style="padding: 8px; text-align: left;">입장 시각</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="attendance : ${attendanceList}">
+                <td style="padding: 8px;" th:text="${attendance.userNo}"></td>
+                <td style="padding: 8px;" th:text="${attendance.users.id}"></td>
+                <td style="padding: 8px;" th:text="${attendance.users.name}"></td>
+                <td style="padding: 8px;" th:text="${attendance.users.email}"></td>
+                <td style="padding: 8px;" th:text="${attendance.users.phone}"></td>
+                <td style="padding: 8px;" th:text="${#dates.format(attendance.checkTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 공통 푸터 추가 -->
+    <th:block th:replace="~{fragment/footer::footer}"></th:block>
+
+    <!-- 공통 스크립트 추가 -->
+    <th:block th:replace="~{fragment/script::script}"></th:block>
 </body>
+
 </html>

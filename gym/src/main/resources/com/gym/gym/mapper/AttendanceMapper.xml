@@ -1,47 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace="매퍼 인터페이스 경로" -->
 <mapper namespace="com.gym.gym.mapper.AttendanceMapper">
 
+    <!-- 출석 내역 조회 -->
+    <select id="list" resultMap="AttendanceWithUserMap">
+        SELECT 
+            a.qr_id AS qrId,
+            a.user_no AS userNo,
+            a.check_time AS checkTime,
+            u.no AS userNo, 
+            u.id AS userId,
+            u.name AS userName,
+            u.email AS userEmail,
+            u.phone AS userPhone
+        FROM attendance a
+        INNER JOIN users u ON a.user_no = u.no
+    </select>
 
-<!-- 출석 내역 조회 -->
-<select id="list" resultType="Attendance">   <!-- 별칭 Attendance로  -->
-    SELECT *
-    FROM attendance
-</select>
+    <!-- Result Map -->
+    <resultMap id="AttendanceWithUserMap" type="com.gym.gym.domain.Attendance">
+        <result property="qrId" column="qrId" />
+        <result property="userNo" column="userNo" />
+        <result property="checkTime" column="checkTime" />
+        <association property="users" javaType="com.gym.gym.domain.Users">
+            <result property="id" column="userId" />
+            <result property="name" column="userName" />
+            <result property="email" column="userEmail" />
+            <result property="phone" column="userPhone" />
+        </association>
+    </resultMap>
 
+    <!-- 출석 체크 (등록) -->
+    <insert id="insertAttendance">
+        INSERT INTO attendance (qrId, userNo, checkTime)
+        VALUES(#{qrId}, #{userNo}, #{checkTime})
+    </insert>
 
+    <!-- 유저 검색 -->
+    <select id="searchAttendance" resultMap="AttendanceWithUserMap">
+        SELECT 
+            a.qr_id AS qrId,
+            a.user_no AS userNo,
+            a.check_time AS checkTime,
+            u.no AS userNo, 
+            u.id AS userId,
+            u.name AS userName,
+            u.email AS userEmail,
+            u.phone AS userPhone
+        FROM attendance a
+        INNER JOIN users u ON a.user_no = u.no
+        WHERE 
+            (u.id LIKE CONCAT('%', #{searchKeyword}, '%') 
+            OR u.name LIKE CONCAT('%', #{searchKeyword}, '%') 
+            OR u.email LIKE CONCAT('%', #{searchKeyword}, '%') 
+            OR u.phone LIKE CONCAT('%', #{searchKeyword}, '%'))
+    </select>
 
-<!-- 출석 체크 ( 등록 )-->
-<insert id="insertAttendance">
-    INSERT INTO attendance ( qrId, userNo, checkTime )
-    VALUES(#{qrId}, #{userNo}, #{checkTime})
-</insert>
-
-
-
-<!-- 유저 검색 -->
-<select id="getAttendanceByUserNo" resultType="Attendance"> 
-    SELECT *
-    FROM attendance
-    WHERE user_no = #{userNo}
-</select>
-
-
-
-<!-- 출석 랭킹 -->
-<select id="getAttendanceRanking" resultType="Attendance">
-    SELECT user_no, COUNT(*) as attendance_count
-    FROM attendance
-    GROUP BY user_no
-    ORDER BY attendance_count DESC
-</select>
+    <!-- 출석 랭킹 -->
+    <select id="getAttendanceRanking" resultType="Attendance">
+        SELECT user_no, COUNT(*) AS attendance_count
+        FROM attendance
+        GROUP BY user_no
+        ORDER BY attendance_count DESC
+    </select>
 
 </mapper>
-
-
-
-

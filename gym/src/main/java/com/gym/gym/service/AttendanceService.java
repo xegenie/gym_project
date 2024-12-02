@@ -20,4 +20,7 @@ public interface AttendanceService {
 
     // 출석 랭킹 조회
     List<Attendance> getAttendanceRanking() throws Exception;
+
+    // 출석 내역 검색 (유저 번호와 키워드로)
+    List<Attendance> searchAttendance(String searchKeyword) throws Exception;
 }
