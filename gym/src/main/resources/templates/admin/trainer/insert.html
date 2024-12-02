@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 등록</title>
+    <title>트레이너 등록</title>
 </head>
 <body>
-    <h1>게시글 등록</h1>
-    <form action="" method="post" enctype="multipart/form-data">
+    <h1>트레이너 등록</h1>
+    <form action="/admin/trainer/insert" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <table border="1">
+            <tr>
+                <th>트레이너 userNo</th>
+                <td>
+                    <input type="number" name="trainerNo">
+                </td>
+            </tr>
             <tr>
                 <th>이름</th>
                 <td>

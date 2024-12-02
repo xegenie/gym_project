@@ -24,10 +24,8 @@ public interface BoardService {
     // 데이터 개수
     public int count(@Param("option")Option option) throws Exception;
 
-    public Board select1(@Param("id") String id)throws Exception;
-    
-    public List<Board> list();
+    public List<Board> list() throws Exception;
 
-    public Boolean isOwner(Long no) throws Exception;
+    public Boolean isOwner(Long no, Long boardNo) throws Exception;
 
 }

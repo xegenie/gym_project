@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title></title>
 </head>
 <body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>담당 트레이너</th>
+                <th>예약 날짜</th>
+                <th>신청 일시</th>
+                <th>취소 일시</th>
+                <th>상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td th:text="${reservation.no}"></td>
+                <td th:text="${reservation.trainerNo}"></td>
+                <td th:text="${reservation.rvDate}"></td>
+                <td th:text="${reservation.createdAt}"></td>
+                <td th:text="${reservation.canceledAt}"></td>
+                <td th:text="${reservation.enabled == 1 ? '활성' : '취소'}"></td>
+            </tr>
+        </tbody>
+    </table>
     
 </body>
 </html>

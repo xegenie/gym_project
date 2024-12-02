@@ -48,6 +48,10 @@ FROM board
 WHERE no = #{no}
 </select>
 
+
+
+
+
 <insert id="insert">
 INSERT INTO board (user_no, title, content)
 VALUES (#{userNo}, #{title}, #{content})

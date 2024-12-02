@@ -48,36 +48,36 @@
 
 //     }
 
-//     // @Override
-//     // public int delete(Long no) throws Exception {
-//     //     int result = boardMapper
-//     // }
 
-//     @Override
-//     public int count(Option option) throws Exception {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'count'");
-//     }
+    @Override
+    public int delete(Long no) throws Exception {
+        int result = boardMapper.delete(no);
+        return result;
 
-//     @Override
-//     public Board select1(String id) throws Exception {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'select1'");
-//     }
+    }
 
-//     @Override
-//     public List<Board> list() {
-//         // TODO Auto-generated method stub
-//         throw new UnsupportedOperationException("Unimplemented method 'list'");
-//     }
+    @Override
+    public int count(Option option) throws Exception {
+        return boardMapper.count(option);
+    }
 
-//     @Override
-//     public Boolean isOwner(Long no) throws Exception {
+
+    @Override
+    public List<Board> list() throws Exception {
+        List<Board> boardList = boardMapper.list(new Option(), new Page());
+        return boardList;
+    }
+
+    @Override
+    public Boolean isOwner(Long no, Long boardNo) throws Exception {
+
      
 //             Board board = boardMapper.select(no);
 
-//             return board.getUserNo() == no; 
-//         }
+
+            return board.getUserNo() == boardNo; 
+        }
+
 
 // }
 

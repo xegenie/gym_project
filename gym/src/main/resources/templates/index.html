@@ -8,6 +8,48 @@
 </head>
 <body>
 
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+
+    <h3 sec:authentication="principal"></h3>
+ <a href="join"></a>
+    <h1>출석 테스트</h1>
+
+    <!-- 출석 체크 버튼 -->
+    <form th:action="@{/attendance/check}" method="post">
+        <input type="hidden" name="qrId" value="testQR123">
+        <input type="hidden" name="userNo" value="1">
+        <button type="submit">출석 체크</button>
+    </form>
+
+    <!-- 출석 내역 조회 버튼 -->
+    <form th:action="@{/attendance/list}" method="get">
+        <button type="submit">출석 내역 조회</button>
+    </form>
+
+    <!-- 출석 내역 표시 -->
+    <h2>출석 내역</h2>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <th style="padding: 8px; text-align: left;">QR ID</th>
+                <th style="padding: 8px; text-align: left;">User No</th>
+                <th style="padding: 8px; text-align: left;">Check Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="attendance : ${attendanceList}">
+                <td style="padding: 8px;" th:text="${attendance.qrId}"></td>
+                <td style="padding: 8px;" th:text="${attendance.userNo}"></td>
+                <td style="padding: 8px;" th:text="${#dates.format(attendance.checkTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
     <h1>메인화면입니다.</h1>
 
 

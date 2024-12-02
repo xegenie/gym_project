@@ -45,14 +45,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional // 트랜잭션 처리 설정(회원정보, 회원 권한)
     public int join(Users user) throws Exception {
-        Long userNo = user.getNo();
         String password = user.getPassword();
-
+        
         String encodePassword = passwordEncoder.encode(password);
         user.setPassword(encodePassword);
-
+        user.setEnabled(1);
         int result = userMapper.join(user);
-
+        
+        Long userNo = user.getNo();
+        
         if(result > 0){
             UserAuth userAuth = new UserAuth();
             userAuth.setUserNo(userNo);

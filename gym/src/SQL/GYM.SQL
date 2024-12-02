@@ -49,7 +49,9 @@ CREATE TABLE `buy_list` (
     `trainer_no` INT NOT NULL,
     `user_no` INT NOT NULL,
     `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `p_no` INT NOT NULL
+    `t_no` INT NOT NULL,
+    `canceled_at`	TIMESTAMP	NULL,
+	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
 );
 
 DROP TABLE IF EXISTS `trainer_profile`;
@@ -67,7 +69,7 @@ CREATE TABLE `reservation` (
     `no`    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `rv_date`   TIMESTAMP   NOT NULL,
     `user_no`   INT NOT NULL,
-    `tranier_no`    INT NOT NULL,
+    `trainer_no`    INT NOT NULL,
     `created_at` TIMESTAMP  NOT NULL    DEFAULT CURRENT_TIMESTAMP,
     `canceled_at` TIMESTAMP NULL,
     `enabled` INT NOT NULL DEFAULT 1
@@ -101,7 +103,6 @@ DROP TABLE IF EXISTS `plan`;
 CREATE TABLE `plan` (
     `no` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_no` INT NOT NULL,
-    `rv_no` INT NULL,
     `plan_name` VARCHAR(100) NOT NULL,
     `plan_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `plan_content` VARCHAR(500) NULL
@@ -169,7 +170,7 @@ ALTER TABLE `reservation`
 ADD CONSTRAINT `FK_users_TO_reservation_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `reservation`
-ADD CONSTRAINT `FK_users_TO_reservation_2` FOREIGN KEY (`tranier_no`) REFERENCES `users` (`no`);
+ADD CONSTRAINT `FK_users_TO_reservation_2` FOREIGN KEY (`trainer_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `files`
 ADD CONSTRAINT `FK_trainer_profile_TO_file_1` FOREIGN KEY (`profile_no`) REFERENCES `trainer_profile` (`no`);
@@ -183,9 +184,6 @@ ADD CONSTRAINT `FK_users_TO_comment_1` FOREIGN KEY (`trainer_no`) REFERENCES `us
 ALTER TABLE `plan`
 ADD CONSTRAINT `FK_users_TO_plan_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
-ALTER TABLE `plan`
-ADD CONSTRAINT `FK_reservation_TO_plan_1` FOREIGN KEY (`rv_no`) REFERENCES `reservation` (`no`);
-
 ALTER TABLE `board`
 ADD CONSTRAINT `FK_users_TO_board_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
@@ -197,3 +195,10 @@ ADD CONSTRAINT `FK_users_TO_answer_1` FOREIGN KEY (`user_no`) REFERENCES `users`
 
 ALTER TABLE `qr_code`
 ADD CONSTRAINT `FK_users_TO_qr_code_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
+
+
+
+INSERT INTO userS (id, password, name, phone, gender, email, birth, enabled, question, answer)
+VALUES 
+('123456', '123456', 'Alice', '010-1234-5678', 'F', 'alice@example.com', '1990-01-01', true, 'What is your pet’s name?', 'Charlie')
+

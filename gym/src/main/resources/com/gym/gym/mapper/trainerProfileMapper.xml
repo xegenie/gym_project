@@ -9,26 +9,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 목록 -->
     <select id="list" resultType="trainerProfile">
         SELECT *
-        FROM trainerProfile
-        WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        FROM trainer_profile
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
     <!-- 조회 -->
     <select id="select" resultType="trainerProfile" >
         SELECT *
-        FROM trainerProfile
+        FROM trainer_profile
         WHERE no = #{no}
     </select>
 
     <!-- 등록 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO trainerProfile ( name, info )
-        VALUES ( #{name}, #{info} )
+        INSERT INTO trainer_profile ( trainer_no, name, info )
+        VALUES ( #{trainerNo}, #{name}, #{info} )
     </insert>
 
     <!-- 수정 -->
     <update id="update">
-        UPDATE trainerProfile 
+        UPDATE trainer_profile 
            SET name = #{name}
               ,info = #{info}
               ,updated_at = now()
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 삭제 -->
     <delete id="delete">
-        DELETE FROM trainerProfile
+        DELETE FROM trainer_profile
         WHERE no = #{no}
     </delete>
 		
