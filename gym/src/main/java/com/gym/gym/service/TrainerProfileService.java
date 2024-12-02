@@ -7,6 +7,7 @@ import com.gym.gym.domain.TrainerProfile;
 public interface TrainerProfileService {
 
     public List<TrainerProfile> list() throws Exception;
+    public List<TrainerProfile> list(String keyword) throws Exception;
     
     public TrainerProfile select(int no) throws Exception;
 
