@@ -33,6 +33,14 @@
        
             </resultMap>
 
+
+<select id="selectId" resultType="Users">
+SELECT *
+FROM user
+WHERE id = #{id}
+
+</select>
+
 <select id="select" resultMap="UserMap">
 SELECT *
 FROM user

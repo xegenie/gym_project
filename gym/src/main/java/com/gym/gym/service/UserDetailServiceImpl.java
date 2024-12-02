@@ -1,4 +1,4 @@
-package com.aloha.security_method.service;
+package com.gym.gym.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.aloha.security_method.mapper.UserMapper;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Users;
+import com.gym.gym.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,25 +24,27 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private UserMapper userMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         log.info(":::::::::: UserDetailServiceImpl ::::::::::");
         log.info("- 사용자 정의 인증을 위해, 사용자 정보 조회");
-        log.info("- username : " + username);
-
+        log.info("- username : " + id);
         Users user = null;
         try {
+            
+            user = userMapper.selectId(id);
+           Users user1 = userMapper.select(user.getNo());
             // 👩‍💼 사용자 정보 및 권한 조회
-            user = userMapper.select(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if( user == null ) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + username);
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + user.getNo());
         }
 
         // 🔐 CustomUser ➡ UserDetails
-        CustomUser customUser = new CustomUser(user);
+        CustomUser customUser = new CustomUser(user1);
         return customUser;
     }
+
     
 }
