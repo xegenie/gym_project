@@ -49,7 +49,7 @@ CREATE TABLE `buy_list` (
     `trainer_no` INT NOT NULL,
     `user_no` INT NOT NULL,
     `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `t_no` INT NOT NULL
+    `t_no` INT NOT NULL,
     `canceled_at`	TIMESTAMP	NULL,
 	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
 );
