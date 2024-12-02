@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.gym.gym.ReservationMapper">
+
+    <!-- 예약 등록 -->
+    <select id="insert"  useGeneratedKeys="true" keyProperty="no">
+      insert into reservation (user_no, trainer_no, rv_date)
+      values (#{userNo}, #{trainerNo}, #{rvDate})
+    </select>
+
+    <!-- 예약 목록 -->
+    <select id="list" resultType="Reservation">
+      select *
+      from reservation
+    </select>
+
+    <!-- 예약 상세 조회 -->
+    <select id="read" resultType="Reservation">
+      select *
+      from reservation
+      where no = #{no}
+    </select>
+
+    <!-- 예약 취소(수정) -->
+    <update id="cancel">
+      update reservation
+      set enabled = 0,
+          canceled_at = now()
+      where no = #{no} and enabled = 1;
+    </update>
+</mapper>

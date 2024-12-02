@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <title>예약</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="js/script.js"></script>
+  </head>
+  <body>
     
-</body>
+    <div class="trainer-info">
+      <div class="info-container">
+        <img src="img/sample.jpg" alt="샘플">
+        <h1>마룬5 트레이너</h1>
+      </div>
+    </div>
+
+    <div id="calendar"></div>
+
+    <!-- 팝업 창 -->
+    <div id="timeSelectionModal">
+      <div class="modal-container">
+        <h3>예약 시간 선택</h3>
+        <p id="selectedDate"></p>
+        <div id="timeButtons"></div>
+        <button onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </body>
 </html>
