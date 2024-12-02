@@ -50,33 +50,29 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int delete(Long no) throws Exception {
-        int result = boardMapper
+        int result = boardMapper.delete(no);
+        return result;
+
     }
 
     @Override
     public int count(Option option) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
+        return boardMapper.count(option);
+    }
+
+
+    @Override
+    public List<Board> list() throws Exception {
+        List<Board> boardList = boardMapper.list(new Option(), new Page());
+        return boardList;
     }
 
     @Override
-    public Board select1(String id) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'select1'");
-    }
-
-    @Override
-    public List<Board> list() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'list'");
-    }
-
-    @Override
-    public Boolean isOwner(Long no) throws Exception {
+    public Boolean isOwner(Long no, Long boardNo) throws Exception {
      
             Board board = boardMapper.select(no);
 
-            return board.getUserNo() == no; 
+            return board.getUserNo() == boardNo; 
         }
 
 }
