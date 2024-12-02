@@ -2,35 +2,37 @@ package com.gym.gym.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gym.gym.domain.BuyList;
+import com.gym.gym.mapper.BuyListMapper;
 
 @Service
-public class BuyListServiceImpl implements BuyListService{
+public class BuyListServiceImpl implements BuyListService {
+
+    @Autowired private BuyListMapper buyListMapper;
 
     @Override
     public int insert(BuyList buyList) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        int result = buyListMapper.insert(buyList);
+        return result;
     }
 
     @Override
     public int cancel(int no) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancel'");
+        int result = buyListMapper.cancel(no);
+        return result;
     }
 
     @Override
     public List<BuyList> list() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'list'");
+        return buyListMapper.list();
     }
 
     @Override
-    public List<BuyList> listByUser() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listByUser'");
+    public List<BuyList> listByUser(Long no) throws Exception {
+        return buyListMapper.listByUser(no);
     }
     
 }
