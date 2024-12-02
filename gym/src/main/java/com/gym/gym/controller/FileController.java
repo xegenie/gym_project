@@ -67,7 +67,7 @@ public class FileController {
      * @return
      * @throws Exception 
     */
-    @GetMapping("/file/{id}")
+    @GetMapping("/file/{no}")
     public ResponseEntity<byte[]> download(@PathVariable("no") int no) throws Exception {
         Files file = fileService.select(no);
         String filePath = file.getPath();
@@ -95,7 +95,7 @@ public class FileController {
      * @throws Exception 
     */
     @ResponseBody
-    @DeleteMapping("/file/{id}")
+    @DeleteMapping("/file/{no}")
     public String deleteFile(@PathVariable("no") int no) throws Exception {
         int result = fileService.delete(no);
      
