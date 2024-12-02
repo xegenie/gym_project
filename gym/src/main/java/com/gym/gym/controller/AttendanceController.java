@@ -26,8 +26,9 @@ public class AttendanceController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
         }
-        return "index/list";
+        return "admin/attendance/list"; 
     }
+    
 
     // 출석 체크 (등록)
     @PostMapping("/check")
