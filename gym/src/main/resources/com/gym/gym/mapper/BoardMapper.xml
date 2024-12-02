@@ -5,10 +5,42 @@
 
 <mapper namespace="com.gym.gym.mapper.BoardMapper">
 
-<select id="list" resultType="Board">
-SELECT *
-FROM board
-</select>
+ <select id="list" resultType="Board">
+        SELECT b.title, b.no, b.user_no,b.content, b.created_At, b.updated_At,u.no, s.no, s.auth, s.user_no, u.id
+        FROM board b, users u Join user_auth s ON u.no = s.user_no
+        <!-- user 합쳐서 writer -> username으로 바꿔야함 -->
+        WHERE 
+            b.user_no = u.no AND(
+            <if test="option.code == 0">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            OR content LIKE CONCAT('%', #{option.keyword}, '%')
+          
+            </if>
+            <if test="option.code == 1">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 2">
+            content LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 3">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            OR content LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 4">
+            u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            )
+            <if test="option.orderCode == 0">
+            ORDER BY created_at DESC
+            </if>
+            <if test="option.orderCode == 1">
+            ORDER BY title ASC
+            </if>
+
+            LIMIT #{page.index}, #{page.rows}
+    </select>
+
 
 <select id="select" resultType="Board">
 SELECT *
@@ -26,12 +58,38 @@ UPDATE board
 SET title = #{title}
     , content = #{content}
     , updated_at = #{updatedAt}
-WHERE user_no = #{userNo}
+WHERE no = #{no}
 </update>
 
 <delete id="delete">
 DELETE FROM board
-WHERE user_no = #{userNo}
+WHERE no = #{no}
 </delete>
+
+
+<select id="count" resultType="int">
+        SELECT COUNT(*)
+          FROM board b
+          Join users u ON u.no = b.user_no
+        WHERE    
+            <if test="option.code == 0">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            OR content LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 1">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 2">
+            content LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 3">
+                title LIKE CONCAT('%', #{option.keyword}, '%')
+            OR content LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code == 4">
+            u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+    </select>
 
 </mapper>

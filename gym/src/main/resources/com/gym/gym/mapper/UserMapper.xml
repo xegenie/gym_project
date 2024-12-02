@@ -36,14 +36,14 @@
 
 <select id="selectId" resultMap="UserMap">
 SELECT *
-FROM user
+FROM users
 WHERE id = #{id}
 
 </select>
 
 <select id="select" resultMap="UserMap">
 SELECT *
-FROM user
+FROM users
 WHERE no = #{no}
 </select>
 
@@ -71,7 +71,7 @@ VALUES (#{id}, #{password} #{name}, #{phone}, #{gender}, #{email}, #{enabled}, #
     </insert>
 
 <update id="update">
-UPDATE user
+UPDATE users
 SET password = #{password}
     ,phone = #{phone}
     ,email = #{email}
@@ -86,7 +86,7 @@ WHERE user_no = #{userNo}
 </update>
 
 <delete id="delete">
-DELETE FROM user
+DELETE FROM users
 WHERE no = #{no}
 </delete>
 
