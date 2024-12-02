@@ -99,7 +99,7 @@ CREATE TABLE `comment` (
 DROP TABLE IF EXISTS `plan`;
 
 CREATE TABLE `plan` (
-    `no` int NOT NULL,
+    `no` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_no` INT NOT NULL,
     `rv_no` INT NULL,
     `plan_name` VARCHAR(100) NOT NULL,
