@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.aloha.community.mapper.trainerProfileMapper">
+
+    <!-- 목록 -->
+    <select id="list" resultType="trainerProfile">
+        SELECT *
+        FROM trainerProfile
+        WHERE title LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 조회 -->
+    <select id="select" resultType="trainerProfile" >
+        SELECT *
+        FROM trainerProfile
+        WHERE no = #{no}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO trainerProfile ( name, info )
+        VALUES ( #{name}, #{info} )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+        UPDATE trainerProfile 
+           SET name = #{name}
+              ,info = #{info}
+              ,updated_at = now()
+        WHERE no = #{no}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete">
+        DELETE FROM trainerProfile
+        WHERE no = #{no}
+    </delete>
+		
+
+</mapper>
