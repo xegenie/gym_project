@@ -12,5 +12,11 @@ public class BuyList {
     private int userNo;
     private int pNo;
     private Date buyDate;
-
+    private Date canceledAt;
+    private String status;
+    private String userName;     // 사용자 이름
+    private String trainerName;  // 트레이너 이름
+    private String ticketName;   // 티켓 이름
+    private int ticketPrice;    // 티켓 가격
+    
 }

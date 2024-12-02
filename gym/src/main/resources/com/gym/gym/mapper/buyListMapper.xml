@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gym.gym.mapper.BuyListMapper">
+
+    <select id="list" resultType="BuyList">
+        SELECT 
+            b.*, 
+            user.name AS userName, 
+            trainer.name AS trainerName, 
+            t.name AS ticketName,
+            t.price AS ticketPrice
+        FROM 
+            buy_list b
+        JOIN 
+            user user 
+        ON 
+            b.userNo = user.no
+        JOIN
+            user trainer
+        ON
+            b.userNo = trainerUser.no
+        JOIN 
+            Ticket t 
+        ON 
+            b.pNo = t.no
+    </select>
+
+    <select id="listByUser" parameterType="int" resultType="BuyList">
+        SELECT 
+            b.*, 
+            user.name AS userName, 
+            trainer.name AS trainerName, 
+            t.name AS ticketName, 
+            t.price AS ticketPrice
+        FROM 
+            buy_list b
+        JOIN 
+            user user 
+        ON 
+            b.userNo = user.no
+        JOIN 
+            user trainer
+        ON 
+            b.trainerNo = trainer.no
+        JOIN 
+            Ticket t 
+        ON 
+            b.pNo = t.no
+        WHERE 
+            b.userNo = #{userNo}
+    </select>
+
+    <update id="update" parameterType="int">
+        UPDATE buy_list
+        SET status = '환불',
+            canceled_at = NOW()
+        WHERE no = #{no}
+    </update>
+
+
+
+</mapper>

@@ -49,7 +49,9 @@ CREATE TABLE `buy_list` (
     `trainer_no` INT NOT NULL,
     `user_no` INT NOT NULL,
     `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `p_no` INT NOT NULL
+    `t_no` INT NOT NULL
+    `canceled_at`	TIMESTAMP	NULL,
+	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
 );
 
 DROP TABLE IF EXISTS `trainer_profile`;
@@ -101,7 +103,6 @@ DROP TABLE IF EXISTS `plan`;
 CREATE TABLE `plan` (
     `no` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_no` INT NOT NULL,
-    `rv_no` INT NULL,
     `plan_name` VARCHAR(100) NOT NULL,
     `plan_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `plan_content` VARCHAR(500) NULL
@@ -182,9 +183,6 @@ ADD CONSTRAINT `FK_users_TO_comment_1` FOREIGN KEY (`trainer_no`) REFERENCES `us
 
 ALTER TABLE `plan`
 ADD CONSTRAINT `FK_users_TO_plan_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
-
-ALTER TABLE `plan`
-ADD CONSTRAINT `FK_reservation_TO_plan_1` FOREIGN KEY (`rv_no`) REFERENCES `reservation` (`no`);
 
 ALTER TABLE `board`
 ADD CONSTRAINT `FK_users_TO_board_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);

@@ -1,5 +1,9 @@
 package com.gym.gym.domain;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -10,4 +14,5 @@ public class TrainerProfile {
     private String name;
     private String info;
 
+    private List<MultipartFile> FileList;
 }
