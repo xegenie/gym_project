@@ -26,7 +26,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.insertAttendance(attendance);
     }
 
-    // 유저 출석 내역 검색
+    // 유저 출석 내역 조회
     @Override
     public List<Attendance> getAttendanceByUserNo(int userNo) throws Exception {
         return attendanceMapper.getAttendanceByUserNo(userNo);
@@ -37,4 +37,18 @@ public class AttendanceServiceImpl implements AttendanceService {
     public List<Attendance> getAttendanceRanking() throws Exception {
         return attendanceMapper.getAttendanceRanking();
     }
+
+    // AttendanceServiceImpl.java 수정
+    @Override
+    public List<Attendance> searchAttendance(String searchKeyword) throws Exception {
+        return attendanceMapper.searchAttendance(searchKeyword);
+    }
+
+    // 출석 인원
+    @Override
+    public int listCount() throws Exception {
+        return attendanceMapper.listCount();
+
+    }
+
 }

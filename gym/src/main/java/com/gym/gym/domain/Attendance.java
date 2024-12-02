@@ -13,5 +13,6 @@ public class Attendance {
     private String qrId;
     private int userNo;
     private Date checkTime;
+    private Users users;
     
 }

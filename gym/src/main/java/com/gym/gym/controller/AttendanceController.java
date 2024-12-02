@@ -17,7 +17,6 @@ public class AttendanceController {
     @Autowired
     private AttendanceService attendanceService;
 
-
     // 출석 내역 조회
     @GetMapping("/list")
     public String list(Model model) {
@@ -27,7 +26,7 @@ public class AttendanceController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
         }
-        return "/admin/attendance/list";
+        return "admin/attendance/list"; // 경로 수정 (슬래시 제거)
     }
 
     // 출석 체크 (등록)
@@ -39,30 +38,33 @@ public class AttendanceController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "출석 체크 중 오류가 발생했습니다.");
         }
-        return "redirect:/attendance/list";
+        return "redirect:/admin/attendance/list"; // 리디렉션 경로 수정 (슬래시 제거)
     }
 
-    // 유저별 출석 내역 검색
-    @GetMapping("/user/{userNo}")
-    public String getAttendanceByUserNo(@PathVariable int userNo, Model model) {
+    // 유저 출석 내역 검색
+    @GetMapping("/search")
+    public String searchAttendance(@RequestParam("searchKeyword") String searchKeyword, Model model) {
         try {
-            List<Attendance> userAttendance = attendanceService.getAttendanceByUserNo(userNo);
-            model.addAttribute("userAttendance", userAttendance);
+            List<Attendance> attendanceList = attendanceService.searchAttendance(searchKeyword);
+            model.addAttribute("attendanceList", attendanceList);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "유저 출석 내역 조회 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
         }
-        return "attendance/user";
+        return "admin/attendance/list";
     }
 
     // 출석 랭킹 조회
-    @GetMapping("/ranking")
-    public String getAttendanceRanking(Model model) {
+    @GetMapping("/count")
+    public String listCount(Model model) {
         try {
-            List<Attendance> attendanceRanking = attendanceService.getAttendanceRanking();
-            model.addAttribute("attendanceRanking", attendanceRanking);
+            int count = attendanceService.listCount();
+
+            model.addAttribute("attendanceCount", count);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "출석 랭킹 조회 중 오류가 발생했습니다.");
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "출석 인원 수 조회 중 오류가 발생했습니다.");
         }
-        return "attendance/ranking";
+        return "admin/attendance/count";
     }
+
 }

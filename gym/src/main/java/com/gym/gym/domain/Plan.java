@@ -9,7 +9,6 @@ public class Plan {
     
     private int no;
     private int userNo;
-    private int rvNo;
     private String planName;
     private Date planTime;
     private String planContent;

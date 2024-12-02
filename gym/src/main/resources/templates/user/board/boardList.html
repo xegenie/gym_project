@@ -6,6 +6,36 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="insert">글등록</a>
+    <table class="table table-bordered text-center" border="1">
+        <thead class="table-light">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>권한</th>
+                <th>등록일자</th>
+                <th>수정</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:if="${boardList.isEmpty()}">
+                <tr>
+                    <td colspan="5">조회된 데이터가 없습니다.</td>
+                </tr>
+            </th:block>
+            <th:block th:each="board : ${boardList}">
+                <tr>
+                    <td th:text="${board.no}"></td>
+                    <td><a th:href="|read?no=${board.no}|" th:text="${board.title}"></a></td>
+                    <td th:text="${board.name}"></td>
+                    <td th:text="${board.auth}"></td>
+                    <td th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(board.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
     
 </body>
 </html>
