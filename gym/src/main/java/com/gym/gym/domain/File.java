@@ -8,7 +8,7 @@ import lombok.Data;
 public class File {
     
     private int no;
-    private int profileId;
+    private int profileNo;
     private String type;
     private String name;
     private String path;
