@@ -11,10 +11,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM plan
         ORDER BY plan_time
     </select>
+
     <!-- 일정 회원별 조회 -->
-    <select id="listByUser" resultType="Plan">
+    <select id="selectByUser" resultType="Plan">
         SELECT *
         FROM plan
         WHERE user_no = #{userNo}
     </select>
+    
+    <!-- 일정 회원별 날짜별 조회 -->
+    <select id="selectByUserDate" resultType="Plan">
+        SELECT *
+        FROM plan
+        WHERE user_no = #{userNo} 
+        AND plan_time = #{planTime}
+    </select>
+
+    <!-- 일정번호로 조회 -->
+    <select id="selectByNo" resultType="Plan">
+        SELECT *
+        FROM plan
+        WHERE no = #{no}
+    </select>
+
+    <!-- PT 예약 예약번호로 조회 -->
+    <select id="selctBy"
 </mapper>
