@@ -15,6 +15,7 @@ public class Users {
     private String phone;
     private String email;
     private String birth;
+    private String gender;
     private int enabled;
     private String question;
     private String answer;
