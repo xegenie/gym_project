@@ -44,6 +44,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.searchAttendance(searchKeyword);
     }
 
-   
+    // 출석 인원
+    @Override
+    public int listCount() throws Exception {
+        return attendanceMapper.listCount();
+
+    }
 
 }

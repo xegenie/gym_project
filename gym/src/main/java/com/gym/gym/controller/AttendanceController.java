@@ -50,19 +50,21 @@ public class AttendanceController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
         }
-        return "admin/attendance/list"; // 수정된 부분: "/admin/attendance/list" 대신 "admin/attendance/list"로 변경
+        return "admin/attendance/list";
     }
 
     // 출석 랭킹 조회
-    @GetMapping("/ranking")
-    public String getAttendanceRanking(Model model) {
+    @GetMapping("/count")
+    public String listCount(Model model) {
         try {
-            List<Attendance> attendanceRanking = attendanceService.getAttendanceRanking();
-            model.addAttribute("attendanceRanking", attendanceRanking);
+            int count = attendanceService.listCount();
+
+            model.addAttribute("attendanceCount", count);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "출석 랭킹 조회 중 오류가 발생했습니다.");
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "출석 인원 수 조회 중 오류가 발생했습니다.");
         }
-        return "attendance/ranking";
+        return "admin/attendance/count";
     }
 
 }
