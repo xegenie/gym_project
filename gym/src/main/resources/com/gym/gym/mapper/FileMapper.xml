@@ -7,13 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.aloha.community.mapper.FileMapper">
 
     <!-- 목록 -->
-    <select id="list" resultType="File">
+    <select id="list" resultType="Files">
         SELECT * 
         FROM File
     </select>
 
     <!-- 조회 -->
-    <select id="select" resultType="File">
+    <select id="select" resultType="Files">
         SELECT * 
         FROM File
         WHERE no = #{no}
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <!-- 부모테이블 기준 파일 목록 -->
-    <select id="listByParent" resultType="File">
+    <select id="listByParent" resultType="Files">
         SELECT * 
         FROM File
         WHERE profile_no = #{profileNo}
