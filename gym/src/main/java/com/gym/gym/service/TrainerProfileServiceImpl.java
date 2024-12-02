@@ -15,7 +15,7 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
 
     @Override
     public List<TrainerProfile> list() throws Exception {
-        return trainerProfileMapper.list();
+        return trainerProfileMapper.list("");
     }
 
     @Override
@@ -39,6 +39,11 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
     public int delete(int no) throws Exception {
         int result = trainerProfileMapper.delete(no);
         return result;
+    }
+
+    @Override
+    public List<TrainerProfile> list(String keyword) throws Exception {
+        return trainerProfileMapper.list(keyword);
     }
     
 }
