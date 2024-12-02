@@ -69,7 +69,7 @@ CREATE TABLE `reservation` (
     `no`    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `rv_date`   TIMESTAMP   NOT NULL,
     `user_no`   INT NOT NULL,
-    `tranier_no`    INT NOT NULL,
+    `trainer_no`    INT NOT NULL,
     `created_at` TIMESTAMP  NOT NULL    DEFAULT CURRENT_TIMESTAMP,
     `canceled_at` TIMESTAMP NULL,
     `enabled` INT NOT NULL DEFAULT 1
@@ -170,7 +170,7 @@ ALTER TABLE `reservation`
 ADD CONSTRAINT `FK_users_TO_reservation_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `reservation`
-ADD CONSTRAINT `FK_users_TO_reservation_2` FOREIGN KEY (`tranier_no`) REFERENCES `users` (`no`);
+ADD CONSTRAINT `FK_users_TO_reservation_2` FOREIGN KEY (`trainer_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `files`
 ADD CONSTRAINT `FK_trainer_profile_TO_file_1` FOREIGN KEY (`profile_no`) REFERENCES `trainer_profile` (`no`);
