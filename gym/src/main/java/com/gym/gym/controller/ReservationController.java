@@ -49,20 +49,20 @@ public class ReservationController {
     
 
     // 예약 등록 화면
-    @GetMapping("/trainerReser")
+    @GetMapping("/trainerReservation")
     public String insert() {
-        return "/user/reservation/trainerReser";
+        return "/user/reservation/trainerReservation";
     }
     
     // 예약 등록 처리
-    @PostMapping("/trainerReser")
+    @PostMapping("/trainerReservation")
     public String insertPro(Reservation reservation) throws Exception {
         log.info("예약 : " + reservation);
         int result = reservationService.insert(reservation);
         if (result > 0) {
             return "redirect:/user/myPage/ptList";
         }
-        return "redirect:/user/reservation/trainerReser?error";
+        return "redirect:/user/reservation/trainerReservation?error";
     }
     
     // 예약 취소(수정)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>예약</title>
+  <link rel="stylesheet" href="/css/RVstyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script src="/js/RVscript.js"></script>
+</head>
+<body>
+  
+  <div class="trainer-info">
+    <div class="info-container">
+      <img src="/img/sample.jpg" alt="샘플">
+      <h1>마룬5 트레이너</h1>
+    </div>
+  </div>
+
+  <div id="calendar"></div>
+
+  <!-- 팝업 창 -->
+  <div id="timeSelectionModal">
+    <div class="modal-container">
+      <h3>예약 시간 선택</h3>
+      <p id="selectedDate"></p>
+      <div id="timeButtons"></div>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <form id="reservationForm" action="/gym/ptList" method="POST" style="display:none;">
+    <input type="hidden" id="rvDateInput" name="rvDate"> <!-- ISO-8601 형식으로 전달 -->
+    <input type="hidden" name="trainerNo" value="1"> <!-- 트레이너 번호 -->
+    <input type="hidden" name="userNo" value="1"> <!-- 사용자 번호 -->
+  </form>
+</body>
+
+</html>
