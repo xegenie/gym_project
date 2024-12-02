@@ -7,10 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.gym.gym.ReservationMapper">
 
     <!-- 예약 등록 -->
-    <select id="insert"  useGeneratedKeys="true" keyProperty="no">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="no">
       insert into reservation (user_no, trainer_no, rv_date)
       values (#{userNo}, #{trainerNo}, #{rvDate})
-    </select>
+    </insert>
 
     <!-- 예약 목록 -->
     <select id="list" resultType="Reservation">
