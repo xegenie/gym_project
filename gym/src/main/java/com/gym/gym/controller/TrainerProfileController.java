@@ -96,7 +96,7 @@ public class TrainerProfileController {
      * @throws Exception 
     */
     @PostMapping("/insert")
-    public String insertPost(TrainerProfile trainerProfile) throws Exception {
+    public String insertPost(TrainerProfile trainerProfile, Files file) throws Exception {
         int result = trainerProfileService.insert(trainerProfile);
         if( result > 0 ) {
             return "redirect:/admin/trainer/list";
