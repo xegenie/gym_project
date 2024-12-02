@@ -13,4 +13,5 @@ public interface BuyListService {
     public List<BuyList> list() throws Exception;
 
     public List<BuyList> listByUser() throws Exception;
+    
 }
