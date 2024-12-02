@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     dateClick: function (info) {
-      // 날짜 클릭 시 실행
+      // 날짜 클릭 시 모달 창을 띄우고 시간 선택 기능 제공
       showTimeSelectionModal(info.dateStr);
     },
   });
@@ -17,10 +17,11 @@ function showTimeSelectionModal(selectedDate) {
   var dateDisplay = document.getElementById("selectedDate");
   var timeButtonsContainer = document.getElementById("timeButtons");
 
+  // 모달에 선택된 날짜 표시
   dateDisplay.textContent = "날짜 : " + selectedDate;
 
+  // 시간 선택 버튼 동적으로 생성
   timeButtonsContainer.innerHTML = "";
-
   for (let hour = 10; hour <= 21; hour++) {
     let button = document.createElement("button");
     button.textContent = `${hour}:00`;
@@ -50,6 +51,9 @@ function selectTime(selectedDate, selectedTime) {
 function submitReservation(selectedDate, selectedTime) {
   const rvDate = new Date(`${selectedDate}T${selectedTime}:00`);
 
+  // ISO-8601 형식으로 변환하여 hidden input에 삽입
   document.getElementById("rvDateInput").value = rvDate.toISOString();
+
+  // form 제출
   document.getElementById("reservationForm").submit();
 }

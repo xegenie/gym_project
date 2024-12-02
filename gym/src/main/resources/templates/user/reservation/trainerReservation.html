@@ -10,7 +10,7 @@
   <script src="/js/RVscript.js"></script>
 </head>
 <body>
-  
+
   <div class="trainer-info">
     <div class="info-container">
       <img src="/img/sample.jpg" alt="샘플">
@@ -20,21 +20,25 @@
 
   <div id="calendar"></div>
 
-  <!-- 팝업 창 -->
+  <!-- 예약 모달 -->
   <div id="timeSelectionModal">
     <div class="modal-container">
       <h3>예약 시간 선택</h3>
       <p id="selectedDate"></p>
       <div id="timeButtons"></div>
       <button onclick="closeModal()">Close</button>
+
+      <!-- form은 모달 내부로 이동 -->
+      <form id="reservationForm" action="/gym/trainerReservation" method="POST">
+        <input type="hidden" id="rvDateInput" name="rvDate"> <!-- 예약 날짜 -->
+        <input type="hidden" name="trainerNo" value="1"> <!-- 트레이너 번호 -->
+        <input type="hidden" name="userNo" value="1"> <!-- 사용자 번호 -->
+        <input type="submit" style="display: none;" />
+      </form>
     </div>
   </div>
 
-  <form id="reservationForm" action="/gym/ptList" method="POST" style="display:none;">
-    <input type="hidden" id="rvDateInput" name="rvDate"> <!-- ISO-8601 형식으로 전달 -->
-    <input type="hidden" name="trainerNo" value="1"> <!-- 트레이너 번호 -->
-    <input type="hidden" name="userNo" value="1"> <!-- 사용자 번호 -->
-  </form>
-</body>
+  <div id="modalOverlay"></div>
 
+</body>
 </html>

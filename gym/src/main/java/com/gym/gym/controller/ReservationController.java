@@ -1,10 +1,7 @@
 package com.gym.gym.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,19 +30,19 @@ public class ReservationController {
     }
     
     
-    // // 예약 목록 화면
+    // 예약 목록 화면
     // @GetMapping("/ptList")
     // public String reservationList() {
     //     return "/user/myPage/ptList";
     // }
 
 
-    @GetMapping("/ptList")
-    public String reservationListPro(Model model) throws Exception {
-        List<Reservation> reservation = reservationService.list();
-        model.addAttribute("reservation", reservation);
-        return "/user/myPage/ptList";
-    }
+    // @GetMapping("/ptList")
+    // public String reservationListPro(Model model) throws Exception {
+    //     List<Reservation> reservation = reservationService.list();
+    //     model.addAttribute("reservation", reservation);
+    //     return "/user/myPage/ptList";
+    // }
     
 
     // 예약 등록 화면
@@ -60,7 +57,7 @@ public class ReservationController {
         log.info("예약 : " + reservation);
         int result = reservationService.insert(reservation);
         if (result > 0) {
-            return "redirect:/user/myPage/ptList";
+            return "/user/myPage/ptList";
         }
         return "redirect:/user/reservation/trainerReservation?error";
     }
