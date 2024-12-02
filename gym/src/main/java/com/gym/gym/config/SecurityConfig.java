@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.gym.gym.security.LoginFailureHandler;
 import com.gym.gym.security.LoginSuccessHandler;
+import com.gym.gym.service.UserDetailServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
