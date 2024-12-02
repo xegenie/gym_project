@@ -1,6 +1,7 @@
 package com.gym.gym.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,10 +15,13 @@ public class Users {
     private String phone;
     private String email;
     private String birth;
+    private int enabled;
     private String question;
     private String answer;
     private Date createdAt;
     private Date updatedAt;
+
+    private List<UserAuth> authList;
 
 
     
