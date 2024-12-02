@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.aloha.security_method.domain.CustomUser;
+import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Users;
 
 import jakarta.servlet.ServletException;

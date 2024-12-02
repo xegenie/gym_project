@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserAuth {
     
     private int no;
-    private int userNo;
+    private Long userNo;
     private String auth;
 
 }
