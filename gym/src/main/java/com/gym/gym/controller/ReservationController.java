@@ -3,6 +3,7 @@ package com.gym.gym.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +24,7 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    // 트레이너 리스트
+    // 트레이너 리스트  
     @GetMapping("/trainerList")
     public String trainerList() {
         return "/user/reservation/trainerList";
@@ -53,11 +54,11 @@ public class ReservationController {
     
     // 예약 등록 처리
     @PostMapping("/trainerReservation")
-    public String insertPro(Reservation reservation) throws Exception {
-        log.info("예약 : " + reservation);
+    public String insertPro(@ModelAttribute Reservation reservation) throws Exception {
         int result = reservationService.insert(reservation);
+        log.info("예약 : " + reservation);
         if (result > 0) {
-            return "/user/myPage/ptList";
+            return "redirect:/user/myPage/ptList";
         }
         return "redirect:/user/reservation/trainerReservation?error";
     }
