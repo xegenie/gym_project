@@ -35,5 +35,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- PT 예약 예약번호로 조회 -->
-    <select id="selctBy"
+    <!-- <select id="selctBy" -->
 </mapper>
