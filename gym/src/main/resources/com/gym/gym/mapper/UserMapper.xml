@@ -34,7 +34,7 @@
             </resultMap>
 
 
-<select id="selectId" resultType="UserMap">
+<select id="selectId" resultMap="UserMap">
 SELECT *
 FROM user
 WHERE id = #{id}
@@ -61,7 +61,7 @@ FROM users
 
 
 <insert id="insert">
-INSERT INTO user ( id, password, name, phone, gender, email, birth, enabled question, answer )
+INSERT INTO user ( id, password, name, phone, gender, email, birth, enabled, question, answer )
 VALUES (#{id}, #{password} #{name}, #{phone}, #{gender}, #{email}, #{enabled}, #{birth}, #{question}, #{answer})
 </insert>
 
