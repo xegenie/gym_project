@@ -11,7 +11,7 @@ import com.gym.gym.service.AttendanceService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/attendance")
+@RequestMapping("/admin/attendance")
 public class AttendanceController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class AttendanceController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
         }
-        return "index";
+        return "/admin/attendance/list";
     }
 
     // 출석 체크 (등록)
