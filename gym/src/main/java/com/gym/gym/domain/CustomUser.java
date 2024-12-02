@@ -34,6 +34,8 @@ public class CustomUser implements UserDetails {
                                  .collect(Collectors.toList());
     }
 
+   
+
     @Override
     public String getPassword() {
         return user.getPassword();

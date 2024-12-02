@@ -2,14 +2,32 @@
 <!-- th:fragment="프래그먼트 명" -->
 <th:block th:fragment="header">
     <header>
-        <ul>
-            <li><a href="/user">사용자</a></li>
-            <li><a href="/admin">관리자</a></li>
-        </ul>
         
-        <ul>
-            <li><a href="/login">로그인</a></li>
-            <li><a href="/join">회원가입</a></li>
-        </ul>
+
+                 <!-- 사용자 & 관리자 권한 -->
+                 <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')"> 
+                 <ul>  
+                 <li><h5><span  th:text="${#authentication.principal.username}"></span>
+                  님 환영합니다</h5></li>
+                    <li><a href="/user" >마이페이지</a></li>
+                  </ul>
+                  </th:block>
+                    <!-- 관리자 권한 -->
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    </ul>
+                    <li><a href="/admin" >관리자 페이지</a></li>
+                  </ul>
+                  </th:block>
+                  </ul>
+                
+            <!-- 비 로그인 시 -->
+            <th:block sec:authorize="isAnonymous()">
+                    <ul>
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="/join">회원가입</a></li>
+                    </ul>
+              
+              </th:block>
+
     </header>
 </th:block>
