@@ -7,8 +7,10 @@ CREATE TABLE `users` (
 	`password`	VARCHAR(100)	NOT NULL,
 	`name`	VARCHAR(100)	NOT NULL,
 	`phone`	VARCHAR(20)	NOT NULL,
+	`gender`VARCHAR(20) NOT NULL,
 	`email`	VARCHAR(100)	NOT NULL,
 	`birth`	VARCHAR(50)	NOT NULL,
+	`enabled` INT NOT NULL DEFAULT '1',
 	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	`question`	VARCHAR(100)	NOT NULL,
@@ -73,7 +75,7 @@ DROP TABLE IF EXISTS `file`;
 
 CREATE TABLE `file` (
 	`no`	INT	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`profile_id`	INT	NOT NULL,
+	`profile_no`	INT	NOT NULL,
 	`type`	VARCHAR(100)	NOT NULL,
 	`name`	VARCHAR(100)	NOT NULL,
 	`path`	VARCHAR(100)	NOT NULL,
@@ -199,7 +201,7 @@ REFERENCES `users` (
 );
 
 ALTER TABLE `file` ADD CONSTRAINT `FK_trainer_profile_TO_file_1` FOREIGN KEY (
-	`profile_id`
+	`profile_no`
 )
 REFERENCES `trainer_profile` (
 	`no`
