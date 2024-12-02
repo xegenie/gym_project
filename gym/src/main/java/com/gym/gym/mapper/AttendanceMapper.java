@@ -24,4 +24,6 @@ public interface AttendanceMapper {
     // AttendanceMapper.java 수정
     List<Attendance> searchAttendance(String searchKeyword) throws Exception;
 
+   
+
 }

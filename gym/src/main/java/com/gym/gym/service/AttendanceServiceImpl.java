@@ -40,8 +40,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     // AttendanceServiceImpl.java 수정
     @Override
-    public List<Attendance> searchAttendance(String searchKeyword) throws Exception{
+    public List<Attendance> searchAttendance(String searchKeyword) throws Exception {
         return attendanceMapper.searchAttendance(searchKeyword);
     }
+
+   
 
 }

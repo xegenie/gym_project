@@ -13,15 +13,18 @@
     <!-- 공통 헤더 추가 -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
-    <!-- 검색 폼 추가 -->
-    <form action="/admin/attendance/search" method="get">
-        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
-        <button type="submit">검색</button>
-    </form>
-    
+  
+
+
+
 
     <!-- 출석 내역 표시 -->
     <h2>출석 내역</h2>
+      <!-- 검색 폼 추가 -->
+      <form action="/admin/attendance/search" method="get">
+        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
+        <button type="submit">검색</button>
+    </form>
     <table border="1" style="border-collapse: collapse; width: 100%;">
         <thead>
             <tr>
@@ -44,6 +47,7 @@
             </tr>
         </tbody>
     </table>
+    
 
     <!-- 공통 푸터 추가 -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
