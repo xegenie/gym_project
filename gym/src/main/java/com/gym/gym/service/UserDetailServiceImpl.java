@@ -32,13 +32,14 @@ public class UserDetailServiceImpl implements UserDetailsService {
         try {
             
             user = userMapper.selectId(id);
-           Users user1 = userMapper.select(user.getNo());
+
+            user = userMapper.select(user.getNo());
             // 👩‍💼 사용자 정보 및 권한 조회
         } catch (Exception e) {
             e.printStackTrace();
         }
         if( user == null ) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + user.getNo());
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + id);
         }
 
         // 🔐 CustomUser ➡ UserDetails

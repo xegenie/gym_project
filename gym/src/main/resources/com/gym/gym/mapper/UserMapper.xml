@@ -34,7 +34,7 @@
             </resultMap>
 
 
-<select id="selectId" resultType="Users">
+<select id="selectId" resultType="UserMap">
 SELECT *
 FROM user
 WHERE id = #{id}
@@ -58,14 +58,16 @@ SELECT *
 FROM users
 </select>
 
+
+
 <insert id="insert">
-INSERT INTO user ( id, password, name, phone, email, birth, question, answer )
-VALUES (#{id}, #{password} #{name}, #{phone}, #{email}, #{birth}, #{question}, #{answer})
+INSERT INTO user ( id, password, name, phone, gender, email, birth, enabled question, answer )
+VALUES (#{id}, #{password} #{name}, #{phone}, #{gender}, #{email}, #{enabled}, #{birth}, #{question}, #{answer})
 </insert>
 
   <insert id="insertAuth">
-        INSERT INTO user_auth( username, auth )
-        VALUES ( #{username}, #{auth} )
+        INSERT INTO user_auth( user_no, auth )
+        VALUES ( #{userNo}, #{auth} )
     </insert>
 
 <update id="update">
