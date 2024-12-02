@@ -68,11 +68,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Boolean isOwner(Long no, Long boardNo) throws Exception {
+    public Boolean isOwner(Long no, Long userNo) throws Exception {
      
             Board board = boardMapper.select(no);
 
-            return board.getUserNo() == boardNo; 
+            return board.getUserNo() == userNo;
         }
 
 }
