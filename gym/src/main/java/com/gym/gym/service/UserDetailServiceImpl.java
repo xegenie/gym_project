@@ -32,7 +32,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
         try {
             
             user = userMapper.selectId(id);
-
+            log.info("- username : " + id);
+            
             user = userMapper.select(user.getNo());
             // 👩‍💼 사용자 정보 및 권한 조회
         } catch (Exception e) {

@@ -197,3 +197,10 @@ ADD CONSTRAINT `FK_users_TO_answer_1` FOREIGN KEY (`user_no`) REFERENCES `users`
 
 ALTER TABLE `qr_code`
 ADD CONSTRAINT `FK_users_TO_qr_code_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
+
+
+
+INSERT INTO userS (id, password, name, phone, gender, email, birth, enabled, question, answer)
+VALUES 
+('123456', '123456', 'Alice', '010-1234-5678', 'F', 'alice@example.com', '1990-01-01', true, 'What is your pet’s name?', 'Charlie')
+
