@@ -3,9 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>게시글 상세조회</title>
 </head>
 <body>
+    <h1>게시글 조회</h1>
+    <table border="1">
+        <tr>
+            <th>제목</th>
+           
+        <td>
+            <input type="text" name="title" id="" th:value="${board.title}">
+        </td>
+    </tr>
+    <tr>
+        <th>작성자</th>
+        <td th:text="${board.name}"></td>
+        <h3 th:text="${board.name}"></h3>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <textarea name="content" rows="5" cols="40" id="" th:text="${board.content}"></textarea>
+        </td>
+    </tr>
     
+    <tr>
+        <td colspan="2">
+
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block th:if="${board.userNo == #authentication.principal.user.no}">
+            
+            <button type="button" th:onclick="update()"> 수정 </button>
+            </th:block>
+
+        <th:block th:unless="${board.userNo == #authentication.principal.user.no}" sec:authorize="hasRole('ROLE_ADMIN')">
+            
+            <button type="button" th:onclick="update()"> 수정 </button>
+            </th:block>
+        </th:block>
+
+
+            
+            <button type="button" onclick="location.href='/board/list'"> 목록 </button>
+
+        </td>
+    </tr>
+</table>
+<!-- 
+<div class=" my-5 d-flex flex-column align-items-center">
+    <h3 >댓글 목록</h3>
+    <section id="comment-form">
+        
+    
+    </section>
+    <section id="comment-list">
+    
+    </section> 
+    
+        <form action="">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td>
+                        <input type="text" name="writer" id="writer">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea name="content" id="content" rows="5" cols="40"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" onclick="insertComment()">등록</button>
+                    </td>
+                </tr>
+    
+            </table>
+        
+        </form>
+    </div>
+    </div> -->
+<script>
+
+    function update(){
+        let no = "[[${board.no}]]"
+    location.href= "update?no="+no
+    
+    }
+
+</script>
+
 </body>
+
 </html>

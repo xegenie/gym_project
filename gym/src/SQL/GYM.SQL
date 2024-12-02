@@ -198,7 +198,16 @@ ADD CONSTRAINT `FK_users_TO_qr_code_1` FOREIGN KEY (`user_no`) REFERENCES `users
 
 
 
-INSERT INTO userS (id, password, name, phone, gender, email, birth, enabled, question, answer)
-VALUES 
-('123456', '123456', 'Alice', '010-1234-5678', 'F', 'alice@example.com', '1990-01-01', true, 'What is your pet’s name?', 'Charlie')
 
+
+-- 첫 번째 샘플 데이터 삽입
+INSERT INTO board (user_no, title, content)
+VALUES (1, '첫 번째 게시글', '여기 첫 번째 게시글 내용입니다.');
+
+-- 두 번째 샘플 데이터 삽입
+INSERT INTO board (user_no, title, content)
+VALUES (2, '두 번째 게시글', '여기 두 번째 게시글 내용입니다.');
+
+-- 세 번째 샘플 데이터 삽입
+INSERT INTO board (user_no, title, content)
+VALUES (3, '세 번째 게시글', '여기 세 번째 게시글 내용입니다.');
