@@ -1,5 +1,7 @@
 package com.gym.gym.domain;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,6 @@ public class Plan {
     private int userNo;
     private int rvNo;
     private String planName;
-    private String planTime;
-    
+    private Date planTime;
+    private String planContent;
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.gym.gym.mapper.ScheduleMapper">
+    <!-- 일정 모두 조회 -->
+    <select id="listAll" resultType="Plan">
+        SELECT *
+        FROM plan
+        ORDER BY plan_time
+    </select>
+    <!-- 일정 회원별 조회 -->
+    <select id="listByUser" resultType="Plan">
+        SELECT *
+        FROM plan
+        WHERE user_no = #{userNo}
+    </select>
+</mapper>
