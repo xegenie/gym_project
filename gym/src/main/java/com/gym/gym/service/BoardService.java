@@ -1,19 +1,16 @@
-package com.gym.gym.mapper;
+package com.gym.gym.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.gym.gym.domain.Board;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 
-@Mapper
-public interface BoardMapper {
 
-
- public List<Board> list(@Param("option") Option option
+public interface BoardService {
+     public List<Board> list(@Param("option") Option option
                             ,@Param("page") Page page ) throws Exception;
     // 조회
     public Board select(@Param("no") int no)throws Exception;
