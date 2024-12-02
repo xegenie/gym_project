@@ -21,4 +21,7 @@ public interface AttendanceMapper {
     // 출석 랭킹
     List<Attendance> getAttendanceRanking() throws Exception;
 
+    // AttendanceMapper.java 수정
+    List<Attendance> searchAttendance(String searchKeyword) throws Exception;
+
 }
