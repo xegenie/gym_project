@@ -49,7 +49,7 @@ public class TrainerProfileController {
                      , @RequestParam(name = "keyword", defaultValue = "") String keyword) throws Exception {
         List<TrainerProfile> trainerList = trainerProfileService.list(keyword);
         model.addAttribute("trainerList", trainerList);
-        return "/admin/trainer/list";
+        return "/admin/ticket/list";
     }
     
     /**
