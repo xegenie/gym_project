@@ -16,4 +16,7 @@ public class Attendance {
     private Users users;          // Users 객체 (회원 정보)
     private int attendanceCount;  // 출석 횟수
     private int rank;             // 순위
+
+    private String userId;
 }
+
