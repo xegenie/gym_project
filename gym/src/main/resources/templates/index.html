@@ -6,71 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인화면</title>
     <th:block th:replace="~{fragment/link::link}"></th:block>
+    <style>
+        .countdown {
+            font-size: 20px;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+<th:block th:replace="~{fragment/header::header}"></th:block>
 
 <body>
-    
-    <th:block th:replace="~{fragment/header::header}"></th:block>
+
+    <h1>메인화면입니다.</h1>
 
     <a href="user/board/boardList"> 게시판 목록</a>
     <h3 sec:authentication="principal"></h3>
-    <a href="join"></a>
-    <h1>출석 테스트</h1>
-
-
-
 
     <!-- 출석 체크 버튼 -->
-    <form th:action="@{/attendance/check}" method="post">
+    <form id="attendanceForm" action="/attendance/check" method="post">
         <input type="hidden" name="qrId" value="testQR123">
         <input type="hidden" name="userNo" value="1">
-        <button type="submit">출석 체크</button>
+
+        <!-- CSRF 토큰 추가 -->
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+        <button type="submit" id="checkInButton">헬스장 입장</button>
     </form>
 
+    <!-- 남은 시간 표시 -->
+    <div id="countdown" class="countdown" style="display: none;">30초 남음</div>
+
+    <!-- QR 코드 이미지 표시 -->
+    <img id="qrCodeImage" src="" style="display: none; margin-top: 10px; width: 200px; height: 200px;" alt="QR 코드 이미지">
+
     <form th:action="@{/admin/attendance/list}" method="get">
-        <button type="submit">출석 내역 조회</button>
+        <button type="submit">출석 내역 조회 ( 관리자 )</button>
     </form>
     <form th:action="@{/admin/attendance/ranking}" method="get">
         <button type="submit">출석 랭킹</button>
     </form>
 
-
-    <!-- 출석 내역 표시 -->
-    <h2>출석 내역</h2>
-    <table border="1" style="border-collapse: collapse; width: 100%;">
-        <thead>
-            <tr>
-                <th style="padding: 8px; text-align: left;">QR ID</th>
-                <th style="padding: 8px; text-align: left;">User No</th>
-                <th style="padding: 8px; text-align: left;">Check Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="attendance : ${attendanceList}">
-                <td style="padding: 8px;" th:text="${attendance.qrId}"></td>
-                <td style="padding: 8px;" th:text="${attendance.userNo}"></td>
-                <td style="padding: 8px;" th:text="${#dates.format(attendance.checkTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-
-
-
-    <h1>메인화면입니다.</h1>
-
-
-    <a href="/admin/attendance/list">출석내역</a>
-
-
-
-
-    
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
-
     <th:block th:replace="~{fragment/script::script}"></th:block>
-    
+
+    <!-- QR 코드 생성 스크립트 -->
+    <script>
+        // DOM이 완전히 로드된 후 실행
+        document.addEventListener('DOMContentLoaded', function () {
+            const attendanceForm = document.getElementById('attendanceForm');
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            const countdown = document.getElementById('countdown');
+            const checkInButton = document.getElementById('checkInButton');
+            const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+            attendanceForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // 버튼 비활성화
+                checkInButton.disabled = true;
+
+                // 출석 체크를 위해 QR 코드 생성 요청
+                fetch('/generate-qr-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob(); // QR 코드를 blob 형태로 변환
+                })
+                .then(imageBlob => {
+                    const imageUrl = URL.createObjectURL(imageBlob);
+                    qrCodeImage.src = imageUrl;
+                    qrCodeImage.style.display = 'block'; // QR 코드 이미지 표시
+                    countdown.style.display = 'block'; // 남은 시간 표시
+
+                    // 30초 후 QR 코드 이미지 숨기기
+                    let timeLeft = 30;
+                    const countdownInterval = setInterval(() => {
+                        timeLeft--;
+                        countdown.textContent = `유효시간 : ${timeLeft}초`;
+
+                        if (timeLeft <= 0) {
+                            clearInterval(countdownInterval);
+                            qrCodeImage.style.display = 'none';
+                            countdown.style.display = 'none';
+
+                            // 버튼 활성화
+                            checkInButton.disabled = false;
+                        }
+                    }, 1000); // 1초마다 실행
+                })
+                .catch(error => {
+                    console.error('QR 코드 생성에 실패했습니다.', error);
+                    // 버튼 활성화
+                    checkInButton.disabled = false;
+                });
+            });
+        });
+    </script>
+
 </body>
+
 </html>
