@@ -11,9 +11,9 @@
 
     <table border="1" style="width: 300px; " >
         <tr>
-            <td><span th:text="${answer.name != null ? answer.name : '이름 없음'}" class="answer-writer">작성자</span>
+            <td><span th:text="${answer.name}" class="answer-writer">작성자</span>
 </td>
-            <td align="right"><span th:text="${ #dates.format(answer.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일자</span></td>
+            <td align="right"><span th:text="${#dates.format(answer.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일자</span></td>
         </tr>
         <tr>
             <td colspan="2" >

@@ -141,7 +141,7 @@ public class BoardController {
         int result = boardService.delete(no);
 
         if (result > 0) {
-            return "redirect:/board/list";
+            return "redirect:boardList";
         }
         return "redirect:/board/update?error&id=" + no;
     }

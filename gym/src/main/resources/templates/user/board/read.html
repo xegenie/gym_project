@@ -43,19 +43,19 @@
 
 
             
-            <button type="button" onclick="location.href='/board/list'"> 목록 </button>
+            <button type="button" onclick="location.href='boardList'"> 목록 </button>
 
         </td>
     </tr>
 </table>
-<!-- 
+
 <div class=" my-5 d-flex flex-column align-items-center">
     <h3 >댓글 목록</h3>
-    <section id="comment-form">
+    <section id="answer-form">
         
     
     </section>
-    <section id="comment-list">
+    <section id="answer-list">
     
     </section> 
     
@@ -64,7 +64,7 @@
                 <tr>
                     <td>작성자</td>
                     <td>
-                        <input type="text" name="writer" id="writer">
+                        <h5  th:text="${#authentication.principal.username}"></h5>
                     </td>
                 </tr>
                 <tr>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="button" onclick="insertComment()">등록</button>
+                        <button type="button" onclick="insertAnswer()">등록</button>
                     </td>
                 </tr>
     
@@ -82,7 +82,9 @@
         
         </form>
     </div>
-    </div> -->
+    </div>
+
+
 <script>
 
     function update(){
@@ -90,6 +92,173 @@
     location.href= "update?no="+no
     
     }
+
+
+    // 댓글 등록
+    function insertAnswer() {
+    const boardNo = "[[${board.no}]]";
+    let content = document.getElementById('content').value;
+
+    console.log(`content : ${content}`);
+
+    let data = {
+        'boardNo': boardNo,
+        'content': content
+    };
+
+    // CSRF 토큰 가져오기
+    // const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    // const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+    const csrfHeader = "[[${_csrf.headerName}]]";
+    const csrfToken = "[[${_csrf.token}]]";
+
+    let request = new XMLHttpRequest();
+    let url = '/answer';
+
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
+    request.send(JSON.stringify(data));
+
+    request.onreadystatechange = function () {
+        if (request.readyState == request.DONE && request.status == 200) {
+            let response = request.responseText;
+            if (response == 'SUCCESS') {
+                console.log('댓글 등록 성공');
+                answerList();
+
+                // 입력한 작성자, 내용 비우기
+                document.getElementById('content').value = "";
+            } else {
+                console.log('댓글 등록 실패');
+            }
+        }
+    };
+}
+
+
+
+    // 댓글 목록
+    answerList()
+    function answerList(){
+        let request = new XMLHttpRequest();
+        let boardNo = "[[ ${board.no} ]]"
+        let url = `/answer?boardNo=${boardNo}`
+        request.open('GET',url,true)
+        request.send()
+    
+        request.onreadystatechange=function(){
+            let answerList = request.responseText
+            let $answerList = document.getElementById('answer-list')
+            $answerList.innerHTML = answerList
+        }
+    }
+
+     // 댓글 삭제
+     function remove(no){
+        let request = new XMLHttpRequest();
+
+            // CSRF 토큰 가져오기
+            const csrfHeader = "[[${_csrf.headerName}]]";
+            const csrfToken = "[[${_csrf.token}]]";
+    
+    request.onreadystatechange = function() {
+        if( request.readyState == request.DONE && request.status == 200){
+            let response = request.responseText
+            alert(response)
+            if(response == 'SUCCESS'){
+                alert('댓글 삭제 성공')
+                answerList()
+            }
+            else{
+                alert('댓글 삭제 실패')
+            }
+        }
+    }
+    const url = `/answer/${no}`
+    request.open('DELETE',url, true);
+    request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
+    request.send()
+    
+}
+
+    // 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
+    function editAnswer(button, no){
+        console.log(button);
+        let $table = button.closest('table')
+        console.log($table);
+
+        //기존 작성자와 기존 내용을 가져오기
+        let content = $table.querySelector('.answer-content').textContent
+
+        // 기존 조회 폼은 숨김
+        $table.style.display = 'none'   
+        // 수정 폼 삼입
+        let updateForm = `
+    <table class="reply-form">
+        <tr>
+            <td>
+                <textarea name="content" id="answer-content" rows="5" cols="40">${content}</textarea>    
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <button type="button" onclick="updateAnswer('${no}')">수정</button>
+                <button type="button" onclick="cancelanswer( this )">취소</button>
+            </td>
+        </tr>
+    </table>
+`
+
+          
+
+             $table.insertAdjacentHTML("afterend", updateForm)
+    }
+   
+// 댓글 수정 요청
+function updateAnswer(no){
+    console.log('수정요청 no' + no)
+    let answerContent = document.getElementById('answer-content').value
+    let data = {
+        'no'    : no,
+        'content' : answerContent
+    }
+
+       // CSRF 토큰 가져오기
+       const csrfHeader = "[[${_csrf.headerName}]]";
+    const csrfToken = "[[${_csrf.token}]]";
+
+    let request = new XMLHttpRequest()
+    let url = '/answer'
+    request.open('PUT',url,true)
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
+    request.send(JSON.stringify(data))
+
+    request.onreadystatechange=function(){
+        if(request.readyState == request.DONE && request.status == 200){
+            let response = request.responseText
+            if( response == 'SUCCESS') {
+                alert('댓글 수정 성공');
+                answerList()
+            }
+            else{
+                alert('댓글 수정 실패')
+            }
+        }
+    }
+}
+
+
+// 댓글 수정 중 - 취소 버튼 클릭 시
+function cancelanswer(cancelButton){
+    // 수정폼
+  let $table =  cancelButton.closest(`table`)
+    let $answer = $table.previousElementSibling // 바로 앞의 형제자매 요소
+
+    $answer.style.display = 'table' // 조회폼 보여주기
+    $table.remove()
+}
 
 </script>
 
