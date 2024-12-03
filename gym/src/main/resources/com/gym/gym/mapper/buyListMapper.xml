@@ -15,17 +15,17 @@
         FROM 
             buy_list b
         JOIN 
-            user user 
+            users user 
         ON 
-            b.userNo = user.no
-        JOIN
-            user trainer
+            b.user_no = user.no
+        LEFT JOIN
+            users trainer
         ON
-            b.userNo = trainerUser.no
+            b.trainer_no = trainer.no
         JOIN 
             Ticket t 
         ON 
-            b.pNo = t.no
+            b.t_no = t.no
     </select>
 
     <select id="listByUser" parameterType="int" resultType="BuyList">
@@ -40,17 +40,17 @@
         JOIN 
             user user 
         ON 
-            b.userNo = user.no
+            b.user_no = user.no
         JOIN 
             user trainer
         ON 
-            b.trainerNo = trainer.no
+            b.trainer_no = trainer.no
         JOIN 
             Ticket t 
         ON 
-            b.pNo = t.no
+            b.t_no = t.no
         WHERE 
-            b.userNo = #{userNo}
+            b.user_no = #{userNo}
     </select>
 
     <update id="update" parameterType="int">
