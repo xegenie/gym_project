@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
     private UserMapper userMapper;
 
@@ -133,8 +134,6 @@ public class UserServiceImpl implements UserService {
         Users user = userMapper.selectId(id);
         return user;
     }
-
-
 
 
 }

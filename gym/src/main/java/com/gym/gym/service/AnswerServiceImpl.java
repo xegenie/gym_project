@@ -24,7 +24,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer select(int no) throws Exception {
+    public Answer select(Long no) throws Exception {
         Answer answer = answerMapper.select(no);
         return answer;
 
@@ -44,19 +44,19 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public int delete(int no) throws Exception {
+    public int delete(Long no) throws Exception {
         int result = answerMapper.delete(no);
         return result;
     }
 
     @Override
-    public List<Answer> listByParent(int boardNo) throws Exception {
+    public List<Answer> listByParent(Long boardNo) throws Exception {
         List<Answer> answerList = answerMapper.listByParent(boardNo);
         return answerList;
     }
 
     @Override
-    public int deleteByParent(int boardNo) throws Exception {
+    public int deleteByParent(Long boardNo) throws Exception {
         int result = answerMapper.deleteByParent(boardNo);
         return result;
     }

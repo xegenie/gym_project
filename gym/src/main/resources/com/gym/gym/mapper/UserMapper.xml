@@ -72,10 +72,10 @@
 
     <update id="update">
         UPDATE users
-        SET password = #{password}
-        ,phone = #{phone}
+        SET phone = #{phone}
         ,email = #{email}
-        ,created_at = now()
+        ,birth = #{birth}
+        ,updated_at = now()
         WHERE no = #{no}
     </update>
 

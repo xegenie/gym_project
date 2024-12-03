@@ -50,7 +50,7 @@ public class AnswerController {
     
 
     @GetMapping
-    public String answerList(Model model, @RequestParam("boardNo") int boardNo) throws Exception {
+    public String answerList(Model model, @RequestParam("boardNo") Long boardNo) throws Exception {
         List<Answer> answerList = answerService.listByParent(boardNo);
         log.info("이름왜 안넘어옴?" + answerList);
         model.addAttribute("answerList", answerList);
@@ -60,7 +60,7 @@ public class AnswerController {
 
     @ResponseBody
     @DeleteMapping("/{no}")
-    public String deleteAnswer(  @PathVariable("no") int no) throws Exception{
+    public String deleteAnswer(  @PathVariable("no") Long no) throws Exception{
       
         int result = answerService.delete(no);
 

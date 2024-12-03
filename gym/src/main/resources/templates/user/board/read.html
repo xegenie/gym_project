@@ -58,7 +58,8 @@
     <section id="answer-list">
     
     </section> 
-    
+    <th:block th:if="${answerList.size() == 0}">
+
         <form action="">
             <table>
                 <tr>
@@ -81,6 +82,7 @@
             </table>
         
         </form>
+    </th:block>
     </div>
     </div>
 
@@ -125,7 +127,7 @@
             let response = request.responseText;
             if (response == 'SUCCESS') {
                 console.log('댓글 등록 성공');
-                answerList();
+                location.reload();
 
                 // 입력한 작성자, 내용 비우기
                 document.getElementById('content').value = "";
@@ -168,7 +170,7 @@
             alert(response)
             if(response == 'SUCCESS'){
                 alert('댓글 삭제 성공')
-                answerList()
+                location.reload();
             }
             else{
                 alert('댓글 삭제 실패')

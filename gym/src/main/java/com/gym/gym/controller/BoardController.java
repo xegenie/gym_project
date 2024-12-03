@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gym.gym.domain.Answer;
 import com.gym.gym.domain.Board;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Users;
+import com.gym.gym.service.AnswerService;
 import com.gym.gym.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,10 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
     @Autowired
-    BoardService boardService;
+   private BoardService boardService;
+
+    @Autowired
+   private AnswerService answerService;
 
     // 목록
     @GetMapping("/boardList")
@@ -66,7 +71,10 @@ public class BoardController {
         // 게시글 조회
         log.info("board왜 안들어옴" + no);
         Board board = boardService.select(no);
+        Answer answer = answerService.select(no);
+        List<Answer> answerList = answerService.listByParent(no);
         log.info("board왜 안안안" + board);
+        model.addAttribute("answerList", answerList);
         model.addAttribute("board", board);
 
         return "user/board/read";

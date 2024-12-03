@@ -52,7 +52,7 @@ public class SecurityConfig {
 
         // ✅ 인가 설정
         http.authorizeHttpRequests(auth -> auth
-                                    .requestMatchers("/admin","admin/**").hasRole("ADMIN")
+                                    .requestMatchers("/admin","admin/**").hasAnyRole("ADMIN","TRAINER")
                                     .requestMatchers("user", "user/**").hasAnyRole("USER","ADMIN")    
                                     .requestMatchers("/**").permitAll());
 
@@ -62,11 +62,11 @@ public class SecurityConfig {
         // ✅ 커스텀 로그인 페이지
         http.formLogin(login -> login.usernameParameter("id") // 아이디 파라미터
                                      .passwordParameter("pw") // 비밀번호 파라미터
-                                    //  .loginPage("/login") // 로그인 페이지 경로
-                                    //  .loginProcessingUrl("/login") // 로그인 요청 경로
+                                     .loginPage("/login") // 로그인 페이지 경로
+                                     .loginProcessingUrl("/login") // 로그인 요청 경로
                                     // //  .defaultSuccessUrl("/?success") //로그인 성공 경로
-                                    //  .successHandler(loginSuccessHandler)  // 로그인 성공 처리자 설정
-                                    //  .failureHandler(loginFailureHandler)  // 로그인 실패 처리자 설정
+                                     .successHandler(loginSuccessHandler)  // 로그인 성공 처리자 설정
+                                     .failureHandler(loginFailureHandler)  // 로그인 실패 처리자 설정
                                      );  
         // .permitAll(); 
 
@@ -75,7 +75,7 @@ public class SecurityConfig {
 
               // 자동 로그인 설정
               http.rememberMe(me -> me.key("aloha")
-                                .rememberMeParameter("auto-login")
+                                .rememberMeParameter("remember-me")
                                 .tokenRepository(tokenRepository())
                                 .tokenValiditySeconds(60 * 60 * 24 * 7)); // 7일 유효시간(초단위)
              
@@ -91,7 +91,7 @@ public class SecurityConfig {
                                     .logoutUrl("/logout")
                                     .logoutSuccessUrl("/login?logout") // 로그아웃 성공 시 URL
                                     .invalidateHttpSession(true)  // 세션 초기화
-                                    .deleteCookies("remember-id") //로그아웃 시, 아이디 저장 쿠키 삭제
+                                    // .deleteCookies("remember-id") //로그아웃 시, 아이디 저장 쿠키 삭제
                                     // .logoutSuccessHandler(logoutSuccessHandler)     // 로그아웃 성공 처리자 설정
                                     );                       
 
