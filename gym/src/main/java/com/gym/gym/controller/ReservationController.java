@@ -1,7 +1,10 @@
 package com.gym.gym.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,36 +17,27 @@ import lombok.extern.slf4j.Slf4j;
 
 
 
-
 @Slf4j
 @Controller
-@RequestMapping("/gym")
+@RequestMapping("/user")
 public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
 
-    // 트레이너 리스트
+    // 트레이너 리스트  
     @GetMapping("/trainerList")
     public String trainerList() {
         return "/user/reservation/trainerList";
     }
     
-    
-    // 예약 목록 화면
-    // @GetMapping("/ptList")
-    // public String reservationList() {
-    //     return "/user/myPage/ptList";
-    // }
-
-
-    // @GetMapping("/ptList")
-    // public String reservationListPro(Model model) throws Exception {
-    //     List<Reservation> reservation = reservationService.list();
-    //     model.addAttribute("reservation", reservation);
-    //     return "/user/myPage/ptList";
-    // }
-    
+    // 마이페이지 예약 목록 화면
+    @GetMapping("/ptList")
+    public String reservationList(Model model) throws Exception {
+        List<Reservation> reservationList = reservationService.list();
+        model.addAttribute("reservationList", reservationList);
+        return "/user/myPage/ptList";
+    }
 
     // 예약 등록 화면
     @GetMapping("/trainerReservation")
@@ -54,22 +48,24 @@ public class ReservationController {
     // 예약 등록 처리
     @PostMapping("/trainerReservation")
     public String insertPro(Reservation reservation) throws Exception {
-        log.info("예약 : " + reservation);
+        log.info("예약 되나? : " + reservation);
         int result = reservationService.insert(reservation);
         if (result > 0) {
-            return "/user/myPage/ptList";
+            return "redirect:/user/ptList";
         }
-        return "redirect:/user/reservation/trainerReservation?error";
+        return "redirect:/user/trainerReservation?error";
     }
     
     // 예약 취소(수정)
-    @PostMapping("/trainerList")
+    @PostMapping("/ptList")
     public String cancel(Reservation reservation) throws Exception {
-        int result = reservationService.cancel(reservation);
-        if (result > 0) {
-            return "redirect:/user/myPage/ptList";
-        }
-        return "redirect:/user/reservation/trainerList?error";
+        // if (reservation.getEnabled() == 1) {
+            int result = reservationService.cancel(reservation);
+            if (result > 0) {
+                return "redirect:/user/ptList";
+            }
+        // }
+        return "redirect:/user/ptList?error";
     }
     
 }
