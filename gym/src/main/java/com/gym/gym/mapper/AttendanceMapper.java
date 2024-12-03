@@ -3,11 +3,20 @@ package com.gym.gym.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gym.gym.domain.Attendance;
+import com.gym.gym.domain.Option;
+import com.gym.gym.domain.Page;
 
 @Mapper
 public interface AttendanceMapper {
+
+    public List<Attendance> list(@Param("option") Option option, @Param("page") Page page) throws Exception;
+
+
+     // 데이터 개수
+     public int count(@Param("option") Option option) throws Exception;
 
     // 출석 내역 조회
     List<Attendance> list() throws Exception;
@@ -26,6 +35,5 @@ public interface AttendanceMapper {
 
     // 출석 인원
     int listCount() throws Exception;
-
 
 }

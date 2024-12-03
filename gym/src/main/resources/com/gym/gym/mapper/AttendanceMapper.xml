@@ -16,6 +16,32 @@
             u.phone AS userPhone
         FROM attendance a
         INNER JOIN users u ON a.user_no = u.no
+        <where>
+            <!-- 검색어와 필터 옵션을 적용 -->
+            <if test="option.keyword != null and option.keyword != ''">
+                AND u.name LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code != 0">
+                AND a.some_column = #{option.code}  <!-- 필요에 맞는 조건 추가 -->
+            </if>
+        </where>
+        ORDER BY a.check_time DESC  <!-- 정렬 옵션 추가 -->
+        LIMIT #{page.index}, #{page.rows}  <!-- 페이징 -->
+    </select>
+
+    <!-- 데이터 개수 조회 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) 
+        FROM attendance a
+        INNER JOIN users u ON a.user_no = u.no
+        <where>
+            <if test="option.keyword != null and option.keyword != ''">
+                AND u.name LIKE CONCAT('%', #{option.keyword}, '%')
+            </if>
+            <if test="option.code != 0">
+                AND a.some_column = #{option.code}  <!-- 필요에 맞는 조건 추가 -->
+            </if>
+        </where>
     </select>
 
     <!-- Result Map -->

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인화면</title>
     <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
+
 <body>
 
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
     <a href="user/board/boardList"> 게시판 목록</a>
     <h3 sec:authentication="principal"></h3>
- <a href="join"></a>
+    <a href="join"></a>
     <h1>출석 테스트</h1>
 
 
-    <a href="/admin/attendance/list">출석내역 이동링크</a>
+
 
     <!-- 출석 체크 버튼 -->
     <form th:action="@{/attendance/check}" method="post">
@@ -25,10 +27,10 @@
         <button type="submit">출석 체크</button>
     </form>
 
-    <!-- 출석 내역 조회 버튼 -->
-    <form th:action="@{/attendance/list}" method="get">
+    <form th:action="@{/admin/attendance/list}" method="get">
         <button type="submit">출석 내역 조회</button>
     </form>
+
 
     <!-- 출석 내역 표시 -->
     <h2>출석 내역</h2>
