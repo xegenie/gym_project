@@ -14,9 +14,8 @@ public interface AttendanceMapper {
 
     public List<Attendance> list(@Param("option") Option option, @Param("page") Page page) throws Exception;
 
-
-     // 데이터 개수
-     public int count(@Param("option") Option option) throws Exception;
+    // 데이터 개수
+    public int count(@Param("option") Option option) throws Exception;
 
     // 출석 내역 조회
     List<Attendance> list() throws Exception;
@@ -33,12 +32,9 @@ public interface AttendanceMapper {
     // AttendanceMapper.java 수정
     List<Attendance> searchAttendance(String searchKeyword) throws Exception;
 
-    // 출석 인원
-    int listCount() throws Exception;
-
-
     // 출석 랭킹
     int getAttendanceCountByUserNo(int userNo);
-    
 
+    // 출석 인원
+    public int listCount() throws Exception;
 }

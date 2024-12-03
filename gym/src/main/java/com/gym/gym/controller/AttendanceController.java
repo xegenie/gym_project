@@ -37,12 +37,13 @@ public class AttendanceController {
         try {
             // 서비스에서 페이징 및 검색 조건을 기반으로 데이터를 조회
             List<Attendance> attendanceList = attendanceService.list(option, page);
-
+            int result = attendanceService.listCount();
             // 모델에 데이터 및 옵션, 페이지 정보 추가
             model.addAttribute("attendanceList", attendanceList);
             model.addAttribute("option", option);
             model.addAttribute("rows", page.getRows());
             model.addAttribute("page", page);
+            model.addAttribute("result", result);
 
             // 페이지 URL 생성 (옵션 및 페이지 정보를 포함)
             String pageUrl = UriComponentsBuilder.fromPath("/admin/attendance/list")
@@ -104,23 +105,18 @@ public class AttendanceController {
         return "admin/attendance/ranking"; // 출석 랭킹 뷰를 반환
     }
 
-    @GetMapping("/list")
-    public String getAttendanceList(Model model) {
-        try {
-            // 출석 인원 수 조회
-            int attendanceCount = attendanceService.getAttendanceCount();
-            // 출석 내역 조회 (페이지 처리 추가 가능)
-            List<Attendance> attendanceList = attendanceService.getAttendanceList();
 
-            // 모델에 출석 인원 수와 출석 내역 추가
-            model.addAttribute("attendanceCount", attendanceCount);
-            model.addAttribute("attendanceList", attendanceList);
+    
+    // 출석 인원 수 
 
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
-        }
-
-        return "admin/attendance/list"; // view 이름
+    @GetMapping("/")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
     }
+    
+
+
+
+
 
 }

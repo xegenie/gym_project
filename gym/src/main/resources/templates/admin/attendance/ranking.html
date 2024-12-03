@@ -9,27 +9,31 @@
     <!-- 공통 링크 추가 -->
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <link rel="stylesheet" href="/css/attendance/ranking.css">
-
-
+ 
 </head>
 
 <body>
     <!-- 공통 헤더 추가 -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
     <br><br><br>
-    <h2 style="color: #ddd;">출석 랭킹</h2><button><a href="/">홈으로</a></button>
+    <h2>출석 랭킹</h2>
+    <button><a href="/" style="text-decoration: none; color: rgb(10, 8, 8);">홈으로</a></button>
     <br><br><br><br>
-    <table border="1" style="color: rgb(255, 255, 255);margin: 0 auto;">
-        <tr>
-            <th>순위</th>
-            <th>회원ID</th>
-            <th>출석횟수</th>
-        </tr>
-        <tr th:each="user : ${rankingList}">
-            <td th:text="${user.rank}"></td> <!-- 순위 -->
-            <td th:text="${user.userId}"></td> <!-- 출석 횟수 -->
-            <td th:text="${user.attendanceCount}"></td> <!-- 출석 횟수 -->
-        </tr>
+    <table border="1" class="attendance-table">
+        <thead>
+            <tr>
+                <th>순위</th>
+                <th>회원ID</th>
+                <th>출석횟수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${rankingList}">
+                <td th:text="${user.rank}"></td> <!-- 순위 -->
+                <td th:text="${user.userId}"></td> <!-- 회원 ID -->
+                <td th:text="${user.attendanceCount}"></td> <!-- 출석 횟수 -->
+            </tr>
+        </tbody>
     </table>
     <!-- 공통 푸터 추가 -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
