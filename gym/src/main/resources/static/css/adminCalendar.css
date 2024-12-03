@@ -1,0 +1,11 @@
+#calendar {
+    width: 1000px;
+    height: 700px;
+}
+.fc-dayGridMonth-view {
+    background-color: #fff;
+}
+.calendar-wrap {
+    display: flex;
+    justify-content: center;
+}
