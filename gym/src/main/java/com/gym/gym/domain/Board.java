@@ -13,7 +13,6 @@ public class Board {
     private String content;
     private Date createdAt;
     private Date updatedAt;
-
     private String auth;
     private String name;
     

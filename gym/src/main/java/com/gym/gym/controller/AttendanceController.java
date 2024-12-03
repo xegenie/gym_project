@@ -86,18 +86,41 @@ public class AttendanceController {
         return "admin/attendance/list";
     }
 
-    // 출석 랭킹 조회
-    @GetMapping("/count")
-    public String listCount(Model model) {
-        try {
-            int count = attendanceService.listCount();
+    // 출석 랭킹
 
-            model.addAttribute("attendanceCount", count);
+    @GetMapping("/ranking")
+    public String attendanceRanking(Model model) {
+        try {
+            // 서비스에서 출석 랭킹 데이터를 조회
+            List<Attendance> rankingList = attendanceService.getAttendanceRanking();
+
+            // 모델에 출석 랭킹 데이터 추가
+            model.addAttribute("rankingList", rankingList);
         } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", "출석 인원 수 조회 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "출석 랭킹 조회 중 오류가 발생했습니다.");
         }
-        return "admin/attendance/count";
+
+        // 반환할 뷰 이름
+        return "admin/attendance/ranking"; // 출석 랭킹 뷰를 반환
+    }
+
+    @GetMapping("/list")
+    public String getAttendanceList(Model model) {
+        try {
+            // 출석 인원 수 조회
+            int attendanceCount = attendanceService.getAttendanceCount();
+            // 출석 내역 조회 (페이지 처리 추가 가능)
+            List<Attendance> attendanceList = attendanceService.getAttendanceList();
+
+            // 모델에 출석 인원 수와 출석 내역 추가
+            model.addAttribute("attendanceCount", attendanceCount);
+            model.addAttribute("attendanceList", attendanceList);
+
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "출석 내역 조회 중 오류가 발생했습니다.");
+        }
+
+        return "admin/attendance/list"; // view 이름
     }
 
 }

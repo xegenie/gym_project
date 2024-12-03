@@ -85,20 +85,20 @@
 
     <!-- 출석 랭킹 -->
     <select id="getAttendanceRanking" resultType="Attendance">
-        SELECT user_no, COUNT(*) AS attendance_count
-        FROM attendance
-        GROUP BY user_no
-        ORDER BY attendance_count DESC
+        SELECT u.id AS userId, COUNT(*) AS attendanceCount
+        FROM attendance a
+        JOIN users u ON a.user_no = u.no
+        GROUP BY a.user_no
+        ORDER BY attendanceCount DESC;
+
     </select>
+
+    
 
 
     <!-- 출석 인원 -->
-
     <select id="listCount" resultType="int" >
         SELECT COUNT(*) FROM attendance
     </select>
-
- 
-
 
 </mapper>
