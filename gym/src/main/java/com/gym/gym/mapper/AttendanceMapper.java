@@ -36,4 +36,9 @@ public interface AttendanceMapper {
     // 출석 인원
     int listCount() throws Exception;
 
+
+    // 출석 랭킹
+    int getAttendanceCountByUserNo(int userNo);
+    
+
 }

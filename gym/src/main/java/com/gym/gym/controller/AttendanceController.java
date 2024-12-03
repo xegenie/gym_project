@@ -86,18 +86,6 @@ public class AttendanceController {
         return "admin/attendance/list";
     }
 
-    // 출석 랭킹 조회
-    @GetMapping("/count")
-    public String listCount(Model model) {
-        try {
-            int count = attendanceService.listCount();
-
-            model.addAttribute("attendanceCount", count);
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", "출석 인원 수 조회 중 오류가 발생했습니다.");
-        }
-        return "admin/attendance/count";
-    }
+    // 출석 랭킹
 
 }

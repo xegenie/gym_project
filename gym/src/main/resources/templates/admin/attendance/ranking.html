@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출석 랭킹</title>
+</head>
+<body>
+    <h2>출석 랭킹</h2>
+    <table>
+        <tr>
+            <th>순위</th>
+            <th>회원 ID</th>
+            <th>출석 횟수</th>
+        </tr>
+        <tr th:each="user : ${attendance}">
+            <td th:text="${user.rank}"></td>  <!-- 출석 랭킹 -->
+            <td th:text="${user.users.id}"></td>  <!-- 회원 ID -->
+            <td th:text="${user.attendanceCount}"></td>  <!-- 출석 횟수 -->
+        </tr>
+    </table>
+</body>
+</html>

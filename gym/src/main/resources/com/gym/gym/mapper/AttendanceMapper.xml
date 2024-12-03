@@ -91,14 +91,16 @@
         ORDER BY attendance_count DESC
     </select>
 
+    <!-- 유저별 출석 횟수 조회 (추가된 부분) -->
+    <select id="getAttendanceCountByUserNo" resultType="int">
+        SELECT COUNT(*) 
+        FROM attendance 
+        WHERE user_no = #{userNo}
+    </select>
 
     <!-- 출석 인원 -->
-
     <select id="listCount" resultType="int" >
         SELECT COUNT(*) FROM attendance
     </select>
-
- 
-
 
 </mapper>

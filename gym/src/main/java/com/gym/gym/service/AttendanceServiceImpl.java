@@ -89,4 +89,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.count(option);
     }
 
+    @Override
+    public int getAttendanceCountByUserNo(int userNo) throws Exception {
+        return attendanceMapper.getAttendanceCountByUserNo(userNo);
+    }
+
 }
