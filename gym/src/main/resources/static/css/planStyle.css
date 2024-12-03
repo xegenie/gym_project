@@ -1,3 +1,235 @@
 .first-con{
     background-color: #F3F3F3;
+    min-width: 300px; 
+    max-width: 300px; 
+    flex-shrink: 0;
 }
+
+.upd-schedule{
+    cursor: pointer;
+}
+.upd-schedule:hover{
+    background-color: #e9e9e9 !important;
+    box-shadow:0px 2px 1px 2px rgba(0,0,0,0.3);
+}
+.upd-schedule:active{
+    /* background-color: #eeeeee !important; */
+    box-shadow:none;
+}
+
+.cal-container{
+    /* background:#fad390;
+    padding:20px; */
+    /* font-family: 'Questrial', sans-serif; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    /* height:100vh; */
+}
+.calendar {
+    display: inline-grid;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 10px; /* 패딩 줄이기 */
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100%; /* col-2보다 작게 설정 */
+    /* 추가로 Bootstrap grid에 맞게 반응형 설정 */
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+  /* .calendar > div {
+    width: 100%; 
+    box-sizing: border-box; 
+  } */
+  
+  .month {
+    /* width: 100%;
+    box-sizing: border-box; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px; /* 폰트 크기 축소 */
+    margin-bottom: 10px; /* 간격 축소 */
+    font-weight: 300;
+
+    .year{
+        font-weight: 600;
+        margin-left: 8px;
+    }
+    .nav{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-decoration:none;
+      color:#0a3d62;
+      width:30px;
+      height:30px;
+      border-radius:40px;
+      transition-duration:.2s;
+      position:relative;
+      
+      &:hover{
+          background:#eee;
+      }
+    }
+  }
+  
+  .days,
+  .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px; /* 셀 간격 축소 */
+    margin-top: 5px; /* 여백 축소 */
+  }
+  
+  .days {
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px; /* 여백 축소 */
+    font-size: 12px; /* 폰트 크기 축소 */
+
+    span {
+        width: 30px;
+        justify-self: center;
+        align-self: center;
+        text-align: center;
+    }
+  }
+  
+  
+  .dates button {
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    background: transparent;
+    font-size: 14px; /* 폰트 크기 축소 */
+    justify-self: center;
+    align-self: center;
+    width: 20px; /* 버튼 크기 축소 */
+    height: 20px; /* 버튼 크기 축소 */
+    border-radius: 20px; /* 둥글게 유지 */
+    padding: 0; /* 패딩 제거 */
+    margin: 1px; /* 마진 축소 */
+    transition: background 0.2s;
+  
+    &.today {
+      box-shadow: inset 0px 0px 0px 2px #0a3d62;
+    }
+  
+    &:focus {
+      background: #0a3d62;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+  
+  .dates button:hover {
+    background: #eee;
+}
+
+.comment{
+  background: #D7F0FF;
+  border-radius: 15px;
+  overflow: hidden;
+  height: 250px;
+}
+  .comment-title {
+    background: #C4E8FD;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    align-items: center;
+    /* margin: 0; */
+  }
+  .comment-title>p{
+    margin: auto;
+    font-weight: 600;
+    font-size: 22px;
+    color: #525767;
+  }
+  .comment-content{
+    padding: 8px 8px;
+    max-height: 218px; 
+    overflow-y: auto;
+  }
+
+  .comment-content .comment-date {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+.pop-up{
+    width: 350px;
+    height: 350px;
+    background-color: #F3F3F3;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow:0px 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+.pop-up .popup-type {
+    background-color: #ECECEC;
+    height: 50px;
+    display: flex;
+    padding: 10px 15px;
+    align-items: center;
+    
+    justify-content: space-between;
+}
+
+.pop-up .popup-type>p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.input-schedule .popup-type{
+    justify-content: end;
+}
+
+.popup-type .icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+}
+.popup-type .icons a {
+    color: #444444;
+    /* font-style: 10px; */
+    padding: 4px;
+    padding-left: 9px;
+    padding-right: 9px;
+    border-radius: 50%;
+}
+
+.exercise-bymyself .popup-type {
+    background-color: #FEE6C9;
+}
+
+.exercise-pt .popup-type{
+    background-color: #D2F0FF;
+}
+
+.input-schedule>.popup-type .icons a:hover{
+    background-color:#c0c0c0 !important;
+}
+.exercise-bymyself>.popup-type .icons a:hover{
+    background-color: #ecceaa !important;
+}
+.exercise-pt>.popup-type .icons a:hover{
+    background-color: #b1e2fa !important;
+}
+/* .input-schedule>.popup-type:hover{
+    background-color:#c0c0c0 !important;
+}
+.exercise-bymyself>.popup-type:hover{
+    background-color: #ecceaa !important;
+}
+.exercise-pt>.popup-type:hover{
+    background-color: #b1e2fa !important;
+} */
+
