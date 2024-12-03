@@ -95,15 +95,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.getAttendanceCountByUserNo(userNo);
     }
 
-
-    // 출석 인원
     @Override
-    public int getAttendanceCount() throws Exception {
-        return attendanceMapper.getAttendanceCount();
+    public int listCount() throws Exception {
+        return attendanceMapper.listCount();
     }
 
-    @Override
-    public List<Attendance> getAttendanceList() {
-        return attendanceMapper.getAttendanceList();
-    }
+
+
+ 
 }

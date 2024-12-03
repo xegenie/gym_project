@@ -93,8 +93,6 @@
 
     </select>
 
-    
-
 
     <!-- 출석 인원 -->
     <select id="listCount" resultType="int" >
