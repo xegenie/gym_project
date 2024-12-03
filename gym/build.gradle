@@ -39,9 +39,12 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'com.google.zxing:core:3.5.2' // ZXing Core 추가
+	implementation 'com.google.zxing:javase:3.5.2' // ZXing Java SE 추가
 
 	// 타임리프 다이얼렉트 레이아웃
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	providedCompile 'javax.servlet:javax.servlet-api:4.0.1'  // 최신 버전 사용
 	
 }
 

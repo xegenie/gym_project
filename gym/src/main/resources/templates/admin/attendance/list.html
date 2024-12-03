@@ -8,7 +8,6 @@
     <!-- 공통 링크 추가 -->
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <link rel="stylesheet" href="/css/attendance/list.css">
-    
 </head>
 
 <body>
@@ -19,7 +18,7 @@
     <p class="attendance-count">
         <p>출석한 인원 수: <span th:text="${result}"></span>명</p>
     </p>
-
+    <br>
     <button><a href="/">홈으로</a></button>
 
     <!-- 출석 내역 표시 -->
@@ -84,11 +83,14 @@
         
         <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" class="last">[마지막]</a>
     </div>
-        
+
+    <br>
+
     <!-- 공통 푸터 추가 -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
-        
+
     <!-- 공통 스크립트 추가 -->
     <th:block th:replace="~{fragment/script::script}"></th:block>
 </body>
+
 </html>
