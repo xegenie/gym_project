@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
+import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.service.BuyListService;
+import com.gym.gym.service.TrainerProfileService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,32 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BuyListController {
     
     @Autowired BuyListService buyListService;
-
-    // 유저 화면
-    @GetMapping("/user/ticket/choice")
-    public String choice(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
-
-        Long no = userDetails.getNo();
-
-        List<BuyList> buyList = buyListService.listByUser(no);
-
-        model.addAttribute("buyList", buyList);
-
-        return "/user/ticket/choice";
-    }
-
-    @GetMapping("/user/ticket/normal")
-    public String normal() {
-        return "/user/ticket/normal";
-    }
-    @GetMapping("/user/ticket/trainerList")
-    public String trainerList() {
-        return "/user/ticket/trainerList";
-    }
-    
-    
-
-    // --------------------------------------------------
 
     // 등록
     @GetMapping("/admin/sales/buyList/insert")

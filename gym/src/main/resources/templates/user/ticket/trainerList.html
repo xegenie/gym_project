@@ -11,21 +11,35 @@
 </head>
 <body>
     
-    <div class="container">
-        <div class="card">
-            <div class="profile">
-                <img src="" alt="">
-            </div>
-            <div>
-                <span class="title"></span>
-                <span class="info"></span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center px-3">
-                <span class="userNum">함께하는 회원 수 : &ensp;</span>
-                <span></span>
-                <a class="rounded-3" th:href="@{/user/ticket/trainerDetail/?trainerNo=${profile.trainerNo}}">선택</a>
+    <div class="container ">
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <h1>트레이너</h1>
+        </div>
+        <div class="row justify-content-center align-items-center">
+            <div th:each="trainer : ${trainerList}" class="col-12 col-lg-3 col-md-6 d-flex justify-content-center">
+                <div class="card mb-5">
+                    <div class="img">
+                        <img th:src="|/img?no=${trainer.fileNo}|" alt="파일 이미지" class="card-img-top">
+                    </div>
+                    <div class="card-body">
+                        <h5 th:text="${trainer.name}"></h5>
+                        <div class="simple d-flex justify-content-center">
+                            <span>[&nbsp;</span>
+                            <p th:text="${trainer.simpleInfo}"></p>
+                            <span>&nbsp;]</span>
+                        </div>
+                        <p class="content" th:text="${trainer.detailInfo}"></p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span class="userNum">함께하는 회원 수 : &ensp;</span>
+                        <a class="rounded-3" th:href="@{/user/ticket/trainerDetail(no=${trainer.no})}">선택</a>
+                    </div>
+                </div>
             </div>
         </div>
+
+        
+        
     </div>
 
 </body>

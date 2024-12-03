@@ -12,7 +12,10 @@ public class TrainerProfile {
     private int no;
     private int trainerNo;
     private String name;
-    private String info;
+    private String simpleInfo;
+    private String detailInfo;
 
     private List<MultipartFile> FileList;
+    
+    private int FileNo;
 }

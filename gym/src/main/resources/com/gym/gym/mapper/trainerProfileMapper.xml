@@ -8,9 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 목록 -->
     <select id="list" resultType="trainerProfile">
-        SELECT *
-        FROM trainer_profile
-        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+        SELECT tp.*, f.no AS fileNo
+        FROM trainer_profile tp
+        JOIN files f ON tp.no = f.profile_no
+        WHERE tp.name LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
     <!-- 조회 -->
@@ -22,15 +23,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 등록 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO trainer_profile ( trainer_no, name, info )
-        VALUES ( #{trainerNo}, #{name}, #{info} )
+        INSERT INTO trainer_profile ( trainer_no, name, simple_info, detail_info )
+        VALUES ( #{trainerNo}, #{name}, #{simpleInfo}, #{detailInfo} )
     </insert>
 
     <!-- 수정 -->
     <update id="update">
         UPDATE trainer_profile 
            SET name = #{name}
-              ,info = #{info}
+              ,simple_info = #{simpleInfo}
+              ,detail_info = #{detailInfo}
               ,updated_at = now()
         WHERE no = #{no}
     </update>
