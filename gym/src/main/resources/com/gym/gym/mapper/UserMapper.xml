@@ -52,8 +52,8 @@
     </select>
 
     <select id="list" resultMap="UserMap">
-        SELECT *
-        FROM users
+        SELECT u.*, a.auth as userAuth
+        FROM users u join user_auth a ON u.no = a.user_no
     </select>
 
 
