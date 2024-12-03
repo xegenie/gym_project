@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>월별 예약 일정관리</title>
+    <link rel="stylesheet" href="/css/adminCalendar.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="/js/RVscript.js"></script>
+</head>
+<body>
+    <div class="container">
+        <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
+
+        <div class="main">
+            <div class="inner">
+                <div class="title">
+                    <h2>월별 PT 예약 일정</h2>
+                </div>
+
+                <div class="calendar-wrap">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

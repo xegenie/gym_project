@@ -27,7 +27,7 @@
                 
                 <td>
                     <span th:if="${reservation.enabled == 1}">
-                        <form th:action="@{/user/ptList}" method="post" onsubmit="return cancelConfirm();">
+                        <form th:action="@{/user/myPage/ptList}" method="post" onsubmit="return cancelConfirm();">
                             <input type="hidden" th:name="no" th:value="${reservation.no}">
                             <button type="submit" style="cursor: pointer;">
                                 완료
