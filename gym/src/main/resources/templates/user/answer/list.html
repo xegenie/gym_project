@@ -1,0 +1,34 @@
+
+
+
+
+<th:block th:each="answer : ${answerList}">
+    <div style= "display: flex; flex-wrap: wrap; width: 320px;">
+        <th:block th:if="${ answer.no != answer.boardNo}">
+            <div style="padding-left: 20px;">
+            </div>
+        </th:block>
+
+    <table border="1" style="width: 300px; " >
+        <tr>
+            <td><span th:text="${answer.name}" class="answer-writer">작성자</span>
+</td>
+            <td align="right"><span th:text="${#dates.format(answer.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일자</span></td>
+        </tr>
+        <tr>
+            <td colspan="2" >
+                <p class="answer-content"  th:text="${answer.content}" >
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <button type="button" th:onclick="editAnswer(this,[[${answer.no}]])">수정</button>
+                <button type="button" th:onclick="remove([[${answer.no}]])">삭제</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</th:block>
+
