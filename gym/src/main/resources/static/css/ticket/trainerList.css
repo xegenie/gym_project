@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+body {
+    background-color: #000000dc;
+}
+
+a { text-decoration: none; }
+
+.card {
+    width: 300px;
+    height: 450px;
+    box-shadow: 2px 2px 5px rgba(225, 225, 225 ,0.6);
+}
+
+a {
+    display: block;
+    background-color: #02C16E;
+    color: #fff;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.userNum {
+    font-size: 15px;
+}
