@@ -84,6 +84,7 @@ public class AnswerController {
     @PutMapping("")
     public String updateAnswer(@RequestBody Answer answer) throws Exception {
         int result = answerService.update(answer);
+        log.info("결과나옴?" + result + answer);
         if(result > 0){
             return "SUCCESS";
         }

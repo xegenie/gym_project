@@ -27,14 +27,29 @@ VALUES (#{boardNo}, #{userNo}, #{content})
 <update id="update">
 UPDATE answer
 SET content = #{content}
-  , created_at = now()
-  WHERE user_no = #{userNo}
+  , updated_at = now()
+  WHERE no = #{no}
 </update>
 
 <delete id="delete">
 DELETE FROM answer
-WHERE user_no = #{userNo}
+WHERE no = #{no}
 </delete>
+
+   <select id="listByParent" resultType="Answer">
+    SELECT *
+    FROM answer a
+    Join users u ON a.user_no = u.no
+    WHERE board_no = #{boardNo}
+        ORDER BY a.board_no DESC
+            , a.created_at ASC
+    </select>
+    <!-- 게시글 기준 삭제 -->
+
+    <delete id="deleteByParent">
+    DELETE FROM amswer
+    WHERE board_no = #{boardNo}
+    </delete>
 
 
 </mapper>
