@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+    <h1>구매 내역</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>고객명</th>
+                <th>상품명</th>
+                <th>상품가격</th>
+                <th>담당 트레이너</th>
+                <th>구매일자</th>
+                <th>환불일자</th>
+                <th>상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="buyList : ${buyList}">
+                <td th:text="${buyList.no}"></td>
+                <td th:text="${buyList.userName}"></td>
+                <td th:text="${buyList.ticketName}"></td>
+                <td th:text="${buyList.ticketPrice}"></td>
+                <td th:text="${buyList.trainerName ?: '-'}"></td>
+                <td th:text="${#dates.format( buyList.buyDate, 'yyyy-MM-dd HH:mm:ss' )}"></td>
+                <td th:text="${buyList.canceledAt != null ? #dates.format(buyList.canceledAt, 'yyyy-MM-dd HH:mm:ss') : '-'}"></td>
+                <td th:text="${buyList.status}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

@@ -10,7 +10,7 @@ public class BuyList {
     private int no;
     private int trainerNo;
     private int userNo;
-    private int pNo;
+    private int tNo;
     private Date buyDate;
     private Date canceledAt;
     private String status;

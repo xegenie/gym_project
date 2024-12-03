@@ -13,7 +13,8 @@ import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.service.BuyListService;
 
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
+
 
 
 
@@ -36,7 +37,7 @@ public class BuyListController {
         int result = buyListService.insert(buyList);
         
         if ( result > 0 ) {
-            return "redirect:/admin/sales/buyList/list";
+            return "redirect:/admin/sales/buyList";
         }
         return "admin/sales/buyList/insert/?error";
     }
@@ -48,21 +49,22 @@ public class BuyListController {
         int result = buyListService.cancel(no);
         
         if ( result > 0 ) {
-            return "redirect:/admin/sales/buyList/list";
+            return "redirect:/admin/sales/buyList";
         }
 
         return "admin/sales/buyList/cancel/?error";
     }
     
     // 전체리스트
-    @GetMapping("/admin/sales/buyList/list")
+    @GetMapping("/admin/sales/buyList")
     public String list(Model model) throws Exception {
 
-        List<BuyList> list = buyListService.list();
+        List<BuyList> buyList = buyListService.list();
+        log.info("buyList : " + buyList);
 
-        model.addAttribute("list", list);
+        model.addAttribute("buyList", buyList);
 
-        return "/admin/sales/buyList/list";
+        return "/admin/sales/buyList";
     }
     
     
@@ -72,11 +74,11 @@ public class BuyListController {
         
         Long no = userDetails.getNo();
 
-        List<BuyList> list = buyListService.listByUser(no);
+        List<BuyList> buyList = buyListService.listByUser(no);
 
-        model.addAttribute("list", list);
+        model.addAttribute("buyList", buyList);
 
-        return "/admin/sales/buyList/list";
+        return "/user/myPage/buyList";
     }
 
 }
