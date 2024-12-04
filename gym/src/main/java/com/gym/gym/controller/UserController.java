@@ -1,12 +1,13 @@
 package com.gym.gym.controller;
 
 import java.util.List;
-
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.UserAuth;
@@ -139,5 +140,103 @@ if (result > 0) {
     // 실패한 경우
     return "redirect:/admin/user/update"; 
 }
+
+
+
+
+    @GetMapping("user/findId")
+    public String findId() {
+        return "/user/findId";
+    }
+
+    @PostMapping("/user/findId")
+    public String findId(Model model, @RequestParam("name") String name,
+                                      @RequestParam("phone") String phone, @RequestParam("question") String question,
+                                      @RequestParam("answer") String answer) throws Exception {
+        
+                                log.info(name + "이름");
+                                log.info(phone + "전화번호");
+                                log.info(question + "질문");
+                                log.info(answer + "답변");
+        // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
+        Users foundUser = userService.findUserByDetails(name, phone, question, answer);
+        
+        log.info(foundUser + "아이디찾기");
+        if (foundUser != null && foundUser.getId() != null) {
+            model.addAttribute("user", foundUser);
+            model.addAttribute("no", 1);
+            return "/user/find";
+        } else {
+            model.addAttribute("users", null);
+            model.addAttribute("message", "사용자를 찾을 수 없습니다.");
+            return "/user/find";
+        }
+    }
+    
+
+    @GetMapping("/user/findPassword")
+    public String findPassword() {
+        return "/user/findPassword";
+    }
+
+    @PostMapping("/user/findPassword")
+    public String findPassword(Model model, @RequestParam("name") String name,
+                                      @RequestParam("phone") String phone, @RequestParam("question") String question,
+                                      @RequestParam("answer") String answer, @RequestParam("id") String id) throws Exception {
+        
+                                log.info(name + "이름");
+                                log.info(phone + "전화번호");
+                                log.info(question + "질문");
+                                log.info(answer + "답변");
+        // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
+        Users foundUser = userService.findUserByPassword(name, phone, question, answer, id);
+        
+        log.info(foundUser + "비밀번호찾기");
+        if (foundUser != null && foundUser.getId() != null) {
+            String code = UUID.randomUUID().toString().substring(0, 6) ;
+            model.addAttribute("code", code);
+            model.addAttribute("no", foundUser.getNo());
+            foundUser.setCode(code);
+            userService.codeInsert(foundUser);
+            return "/user/changePassword";
+        } else {
+            model.addAttribute("users", null);
+            model.addAttribute("message", "입력하신 사용자를 찾을 수 없습니다.");
+            return "/user/find";
+        }
+
+        
+    }
+    
+@GetMapping("/user/changePassword")
+public String changePassword() {
+    return "/user/changePassword";
+}
+
+@PostMapping("/user/changePassword")
+public String changePassword(@RequestParam("code") String code, @RequestParam("password") String password, 
+                            @RequestParam("newPassword") String newPassword, @RequestParam("no") Long no,RedirectAttributes redirectAttributes) throws Exception {
+                            log.info(no + "넘버입니다.");
+    Users user = userService.select(no);
+                 
+      BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    if (encoder.matches(password, user.getPassword())) {
+        String encodedNewPassword = encoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+      int result = userService.passwordUpdate(user);
+        if (result > 0) {
+            user.setCode(null);
+            userService.codeInsert(user);
+            return "redirect:/login";
+        }
+    }
+    redirectAttributes.addFlashAttribute("error", "");
+    user.setCode(null);
+    userService.codeInsert(user);
+    return "redirect:/login";
+}
+
+
 
 }
