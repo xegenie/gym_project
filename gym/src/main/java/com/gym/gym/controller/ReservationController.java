@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
@@ -51,15 +52,15 @@ public class ReservationController {
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
 
-        // String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/list")
-        //                     // .queryParam("page", page.getPage())
-        //                     .queryParam("keyword", option.getKeyword())
-        //                     .queryParam("code", option.getCode())
-        //                     .queryParam("rows", page.getRows())
-        //                     .queryParam("orderCode", option.getOrderCode())
-        //                     .build()
-        //                     .toString();
-        // model.addAttribute("pageUrl", pageUrl);
+        String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/list")
+                            // .queryParam("page", page.getPage())
+                            .queryParam("keyword", option.getKeyword())
+                            .queryParam("code", option.getCode())
+                            .queryParam("rows", page.getRows())
+                            .queryParam("orderCode", option.getOrderCode())
+                            .build()
+                            .toString();
+        model.addAttribute("pageUrl", pageUrl);
         return "/admin/reservation/list";
     }
 

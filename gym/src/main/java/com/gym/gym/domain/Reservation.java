@@ -18,4 +18,6 @@ public class Reservation {
     private Date canceledAt;
     private int enabled;
     
+    private String userName;
+    private String trainerName;
 }
