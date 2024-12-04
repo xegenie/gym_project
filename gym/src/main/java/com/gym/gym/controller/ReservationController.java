@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.gym.gym.domain.Option;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Reservation;
 import com.gym.gym.service.ReservationService;
 
@@ -29,17 +31,35 @@ public class ReservationController {
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
-    public String userReservationList(Model model) throws Exception {
-        List<Reservation> reservationList = reservationService.list();
+    public String userReservationList(Model model, Option option, Page page) throws Exception {
+        List<Reservation> reservationList = reservationService.list(option, page);
         model.addAttribute("reservationList", reservationList);
+        model.addAttribute("option", option);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
         return "/user/myPage/ptList";
     }
     
     // 관리자 예약 목록 화면
     @GetMapping("/admin/reservation/list")
-    public String adminReservationList(Model model) throws Exception {
-        List<Reservation> reservationList = reservationService.list();
+    public String adminReservationList(Model model, Option option, Page page) throws Exception {
+
+
+        List<Reservation> reservationList = reservationService.list(option, page);
         model.addAttribute("reservationList", reservationList);
+        model.addAttribute("option", option);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
+
+        // String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/list")
+        //                     // .queryParam("page", page.getPage())
+        //                     .queryParam("keyword", option.getKeyword())
+        //                     .queryParam("code", option.getCode())
+        //                     .queryParam("rows", page.getRows())
+        //                     .queryParam("orderCode", option.getOrderCode())
+        //                     .build()
+        //                     .toString();
+        // model.addAttribute("pageUrl", pageUrl);
         return "/admin/reservation/list";
     }
 
@@ -80,10 +100,11 @@ public class ReservationController {
 
     // 관리자가 예약 취소(수정)
     @PostMapping("/admin/reservation/list")
-    public String cancelAdmin(Reservation reservation) throws Exception {
+    public String cancelAdmin(Reservation reservation, Page page) throws Exception {
         int result = reservationService.cancel(reservation);
+        log.info(page.getPage()+"페이지");
         if (result > 0) {
-            return "redirect:/admin/reservation/list";
+            return "redirect:/admin/reservation/list?page=" + page.getPage();
         }
         return "redirect:/admin/reservation/list?error";
     }
