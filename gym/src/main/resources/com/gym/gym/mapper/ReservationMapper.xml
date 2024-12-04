@@ -16,6 +16,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="list" resultType="Reservation">
       select *
       from reservation
+      where
+           <if test="option.code == 0">
+                    user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR rv_date LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 1">
+                user_no LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 2">
+                trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 3">
+                    user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR rv_date LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 4">
+                trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+        <if test="option.orderCode == 0">
+           ORDER BY created_at DESC
+        </if>
+        <if test="option.orderCode == 1">
+           ORDER BY rv_date ASC
+        </if>
+      LIMIT #{page.index}, #{page.rows}
     </select>
 
     <!-- 예약 상세 조회 -->
@@ -32,4 +58,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           canceled_at = now()
       where no = #{no} and enabled = 1;
     </update>
+
+    <select id="count" resultType="int">
+      select count(*)
+      from reservation
+      WHERE
+        <if test="option.code == 0">
+                    user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR rv_date LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 1">
+                user_no LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 2">
+                rv_date LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 3">
+                    user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR rv_date LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+            <if test="option.code == 4">
+                trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
+           </if>
+    </select>
 </mapper>
