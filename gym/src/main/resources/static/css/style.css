@@ -65,8 +65,9 @@ body {
 }
 
 .logo img {
-    height: 60px;  
+    height: 70px;  
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 .nav-links {
@@ -92,11 +93,12 @@ body {
     position: fixed;
     left: 0;
     width: 15%;
-    height: calc(100% - 60px);
+    height: calc(100% - 50px);
     padding: 20px;
     color: white;
     overflow-y: auto;
     z-index: 999;
+    margin-top: 50px;
 }
 
 .menu.open {
