@@ -31,14 +31,13 @@
       <form id="reservationForm" action="/user/reservation/reservation" method="POST">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <input type="hidden" id="rvDateInput" name="rvDate">     <!-- 예약 날짜 -->
-        <input type="hidden" name="trainerNo" value="1">        <!-- 트레이너 번호 -->
-        <input type="hidden" name="userNo" value="1">           <!-- 사용자 번호 -->
+        <input type="hidden" name="trainerNo" value="${reservation.trainerName}">       
+        <input type="hidden" name="userNo" value="${reservation.userName}">
         <input type="submit" style="display: none;" />
       </form>
     </div>
   </div>
 
-  <div id="modalOverlay"></div>
 
 </body>
 </html>
