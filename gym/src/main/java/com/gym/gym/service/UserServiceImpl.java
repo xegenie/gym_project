@@ -142,5 +142,20 @@ public class UserServiceImpl implements UserService {
         return userAuth;
     }
 
+    @Override
+    public Users findUserByDetails(@RequestParam("name") String name,
+    @RequestParam("phone") String phone, @RequestParam("question") String question,
+    @RequestParam("answer") String answer) throws Exception {
+        Users user = userMapper.findUserByDetails(name, phone, question, answer);
+        return user;
+    }
+
+    @Override
+    public Users findUserByPassword(String name, String phone, String question, String answer, String id)
+            throws Exception {
+                Users user = userMapper.findUserByPassword(name, phone, question, answer, id);
+                return user;
+    }
+
 
 }

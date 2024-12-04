@@ -1,5 +1,7 @@
 package com.gym.gym.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import com.gym.gym.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Slf4j
 @Controller
@@ -168,6 +172,64 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
     // public String error403() {
     //     return "error/403";
     // }
+    
+
+    @GetMapping("user/findId")
+    public String getMethodName() {
+        return "/user/findId";
+    }
+
+    @PostMapping("/user/findId")
+    public String findId(Model model, @RequestParam("name") String name,
+                                      @RequestParam("phone") String phone, @RequestParam("question") String question,
+                                      @RequestParam("answer") String answer) throws Exception {
+        
+                                log.info(name + "이름");
+                                log.info(phone + "전화번호");
+                                log.info(question + "질문");
+                                log.info(answer + "답변");
+        // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
+        Users foundUser = userService.findUserByDetails(name, phone, question, answer);
+        
+        log.info(foundUser + "아이디찾기");
+        if (foundUser != null && foundUser.getId() != null) {
+            model.addAttribute("user", foundUser);
+            model.addAttribute("no", 1);
+            return "/user/find";
+        } else {
+            model.addAttribute("users", null);
+            model.addAttribute("message", "사용자를 찾을 수 없습니다.");
+            return "/user/find";
+        }
+    }
+    
+
+    @PostMapping("/user/findId")
+    public String findPassword(Model model, @RequestParam("name") String name,
+                                      @RequestParam("phone") String phone, @RequestParam("question") String question,
+                                      @RequestParam("answer") String answer) throws Exception {
+        
+                                log.info(name + "이름");
+                                log.info(phone + "전화번호");
+                                log.info(question + "질문");
+                                log.info(answer + "답변");
+        // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
+        Users foundUser = userService.findUserByDetails(name, phone, question, answer);
+        
+        log.info(foundUser + "아이디찾기");
+        if (foundUser != null && foundUser.getId() != null) {
+            model.addAttribute("user", foundUser);
+            model.addAttribute("no", 1);
+            return "/user/find";
+        } else {
+            model.addAttribute("users", null);
+            model.addAttribute("message", "사용자를 찾을 수 없습니다.");
+            return "/user/find";
+        }
+    }
+    
+
+
     
 
 }
