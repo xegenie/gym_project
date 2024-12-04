@@ -30,11 +30,28 @@
 
             <div class="hr"></div>
             
-            <div class="card-items d-flex flex-column align-items-center justify-content-center">
-                <div class="ticket" style="height: 800px;">
-    
+            <form action="/user/pay/paing" method="POST">
+                <div class="ticket d-flex flex-column align-items-center">
+                    <div class="item" th:each="ticket : ${ticketList}" >
+                        <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
+                            <div class="checkbox">
+                                <input type="checkbox" name="ticket">
+                            </div>
+                            <div class="ticket-content d-flex flex-column">
+                                <input type="hidden" value="ticket.no" name="ticket">
+                                <span class="ticket-name" th:text="${ticket.name}"></span>
+                                <span class="ticket-info" th:text="${ticket.info}"></span>
+                                <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="button">
+                    <button type="submit" class="btn btn-success">결제하기</button>
+                </div>
+
+            </form>
         </div>
     </div>
 

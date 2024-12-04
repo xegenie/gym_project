@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
+import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.TrainerWithCount;
 import com.gym.gym.service.BuyListService;
+import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 public class PayController {
 
-    @Autowired
-    BuyListService buyListService;
-    @Autowired
-    TrainerProfileService trainerProfileService;
+    @Autowired private BuyListService buyListService;
+    @Autowired private TrainerProfileService trainerProfileService;
+    @Autowired private TicketService ticketService;
 
     // 이용권 선택
     @GetMapping("/ticket/choice")
@@ -88,6 +89,10 @@ public class PayController {
         TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
 
         model.addAttribute("trainer", trainerProfile);
+
+        // 티켓 조회
+        List<Ticket> ticketList = ticketService.ptList();
+        model.addAttribute("ticketList", ticketList);
 
         return "/user/ticket/trainerDetail";
     }

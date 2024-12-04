@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>트레이너 등록</title>
 </head>
 <body>
-    
+    <h1>트레이너 등록</h1>
+    <form action="/admin/ticket/insert" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <table border="1">
+            <tr>
+                <th>티켓명</th>
+                <td>
+                    <input type="text" name="name">
+                </td>
+            </tr>
+            <tr>
+                <th>가격</th>
+                <td>
+                    <input type="text" name="price">
+                </td>
+            </tr>
+            <tr>
+                <th>소개</th>
+                <td>
+                    <input type="text" name="info">
+                </td>
+            </tr>
+            <tr>
+                <th>타입</th>
+                <td>
+                    <select name="type">
+                        <option value="PT">PT</option>
+                        <option value="일반">일반</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="등록">
+                </td>
+            </tr>
+        </table>
+
+    </form>
 </body>
 </html>
