@@ -3,8 +3,13 @@
 
 <mapper namespace="com.gym.gym.mapper.RankingMapper">
 
+    <resultMap id="RankingMap" type="Ranking">
+        <id property="userId" column="userId" />
+        <result property="attendanceCount" column="attendanceCount" />
+    </resultMap>
+
     <!-- 출석 랭킹 -->
-    <select id="getAttendanceRanking" resultType="Ranking">
+    <select id="getAttendanceRanking" resultMap="RankingMap">
         SELECT 
             u.id AS userId, 
             COUNT(*) AS attendanceCount
@@ -24,5 +29,4 @@
             GROUP BY a.user_no
         ) AS subquery;
     </select>
-
 </mapper>

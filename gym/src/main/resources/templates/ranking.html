@@ -9,17 +9,18 @@
     <!-- 공통 링크 추가 -->
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <link rel="stylesheet" href="/css/attendance/ranking.css">
-
 </head>
 
 <body>
 
     <!-- 공통 헤더 추가 -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
-    <button><a href="/" style="text-decoration: none; color: rgb(10, 8, 8);">홈으로</a></button>
+    <button>
+        <a href="/" style="text-decoration: none; color: rgb(10, 8, 8);">홈으로</a>
+    </button>
     <div class="main">
         <div class="content1">
-            <div class="text-rank">나의 순위 : </div>
+            <div class="text-rank">나의 순위 :</div>
         </div>
         <div class="content2">
 
@@ -31,54 +32,61 @@
             <table class="attendance-table">
                 <thead>
                     <tr>
+                        <th>랭킹</th>
                         <th>회원ID</th>
                         <th>출석횟수</th>
-                        <th>랭킹</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="rank : ${rankingList}">
-                        <td th:text="${rank.userId}"></td> <!-- 회원 ID -->
-                        <td th:text="${rank.attendanceCount}"></td> <!-- 출석 횟수 -->
-                        <td th:text="${rank.rank}"></td> <!-- 랭킹 -->
+                        <!-- 랭킹 -->
+                        <td th:if="${rank.rank == 1}" style="background-color: gold; font-weight: bold; color: black;" th:text="${rank.rank}"></td>
+                        <td th:if="${rank.rank == 2}" style="background-color: silver; font-weight: bold; color: black;" th:text="${rank.rank}"></td>
+                        <td th:if="${rank.rank == 3}" style="background-color: #cd7f32; font-weight: bold; color: white;" th:text="${rank.rank}"></td>
+                        <td th:unless="${rank.rank == 1 || rank.rank == 2 || rank.rank == 3}" th:text="${rank.rank}"></td>
+
+                        <!-- 회원 ID -->
+                        <td th:if="${rank.rank == 1}" style="background-color: gold; font-weight: bold; color: black;" th:text="${rank.userId}"></td>
+                        <td th:if="${rank.rank == 2}" style="background-color: silver; font-weight: bold; color: black;" th:text="${rank.userId}"></td>
+                        <td th:if="${rank.rank == 3}" style="background-color: #cd7f32; font-weight: bold; color: white;" th:text="${rank.userId}"></td>
+                        <td th:unless="${rank.rank == 1 || rank.rank == 2 || rank.rank == 3}" th:text="${rank.userId}"></td>
+
+                        <!-- 출석 횟수 -->
+                        <td th:if="${rank.rank == 1}" style="background-color: gold; font-weight: bold; color: black;" th:text="${rank.attendanceCount}"></td>
+                        <td th:if="${rank.rank == 2}" style="background-color: silver; font-weight: bold; color: black;" th:text="${rank.attendanceCount}"></td>
+                        <td th:if="${rank.rank == 3}" style="background-color: #cd7f32; font-weight: bold; color: white;" th:text="${rank.attendanceCount}"></td>
+                        <td th:unless="${rank.rank == 1 || rank.rank == 2 || rank.rank == 3}" th:text="${rank.attendanceCount}"></td>
                     </tr>
                 </tbody>
-
-
             </table>
 
-
-
-       <!-- 페이지네이션 -->
-<div class="pageNav">
-    <!-- [처음] -->
-    <a th:href="@{${pageUrl} + '&page=' + ${page.first}}" style="color: aliceblue;">[처음]</a>
-    <!-- [이전] -->
-    <th:block th:if="${page.page != page.first}">
-        <a th:href="@{${pageUrl} + '&page=' + ${page.prev}}" style="color: aliceblue;">[이전]</a>
-    </th:block>
-    <!-- [페이지 번호] -->
-    <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
-        <th:block th:if="${page.page == no}">
-            <b><span th:text="${no}" style="color: aliceblue;"></span></b>
-        </th:block>
-        <th:block th:if="${page.page != no}">
-            <a th:href="@{${pageUrl} + '&page=' + ${no}}" th:text="${no}" style="color: aliceblue;"></a>
-        </th:block>
-    </th:block>
-    <!-- [다음] -->
-    <th:block th:if="${page.page != page.last}">
-        <a th:href="@{${pageUrl} + '&page=' + ${page.next}}" style="color: aliceblue;">[다음]</a>
-    </th:block>
-    <!-- [마지막] -->
-    <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" style="color: aliceblue;">[마지막]</a>
-</div>
-
-
-</div>
-<div class="content3"></div>
-</div>
-   
+            <!-- 페이지네이션 -->
+            <div class="pageNav">
+                <!-- [처음] -->
+                <a th:href="@{${pageUrl} + '&page=' + ${page.first}}" style="color: aliceblue;">[처음]</a>
+                <!-- [이전] -->
+                <th:block th:if="${page.page != page.first}">
+                    <a th:href="@{${pageUrl} + '&page=' + ${page.prev}}" style="color: aliceblue;">[이전]</a>
+                </th:block>
+                <!-- [페이지 번호] -->
+                <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
+                    <th:block th:if="${page.page == no}">
+                        <b><span th:text="${no}" style="color: aliceblue;"></span></b>
+                    </th:block>
+                    <th:block th:if="${page.page != no}">
+                        <a th:href="@{${pageUrl} + '&page=' + ${no}}" th:text="${no}" style="color: aliceblue;"></a>
+                    </th:block>
+                </th:block>
+                <!-- [다음] -->
+                <th:block th:if="${page.page != page.last}">
+                    <a th:href="@{${pageUrl} + '&page=' + ${page.next}}" style="color: aliceblue;">[다음]</a>
+                </th:block>
+                <!-- [마지막] -->
+                <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" style="color: aliceblue;">[마지막]</a>
+            </div>
+        </div>
+        <div class="content3"></div>
+    </div>
 
     <!-- 공통 푸터 추가 -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>

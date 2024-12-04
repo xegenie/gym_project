@@ -1,6 +1,8 @@
 package com.gym.gym.service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,12 +55,21 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception {
-        return rankingMapper.getAttendanceRanking(option, page);
-    }
-
-    @Override
     public List<Ranking> getAttendanceRanking() throws Exception {
         return rankingMapper.getAttendanceRanking();
     }
+
+    @Override public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception { 
+        List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page); 
+
+        List<Ranking> sortedList = rankingList.stream() 
+        .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed()) 
+        .collect(Collectors.toList());
+
+        for (int i = 0; i < sortedList.size(); i++) { 
+            sortedList.get(i).setRank(i + 1); 
+        }
+        return sortedList;
+    
+}
 }
