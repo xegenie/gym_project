@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gym.gym.mapper.RankingMapper">
+
+    <!-- 출석 랭킹 -->
+    <select id="getAttendanceRanking" resultType="Ranking">
+        SELECT 
+            u.id AS userId, 
+            COUNT(*) AS attendanceCount
+        FROM attendance a
+        JOIN users u ON a.user_no = u.no
+        GROUP BY a.user_no
+        ORDER BY attendanceCount DESC
+        LIMIT #{page.index}, #{page.rows};
+    </select>
+
+    <!-- 출석 랭킹 총 개수 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT COUNT(*) AS attendanceCount
+            FROM attendance a
+            JOIN users u ON a.user_no = u.no
+            GROUP BY a.user_no
+        ) AS subquery;
+    </select>
+
+</mapper>

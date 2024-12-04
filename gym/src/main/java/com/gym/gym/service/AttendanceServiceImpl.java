@@ -34,19 +34,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.getAttendanceByUserNo(userNo);
     }
 
-    // 출석 랭킹 조회
-    @Override
-    public List<Attendance> getAttendanceRanking() throws Exception {
-        List<Attendance> rankingList = attendanceMapper.getAttendanceRanking();
-
-        // 출석 횟수를 기준으로 순위를 매기는 로직 추가
-        int rank = 1;
-        for (Attendance attendance : rankingList) {
-            attendance.setRank(rank++);
-        }
-
-        return rankingList;
-    }
 
     // AttendanceServiceImpl.java 수정
     @Override
