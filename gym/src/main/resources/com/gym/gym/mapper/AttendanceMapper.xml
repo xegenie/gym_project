@@ -83,15 +83,6 @@
             OR u.phone LIKE CONCAT('%', #{searchKeyword}, '%'))
     </select>
 
-    <!-- 출석 랭킹 -->
-    <select id="getAttendanceRanking" resultType="Attendance">
-        SELECT u.id AS userId, COUNT(*) AS attendanceCount
-        FROM attendance a
-        JOIN users u ON a.user_no = u.no
-        GROUP BY a.user_no
-        ORDER BY attendanceCount DESC;
-
-    </select>
 
 
     <!-- 출석 인원 -->

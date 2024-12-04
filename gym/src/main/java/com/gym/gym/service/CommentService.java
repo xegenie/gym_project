@@ -1,6 +1,5 @@
 package com.gym.gym.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.gym.gym.domain.Comment;

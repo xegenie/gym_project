@@ -38,4 +38,50 @@
 .attendance-table{
     margin: 0 auto;
     color: aliceblue;
+    text-align: center;
 }
+
+
+th {
+    padding: 60px;
+}
+
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; 
+}
+
+.text-rank{
+    display: flex;
+    justify-content: center;
+    color: aliceblue;
+    margin-top: 50px;
+}
+
+
+.containerbox{
+   
+    margin: 50px 10px;
+    height: 100px;
+    background-color: #363535;
+    border-radius: 15px;
+}
+
+
+.pageNav{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.containerbox{
+    
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
