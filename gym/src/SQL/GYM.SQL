@@ -110,7 +110,8 @@ CREATE TABLE `plan` (
     `user_no` INT NOT NULL,
     `plan_name` VARCHAR(100) NOT NULL,
     `plan_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `plan_content` VARCHAR(500) NULL
+    `plan_content` VARCHAR(500) NULL,
+    `plan_end` TIMESTAMP NULL
 );
 
 DROP TABLE IF EXISTS `board`;

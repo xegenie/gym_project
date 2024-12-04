@@ -22,7 +22,8 @@
         <p class="text-center fw-semibold m-0" style="font-size: 32px;">운동 계획표</p>
         <hr>
         <div class="d-flex justify-content-end">
-          <a href="#" class="p-3 border rounded-4 bg-white upd-schedule"><i class="fa-solid fa-plus"></i> 일정 추가</a>
+          <button type="button" class="p-3 border rounded-4 bg-white upd-schedule"><i class="fa-solid fa-plus"></i> 일정
+            추가</button>
         </div>
         <div class="cal-container">
           <div class="calendar">
@@ -63,18 +64,17 @@
     </div>
   </div>
 
-  <div class="pop-up-container bg-white p-4">
-
-    <!-- 일정 입력 팝업 -->
-    <div class="pop-up input-schedule">
-      <div class="popup-type">
-        <div class="icons">
-          <a href="#"><i class="fa-solid fa-x"></i></a>
-        </div>
+  <!-- 일정 입력 팝업 -->
+  <div class="pop-up input-schedule">
+    <div class="popup-type">
+      <div class="icons">
+        <a href="#" class="input-schedule-close"><i class="fa-solid fa-x"></i></a>
       </div>
-      <div class="popup-content">
+    </div>
+    <div class="popup-content">
+      <form action="">
         <div class="popup-title-input">
-          <input type="text" name="plan-title" placeholder="일정 제목 추가">
+          <input type="text" name="planName" placeholder="일정 제목 추가">
         </div>
         <div class="set-time">
           <p><i class="fa-regular fa-clock"></i></p>
@@ -121,104 +121,73 @@
           </div>
         </div>
 
-        <textarea placeholder="내용 입력"></textarea>
+        <textarea name="planContent" placeholder="내용 입력"></textarea>
 
         <div class="button-container">
-          <button id="updPlanButton">저장</button>
+          <button type="submit" id="updPlanButton">저장</button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 일정 정보 팝업(자율) -->
+  <div class="pop-up exercise-bymyself">
+    <div class="popup-type">
+      <p>자율 운동</p>
+      <div class="icons">
+        <a href="#"><i class="fa-solid fa-pen"></i></a>
+        <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+        <a href="#"><i class="fa-solid fa-x"></i></a>
       </div>
     </div>
-
-    <!-- 일정 정보 팝업(자율) -->
-    <div class="pop-up exercise-bymyself">
-      <div class="popup-type">
-        <p>자율 운동</p>
-        <div class="icons">
-          <a href="#"><i class="fa-solid fa-pen"></i></a>
-          <a href="#"><i class="fa-solid fa-trash-can"></i></a>
-          <a href="#"><i class="fa-solid fa-x"></i></a>
+    <div class="popup-content">
+      <div class="popup-title">유산소 운동</div>
+      <div class="time-info">
+        <p><i class="fa-regular fa-clock"></i></p>
+        <div class="plan-date">
+          12/4 (수)
+        </div>
+        <div class="plan-time">
+          <p class="plan-start-time">오후 1:00</p>
+          <p>-</p>
+          <p class="plan-end-time">오후 2:00</p>
         </div>
       </div>
-      <div class="popup-content">
-        <div class="popup-title">유산소 운동</div>
-        <div class="time-info">
-          <p><i class="fa-regular fa-clock"></i></p>
-          <div class="plan-date">
-            12/4 (수)
-          </div>
-          <div class="plan-time">
-            <p class="plan-start-time">오후 1:00</p>
-            <p>-</p>
-            <p class="plan-end-time">오후 2:00</p>
-          </div>
-        </div>
-        <hr>
-        <div class="plan-detail">
-          - 러닝머신 1시간<br>
-        </div>
+      <hr>
+      <div class="plan-detail">
+        - 러닝머신 1시간<br>
       </div>
     </div>
+  </div>
 
-    <!-- 일정 정보 팝업(PT 예약) -->
-    <div class="pop-up exercise-pt">
-      <div class="popup-type">
-        <p>PT 예약</p>
-        <div class="icons">
-          <a href="#"><i class="fa-solid fa-x"></i></a>
+  <!-- 일정 정보 팝업(PT 예약) -->
+  <div class="pop-up exercise-pt">
+    <div class="popup-type">
+      <p>PT 예약</p>
+      <div class="icons">
+        <a><i class="fa-solid fa-x"></i></a>
+      </div>
+    </div>
+    <div class="popup-content">
+      <div class="popup-title">유산소 운동</div>
+      <div class="time-info">
+        <p><i class="fa-regular fa-clock"></i></p>
+        <div class="plan-date">
+          12/4 (수)
+        </div>
+        <div class="plan-time">
+          <p class="plan-start-time">오후 1:00</p>
+          <p>-</p>
+          <p class="plan-end-time">오후 2:00</p>
         </div>
       </div>
-      <div class="popup-content">
-        <div class="popup-title">유산소 운동</div>
-        <div class="time-info">
-          <p><i class="fa-regular fa-clock"></i></p>
-          <div class="plan-date">
-            12/4 (수)
-          </div>
-          <div class="plan-time">
-            <p class="plan-start-time">오후 1:00</p>
-            <p>-</p>
-            <p class="plan-end-time">오후 2:00</p>
-          </div>
-        </div>
-        <div class="trainer-info">
-          <p><i class="fa-solid fa-user"></i></p>
-          <p class="trainer-name">김트너</p>
-        </div>
+      <div class="trainer-info">
+        <p><i class="fa-solid fa-user"></i></p>
+        <p class="trainer-name">김트너</p>
       </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    function setupDropdown(buttonId, optionsId) {
-      const dropdownButton = document.getElementById(buttonId);
-      const options = document.getElementById(optionsId);
-      
-      // 드롭다운 버튼 클릭 시 옵션 표시/숨김
-      dropdownButton.addEventListener("click", () => {
-        options.style.display = options.style.display === "block" ? "none" : "block";
-      });
-
-      // 옵션 클릭 시 버튼에 값 표시
-      options.addEventListener("click", (event) => {
-        if (event.target.tagName === "DIV") {
-          dropdownButton.textContent = event.target.textContent;
-          options.style.display = "none"; // 옵션 숨기기
-        }
-      });
-
-      // 외부 클릭 시 옵션 숨기기
-      document.addEventListener("click", (event) => {
-        if (!event.target.closest(`#${buttonId}`) && !event.target.closest(`#${optionsId}`)) {
-          options.style.display = "none";
-        }
-      });
-    }
-
-    // 드롭다운 설정
-    setupDropdown("dropdown-button-1", "options-1");
-    setupDropdown("dropdown-button-2", "options-2");
-
-  </script>
 </body>
 
 </html>
