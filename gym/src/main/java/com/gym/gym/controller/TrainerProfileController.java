@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.Files;
+import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.service.FileService;
+import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin/trainer")
 public class TrainerProfileController {
 
-    @Autowired
-    private TrainerProfileService trainerProfileService;
-
-    @Autowired
-    private FileService fileService;
+    @Autowired private TrainerProfileService trainerProfileService;
+    @Autowired private FileService fileService;
     
     /**
      * 목록
