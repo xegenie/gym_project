@@ -51,6 +51,12 @@
         WHERE user_no = #{no}
     </select>
 
+    <select id="selectAuth" resultType="UserAuth">
+        SELECT *
+        FROM user_auth
+        WHERE user_no = #{no}
+    </select>
+
     <select id="list" resultMap="UserMap">
         SELECT u.*, a.auth as userAuth
         FROM users u join user_auth a ON u.no = a.user_no
@@ -81,7 +87,7 @@
 
     <update id="updateAuth">
         UPDATE user_auth
-        SET (#{auth})
+        SET auth = #{auth}
         WHERE user_no = #{userNo}
     </update>
 

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>회원정보</h1>
-    <form action="infoUpdate" method="post">
+    <form action="infoUpdate" method="post" id="form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <input type="hidden" name="no" th:value="${user.no}">
     <label>아이디 : </label> <label type="text" th:text="${user.id}" name="id"></label>
@@ -16,8 +16,18 @@
    <label>생일 :</label><input type="text" th:value="${user.birth}" name="birth"></input>
    <label> 연락처 : </label> <input type="text" th:value="${user.phone}" name="phone"></input>
    <button type="submit"> 수정하기 </button> 
+   <button type="button" onclick="remove()"> 삭제하기 </button> 
 </form>
     <a href="">비밀번호 수정</a>
     
+    <script>
+
+    function remove(){
+        if(!confirm('정말로 삭제하시겠습니까?'))
+        return
+        form.action = 'delete'   // action 속성 변경
+        form.submit()                   // 요청 전송
+    }
+</script>
 </body>
 </html>

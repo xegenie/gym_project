@@ -2,6 +2,8 @@ package com.gym.gym.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
 
@@ -27,9 +29,11 @@ public interface UserService {
     
     public int updateAuth(UserAuth userAuth) throws Exception;
 
-    public int delete(Users user) throws Exception;
+    public int delete(@RequestParam("no") Long no) throws Exception;
 
-    public int delteAuth(UserAuth userAuth) throws Exception;
+    public int deleteAuth(@RequestParam("no") Long no) throws Exception;
+    
+    public UserAuth selectAuth(Long no) throws Exception; 
 
     
 }

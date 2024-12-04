@@ -22,6 +22,7 @@ public class Users {
     private Date createdAt;
     private Date updatedAt;
 
+    
     private String  userAuth;
     private List<UserAuth> authList;
 

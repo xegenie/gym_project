@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
@@ -83,14 +84,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int delete(Users user) throws Exception {
-        int result = userMapper.delete(user);
+    public int delete(@RequestParam("no") Long no) throws Exception {
+        int result = userMapper.delete(no);
         return result;
     }
 
     @Override
-    public int delteAuth(UserAuth userAuth) throws Exception {
-        int result = userMapper.delteAuth(userAuth);
+    public int deleteAuth(@RequestParam("no") Long no) throws Exception {
+        int result = userMapper.deleteAuth(no);
         return result;
     }
     
@@ -133,6 +134,12 @@ public class UserServiceImpl implements UserService {
     public Users selectId(String id) throws Exception {
         Users user = userMapper.selectId(id);
         return user;
+    }
+
+    @Override
+    public UserAuth selectAuth(Long no) throws Exception {
+        UserAuth userAuth = userMapper.selectAuth(no);
+        return userAuth;
     }
 
 
