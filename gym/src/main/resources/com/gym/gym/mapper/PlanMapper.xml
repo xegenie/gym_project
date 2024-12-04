@@ -36,8 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 일정 추가 -->
     <insert id="insert" >
-        INSERT INTO plan (user_no, plan_name, plan_time, plan_content)
-        VALUES (#{userNo}, #{planName},#{planTime}, #{planContent})
+        INSERT INTO plan (user_no, plan_name, plan_time, plan_content, plan_end)
+        VALUES (#{userNo}, #{planName},#{planTime}, #{planContent}, #{planEnd})
     </insert>
 
     <!-- 일정 수정 -->
@@ -46,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SET plan_name = #{planName}
         , plan_time = #{planTime}
         , plan_content = #{planContent}
+        , plan_end = #{planEnd}
         WHERE no = #{no}
     </update>
 

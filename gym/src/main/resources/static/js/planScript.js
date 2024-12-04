@@ -62,6 +62,31 @@ const monthNames = [
     }
   }
 
+  function setupDropdown(buttonId, optionsId) {
+    const dropdownButton = document.getElementById(buttonId);
+    const options = document.getElementById(optionsId);
+    
+    // 드롭다운 버튼 클릭 시 옵션 표시/숨김
+    dropdownButton.addEventListener("click", () => {
+      options.style.display = options.style.display === "block" ? "none" : "block";
+    });
+
+    // 옵션 클릭 시 버튼에 값 표시
+    options.addEventListener("click", (event) => {
+      if (event.target.tagName === "DIV") {
+        dropdownButton.textContent = event.target.textContent;
+        options.style.display = "none"; // 옵션 숨기기
+      }
+    });
+
+    // 외부 클릭 시 옵션 숨기기
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(`#${buttonId}`) && !event.target.closest(`#${optionsId}`)) {
+        options.style.display = "none";
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     // 이전/다음 버튼 이벤트 추가
     document.querySelector(".prev").addEventListener("click", () => {
@@ -77,4 +102,22 @@ const monthNames = [
     // 초기 렌더링
     renderCalendar(currentDate);
 
+    // 드롭다운 설정
+    setupDropdown("dropdown-button-1", "options-1");
+    setupDropdown("dropdown-button-2", "options-2");
+
+    // modal
+    const inputSchedule = document.querySelector('.input-schedule');
+    const inputScheduleOpen = document.querySelector('.upd-schedule');
+    const inputScheduleClose = document.querySelector('.input-schedule-close');
+  
+    inputScheduleOpen.addEventListener('click', function(){
+      inputSchedule.style.display ='block';
+    });
+  
+    inputScheduleClose.addEventListener('click', function(){
+      inputSchedule.style.display ='none';
+    });
+
+    
   });

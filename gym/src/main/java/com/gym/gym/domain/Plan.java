@@ -12,4 +12,5 @@ public class Plan {
     private String planName;
     private Date planTime;
     private String planContent;
+    private Date planEnd;
 }
