@@ -43,9 +43,10 @@
     <form th:action="@{/admin/attendance/list}" method="get">
         <button type="submit">출석 내역 조회 ( 관리자 )</button>
     </form>
-    <form th:action="@{/admin/attendance/ranking}" method="get">
+    <form th:action="@{/ranking}" method="get">
         <button type="submit">출석 랭킹</button>
     </form>
+    
 
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
     <th:block th:replace="~{fragment/script::script}"></th:block>

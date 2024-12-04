@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출석 랭킹</title>
+
+    <!-- 공통 링크 추가 -->
+    <th:block th:replace="~{fragment/link::link}"></th:block>
+    <link rel="stylesheet" href="/css/attendance/ranking.css">
+ 
+</head>
+
+<body>
+    <!-- 공통 헤더 추가 -->
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+
+    <div class="main">
+        <div class="content1"> <button><a href="/" style="text-decoration: none; color: rgb(10, 8, 8);">홈으로</a></button></div>
+        <div class="content2">
+
+            <div class="text" ><h1>출석 랭킹</h1></div>
+
+                <br><br>
+                <table border="1" class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>회원ID</th>
+                            <th>출석횟수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${rankingList}">
+                            <td th:text="${user.rank}"></td> <!-- 순위 -->
+                            <td th:text="${user.userId}"></td> <!-- 회원 ID -->
+                            <td th:text="${user.attendanceCount}"></td> <!-- 출석 횟수 -->
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="content3"></div>
+
+    </div>
+
+
+
+
+   
+    <!-- 공통 푸터 추가 -->
+    <th:block th:replace="~{fragment/footer::footer}"></th:block>
+
+    <!-- 공통 스크립트 추가 -->
+    <th:block th:replace="~{fragment/script::script}"></th:block>
+</body>
+
+</html>
