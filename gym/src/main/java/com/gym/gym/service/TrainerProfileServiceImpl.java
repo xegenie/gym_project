@@ -1,6 +1,8 @@
 package com.gym.gym.service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,11 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
     @Override
     public List<TrainerProfile> list(String keyword) throws Exception {
         return trainerProfileMapper.list(keyword);
+    }
+
+    @Override
+    public List<TrainerProfile> userCount() throws Exception {
+        return trainerProfileMapper.userCount();
     }
     
 }

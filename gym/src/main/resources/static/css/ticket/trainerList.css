@@ -36,11 +36,6 @@ a:hover {
     font-weight: bold;
 }
 
-.content {
-    text-align: left;
-}
-
-
 .userNum {
     font-size: 15px;
 }
@@ -55,11 +50,16 @@ h1 {
 
 .img {
     width: 100%;
-    height: 200px;
+    min-height: 250px;
+    max-height: 250px;
 }
 
 .img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.userCount {
+    font-size: 14px;
 }

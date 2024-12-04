@@ -19,5 +19,7 @@ public interface TrainerProfileMapper {
     public int update(TrainerProfile trainerPofile) throws Exception;
     
     public int delete(int no) throws Exception;
-    
+
+    public List<TrainerProfile> userCount() throws Exception;
+
 }

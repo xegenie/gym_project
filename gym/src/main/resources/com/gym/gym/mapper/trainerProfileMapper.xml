@@ -15,10 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 조회 -->
-    <select id="select" resultType="trainerProfile" >
-        SELECT *
-        FROM trainer_profile
-        WHERE no = #{no}
+    <select id="select" resultType="trainerProfile">
+        SELECT tp.*, f.no AS fileNo
+        FROM trainer_profile tp
+        JOIN files f ON tp.no = f.profile_no
+        WHERE tp.trainer_no = #{trainerNo}
     </select>
 
     <!-- 등록 -->
@@ -42,6 +43,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         DELETE FROM trainer_profile
         WHERE no = #{no}
     </delete>
-		
+
+    <!-- 트레이너가 관리하는 회원 수 -->
+    <select id="userCount" resultType="trainerProfile">
+        SELECT trainer_no, COUNT(*) AS count
+        FROM buy_list
+        GROUP BY trainer_no
+    </select>
+
+
+
+
 
 </mapper>
