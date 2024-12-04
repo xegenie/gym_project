@@ -165,7 +165,7 @@ ALTER TABLE `buy_list`
 ADD CONSTRAINT `FK_users_TO_buy_list_2` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `buy_list`
-ADD CONSTRAINT `FK_ticket_TO_buy_list_1` FOREIGN KEY (`p_no`) REFERENCES `ticket` (`no`);
+ADD CONSTRAINT `FK_ticket_TO_buy_list_1` FOREIGN KEY (`t_no`) REFERENCES `ticket` (`no`);
 
 ALTER TABLE `trainer_profile`
 ADD CONSTRAINT `FK_users_TO_trainer_profile_1` FOREIGN KEY (`trainer_no`) REFERENCES `users` (`no`);
