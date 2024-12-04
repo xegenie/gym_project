@@ -2,12 +2,13 @@
 <!-- th:fragment="프래그먼트 명" -->
 <th:block th:fragment="header">
     <header>
-        
 
-                 <!-- 사용자 & 관리자 권한 -->
-                 <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')"> 
-                 <ul>  
-                 <li><h5><span  th:text="${#authentication.principal.username}"></span>
+
+        <!-- 사용자 & 관리자 권한 -->
+        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
+            <ul>
+                <li>
+                    <h5><span th:text="${#authentication.principal.username}"></span>
                   님 환영합니다</h5></li>
                     <li><a href="/user/myPage/info" >마이페이지</a></li>
                     <form action="/logout" method="post">
@@ -36,11 +37,21 @@
                 
             <!-- 비 로그인 시 -->
             <th:block sec:authorize="isAnonymous()">
-                    <ul>
-                        <li><a href="/login">로그인</a></li>
-                        <li><a href="/join">회원가입</a></li>
-                    </ul>
-              
+                <body> <header class="header"> <div class="menu-btn" id="menu-btn"> <div></div> <div></div> <div></div> </div> <div class="logo"> <img src="img/logo.png" alt="FITNEXUS Logo"> </div> <nav class="nav-links"> <a href="#" style="color: white;">회원가입</a> <a href="#" style="color: white;">로그인</a> <a href="#" style="color: white;">마이페이지</a> </nav> </header> <div class="menu" id="menu"> <p>USER 님 환영합니다~</p> <ul> <li><a href="#">출석 랭킹</a></li> <li><a href="#">이용권 구매</a></li> <li><a href="#">PT 예약</a></li> <li><a href="#">운동계획표</a></li> <li><a href="#">문의게시판</a></li> </ul> </div> <script src="scripts.js"></script> </body>
+                    <script>
+                      const menuBtn = document.getElementById('menu-btn');
+const menu = document.getElementById('menu');
+
+menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('open');
+    menu.classList.toggle('open');
+});
+
+
+
+
+
+                    </script>
               </th:block>
 
     </header>
