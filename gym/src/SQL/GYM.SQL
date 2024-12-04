@@ -47,11 +47,12 @@ DROP TABLE IF EXISTS `buy_list`;
 
 CREATE TABLE `buy_list` (
     `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `trainer_no` INT NOT NULL,
+    `t_no` INT NOT NULL,
     `user_no` INT NOT NULL,
+    `trainer_no` INT NOT NULL,
+    `pt_count` INT NULL,
     `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_date` TIMESTAMP NOT NULL,
-    `t_no` INT NOT NULL,
     `canceled_at`	TIMESTAMP	NULL,
 	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
 );
