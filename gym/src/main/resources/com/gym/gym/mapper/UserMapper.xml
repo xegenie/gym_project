@@ -51,6 +51,12 @@
         WHERE user_no = #{no}
     </select>
 
+    <select id="selectAuth" resultType="UserAuth">
+        SELECT *
+        FROM user_auth
+        WHERE user_no = #{no}
+    </select>
+
     <select id="list" resultMap="UserMap">
         SELECT u.*, a.auth as userAuth
         FROM users u join user_auth a ON u.no = a.user_no
@@ -81,7 +87,7 @@
 
     <update id="updateAuth">
         UPDATE user_auth
-        SET (#{auth})
+        SET auth = #{auth}
         WHERE user_no = #{userNo}
     </update>
 
@@ -95,6 +101,32 @@
         WHERE user_no = #{userNo}
     </delete>
 
+    <select id="findUserByDetails" resultType="Users">
+        SELECT *
+        FROM users
+        WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
+        AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}))
+    </select>
 
+    <select id="findUserByPassword" resultType="Users">
+        SELECT *
+        FROM users
+        WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
+        AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}) AND TRIM(id) = TRIM(#{id}))
+    </select>
+
+
+     <insert id="codeInsert">
+    INSERT INTO users (code)
+    SET (code = #{code})
+    </insert>
+
+    
+
+    <update id="passwordUpdate">
+    UPDATE users
+    SET password = #{password}
+    WHERE code = #{code}
+    </update>
 
 </mapper>

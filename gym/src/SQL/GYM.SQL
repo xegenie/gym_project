@@ -9,6 +9,8 @@ CREATE TABLE `users` (
     `gender` VARCHAR(20) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `birth` VARCHAR(50) NOT NULL,
+    `trainer_name` VARCHAR(100) NULL,
+    `code` VARCHAR(20) NULL,
     `enabled` INT NOT NULL DEFAULT '1',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -46,10 +48,12 @@ DROP TABLE IF EXISTS `buy_list`;
 
 CREATE TABLE `buy_list` (
     `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `trainer_no` INT NOT NULL,
-    `user_no` INT NOT NULL,
-    `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `t_no` INT NOT NULL,
+    `user_no` INT NOT NULL,
+    `trainer_no` INT NOT NULL,
+    `pt_count` INT NULL,
+    `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `end_date` TIMESTAMP NOT NULL,
     `canceled_at`	TIMESTAMP	NULL,
 	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
 );

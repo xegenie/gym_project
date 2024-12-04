@@ -39,7 +39,9 @@
                         </span>
                     </td>
                     <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td><a th:href="|list?no=${user.no}|">수정</a></td>
+                    <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}">
+                        <td><a th:href="|update?no=${user.no}|">수정</a></td>
+                    </th:block>
                 </tr>
             </th:block>
         </tbody>

@@ -1,6 +1,7 @@
 package com.gym.gym.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
@@ -83,14 +85,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int delete(Users user) throws Exception {
-        int result = userMapper.delete(user);
+    public int delete(@RequestParam("no") Long no) throws Exception {
+        int result = userMapper.delete(no);
         return result;
     }
 
     @Override
-    public int delteAuth(UserAuth userAuth) throws Exception {
-        int result = userMapper.delteAuth(userAuth);
+    public int deleteAuth(@RequestParam("no") Long no) throws Exception {
+        int result = userMapper.deleteAuth(no);
         return result;
     }
     
@@ -134,6 +136,46 @@ public class UserServiceImpl implements UserService {
         Users user = userMapper.selectId(id);
         return user;
     }
+
+    @Override
+    public UserAuth selectAuth(Long no) throws Exception {
+        UserAuth userAuth = userMapper.selectAuth(no);
+        return userAuth;
+    }
+
+    @Override
+    public Users findUserByDetails(@RequestParam("name") String name,
+    @RequestParam("phone") String phone, @RequestParam("question") String question,
+    @RequestParam("answer") String answer) throws Exception {
+        Users user = userMapper.findUserByDetails(name, phone, question, answer);
+        return user;
+    }
+
+    @Override
+    public Users findUserByPassword(@RequestParam("name") String name,@RequestParam("phone") String phone,
+    @RequestParam("question") String question,@RequestParam("answer") String answer,@RequestParam("id") String id)
+            throws Exception {
+                Users user = userMapper.findUserByPassword(name, phone, question, answer, id);
+                return user;
+    }
+
+    @Override
+    public int codeInsert(Users user) throws Exception {
+  
+        int result = userMapper.codeInsert(user);
+        return result;
+    }
+
+    @Override
+    public int passwordUpdate(Users user) throws Exception {
+        int result = userMapper.passwordUpdate(user);
+        return result;
+
+    }
+
+
+    
+    
 
 
 }
