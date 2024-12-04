@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="/js/planScript"></script>
+  <script src="/js/planScript.js"></script>
 </head>
 
-<body>
+<body style="overflow-x: hidden">
   <th:block th:replace="~{fragment/header::header}"></th:block>
   <div>
     <div class="row d-flex flex-nowrap px-3">
@@ -76,7 +76,56 @@
         <div class="popup-title-input">
           <input type="text" name="plan-title" placeholder="일정 제목 추가">
         </div>
+        <div class="set-time">
+          <p><i class="fa-regular fa-clock"></i></p>
+          <div class="set-time-date">
+            12/4 (수)
+          </div>
+          <div class="set-time-drops">
+            <div class="dropdown">
+              <button id="dropdown-button-1">시작 시간</button>
+              <div class="options" id="options-1">
+                <div value="pm600">오전 6:00</div>
+                <div value="pm600">오전 6:15</div>
+                <div value="pm630">오전 6:30</div>
+                <div value="pm645">오전 6:45</div>
+                <div value="pm700">오전 7:00</div>
+                <div value="pm715">오전 7:15</div>
+                <div value="pm730">오전 7:30</div>
+                <div value="pm745">오전 7:45</div>
+                <div value="pm800">오전 8:00</div>
+                <div value="pm815">오전 8:15</div>
+                <div value="pm830">오전 8:30</div>
+                <div value="pm845">오전 8:45</div>
+              </div>
+            </div>
+            <span>-</span>
+            <div class="dropdown">
+              <button id="dropdown-button-2">종료 시간</button>
+              <div class="options" id="options-2">
+                <div value="pm600">오전 6:00</div>
+                <div value="pm600">오전 6:15</div>
+                <div value="pm630">오전 6:30</div>
+                <div value="pm645">오전 6:45</div>
+                <div value="pm700">오전 7:00</div>
+                <div value="pm715">오전 7:15</div>
+                <div value="pm730">오전 7:30</div>
+                <div value="pm745">오전 7:45</div>
+                <div value="pm800">오전 8:00</div>
+                <div value="pm815">오전 8:15</div>
+                <div value="pm830">오전 8:30</div>
+                <div value="pm845">오전 8:45</div>
+              </div>
+            </div>
 
+          </div>
+        </div>
+
+        <textarea placeholder="내용 입력"></textarea>
+
+        <div class="button-container">
+          <button id="updPlanButton">저장</button>
+        </div>
       </div>
     </div>
 
@@ -91,7 +140,22 @@
         </div>
       </div>
       <div class="popup-content">
-
+        <div class="popup-title">유산소 운동</div>
+        <div class="time-info">
+          <p><i class="fa-regular fa-clock"></i></p>
+          <div class="plan-date">
+            12/4 (수)
+          </div>
+          <div class="plan-time">
+            <p class="plan-start-time">오후 1:00</p>
+            <p>-</p>
+            <p class="plan-end-time">오후 2:00</p>
+          </div>
+        </div>
+        <hr>
+        <div class="plan-detail">
+          - 러닝머신 1시간<br>
+        </div>
       </div>
     </div>
 
@@ -104,89 +168,56 @@
         </div>
       </div>
       <div class="popup-content">
-
+        <div class="popup-title">유산소 운동</div>
+        <div class="time-info">
+          <p><i class="fa-regular fa-clock"></i></p>
+          <div class="plan-date">
+            12/4 (수)
+          </div>
+          <div class="plan-time">
+            <p class="plan-start-time">오후 1:00</p>
+            <p>-</p>
+            <p class="plan-end-time">오후 2:00</p>
+          </div>
+        </div>
+        <div class="trainer-info">
+          <p><i class="fa-solid fa-user"></i></p>
+          <p class="trainer-name">김트너</p>
+        </div>
       </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
+    function setupDropdown(buttonId, optionsId) {
+      const dropdownButton = document.getElementById(buttonId);
+      const options = document.getElementById(optionsId);
+      
+      // 드롭다운 버튼 클릭 시 옵션 표시/숨김
+      dropdownButton.addEventListener("click", () => {
+        options.style.display = options.style.display === "block" ? "none" : "block";
+      });
 
-    let currentDate = new Date();
-
-    function renderCalendar(date) {
-      const year = date.getFullYear();
-      const month = date.getMonth();
-
-      // 업데이트할 요소
-      const monthElement = document.querySelector(".current-month");
-      const yearElement = document.querySelector(".year");
-      const datesElement = document.querySelector(".dates");
-
-      // 월과 연도 설정
-      monthElement.textContent = monthNames[month];
-      yearElement.textContent = year;
-
-      // 해당 월의 날짜 계산
-      const firstDayOfMonth = new Date(year, month, 1).getDay(); // 월 첫 번째 날 요일
-      const lastDateOfMonth = new Date(year, month + 1, 0).getDate(); // 월 마지막 날짜
-      const lastDayOfLastMonth = new Date(year, month, 0).getDate(); // 이전 달 마지막 날짜
-
-      // 캘린더 초기화
-      datesElement.innerHTML = "";
-
-      // 이전 달의 날짜 채우기
-      const startDay = (firstDayOfMonth === 0 ? 7 : firstDayOfMonth) - 1;
-      for (let i = startDay; i > 0; i--) {
-        const btn = document.createElement("button");
-        btn.textContent = lastDayOfLastMonth - i + 1;
-        btn.style.opacity = "0.5"; // 비활성화 효과
-        datesElement.appendChild(btn);
-      }
-
-      // 이번 달 날짜 채우기
-      const today = new Date();
-      for (let i = 1; i <= lastDateOfMonth; i++) {
-        const btn = document.createElement("button");
-        btn.innerHTML = `<time>${i}</time>`;
-
-        // 오늘 날짜 강조
-        if (
-          year === today.getFullYear() &&
-          month === today.getMonth() &&
-          i === today.getDate()
-        ) {
-          btn.classList.add("today");
+      // 옵션 클릭 시 버튼에 값 표시
+      options.addEventListener("click", (event) => {
+        if (event.target.tagName === "DIV") {
+          dropdownButton.textContent = event.target.textContent;
+          options.style.display = "none"; // 옵션 숨기기
         }
-        datesElement.appendChild(btn);
-      }
+      });
 
-      // 다음 달 날짜 채우기 (캘린더 채우기 용)
-      const remainingCells = 42 - datesElement.children.length; // 6행 * 7열
-      for (let i = 1; i <= remainingCells; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.style.opacity = "0.5"; // 비활성화 효과
-        datesElement.appendChild(btn);
-      }
+      // 외부 클릭 시 옵션 숨기기
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(`#${buttonId}`) && !event.target.closest(`#${optionsId}`)) {
+          options.style.display = "none";
+        }
+      });
     }
 
-    // 이전/다음 버튼 이벤트 추가
-    document.querySelector(".prev").addEventListener("click", () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar(currentDate);
-    });
+    // 드롭다운 설정
+    setupDropdown("dropdown-button-1", "options-1");
+    setupDropdown("dropdown-button-2", "options-2");
 
-    document.querySelector(".next").addEventListener("click", () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar(currentDate);
-    });
-
-    // 초기 렌더링
-    renderCalendar(currentDate);
   </script>
 </body>
 

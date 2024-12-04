@@ -233,3 +233,186 @@
     background-color: #b1e2fa !important;
 } */
 
+
+.pop-up .popup-content{
+  /* flex: 1; */
+  padding: 24px;
+  padding-top: 28px;
+  margin: 0;
+  height: 300px;
+}
+
+.input-schedule .popup-content input{
+  width: 100%;
+  height: 36px;
+  font-size: 20px;
+  border: none;
+  border-bottom: 1px solid #A5A5A5;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.input-schedule .popup-content input:focus{
+  outline: none;
+  border-bottom: 2px solid #16ABFF;
+  transition: 0.1s;
+}
+
+.input-schedule .set-time{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  font-size: 15px;
+  align-items: center;
+}
+
+.input-schedule .set-time>p {
+  margin: 0;
+  align-items: center;
+  font-size: 18px;
+}
+.input-schedule .set-time-date{
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+.set-time-drops{
+  margin: 0;
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .set-time-drops select{
+  appearance: none;
+  border: none;
+  width: 80px;
+  height: 28px;
+  text-align: center;
+  max-height: 80px;
+  overflow-y: auto;
+} */
+/* .set-time-drops .options{
+  max-height: 140px;
+  overflow-y: auto;
+} */
+/* .set-time-drops option{} */
+
+.input-schedule .dropdown{
+  width: 80px;
+  height: 28px;
+}
+.input-schedule .dropdown button{
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+/* 커스텀 옵션 컨테이너 */
+.input-schedule .options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100px;
+  max-height: 140px; /* 보이는 개수 제한 (예: 3개 높이) */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 10;
+}
+
+.input-schedule .options div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.input-schedule .dropdown button:hover,
+.input-schedule .options div:hover {
+  background-color: #ececec;
+}
+
+.input-schedule .popup-content textarea{
+  width: 100%;
+  height: 115px;
+  background-color: #ececec;
+  border: none;
+  resize: none;
+  border-radius: 3px;
+  padding: 2px;
+  overflow-y: auto;
+}
+
+.input-schedule .popup-content textarea:focus,
+.input-schedule .popup-content textarea:hover {  
+  outline: none;
+  background-color: #e0e0e0;
+}
+
+.input-schedule .popup-content .button-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.input-schedule .popup-content .button-container button{
+  border: none;
+  background-color: #16ABFF;
+  color: #fff;
+  padding: 4px 24px;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.input-schedule .popup-content .button-container button:hover{
+  background-color: #08a1fa;
+}
+
+.popup-content .popup-title{
+  font-size: 22px;
+  padding-bottom: 15px;
+}
+.popup-content .time-info{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup-content .time-info>p{
+  margin: 0;
+  align-items: center;
+  font-size: 18px;
+}
+.popup-content .time-info .plan-date{
+  margin: 0 auto;
+  font-weight: bold;
+  text-align: center;
+}
+.popup-content .time-info .plan-time{
+  margin: 0;
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  background-color: #ececec;
+  padding: 5px 12px;
+  margin: 0;
+}
+.popup-content .time-info .plan-time p{
+  margin: 0;
+}
+
+.popup-content .plan-detail {
+  margin: 0;
+  width: 100%;
+  height: calc(100% - 113.5px);
+  background-color: #ececec;
+  border-radius: 3px;
+  padding: 2px;
+  overflow-y: auto;
+}
