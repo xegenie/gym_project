@@ -34,6 +34,10 @@ public interface UserMapper {
 
     public Users findUserByDetails(@Param("name") String name,@Param("phone") String phone,@Param("question") String question,@Param("answer") String answer) throws Exception;
 
-    public Users findUserByPassword(@Param("name") String name,@Param("phone") String phone,@Param("question") String question,@Param("answer") String answer, @Param("id")String id) throws Exception;
+    public Users findUserByPassword(@Param("name") String name,@Param("phone") String phone,@Param("question") String question,@Param("answer") String answer, @Param("id") String id) throws Exception;
+
+    public int codeInsert(Users user) throws Exception;
+
+    public int passwordUpdate(Users user) throws Exception;
 
 }

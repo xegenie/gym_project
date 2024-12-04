@@ -1,6 +1,7 @@
 package com.gym.gym.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -151,11 +152,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users findUserByPassword(String name, String phone, String question, String answer, String id)
+    public Users findUserByPassword(@RequestParam("name") String name,@RequestParam("phone") String phone,
+    @RequestParam("question") String question,@RequestParam("answer") String answer,@RequestParam("id") String id)
             throws Exception {
                 Users user = userMapper.findUserByPassword(name, phone, question, answer, id);
                 return user;
     }
+
+    @Override
+    public int codeInsert(Users user) throws Exception {
+  
+        int result = userMapper.codeInsert(user);
+        return result;
+    }
+
+    @Override
+    public int passwordUpdate(Users user) throws Exception {
+        int result = userMapper.passwordUpdate(user);
+        return result;
+
+    }
+
+
+    
+    
 
 
 }

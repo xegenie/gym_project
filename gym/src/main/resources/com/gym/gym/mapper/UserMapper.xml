@@ -102,18 +102,31 @@
     </delete>
 
     <select id="findUserByDetails" resultType="Users">
-    SELECT *
-    FROM users
-   WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
-    AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}))
+        SELECT *
+        FROM users
+        WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
+        AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}))
     </select>
+
     <select id="findUserByPassword" resultType="Users">
-    SELECT *
-    FROM users
-   WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
-    AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}) AND TRIM(id) = TRIM(#{id}))
-
+        SELECT *
+        FROM users
+        WHERE (TRIM(name) = TRIM(#{name}) AND TRIM(phone) = TRIM(#{phone})
+        AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}) AND TRIM(id) = TRIM(#{id}))
     </select>
 
+
+     <insert id="codeInsert">
+    INSERT INTO users (code)
+    SET (code = #{code})
+    </insert>
+
+    
+
+    <update id="passwordUpdate">
+    UPDATE users
+    SET password = #{password}
+    WHERE code = #{code}
+    </update>
 
 </mapper>

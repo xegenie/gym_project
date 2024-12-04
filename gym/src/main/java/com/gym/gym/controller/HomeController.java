@@ -1,6 +1,7 @@
 package com.gym.gym.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -175,7 +176,7 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
     
 
     @GetMapping("user/findId")
-    public String getMethodName() {
+    public String findId() {
         return "/user/findId";
     }
 
@@ -204,30 +205,73 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
     }
     
 
-    @PostMapping("/user/findId")
+    @GetMapping("/user/findPassword")
+    public String findPassword() {
+        return "/user/findPassword";
+    }
+
+    @PostMapping("/user/findPassword")
     public String findPassword(Model model, @RequestParam("name") String name,
                                       @RequestParam("phone") String phone, @RequestParam("question") String question,
-                                      @RequestParam("answer") String answer) throws Exception {
+                                      @RequestParam("answer") String answer, @RequestParam("id") String id) throws Exception {
         
                                 log.info(name + "이름");
                                 log.info(phone + "전화번호");
                                 log.info(question + "질문");
                                 log.info(answer + "답변");
         // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
-        Users foundUser = userService.findUserByDetails(name, phone, question, answer);
+        Users foundUser = userService.findUserByPassword(name, phone, question, answer, id);
         
-        log.info(foundUser + "아이디찾기");
+        log.info(foundUser + "비밀번호찾기");
         if (foundUser != null && foundUser.getId() != null) {
-            model.addAttribute("user", foundUser);
-            model.addAttribute("no", 1);
-            return "/user/find";
+            String code = UUID.randomUUID().toString().substring(0, 6) ;
+
+            foundUser.setCode(code);
+           model.addAttribute("code", code);
+           model.addAttribute("no", foundUser.getNo());
+            userService.codeInsert(foundUser);
+            return "/user/changePassword";
         } else {
             model.addAttribute("users", null);
             model.addAttribute("message", "사용자를 찾을 수 없습니다.");
             return "/user/find";
         }
+
+        
     }
     
+@GetMapping("/user/changePassword")
+public String changePassword() {
+    return "/user/changePassword";
+}
+
+@PostMapping("/user/changePassword")
+public String changePassword(@RequestParam("code") String code, @RequestParam("password") String password, 
+                            @RequestParam("newPassword") String newPassword, @RequestParam("no") Long no) throws Exception {
+    Users user = userService.select(no);
+      
+    if (user.getPassword() == password ) {
+        user.setPassword(newPassword);
+      int result = userService.passwordUpdate(user);
+        if (result > 0) {
+            user.setCode(null);
+            userService.update(user);
+            return "/login";
+        }
+        else{
+            user.setCode(null);
+            userService.update(user);
+            return "/login";
+
+        }
+
+        
+    }
+    user.setCode(null);
+    userService.update(user);
+    return "/login";
+}
+
 
 
     

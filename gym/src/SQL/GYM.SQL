@@ -10,6 +10,7 @@ CREATE TABLE `users` (
     `email` VARCHAR(100) NOT NULL,
     `birth` VARCHAR(50) NOT NULL,
     `trainer_name` VARCHAR(100) NULL,
+    `code` VARCHAR(20) NULL,
     `enabled` INT NOT NULL DEFAULT '1',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

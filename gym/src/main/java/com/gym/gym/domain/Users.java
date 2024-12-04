@@ -17,6 +17,9 @@ public class Users {
     private String birth;
     private String gender;
     private int enabled;
+    private String trainerName;
+    private String code;
+
     private String question;
     private String answer;
     private Date createdAt;
@@ -25,6 +28,7 @@ public class Users {
     
     private String  userAuth;
     private List<UserAuth> authList;
+
 
 
     
