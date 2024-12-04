@@ -20,7 +20,7 @@
             </div>
 
             <div class="card-items d-flex flex-column align-items-center justify-content-center">
-                <div class="img">
+                <div class="img border-bottom">
                     <img th:src="|/img?no=${trainer.fileNo}|" alt="파일 이미지" class="card-img-top">
                 </div>
                 <div class="info">
@@ -35,10 +35,9 @@
                     <div class="item" th:each="ticket : ${ticketList}" >
                         <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
                             <div class="checkbox">
-                                <input type="checkbox" name="ticket">
+                                <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
                             </div>
                             <div class="ticket-content d-flex flex-column">
-                                <input type="hidden" value="ticket.no" name="ticket">
                                 <span class="ticket-name" th:text="${ticket.name}"></span>
                                 <span class="ticket-info" th:text="${ticket.info}"></span>
                                 <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
@@ -55,5 +54,18 @@
         </div>
     </div>
 
+    <script>
+        // 모든 체크박스를 선택할 때, 하나만 선택되도록 설정
+        document.querySelectorAll('.ticket-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // 다른 체크박스는 모두 해제
+                document.querySelectorAll('.ticket-checkbox').forEach(function(otherCheckbox) {
+                    if (otherCheckbox !== checkbox) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

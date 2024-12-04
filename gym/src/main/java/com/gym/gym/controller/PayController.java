@@ -15,7 +15,6 @@ import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
-import com.gym.gym.domain.TrainerWithCount;
 import com.gym.gym.service.BuyListService;
 import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
@@ -55,31 +54,12 @@ public class PayController {
 
     // 트레이너 목록
     @GetMapping("/ticket/trainerList")
-    public String trainerList(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword)
-            throws Exception {
+    public String trainerList(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword) throws Exception {
+        
         List<TrainerProfile> trainerList = trainerProfileService.list(keyword);
-        List<TrainerProfile> userCount = trainerProfileService.userCount();
 
-        List<TrainerWithCount> trainerWithCounts = new ArrayList<>();
-
-        for (TrainerProfile trainer : trainerList) {
-            // 트레이너의 trainerNo에 맞는 userCount를 찾아서 매핑
-            boolean found = false; // 매칭된 항목이 있는지 확인
-            for (TrainerProfile userCountItem : userCount) {
-                if (trainer.getTrainerNo() == userCountItem.getTrainerNo()) {
-                    trainerWithCounts.add(new TrainerWithCount(trainer, userCountItem.getCount()));
-                    found = true;
-                    break;
-                }
-            }
-
-            // 매칭되지 않으면 count는 0
-            if (!found) {
-                trainerWithCounts.add(new TrainerWithCount(trainer, 0));
-            }
-        }
-
-        model.addAttribute("trainerWithCounts", trainerWithCounts);
+        model.addAttribute("trainerList", trainerList);
+       
         return "/user/ticket/trainerList";
     }
 
