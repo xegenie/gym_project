@@ -11,8 +11,31 @@
 </head>
 <body>
     
+    <div style="height: 100px;"></div>
+
     <div class="container">
-        
+        <div class="card">
+            <div class="hr">
+                <span>프로필 상세</span>
+            </div>
+
+            <div class="card-items d-flex flex-column align-items-center justify-content-center">
+                <div class="img">
+                    <img th:src="|/img?no=${trainer.fileNo}|" alt="파일 이미지" class="card-img-top">
+                </div>
+                <div class="info">
+                    <p th:text="${trainer.detailInfo}"></p>
+                </div>
+            </div>
+
+            <div class="hr"></div>
+            
+            <div class="card-items d-flex flex-column align-items-center justify-content-center">
+                <div class="ticket" style="height: 800px;">
+    
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

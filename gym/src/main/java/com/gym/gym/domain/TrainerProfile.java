@@ -18,4 +18,5 @@ public class TrainerProfile {
     private List<MultipartFile> FileList;
     
     private int FileNo;
+    private int count;
 }
