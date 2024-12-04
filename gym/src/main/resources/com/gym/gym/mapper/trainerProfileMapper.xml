@@ -8,7 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 목록 -->
     <select id="list" resultType="trainerProfile">
-        SELECT tp.*, f.no AS fileNo
+        SELECT tp.*, f.no AS fileNo, 
+        (SELECT COUNT(*) FROM users u WHERE u.trainer_no = tp.trainer_no) AS userCount
         FROM trainer_profile tp
         JOIN files f ON tp.no = f.profile_no
         WHERE tp.name LIKE CONCAT('%', #{keyword}, '%')

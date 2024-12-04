@@ -9,7 +9,7 @@ CREATE TABLE `users` (
     `gender` VARCHAR(20) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `birth` VARCHAR(50) NOT NULL,
-    `trainer_name` VARCHAR(100) NULL,
+    `trainer_no` VARCHAR(100) NULL,
     `code` VARCHAR(20) NULL,
     `enabled` INT NOT NULL DEFAULT '1',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -64,7 +64,8 @@ CREATE TABLE `trainer_profile` (
     `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `trainer_no` INT NOT NULL,
     `name` VARCHAR(100) NOT NULL,
-    `info` VARCHAR(100) NOT NULL
+    `simple_info`	VARCHAR(100)	NOT NULL,
+	`detail_info`	VARCHAR(2000)	NOT NULL
 );
 
 DROP TABLE IF EXISTS `reservation`;
