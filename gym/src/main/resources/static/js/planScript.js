@@ -62,16 +62,19 @@ const monthNames = [
     }
   }
 
-  // 이전/다음 버튼 이벤트 추가
-  document.querySelector(".prev").addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
+  document.addEventListener("DOMContentLoaded", function() {
+    // 이전/다음 버튼 이벤트 추가
+    document.querySelector(".prev").addEventListener("click", () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar(currentDate);
+    });
+  
+    document.querySelector(".next").addEventListener("click", () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar(currentDate);
+    });
+  
+    // 초기 렌더링
     renderCalendar(currentDate);
-  });
 
-  document.querySelector(".next").addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar(currentDate);
   });
-
-  // 초기 렌더링
-  renderCalendar(currentDate);
