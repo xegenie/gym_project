@@ -12,7 +12,7 @@ a { text-decoration: none; }
     box-shadow: 2px 2px 5px rgba(225, 225, 225 ,0.6);
 }
 
-a {
+.card a {
     display: block;
     background-color: #02C16E;
     color: #fff;
@@ -34,10 +34,6 @@ a:hover {
 .simple {
     text-align: center;
     font-weight: bold;
-}
-
-.userNum {
-    font-size: 15px;
 }
 
 h1 { 

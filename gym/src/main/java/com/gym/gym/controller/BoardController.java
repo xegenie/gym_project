@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,13 +38,11 @@ public class BoardController {
    private AnswerService answerService;
 
     // 목록
+
     @GetMapping("/boardList")
-    public String list(Model model
-    // , @RequestParam(name = "keyword", defaultValue = "")String keyword
-            , Option option,
-            // @RequestParam( name = "rows", defaultValue = "10" )
-            // @ModelAttribute(name = "rows") int rows
-            Page page) throws Exception {
+    public String list(Model model,
+    @ModelAttribute Option option, 
+    @ModelAttribute Page page) throws Exception {
         log.info("리스트 왜 안옴");
         List<Board> boardList = boardService.list(option, page);
         model.addAttribute("boardList", boardList);
@@ -51,7 +50,6 @@ public class BoardController {
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
         String pageUrl = UriComponentsBuilder.fromPath("user/board/boardList")
-                // .queryParam("page", page.getPage())
                 .queryParam("keyword", option.getKeyword())
                 .queryParam("code", option.getCode())
                 .queryParam("rows", page.getRows())

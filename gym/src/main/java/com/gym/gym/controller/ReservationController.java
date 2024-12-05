@@ -3,12 +3,14 @@ package com.gym.gym.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Reservation;
@@ -25,10 +27,10 @@ public class ReservationController {
     private ReservationService reservationService;
 
     // 트레이너 리스트  
-    @GetMapping("/user/trainerList")
-    public String trainerList() {
-        return "/user/reservation/trainerList";
-    }
+    // @GetMapping("/user/trainerList")
+    // public String trainerList() {
+    //     return "/user/reservation/trainerList";
+    // }
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
@@ -78,9 +80,16 @@ public class ReservationController {
     
     // 예약 등록 처리
     @PostMapping("/user/reservation/reservation")
-    public String insertPro(Reservation reservation) throws Exception {
+    public String insertPro(Reservation reservation, @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         log.info("예약 되나? : " + reservation);
+
+        Long no = userDetails.getNo();
+        
+        reservation.setUserNo(no);
+         
         int result = reservationService.insert(reservation);
+
+        
         if (result > 0) {
             return "redirect:/user/myPage/ptList";
         }

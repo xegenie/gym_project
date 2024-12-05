@@ -17,7 +17,7 @@ public class Users {
     private String birth;
     private String gender;
     private int enabled;
-    private String trainerName;
+    private int trainerNo;
     private String code;
 
     private String question;

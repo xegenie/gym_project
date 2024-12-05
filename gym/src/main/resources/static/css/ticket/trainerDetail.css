@@ -4,9 +4,10 @@ body {
     background-color: #000000dc;
 }
 
-.container {
+.ticket-container {
     width: 900px;
     height: auto;
+    margin: auto;
 }
 
 a { text-decoration: none; }
@@ -31,7 +32,7 @@ a { text-decoration: none; }
     text-align: center;
 }
 
-img {
+.img img {
     min-width: 350px;
     min-height: 300px;
     max-width: 350px;

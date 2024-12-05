@@ -9,8 +9,9 @@
   <th:block th:replace="~{fragment/link::link}"></th:block>
   <link rel="stylesheet" href="/css/planStyle.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="/js/planScript.js"></script>
 </head>
 
@@ -59,16 +60,19 @@
         </div>
       </div>
       <div class="card flex-grow-1 flex-shrink-1">
-
+        <div class="container flex-grow-1 flex-shrink-1 border-0">
+          <div id="calendar"></div>
+        </div>
       </div>
     </div>
   </div>
+  <th:block th:replace="~{fragment/footer::footer}"></th:block>
 
   <!-- 일정 입력 팝업 -->
   <div class="pop-up input-schedule">
     <div class="popup-type">
       <div class="icons">
-        <a href="#" class="input-schedule-close"><i class="fa-solid fa-x"></i></a>
+        <a class="input-schedule-close"><i class="fa-solid fa-x"></i></a>
       </div>
     </div>
     <div class="popup-content">
@@ -137,7 +141,7 @@
       <div class="icons">
         <a href="#"><i class="fa-solid fa-pen"></i></a>
         <a href="#"><i class="fa-solid fa-trash-can"></i></a>
-        <a href="#"><i class="fa-solid fa-x"></i></a>
+        <a><i class="fa-solid fa-x"></i></a>
       </div>
     </div>
     <div class="popup-content">

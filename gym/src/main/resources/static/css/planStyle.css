@@ -450,3 +450,27 @@
 .exercise-bymyself{
   display: none;
 }
+
+.fc-daygrid-day {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fc-daygrid-day:hover {
+  background-color: #f0f8ff;
+}
+
+#calendar {
+  height: 850px;
+}
+
+a{
+  text-decoration: none;
+  color: #121212;
+}
+
+.focused-day {
+  outline: 2px solid #007bff; 
+  background-color: #cee6ff; /* 연한 파란색 배경 */
+  /* border-radius: 4px;  */
+}

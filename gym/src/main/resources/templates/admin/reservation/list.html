@@ -9,8 +9,8 @@
 </head>
 
 <body>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
     <div class="container">
-
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
 
         <div class="main">
@@ -46,8 +46,8 @@
                         <tbody>
                             <tr th:each="reservation : ${reservationList}">
                                 <td th:text="${reservation.no}"></td>
-                                <td th:text="${reservation.userName}"></td>
-                                <td th:text="${reservation.trainerName}"></td>
+                                <td th:text="${reservation.userName + '(' + reservation.userId + ')'}"></td>
+                                <td th:text="${reservation.trainerNo}"></td>
                                 <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -134,6 +134,8 @@
             })
         })
     </script>
+
+    <!-- <th:block th:replace="~{fragment/adminFooter::adminFooter}"></th:block> -->
 </body>
 
 </html>

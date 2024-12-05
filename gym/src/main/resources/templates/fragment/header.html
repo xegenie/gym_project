@@ -27,8 +27,11 @@
                         로그아웃
                     </a>
                 </form>
-                
+            </th:block>
 
+            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
+                <a href="/admin/user/list" style="color: white;">관리자페이지</a>
+        </th:block>
                     <a href="/user/myPage/info" style="color: white;">마이페이지</a>
             </nav>
 

@@ -57,10 +57,24 @@
         WHERE user_no = #{no}
     </select>
 
-    <select id="list" resultMap="UserMap">
-        SELECT u.*, a.auth as userAuth
-        FROM users u join user_auth a ON u.no = a.user_no
-    </select>
+<select id="list" resultMap="UserMap">
+    SELECT u.*, a.auth as userAuth
+    FROM users u
+    JOIN user_auth a ON u.no = a.user_no
+    <where>
+        <if test="option.keyword != null and option.keyword != ''">
+            AND (
+            u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.name LIKE CONCAT('%', #{option.keyword}, '%'))
+        </if>
+    </where>
+ 
+    <if test="option.orderCode == 0">
+        ORDER BY created_at DESC
+    </if>
+    LIMIT #{page.index}, #{page.rows}
+</select>
+
 
 
 
@@ -73,7 +87,6 @@
         INSERT INTO user_auth( user_no, auth )
         VALUES ( #{userNo}, #{auth} )
     </insert>
-
 
 
     <update id="update">
@@ -113,20 +126,21 @@
         AND TRIM(question) = TRIM(#{question}) AND TRIM(answer) = TRIM(#{answer}) AND TRIM(id) = TRIM(#{id}))
     </select>
 
-
      <update id="codeInsert">
-    UPDATE users
-    SET code = #{code}
+        UPDATE users
+        SET code = #{code}
       WHERE no = #{no}
     </update>
 
-    
-
-
     <update id="passwordUpdate">
-    UPDATE users
-    SET password = #{password}
-    WHERE code = #{code}
+        UPDATE users
+        SET password = #{password}
+        WHERE code = #{code}
     </update>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+    </select>
 
 </mapper>
