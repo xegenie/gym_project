@@ -8,33 +8,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 목록 -->
     <select id="list" resultType="trainerProfile">
-    SELECT 
-        tp.*, 
-        f.no AS fileNo,
-        u.id AS userId,
-        u.name AS userName,
-        (SELECT COUNT(*) FROM users u_sub WHERE u_sub.trainer_no = tp.trainer_no) AS userCount
-    FROM 
-        trainer_profile tp
-    JOIN 
-        files f 
-    ON 
-        tp.no = f.profile_no
-    LEFT JOIN 
-        users u 
-    ON 
-        u.no = tp.trainer_no
-    WHERE 
-        tp.name LIKE CONCAT('%', #{keyword}, '%')
-</select>
+        SELECT 
+            tp.*, 
+            f.no AS fileNo,
+            u.id AS userId,
+            u.name AS userName,
+            (SELECT COUNT(*) FROM users u_sub WHERE u_sub.trainer_no = tp.trainer_no) AS userCount
+        FROM 
+            trainer_profile tp
+        JOIN 
+            files f 
+        ON 
+            tp.no = f.profile_no
+        LEFT JOIN 
+            users u 
+        ON 
+            u.no = tp.trainer_no
+        WHERE 
+            tp.name LIKE CONCAT('%', #{keyword}, '%')
+        <!-- LIMIT #{page.index}, #{page.rows} -->
+    </select>
 
 
-    <!-- 조회 -->
+    <!-- 연결된 트레이너 번호로 조회 -->
     <select id="select" resultType="trainerProfile">
         SELECT tp.*, f.no AS fileNo
         FROM trainer_profile tp
         JOIN files f ON tp.no = f.profile_no
-        WHERE tp.trainer_no = #{trainerNo}
+        WHERE tp.no = #{trainerNo}
     </select>
 
     <!-- 등록 -->
@@ -46,18 +47,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 수정 -->
     <update id="update">
         UPDATE trainer_profile 
-           SET name = #{name}
+           SET trainer_no = #{trainerNo} 
+              ,name = #{name}
               ,simple_info = #{simpleInfo}
               ,detail_info = #{detailInfo}
-              ,updated_at = now()
         WHERE no = #{no}
     </update>
 
     <!-- 삭제 -->
     <delete id="delete">
-        DELETE FROM trainer_profile
-        WHERE no = #{no}
+        DELETE FROM trainer_profile 
+        WHERE no = #{no};
     </delete>
+
 
     <!-- 트레이너가 관리하는 회원 수 -->
     <select id="userCount" resultType="trainerProfile">
@@ -66,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY trainer_no
     </select>
 
+    <!-- 트레이너인 유저리스트 -->
     <select id="trainerUsers">
         SELECT *
         FROM users u

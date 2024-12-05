@@ -90,9 +90,9 @@ public class TrainerProfileController {
     @GetMapping("/insert")
     public String insert(@RequestParam(name = "no", required = false) Long no, Model model) throws Exception {
 
-        List<Users> traineUsers = trainerProfileService.trainerUsers();
+        List<Users> trainerUsers = trainerProfileService.trainerUsers();
 
-        model.addAttribute("trainers", traineUsers);
+        model.addAttribute("trainerUsers", trainerUsers);
 
         return "/admin/trainer/insert";
     }
@@ -129,19 +129,15 @@ public class TrainerProfileController {
      * @throws Exception
      */
     @GetMapping("/update")
-    public String update(Model model, @RequestParam("no") int no, Files file) throws Exception {
-        // 게시글 조회
-        TrainerProfile trainerProfile = trainerProfileService.select(no);
-        model.addAttribute("trainerProfile", trainerProfile);
+    public String update(Model model, @RequestParam("trainerNo") int trainerNo) throws Exception {
+        // 프로필 조회
+        TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
+        model.addAttribute("trainer", trainerProfile);
+        // 트레이너인 유저
+        List<Users> trainerUsers = trainerProfileService.trainerUsers();
+        model.addAttribute("trainerUsers", trainerUsers);
 
-        // 파일 목록 조회
-        file.setProfileNo(trainerProfile.getNo());
-
-        log.info("file : " + file);
-        List<Files> fileList = fileService.listByParent(file);
-        model.addAttribute("fileList", fileList);
-
-        return "/admin/trainer/update";
+        return "admin/trainer/update";
     }
 
     /**
@@ -153,7 +149,9 @@ public class TrainerProfileController {
      */
     @PostMapping("/update")
     public String updatePost(TrainerProfile trainerProfile) throws Exception {
+
         int result = trainerProfileService.update(trainerProfile);
+
         if (result > 0) {
             return "redirect:/admin/trainer/list";
         }
@@ -163,10 +161,14 @@ public class TrainerProfileController {
     // 삭제 처리
     @PostMapping("/delete")
     public String delete(@RequestParam("no") int no) throws Exception {
-        int result = trainerProfileService.delete(no);
-        if (result > 0)
+        Files file = fileService.select(no);
+
+        int result = fileService.deleteByParent(file);
+        int result2 = trainerProfileService.delete(no);
+        if (result > 0 && result2 > 0)
             return "redirect:/admin/trainer/list";
-        return "redirect:/admin/trainer/update?error";
+
+        return "redirect:/admin/trainer/delete?error";
     }
 
 }
