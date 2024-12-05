@@ -39,7 +39,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> selectByPeriod(int userNo, Date startTime, Date endTime) throws Exception {
+    public List<Comment> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception {
         List<Comment> commentList = commentMapper.selectByPeriod(userNo, startTime, endTime);
         return commentList;
     }

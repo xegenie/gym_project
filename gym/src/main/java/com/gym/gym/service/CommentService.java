@@ -14,7 +14,7 @@ public interface CommentService {
 
     public List<Comment> selectByUser(int userNo) throws Exception;
     
-    public List<Comment> selectByPeriod(int userNo, Date startTime, Date endTime) throws Exception;
+    public List<Comment> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception;
 
     public int insert(Comment comment) throws Exception;
 

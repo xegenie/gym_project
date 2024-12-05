@@ -105,6 +105,12 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public List<Plan> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception {
+        List<Plan> planList = planMapper.selectByUserDate(userNo, startTime, endTime);
+        return planList;
+    }
+
+    @Override
     public Plan selectByNo(int no) throws Exception {
         Plan plan = planMapper.selectByNo(no);
         return plan;
@@ -127,6 +133,5 @@ public class PlanServiceImpl implements PlanService {
         int result = planMapper.delete(no);
         return result;
     }
-
     
 }

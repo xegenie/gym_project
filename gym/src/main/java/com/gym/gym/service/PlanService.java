@@ -15,6 +15,8 @@ public interface PlanService {
     public List<Plan> selectByUserMonthDate(int userNo, Date startTime) throws Exception;
     
     public List<Plan> selectByUserDay(int userNo, Date startTime) throws Exception;
+    
+    public List<Plan> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception;
 
     public Plan selectByNo(int no) throws Exception;
 
