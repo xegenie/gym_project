@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
 </head>
+
 <body>
-    <h1>회원정보</h1>
+    <h1>내정보</h1>
     <h3>아이디 :<span th:text="${user.id}"></span></h3>
-    <h3>이름 :<span th:text="${user.name}"></span> </h3> 
- <h3>이메일 :<span th:text="${user.email}"></span></h3>
-   <h3>생일 :<span th:text="${user.birth}"></span></h3>
+    <h3>이름 :<span th:text="${user.name}"></span> </h3>
+    <h3>생일 :<span th:text="${user.birth}"></span></h3>
     <h3>성별 :<span th:text="${user.gender}"></span></h3>
-   <h3> 연락처 : <span th:text="${user.phone}"></span></h3>
-   <h3> 가입일 : <span th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd')}"></span></h3>
+    <h3> 연락처 : <span th:text="${user.phone}"></span></h3>
+    <h3> 가입날짜 : <span th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd')}"></span></h3>
+    <h3>이메일 :<span th:text="${user.email}"></span></h3>
     <a href="infoUpdate">회원정보 수정</a>
 </body>
 </html>
