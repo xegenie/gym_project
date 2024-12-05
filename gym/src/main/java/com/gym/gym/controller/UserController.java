@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,7 +92,11 @@ public class UserController {
     @GetMapping("/admin/user/list")
     public String userlist(Model model
                         ,@ModelAttribute Option option, @ModelAttribute Page page) throws Exception {
-        List<Users> userList = userService.list();
+        List<Users> userList = userService.list(option,page);
+
+        System.out.println("Keyword: " + option.getKeyword());
+    System.out.println("Order Code: " + option.getOrderCode());
+    System.out.println("Code: " + option.getCode());
 
         model.addAttribute("userList", userList);
         model.addAttribute("option", option);
@@ -109,7 +112,7 @@ public class UserController {
 
         model.addAttribute("pageUrl", pageUrl);
 
-        return "user/board/boardList";
+        return "admin/user/list";
                         }
 
     // 관리자 : 회원 정보 수정 이동

@@ -9,7 +9,7 @@ CREATE TABLE `users` (
     `gender` VARCHAR(20) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `birth` VARCHAR(50) NOT NULL,
-    `trainer_no` VARCHAR(100) NULL,
+    `trainer_no` INT NULL,
     `code` VARCHAR(20) NULL,
     `enabled` INT NOT NULL DEFAULT '1',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
