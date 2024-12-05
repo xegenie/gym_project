@@ -57,22 +57,25 @@
         WHERE user_no = #{no}
     </select>
 
-    <select id="list" resultMap="UserMap">
-        SELECT u.*, a.auth as userAuth
-        FROM users u join user_auth a ON u.no = a.user_no
-           <if test="option.code == 0">
-                u.created_at LIKE CONCAT('%', #{option.keyword}, '%')
-            OR u.id LIKE CONCAT('%', #{option.keyword}, '%')
-            OR u.name LIKE CONCAT('%', #{option.keyword}, '%')
-            </if>
-         <if test="option.orderCode == 0">
-            ORDER BY created_at DESC
-            </if>
-            <if test="option.orderCode == 1">
-            ORDER BY title ASC
-            </if>
-              LIMIT #{page.index}, #{page.rows}
-    </select>
+<select id="list" resultMap="UserMap">
+    SELECT u.*, a.auth as userAuth
+    FROM users u
+    JOIN user_auth a ON u.no = a.user_no
+    <where>
+        <if test="option.keyword != null and option.keyword != ''">
+            AND (
+            u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.name LIKE CONCAT('%', #{option.keyword}, '%'))
+        </if>
+    </where>
+ 
+    <if test="option.orderCode == 0">
+        ORDER BY created_at DESC
+    </if>
+    LIMIT #{page.index}, #{page.rows}
+</select>
+
+
 
 
     <insert id="join" useGeneratedKeys="true" keyProperty="no">

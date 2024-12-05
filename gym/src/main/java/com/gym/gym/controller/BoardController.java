@@ -50,7 +50,6 @@ public class BoardController {
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
         String pageUrl = UriComponentsBuilder.fromPath("user/board/boardList")
-                // .queryParam("page", page.getPage())
                 .queryParam("keyword", option.getKeyword())
                 .queryParam("code", option.getCode())
                 .queryParam("rows", page.getRows())
