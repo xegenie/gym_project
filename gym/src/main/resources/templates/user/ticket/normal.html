@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>일반 이용권 구매</title>
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- css -->
+    <link rel="stylesheet" href="/css/ticket/trainerDetail.css">
+    <!-- 프래그먼트 -->
+    <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
+
 <body>
-    
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+
+    <div style="height: 100px;"></div>
+
+    <div class="ticket-container">
+        <div class="card">
+            <div class="hr">
+                <span>일반 이용권 구매</span>
+            </div>
+
+            <form action="/user/pay/paing" method="POST">
+                <div class="ticket d-flex flex-column align-items-center">
+                    <div class="item" th:each="ticket : ${ticketList}">
+                        <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
+                            <div class="checkbox">
+                                <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
+                            </div>
+                            <div class="ticket-content d-flex flex-column">
+                                <span class="ticket-name" th:text="${ticket.name}"></span>
+                                <span class="ticket-info" th:text="${ticket.info}"></span>
+                                <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button">
+                    <button type="submit" class="btn btn-success">결제하기</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    </div>
+
+    <div class="footer" style="padding-top: 200px;">
+        <th:block th:replace="~{fragment/footer::footer}"></th:block>
+        <th:block th:replace="~{fragment/script::script}"></th:block>
+    </div>
 </body>
+
 </html>
