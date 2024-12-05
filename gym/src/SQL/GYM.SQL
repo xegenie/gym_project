@@ -97,8 +97,9 @@ DROP TABLE IF EXISTS `comment`;
 
 CREATE TABLE `comment` (
     `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `plan_no` int NOT NULL,
+    `comment_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `trainer_no` INT NOT NULL,
+    `user_no` INT NOT NULL,
     `c_content` VARCHAR(500) NOT NULL,
     `f_content` VARCHAR(500) NOT NULL
 );
@@ -182,7 +183,7 @@ ALTER TABLE `files`
 ADD CONSTRAINT `FK_trainer_profile_TO_file_1` FOREIGN KEY (`profile_no`) REFERENCES `trainer_profile` (`no`);
 
 ALTER TABLE `comment`
-ADD CONSTRAINT `FK_plan_TO_comment_1` FOREIGN KEY (`plan_no`) REFERENCES `plan` (`no`);
+ADD CONSTRAINT `FK_plan_TO_comment_1` FOREIGN KEY (`user_no`) REFERENCES `users` (`no`);
 
 ALTER TABLE `comment`
 ADD CONSTRAINT `FK_users_TO_comment_1` FOREIGN KEY (`trainer_no`) REFERENCES `users` (`no`);

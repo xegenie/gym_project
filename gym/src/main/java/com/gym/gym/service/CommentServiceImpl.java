@@ -1,5 +1,6 @@
 package com.gym.gym.service;
 
+import java.util.Date;
 // import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class CommentServiceImpl implements CommentService{
     CommentMapper commentMapper;
 
     @Override
-    public Comment selectByPlanNo(int planNo) throws Exception {
-       Comment comment = commentMapper.selectByPlanNo(planNo);
+    public Comment selectByDate(Date commentDate, int userNo) throws Exception {
+       Comment comment = commentMapper.selectByDate(commentDate, userNo);
        return comment;
     }
 
@@ -37,10 +38,11 @@ public class CommentServiceImpl implements CommentService{
         return commentList;
     }
 
-    // @Override
-    // public List<Comment> selectByUserDate(int userNo, Date startTime, Date endTime) throws Exception {
-    //     List<Comment> commentList = commentMapper.selectByUserDate(userNo, startTime, endTime)
-    // }
+    @Override
+    public List<Comment> selectByPeriod(int userNo, Date startTime, Date endTime) throws Exception {
+        List<Comment> commentList = commentMapper.selectByPeriod(userNo, startTime, endTime);
+        return commentList;
+    }
 
     @Override
     public int insert(Comment comment) throws Exception {
@@ -49,15 +51,22 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int update(int planNo) throws Exception {
-        int result = commentMapper.update(planNo);
+    public int update(Comment comment) throws Exception {
+        int result = commentMapper.update(comment);
         return result;
     }
     
     @Override
-    public int delete(int planNo) throws Exception {
-        int result = commentMapper.delete(planNo);
+    public int updateByNo(Comment comment) throws Exception {
+        int result = commentMapper.updateByNo(comment);
+        return result;
+    }
+
+    @Override
+    public int delete(int no) throws Exception {
+        int result = commentMapper.delete(no);
         return result;       
     }
+
     
 }
