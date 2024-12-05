@@ -10,6 +10,7 @@
     <script src="/js/RVscript.js"></script>
 </head>
 <body>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
     <div class="container">
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
 
@@ -22,6 +23,24 @@
                 <div class="calendar-wrap">
                     <div id="calendar"></div>
                 </div>
+                <div id="timeSelectionModal">
+                    <div class="modal-container">
+                      <div class="modal-info">
+                        <h3>예약 시간 선택</h3>
+                        <p id="selectedDate"></p>
+                      </div>
+                      <div id="timeButtons"></div>
+                      <button onclick="closeModal()">Close</button>
+                
+                      <form id="reservationForm" action="/user/reservation/reservation" method="POST">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="hidden" id="rvDateInput" name="rvDate">     <!-- 예약 날짜 -->
+                        <input type="hidden" name="trainerNo" value="2">       
+                        <!-- <input type="hidden" name="userNo" value="1"> -->
+                        <input type="submit" style="display: none;" />
+                      </form>
+                    </div>
+                  </div>
             </div>
         </div>
     </div>
