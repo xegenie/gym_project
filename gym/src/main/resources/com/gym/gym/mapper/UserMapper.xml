@@ -93,8 +93,6 @@
         UPDATE users
         SET phone = #{phone}
         ,email = #{email}
-        ,birth = #{birth}
-        ,updated_at = now()
         WHERE no = #{no}
     </update>
 
