@@ -25,10 +25,10 @@ public class ReservationController {
     private ReservationService reservationService;
 
     // 트레이너 리스트  
-    @GetMapping("/user/trainerList")
-    public String trainerList() {
-        return "/user/reservation/trainerList";
-    }
+    // @GetMapping("/user/trainerList")
+    // public String trainerList() {
+    //     return "/user/reservation/trainerList";
+    // }
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
@@ -78,9 +78,11 @@ public class ReservationController {
     
     // 예약 등록 처리
     @PostMapping("/user/reservation/reservation")
-    public String insertPro(Reservation reservation) throws Exception {
+    public String insertPro(Reservation reservation, Model model) throws Exception {
         log.info("예약 되나? : " + reservation);
         int result = reservationService.insert(reservation);
+
+        
         if (result > 0) {
             return "redirect:/user/myPage/ptList";
         }
