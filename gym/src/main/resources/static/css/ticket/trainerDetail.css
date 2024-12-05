@@ -37,7 +37,6 @@ a { text-decoration: none; }
     min-height: 300px;
     max-width: 350px;
     max-height: 300px;
-    object-fit: cover;
 }
 
 .info {
