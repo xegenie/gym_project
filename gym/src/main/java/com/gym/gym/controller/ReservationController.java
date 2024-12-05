@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -45,7 +46,7 @@ public class ReservationController {
     
     // 관리자 예약 목록 화면
     @GetMapping("/admin/reservation/list")
-    public String adminReservationList(Model model, Option option, Page page) throws Exception {
+    public String adminReservationList(Model model, @ModelAttribute Option option, @ModelAttribute Page page) throws Exception {
 
 
         List<Reservation> reservationList = reservationService.list(option, page);

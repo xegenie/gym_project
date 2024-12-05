@@ -20,12 +20,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       left join users tu on r.trainer_no = tu.no
       where
           <if test="option.code == 0">
-                (r.user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                r.user_no LIKE CONCAT('%', #{option.keyword}, '%')
+                OR u.id LIKE CONCAT('%', #{option.keyword}, '%')
                 OR r.trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
-                OR r.rv_date LIKE CONCAT('%', #{option.keyword}, '%')
-                OR tu.name LIKE CONCAT('%', #{option.keyword}, '%'))  
+                <!-- OR r.rv_date LIKE CONCAT('%', #{option.keyword}, '%') -->
+                OR tu.name LIKE CONCAT('%', #{option.keyword}, '%')
           </if>
-          <if test="option.code == 1">
+          <!-- <if test="option.code == 1">
                 r.user_no LIKE CONCAT('%', #{option.keyword}, '%')
           </if>
           <if test="option.code == 2">
@@ -39,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           <if test="option.code == 4">
                 r.trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
                 OR tu.name LIKE CONCAT('%', #{option.keyword}, '%') 
-          </if>
+          </if> -->
       <if test="option.orderCode == 0">
         ORDER BY r.created_at DESC
       </if>
@@ -69,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="count" resultType="int">
       select count(*)
       from reservation
-      WHERE
+      <!-- WHERE
         <if test="option.code == 0">
                     user_no LIKE CONCAT('%', #{option.keyword}, '%')
                 OR trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
@@ -87,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            </if>
             <if test="option.code == 4">
                 trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
-           </if>
+           </if> -->
     </select>
 
     <!-- 트레이너 예약 조회 -->

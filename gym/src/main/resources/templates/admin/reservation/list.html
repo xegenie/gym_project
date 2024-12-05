@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
+
     <div class="container">
 
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
@@ -46,7 +48,7 @@
                         <tbody>
                             <tr th:each="reservation : ${reservationList}">
                                 <td th:text="${reservation.no}"></td>
-                                <td th:text="${reservation.userName}"></td>
+                                <td th:text="${reservation.userName} + '(' + ${reservation.userId} + ')'"></td>
                                 <td th:text="${reservation.trainerName}"></td>
                                 <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -119,20 +121,13 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            const $rows = document.getElementById('rows')
-            const $form = document.getElementById('form')
-            const $orderCode = document.getElementById('order-code')
-            
-            // 필터 - 개수 변경 시
-            $rows.addEventListener('change', function() {
-                $form.submit()
-            })
-            
-            // 필터 - 순서 변경 시
-            $orderCode.addEventListener('change', function() {
-                $form.submit()
-            })
-        })
+        const $orderCode = document.getElementById('order-code');
+        const $form = document.getElementById('form');
+        
+        $orderCode.addEventListener('change', function() {
+            $form.submit(); // 폼 자동 제출
+        });
+    });
     </script>
 </body>
 
