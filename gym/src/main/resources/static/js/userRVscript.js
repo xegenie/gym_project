@@ -17,7 +17,7 @@ function showTimeSelectionModal(selectedDate) {
   var timeButtonsContainer = document.getElementById("timeButtons");
 
   // 모달에 선택된 날짜 표시
-  dateDisplay.textContent = `날짜 : ${selectedDate}`;
+  dateDisplay.textContent = `${selectedDate}`;
 
   timeButtonsContainer.innerHTML = "";
   for (let hour = 10; hour <= 21; hour++) {
