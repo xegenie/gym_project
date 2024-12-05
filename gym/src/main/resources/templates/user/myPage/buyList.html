@@ -1,11 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>이용권 내역</title>
+    <link rel="stylesheet" href="/css/myPage/buyList.css">
+    <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
-<body>
+ <!-- 헤더 -->
+ <th:block th:replace="~{fragment/header::header}"></th:block>
+<body style="color: rgb(3, 3, 3); background-color: #252222;">
+    <div class="wrapper" style="margin-top: 80px;">
+        <main>
+            <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
+            <div class="button-group">
+                <button onclick="window.location.href='/user/myPage/info'">내 정보</button>
+                <button   class="active" onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
+                <button onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
+                <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
+            </div>
+
+            <!-- 본문 -->
+            <div class="wrapper" style="margin-top: 80px;">
+                <main>
+                    <div class="main-text" style="color: #ffffff;">이용권 내역</div>
+                    <!-- 이용권 내역을 표시하는 부분 -->
+                    <table class="info-table">
+                        <tr>
+                            <th style="color: black;">이용권 번호</th>
+                            <td>123456</td>
+                        </tr>
+                        <tr>
+                            <th style="color: black;">구매일</th>
+                            <td>2024-11-10</td>
+                        </tr>
+                        <tr>
+                            <th style="color: black;">유효기간</th>
+                            <td>2025-11-10</td>
+                        </tr>
+                    </table>
+                </main>
+            </div>
+        </main>
+    </div>
+    <!-- 푸터 -->
+    <footer>
+        <th:block th:replace="~{fragment/footer::footer}"></th:block>
+    </footer>
+    <!-- 스크립트 -->
+    <th:block th:replace="~{fragment/script::script}"></th:block>
+    
+   <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const buttons = document.querySelectorAll('.button-group button');
+        const currentPage = window.location.pathname; // 현재 페이지 경로
+
+        // 버튼 클릭 시 active 클래스 설정
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active')); // 모든 버튼에서 active 클래스 제거
+                button.classList.add('active'); // 클릭된 버튼에 active 클래스 추가
+            });
+            
+            // 페이지 로드 시 버튼에 active 클래스 추가
+            if (currentPage.includes(button.innerText.trim())) {
+                button.classList.add('active');
+            } 
+        });
+    });
+</script>
+
     
 </body>
 </html>
