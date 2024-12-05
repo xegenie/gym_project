@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gym.gym.domain.TrainerProfile;
+import com.gym.gym.domain.Users;
 
 public interface TrainerProfileService {
 
@@ -18,6 +19,5 @@ public interface TrainerProfileService {
     
     public int delete(int no) throws Exception;
     
-    public List<TrainerProfile> userCount() throws Exception;
-
+    public List<Users> trainerUsers() throws Exception;
 }

@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tp.*, 
         f.no AS fileNo,
         u.id AS userId,
+        u.name AS userName,
         (SELECT COUNT(*) FROM users u_sub WHERE u_sub.trainer_no = tp.trainer_no) AS userCount
     FROM 
         trainer_profile tp
@@ -65,8 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY trainer_no
     </select>
 
-
-
-
+    <select id="trainerUsers">
+        SELECT *
+        FROM users u
+        JOIN user_auth a ON u.no = a.user_no
+        WHERE a.auth = 'ROLE_TRAINER'
+    </select>
 
 </mapper>

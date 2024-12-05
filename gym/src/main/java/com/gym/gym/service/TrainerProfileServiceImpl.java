@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gym.gym.domain.Files;
 import com.gym.gym.domain.TrainerProfile;
+import com.gym.gym.domain.Users;
 import com.gym.gym.mapper.TrainerProfileMapper;
 
 @Service
@@ -66,8 +67,10 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
     }
 
     @Override
-    public List<TrainerProfile> userCount() throws Exception {
-        return trainerProfileMapper.userCount();
+    public List<Users> trainerUsers() throws Exception {
+        List<Users> trainUsers = trainerProfileMapper.trainerUsers();
+        return trainUsers;
     }
+
     
 }
