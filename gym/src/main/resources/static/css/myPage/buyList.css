@@ -176,7 +176,7 @@ body {
     border-right: none;  /* 세로선 제거 */
 }
 
-/* 첫 번째 행의 가로선 완전히 제거 */
+/* 첫 번째 행의 가로선 제거 */
 .info-table2 tr:first-child td, .info-table2 tr:first-child th {
     border-top: none !important;  /* 첫 번째 행의 가로선 제거 */
 }
@@ -194,7 +194,6 @@ body {
     padding: 15px 20px;
     text-align: left;
 }
-
 
 
 
