@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gym.gym.domain.Plan;
 
@@ -14,7 +15,7 @@ public interface PlanMapper {
 
     public List<Plan> selectByUser(int userNo) throws Exception;
 
-    public List<Plan> selectByUserDate(int userNo, Date startTime, Date endTime) throws Exception;
+    public List<Plan> selectByUserDate(@Param("userNo")int userNo, @Param("startTime")Date startTime, @Param("endTime")Date endTime) throws Exception;
 
     public Plan selectByNo(int no) throws Exception;
 
