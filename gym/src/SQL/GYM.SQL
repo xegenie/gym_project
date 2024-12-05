@@ -206,15 +206,3 @@ ADD CONSTRAINT `FK_users_TO_qr_code_1` FOREIGN KEY (`user_no`) REFERENCES `users
 
 
 
-
--- 첫 번째 샘플 데이터 삽입
-INSERT INTO board (user_no, title, content)
-VALUES (1, '첫 번째 게시글', '여기 첫 번째 게시글 내용입니다.');
-
--- 두 번째 샘플 데이터 삽입
-INSERT INTO board (user_no, title, content)
-VALUES (2, '두 번째 게시글', '여기 두 번째 게시글 내용입니다.');
-
--- 세 번째 샘플 데이터 삽입
-INSERT INTO board (user_no, title, content)
-VALUES (3, '세 번째 게시글', '여기 세 번째 게시글 내용입니다.');

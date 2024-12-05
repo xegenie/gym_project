@@ -82,7 +82,7 @@ public class ReservationController {
     @PostMapping("/user/reservation/reservation")
     public String insertPro(Reservation reservation, @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         log.info("예약 되나? : " + reservation);
-
+        
         Long no = userDetails.getNo();
         
         reservation.setUserNo(no);
