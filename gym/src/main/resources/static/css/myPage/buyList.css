@@ -2,7 +2,7 @@
 body {
     background-color: #e9ecef;
     font-family: 'Arial', sans-serif;
-    color: #333;
+    color: #c42525;
     margin: 0;
     padding: 0;
 }
@@ -13,6 +13,7 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    height: 723px;
 }
 .button-group {
     display: flex;
@@ -44,25 +45,22 @@ body {
     border-collapse: collapse;
     margin-bottom: 30px;
     text-align: center;
-    color: #0a0a0a;
+    color: #ffffff;
 }
 .info-table th, .info-table td {
-    padding: 20px;
-    text-align: center;
+    padding: 5px;
     border: 1px solid #dee2e6;
 }
 .info-table th {
-    background-color: #9FD0D5;
     color: #fff;
     width: 30%;
+    text-align: center;
 }
 .info-table td {
-    background-color: #f8f9fa;
     width: 70%;
+    text-align: left;
 }
-.info-table tr:nth-child(even) td {
-    background-color: #e9ecef;
-}
+
 .edit-button {
     padding: 0 30px;
     color: #fff;
@@ -87,4 +85,121 @@ body {
     font-size: xx-large;
     padding-bottom: 10px;
 }
+
+
+
+/* 2번째 테이블 */
+
+
+/* 테이블 셀 스타일 */
+.info-table2 td {
+    padding: 15px 20px;  /* 위아래 간격 15px, 좌우 20px */
+    text-align: left;  /* 좌측 정렬 */
+}
+
+/* 헤더 셀 스타일 */
+.info-table2 th {
+    padding: 15px 20px;  /* 헤더 셀에도 동일하게 padding 추가 */
+    text-align: left;
+    background-color: #333;  /* 헤더 배경색 */
+    color: white;  /* 글자 색 */
+}
+
+/* 테이블의 간격을 넓게 하기 위한 스타일 */
+.info-table2 {
+    width: 100%;  /* 테이블 너비 100% */
+    border-collapse: collapse;  /* 테이블 간 경계 합침 */
+}
+
+
+
+/*   선 삭제    */
+
+/* 테이블 전체 스타일 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;  /* 테이블 간 경계 합침 */
+}
+
+/* 테이블 전체 스타일 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;  /* 테이블 간 경계 합침 */
+}
+
+/* 가로선만 유지하고 세로선은 없애기 */
+.info-table td, .info-table th {
+    border-top: 1px solid #dee2e6; /* 가로선만 유지 */
+    border-bottom: 1px solid #dee2e6; /* 가로선만 유지 */
+    border-left: none;  /* 세로선 제거 */
+    border-right: none;  /* 세로선 제거 */
+}
+
+/* 첫 번째 열의 가로선만 지우기 */
+.info-table td:first-child, .info-table th:first-child {
+    border-top: none;  /* 첫 번째 열의 가로선 제거 */
+}
+
+/* 두 번째 열의 가로선만 지우기 */
+.info-table td:nth-child(2), .info-table th:nth-child(2) {
+    border-top: none;  /* 두 번째 열의 가로선 제거 */
+}
+
+/* 헤더 셀 스타일 */
+.info-table th {
+    background-color: #333;  /* 헤더 배경색 */
+    color: white;  /* 글자 색 */
+    text-align: left;
+    padding: 15px 20px;
+}
+
+/* 데이터 셀 스타일 */
+.info-table td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+/* 두 번째 테이블 (세로형) 스타일 */
+.info-table2 {
+    width: 100%;
+    border-collapse: collapse;  /* 테이블 간 경계 합침 */
+    color: white;  /* 텍스트 색상 */
+}
+
+/* 두 번째 테이블 셀 스타일 */
+.info-table2 td, .info-table2 th {
+    padding: 15px 20px;  /* 위아래 간격 15px, 좌우 20px */
+    text-align: left;  /* 좌측 정렬 */
+    border-top: 1px solid #dee2e6; /* 가로선만 유지 */
+    border-bottom: 1px solid #dee2e6; /* 가로선만 유지 */
+    border-left: none;  /* 세로선 제거 */
+    border-right: none;  /* 세로선 제거 */
+}
+
+/* 첫 번째 행의 가로선 완전히 제거 */
+.info-table2 tr:first-child td, .info-table2 tr:first-child th {
+    border-top: none !important;  /* 첫 번째 행의 가로선 제거 */
+}
+
+/* 두 번째 테이블 헤더 셀 스타일 */
+.info-table2 th {
+    background-color: #333;  /* 헤더 배경색 */
+    color: white;  /* 글자 색 */
+    text-align: left;
+    padding: 15px 20px;
+}
+
+/* 데이터 셀 스타일 */
+.info-table2 td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+
+
+
+
+
+
+
 
