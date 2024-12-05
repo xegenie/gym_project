@@ -27,5 +27,5 @@ public interface ReservationMapper {
 
     public int count(@Param("option") Option option) throws Exception;
 
-    public List<Reservation> selectByStartEnd (int userNo, Date startTime, Date endTime) throws Exception;
+    public List<Reservation> selectByStartEnd (@Param("userNo")int userNo, @Param("startTime")Date startTime, @Param("endTime")Date endTime) throws Exception;
 }

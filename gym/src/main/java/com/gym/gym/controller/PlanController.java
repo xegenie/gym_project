@@ -52,6 +52,8 @@ public class PlanController {
     // @PreAuthorize("hasRole('USER')")
     public String list(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         Date currentDate = new Date();
+
+        Date commentDate = DayFirst(currentDate);
         List<Date> dates = MonthFirstLast(currentDate);
 
         Date startDate = dates.get(0);
@@ -61,11 +63,13 @@ public class PlanController {
         int iNo = no.intValue();
         
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
-        List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        // List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
         model.addAttribute("planList", planList);
-        model.addAttribute("commentList", commentList);
+        // model.addAttribute("commentList", commentList);
+        model.addAttribute("comment", comment);
         model.addAttribute("reservationList", reservationList);
 
         return "/user/plan/plan";
@@ -80,6 +84,8 @@ public class PlanController {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, day); // 월은 0부터 시작하므로 -1 필요
         Date date = calendar.getTime();
+
+        Date commentDate = DayFirst(date);
         List<Date> dates = MonthFirstLast(date);
 
         Date startDate = dates.get(0);
@@ -89,11 +95,13 @@ public class PlanController {
         int iNo = no.intValue();
         
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
-        List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        // List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
         model.addAttribute("planList", planList);
-        model.addAttribute("commentList", commentList);
+        // model.addAttribute("commentList", commentList);
+        model.addAttribute("comment", comment);
         model.addAttribute("reservationList", reservationList);
 
         return "/user/plan/plan";
@@ -132,6 +140,22 @@ public class PlanController {
         dates.add(endDate);
 
         return dates;
+    }
+
+    public Date DayFirst(Date currentDate){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate); // 현재 날짜 설정
+        
+        // 시간을 0시 0분으로 설정
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // 0시
+        calendar.set(Calendar.MINUTE, 0);       // 0분
+        calendar.set(Calendar.SECOND, 0);       // 0초
+        calendar.set(Calendar.MILLISECOND, 0);  // 0밀리초
+        
+        // 0시 0분으로 설정된 Date 객체 가져오기
+        Date resetDate = calendar.getTime();
+
+        return resetDate;
     }
 
 }

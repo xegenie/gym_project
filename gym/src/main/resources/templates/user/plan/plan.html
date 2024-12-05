@@ -15,7 +15,7 @@
   <script src="/js/planScript.js"></script>
 </head>
 
-<body style="overflow-x: hidden">
+<body style="overflow-x: hidden; padding-top: 50px;">
   <th:block th:replace="~{fragment/header::header}"></th:block>
   <div>
     <div class="row d-flex flex-nowrap px-3">
@@ -51,10 +51,8 @@
               <p>trainer’s comment</p>
             </div>
             <div class="comment-content">
-              <p class="comment-date">12/03(화)</p>
-              <p>비상계엄하의 군사재판은 군인·군무원의 범죄나 군사에 관한 간첩죄의 경우와 초병·초소·유독음식물공급·포로에 관한 죄중 법률이 정한 경우에 한하여 단심으로 할 수 있다. 다만, 사형을
-                선고한 경우에는 그러하지 아니하다. 언론·출판은 타인의 명예나 권리 또는 공중도덕이나 사회윤리를 침해하여서는 아니된다. 언론·출판이 타인의 명예나 권리를 침해한 때에는 피해자는 이에 대한
-                피해의 배상을 청구할 수 있다.</p>
+              <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span></p>
+              <p class="comment-c"><span th:text="${comment.cContent}"></span><br><span th:text="${comment.fContent}"></span></p>
             </div>
           </div>
         </div>
