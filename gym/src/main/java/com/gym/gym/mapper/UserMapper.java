@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gym.gym.domain.Option;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
 
@@ -13,6 +14,12 @@ import com.gym.gym.domain.Users;
 public interface UserMapper {
     
     public List<Users> list() throws Exception;
+
+    public List<Users> list(@Param("option") Option option
+                            ,@Param("page") Page page ) throws Exception;
+
+     // 데이터 개수
+     public int count(@Param("option")Option option) throws Exception;
 
     public Users selectId(String id) throws Exception;
 

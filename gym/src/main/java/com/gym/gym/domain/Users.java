@@ -3,9 +3,11 @@ package com.gym.gym.domain;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Users {
     
     private Long no;
@@ -17,7 +19,7 @@ public class Users {
     private String birth;
     private String gender;
     private int enabled;
-    private String trainerName;
+    private String trainerNo;
     private String code;
 
     private String question;

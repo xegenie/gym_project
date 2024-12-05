@@ -38,8 +38,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         // 아이디 저장
         String rememberId = request.getParameter("remember-id");    // 아이디 저장 여부
         String username = request.getParameter("id");               // 아이디
-        log.info("rememberId : " + rememberId);
-        log.info("username : " + username );
 
         // 아이디 저장 체크 여부 확인
         if( rememberId != null && rememberId.equals("on")) {
@@ -61,9 +59,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
 
         
-         log.info("아이디 : " + user.getId());
-         log.info("비밀번호 : " + user.getPassword());
-         log.info("권한 : " + user.getAuthList());
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

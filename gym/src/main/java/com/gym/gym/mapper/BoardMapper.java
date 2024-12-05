@@ -13,7 +13,7 @@ import com.gym.gym.domain.Page;
 public interface BoardMapper {
 
 
- public List<Board> list(@Param("option") Option option
+     public List<Board> list(@Param("option") Option option
                             ,@Param("page") Page page ) throws Exception;
     // 조회
     public Board select(@Param("no") Long no)throws Exception;
