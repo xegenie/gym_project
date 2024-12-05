@@ -19,5 +19,6 @@ public class Reservation {
     private int enabled;
     
     private String userName;
+    private String userId;
     private String trainerName;
 }
