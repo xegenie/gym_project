@@ -2,6 +2,7 @@
 <!-- th:fragment="프래그먼트 명" -->
 <th:block th:fragment="header">
 
+    <link rel="stylesheet" href="/css/style.css">
     <body>
         <header class="header">
             <div class="menu-btn" id="menu-btn">
@@ -13,8 +14,10 @@
                 <a href="/"> <img src="/img/logo.png" alt="FITNEXUS Logo"> </a> </div>
             <nav class="nav-links">
                 <th:block sec:authorize="isAnonymous()">
-                    <a href="/join" style="color: white;">회원가입</a>
-                    <a href="/login" style="color: white;">로그인</a>
+                    <!-- <a href="/join" style="color: white;">회원가입</a>
+                    <a href="/login" style="color: white;">로그인</a> -->
+                    <a href="/join" >회원가입</a>
+                    <a href="/login">로그인</a>
                 </th:block>
 
                 <!-- 사용자 & 관리자 권한 -->
@@ -23,16 +26,20 @@
                 <form action="/logout" id="logoutForm" method="post">
                     <!-- CSRF TOKEN -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                    <a href="#" onclick="document.getElementById('logoutForm').submit();" style="color: white;">
+                    <!-- <a href="#" onclick="document.getElementById('logoutForm').submit();" style="color: white;"> -->
+                    <a href="#" onclick="document.getElementById('logoutForm').submit();">
                         로그아웃
                     </a>
                 </form>
             </th:block>
 
             <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
-                <a href="/admin/user/list" style="color: white;">관리자페이지</a>
+                <!-- <a href="/admin/user/list" style="color: white;">관리자페이지</a>
         </th:block>
-                    <a href="/user/myPage/info" style="color: white;">마이페이지</a>
+                    <a href="/user/myPage/info" style="color: white;">마이페이지</a> -->
+                <a href="/admin/user/list">관리자페이지</a>
+        </th:block>
+                    <a href="/user/myPage/info">마이페이지</a>
             </nav>
 
             <div class="menu" id="menu">

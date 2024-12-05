@@ -1,6 +1,23 @@
+.reservation-container {
+  width: 900px;
+  height: 1500px;
+  margin: 100px auto;
+  background-color: #fff;
+  /* border-radius: 10px; */
+}
+.hr {
+  height: 28px;
+  line-height: 28px;
+  background-color: #959595;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
 #calendar {
-  width: 1440px;
-  height: 1080px;
+  width: 850px;
+  height: auto;
   margin: 0 auto;
 }
 
@@ -47,7 +64,7 @@
 }
 
 .trainer-info {
-  width: 1200px;
+  width: 900px;
   height: 600px;
   display: flex;
   justify-content: center;
