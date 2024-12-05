@@ -18,15 +18,17 @@
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
     <!-- 본문 -->
-    <div class="wrapper" style="margin-top: 80px;">
-        <main>
-            <div class="main-text" style="color: #9FD0D5;">마이페이지</div>
-            <div class="button-group">
-                <button class="active" onclick="window.location.href='/user/myPage/info'">내 정보</button>
-                <button onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
-                <button onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
-                <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
-            </div>
+    <body style="color: rgb(3, 3, 3); background-color: #252222;">
+        <div class="wrapper" style="margin-top: 80px;">
+            <main>
+                <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
+                <div class="button-group">
+                    <button  class="active" onclick="window.location.href='/user/myPage/info'">내 정보</button>
+                    <button onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
+                    <button onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
+                    <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
+                </div>
+    
             <div id="user-info">
                 <h2 style="margin-bottom: 10px; font-weight: 800; color: white;">내 정보</h2>
                 <table class="info-table">
@@ -114,6 +116,7 @@
         </main>
     </div>
 
+    
     <!-- 푸터 -->
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
 
