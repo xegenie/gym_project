@@ -7,6 +7,9 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="/css/myPage/info.css">
     <th:block th:replace="~{fragment/link::link}"></th:block>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -19,7 +22,7 @@
         <main>
             <div class="main-text" style="color: #9FD0D5;">마이페이지</div>
             <div class="button-group">
-                <button  class="active" onclick="window.location.href='/user/myPage/info'">내 정보</button>
+                <button class="active" onclick="window.location.href='/user/myPage/info'">내 정보</button>
                 <button onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
                 <button onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
                 <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
@@ -52,7 +55,8 @@
                         <td><span th:text="${user.email}"></span></td>
                     </tr>
                 </table>
-                <a href="#" class="edit-button" onclick="showEditForm()">정보 수정하기 ></a>
+                <a href="#" class="edit-button" onclick="showEditForm()">정보 수정하기 <i
+                        class="fa-solid fa-angle-right"></i></a>
             </div>
             <div id="edit-form" style="display: none;">
                 <h2 style="margin-bottom: 10px; font-weight: 800; color: white;">회원정보 수정</h2>
@@ -78,22 +82,34 @@
                         </tr>
                         <tr>
                             <th style="color: black;">연락처</th>
-                            <td><input type="text" th:value="${user.phone}" name="phone"></td>
+                            <td>
+                                <div class="input-container">
+                                    <i class="fa-solid fa-phone input-icon"></i>
+                                    <input type="text" th:value="${user.phone}" name="phone" class="styled-input" placeholder="연락처를 입력하세요">
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <th style="color: black;">이메일</th>
-                            <td><input type="text" th:value="${user.email}" name="email"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <a href="#">비밀번호 수정</a>
-                                <button type="submit">수정완료</button>
-                                <button type="button" onclick="remove()">삭제하기</button>
+                            <td>
+                                <div class="input-container">
+                                    <i class="fa-solid fa-envelope input-icon"></i>
+                                    <input type="email" th:value="${user.email}" name="email" class="styled-input" placeholder="이메일을 입력하세요">
+                                </div>
                             </td>
                         </tr>
+                        
+
+                        <tr class="button-tr" style="background-color: aqua;">
+                            <td colspan="2" style="margin-left: 600px;">
+                                <button type="button" class="delete" onclick="remove()">탈퇴하기</button>
+                                <button type="submit">수정완료</button>
+                            </td>
+                        </tr>
+
                     </form>
                 </table>
-              
+
             </div>
         </main>
     </div>

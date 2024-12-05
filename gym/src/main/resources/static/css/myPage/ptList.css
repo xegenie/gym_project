@@ -9,7 +9,7 @@ body {
 .wrapper {
     max-width: 900px;
     margin: 50px auto;
-    background-color: #302c2c;
+    background-color: #252222;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -39,7 +39,7 @@ body {
 
 .button-group .active {
     background-color: #7e57c2;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 .info-table {
