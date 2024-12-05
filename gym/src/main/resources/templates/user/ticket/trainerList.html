@@ -25,7 +25,7 @@
             <div th:each="trainer : ${trainerList}" class="col-12 col-lg-3 col-md-6 d-flex justify-content-center">
                 <div class="card mb-5">
                     <div class="img">
-                        <img th:src="|/img?no=${trainer.fileNo}|" alt="파일 이미지" class="card-img-top">
+                        <img th:src="|/img?no=${trainer.no}|" alt="파일 이미지" class="card-img-top">
                     </div>
                     <div class="card-body">
                         <h5 th:text="${trainer.name}"></h5>
@@ -40,7 +40,7 @@
                             <span>함께하는 회원 수 : &ensp;</span>
                             <span th:text="${trainer.userCount ?: 0}"></span>
                         </div>
-                        <a class="rounded-3" th:href="@{/user/ticket/trainerDetail(no=${trainer.trainerNo})}">선택</a>
+                        <a class="rounded-3" th:href="@{/user/ticket/trainerDetail(trainerNo=${trainer.no})}">선택</a>
                     </div>
                 </div>
             </div>

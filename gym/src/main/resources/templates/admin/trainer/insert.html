@@ -26,7 +26,7 @@
                         <div class="file-upload">
                             <div class="file-upload-box">
                                 <span>클릭하여 파일 선택</span>
-                                <img id="preview" alt="미리보기">
+                                <img class="insertImg" id="preview" alt="">
                                 <input type="file" name="fileList" class="file-input" accept="image/*"
                                     onchange="showPreview(event)">
                             </div>
@@ -38,8 +38,8 @@
                                     <select name="trainerId" id="trainerId" onchange="updateTrainerNo()">
                                         <option value="">선택하세요</option>
                                         <!-- 트레이너 목록을 동적으로 출력 -->
-                                        <th:block th:each="trainer : ${trainers}">
-                                            <option th:value="${trainer.no}" th:text="${trainer.name} + '(' + ${trainer.id} + ')'"></option>
+                                        <th:block th:each="trainerUser : ${trainerUsers}">
+                                            <option th:value="${trainerUser.no}" th:text="${trainerUser.name} + '(' + ${trainerUser.id} + ')'"></option>
                                         </th:block>
                                     </select>
                                 </td>

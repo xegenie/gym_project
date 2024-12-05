@@ -13,7 +13,10 @@ import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.mapper.TrainerProfileMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class TrainerProfileServiceImpl implements TrainerProfileService {
 
     @Autowired private TrainerProfileMapper trainerProfileMapper;
@@ -51,7 +54,29 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
 
     @Override
     public int update(TrainerProfile trainerPofile) throws Exception {
+        
         int result = trainerProfileMapper.update(trainerPofile);
+        // 파일 찾기
+        Files file = fileService.selectByNo(trainerPofile.getFileNo());
+        log.info("파일 : " + file);
+
+        List<MultipartFile> fileList = trainerPofile.getFileList();
+
+        if( fileList != null ) 
+            for (MultipartFile updateFile : fileList) {
+                // 빈 파일이 넘어온 경우 
+                if (updateFile != null && updateFile.isEmpty()) 
+                    continue;
+                
+                Files uploadFile = new Files();
+                uploadFile.setFile(updateFile);
+                uploadFile.setProfileNo(trainerPofile.getNo());
+                uploadFile.setType("main");
+                result = fileService.update(uploadFile, trainerPofile.getFileNo());
+            }
+
+        
+
         return result;
     }
 

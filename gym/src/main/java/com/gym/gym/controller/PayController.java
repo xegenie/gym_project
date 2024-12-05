@@ -73,7 +73,7 @@ public class PayController {
 
     // 트레이너 상세
     @GetMapping("/ticket/trainerDetail")
-    public String trainerDetail(@RequestParam("no") int trainerNo, Model model) throws Exception {
+    public String trainerDetail(@RequestParam("trainerNo") int trainerNo, Model model) throws Exception {
         TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
 
         model.addAttribute("trainer", trainerProfile);

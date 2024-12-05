@@ -12,8 +12,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM files
     </select>
 
-    <!-- 조회 -->
+    <!-- 트레이너 프로필 번호로 조회 -->
     <select id="select" resultType="Files">
+        SELECT * 
+        FROM files
+        WHERE profile_no = #{trainerNo}
+    </select>
+
+    <!-- 파일번호로 조회 -->
+    <select id="selectByNo" resultType="Files">
         SELECT * 
         FROM files
         WHERE no = #{no}
@@ -32,14 +39,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <!-- 수정 -->
-    <update id="update">
+    <update id="update" parameterType="map">
         UPDATE files
-           SET name = #{name}
-              ,path = #{path}
-              ,size = #{size}
-              ,type = #{type}
-              ,profile_no = #{profileNo}
-        WHERE no = #{no}
+           SET name = #{file.name}
+              ,path = #{file.path}
+              ,size = #{file.size}
+              ,type = #{file.type}
+              ,profile_no = #{file.profileNo}
+        WHERE no = #{fileNo}
     </update>
 
     <!-- 삭제 -->

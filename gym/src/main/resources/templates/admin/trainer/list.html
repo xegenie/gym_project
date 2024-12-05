@@ -47,7 +47,7 @@
                                 <td th:text="${trainer.simpleInfo}"></td>
                                 <td th:text="${trainer.userCount}"></td>
                                 <td>
-                                    <a class="updateBtn" href="/admin/trainer/update">수정</a>
+                                    <a class="updateBtn" th:href="@{/admin/trainer/update(trainerNo=${trainer.no})}">수정</a>
                                     <form action="/admin/trainer/delete" method="post" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
                                         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                                         <input type="hidden" name="no" th:value="${trainer.no}" />
