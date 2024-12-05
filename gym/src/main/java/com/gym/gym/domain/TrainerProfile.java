@@ -19,4 +19,5 @@ public class TrainerProfile {
     
     private int FileNo;
     private int userCount;
+    private String userId;
 }
