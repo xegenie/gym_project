@@ -12,7 +12,7 @@ public class Reservation {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date rvDate;
     private int no;
-    private int userNo;
+    private Long userNo;
     private int trainerNo;
     private Date createdAt;
     private Date canceledAt;
