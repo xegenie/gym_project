@@ -4,23 +4,30 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.Comment;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Plan;
+import com.gym.gym.domain.Reservation;
 import com.gym.gym.service.CommentService;
 import com.gym.gym.service.PlanService;
+import com.gym.gym.service.ReservationService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,6 +35,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
+// @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequestMapping("/user/schedule")
 public class PlanController {
     
@@ -37,7 +45,11 @@ public class PlanController {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    ReservationService reservationService;
+
     @GetMapping("/plan")
+    // @PreAuthorize("hasRole('USER')")
     public String list(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         Date currentDate = new Date();
         List<Date> dates = MonthFirstLast(currentDate);
@@ -50,9 +62,39 @@ public class PlanController {
         
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
         List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
         model.addAttribute("planList", planList);
         model.addAttribute("commentList", commentList);
+        model.addAttribute("reservationList", reservationList);
+
+        return "/user/plan/plan";
+    }
+
+    @ResponseBody
+    @GetMapping("/plan/{year}/{month}/{day}")
+    // @PreAuthorize("hasRole('USER')")
+    public String listByDate(@PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("day") int day,
+                             @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day); // 월은 0부터 시작하므로 -1 필요
+        Date date = calendar.getTime();
+        List<Date> dates = MonthFirstLast(date);
+
+        Date startDate = dates.get(0);
+        Date endDate = dates.get(1);
+
+        Long no = userDetails.getNo();
+        int iNo = no.intValue();
+        
+        List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
+        List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+        List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
+
+        model.addAttribute("planList", planList);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("reservationList", reservationList);
 
         return "/user/plan/plan";
     }

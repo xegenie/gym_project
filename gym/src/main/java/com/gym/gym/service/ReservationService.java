@@ -1,5 +1,6 @@
 package com.gym.gym.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gym.gym.domain.Option;
@@ -21,5 +22,7 @@ public interface ReservationService {
     public int cancel(Reservation reservation) throws Exception;
 
     public int count(Option option) throws Exception;
+
+    public List<Reservation> selectByStartEnd (int userNo, Date startTime, Date endTime) throws Exception;
 
 }

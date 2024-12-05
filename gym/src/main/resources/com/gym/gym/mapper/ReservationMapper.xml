@@ -90,6 +90,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            </if>
     </select>
 
+    <!-- 트레이너 예약 조회 -->
+    
+
     <!-- PlanController -->
-    <!-- <select id="" -->
+    <!-- 사용자 예약 조회 -->
+    <select id="selectByStartEnd">
+      SELECT *
+      FROM reservation
+      WHERE user_no = #{userNo}
+      AND rv_date BETWEEN #{startTime} AND #{endTime}
+      AND enabled = 1
+    </select>
 </mapper>
