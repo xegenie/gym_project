@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gym.gym.domain.Option;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
 import com.gym.gym.mapper.UserMapper;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Users> list() throws Exception {
-        List<Users> userList = userMapper.list();
+        List<Users> userList = userMapper.list(new Option(), new Page());
 
                 return userList;
     }
@@ -171,6 +173,21 @@ public class UserServiceImpl implements UserService {
         int result = userMapper.passwordUpdate(user);
         return result;
 
+    }
+
+    @Override
+    public List<Users> list(Option option, Page page) throws Exception {
+        int total = count(option);
+        page.setTotal(total);
+
+        List<Users> userList = userMapper.list(option, page);
+        return userList;
+
+    }
+
+    @Override
+    public int count(Option option) throws Exception {
+        return userMapper.count(option);
     }
 
 

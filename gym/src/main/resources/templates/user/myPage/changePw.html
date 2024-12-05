@@ -7,36 +7,37 @@
 </head>
 <body>
     <h1>비밀번호 바꾸기</h1>
-    <form action="changePassword" method="post" id="form" onsubmit="return checkSubmit(event)">
+    <form action="changePw" method="post" id="form" onsubmit="return checkSubmit(event)">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <input type="hidden" name="code" th:value="${code}">
-        <input type="hidden" name="no" th:value="${no}">
+
+        <label>현재 비밀번호</label> 
+        <input type="password" name="password" id="currentPassword">
 
         <label>새로운 비밀번호</label> 
-        <input type="password" name="password" id="password">
+        <input type="password" name="newPassword" id="newPassword">
 
         <label>새로운 비밀번호 확인</label> 
         <input type="password" name="passwordCheck" id="passwordCheck">
 
-        <button type="submit">비밀번호 바꾸기</button>
+        <button type="submit">수정하기</button>
     </form>
 
     <script>
         async function checkSubmit(event) {
-            event.preventDefault();  // 폼 제출 방지
+            event.preventDefault(); // 폼 제출 방지
 
-            // 비밀번호 값 가져오기
-            const password = document.getElementById("password").value;
+            // 입력값 가져오기
+            const newPassword = document.getElementById("newPassword").value; // 수정: 변수 이름 일치
             const passwordCheck = document.getElementById("passwordCheck").value;
 
-            // 비밀번호 길이 확인 (6자 이상, 20자 이하)
-            if (password.length < 6 || password.length > 20) {
-                alert("비밀번호는 6자 이상 20자 이하이어야 합니다.");
+            // 비밀번호 유효성 검사: 길이 6~20자 확인
+            if (newPassword.length < 6 || newPassword.length > 20) {
+                alert("새 비밀번호는 6자 이상 20자 이하여야 합니다.");
                 return false;
             }
 
-            // 비밀번호 확인
-            if (password !== passwordCheck) {
+            // 비밀번호 확인 일치 여부 검사
+            if (newPassword !== passwordCheck) {
                 alert("비밀번호가 일치하지 않습니다.");
                 return false;
             }
