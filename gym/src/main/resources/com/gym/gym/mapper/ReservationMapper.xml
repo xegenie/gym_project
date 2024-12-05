@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="count" resultType="int">
       select count(*)
       from reservation
-      <!-- WHERE
+      WHERE
         <if test="option.code == 0">
                     user_no LIKE CONCAT('%', #{option.keyword}, '%')
                 OR trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            </if>
             <if test="option.code == 4">
                 trainer_no LIKE CONCAT('%', #{option.keyword}, '%')
-           </if> -->
+           </if>
     </select>
 
     <!-- 트레이너 예약 조회 -->
