@@ -5,10 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gym.gym.domain.Comment;
 import com.gym.gym.mapper.CommentMapper;
 
+@Service
 public class CommentServiceImpl implements CommentService{
 
     @Autowired
