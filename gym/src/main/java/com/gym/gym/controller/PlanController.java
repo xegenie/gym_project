@@ -8,9 +8,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gym.gym.domain.Comment;
+import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Plan;
 import com.gym.gym.service.CommentService;
 import com.gym.gym.service.PlanService;
@@ -34,14 +38,21 @@ public class PlanController {
     CommentService commentService;
 
     @GetMapping("/plan")
-    public String list() {
+    public String list(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         Date currentDate = new Date();
         List<Date> dates = MonthFirstLast(currentDate);
 
         Date startDate = dates.get(0);
         Date endDate = dates.get(1);
 
-        // planService.selectByPeriod()
+        Long no = userDetails.getNo();
+        int iNo = no.intValue();
+        
+        List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
+        List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
+
+        model.addAttribute("planList", planList);
+        model.addAttribute("commentList", commentList);
 
         return "/user/plan/plan";
     }
