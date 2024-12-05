@@ -1,5 +1,6 @@
 package com.gym.gym.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public int count(Option option) throws Exception {
         return reservationMapper.count(option);
+    }
+
+    @Override
+    public List<Reservation> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception {
+        return reservationMapper.selectByStartEnd(userNo, startTime, endTime);
     }
 
 }

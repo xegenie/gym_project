@@ -1,5 +1,6 @@
 package com.gym.gym.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -26,4 +27,5 @@ public interface ReservationMapper {
 
     public int count(@Param("option") Option option) throws Exception;
 
+    public List<Reservation> selectByStartEnd (int userNo, Date startTime, Date endTime) throws Exception;
 }
