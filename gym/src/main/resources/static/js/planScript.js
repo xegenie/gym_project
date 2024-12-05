@@ -119,5 +119,33 @@ const monthNames = [
       inputSchedule.style.display ='none';
     });
 
+
+    //메인 캘린더
+    var calendarEl = document.getElementById("calendar");
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      dateClick: function (info) {
+        // showTimeSelectionModal(info.dateStr);
+        showDateSelected(info.dayEl, info.date);
+      },
+    });
+
+    calendar.render();
     
   });
+
+  function showDateSelected(selectedCell, selectedDate){
+    
+    if (selectedCell.classList.contains("focused-day")) {
+      selectedCell.classList.remove("focused-day"); // 스타일 제거
+      return; // 추가 작업 중단
+    }
+
+    document.querySelectorAll(".fc-daygrid-day").forEach((cell) => {
+      cell.classList.remove("focused-day");
+    });
+
+    // 클릭된 셀에 focus 스타일 추가
+    selectedCell.classList.add("focused-day");
+  } 
