@@ -67,10 +67,10 @@ public class TicketController {
         int result = ticketService.update(ticket);
     
         if ( result == 0 ) {
-            return "/admin/ticket/update/?error";
+            return "redirect:/admin/ticket/update?error";
         }
 
-        return "/admin/ticket/list";
+        return "redirect:/admin/ticket/list";
     }
     
     @PostMapping("/delete")

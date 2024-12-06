@@ -25,8 +25,7 @@
                 <span th:text="${#lists.size(buyList) > 0 ? buyList[#lists.size(buyList) - 1].ticketName : '없음'}"></span>
 
                 <span> &ensp;(&ensp; </span>
-                <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].buyDate, 'yyyy-MM-dd') : '-'}"></span>
-                &ensp;~&ensp;
+                <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].buyDate, 'yyyy-MM-dd')  + '&ensp;~&ensp; ' : '-'}"></span>
                 <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].buyDate, 'yyyy-MM-dd') : '-'}"></span>
                 <span> &ensp;) </span>
             </div>
