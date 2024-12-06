@@ -2,20 +2,24 @@ body {
     background-color: #000000dc;
 }
 
-.container {
+.container1 {
     border: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    
 }
 
 h1 {
-    font-size: 30px;
+    font-size: px;
     font-weight: bold;
     color: #9FD0D5;
     letter-spacing: 15px;
 }
 
 
-.container img {
-    width: 100%;
+.container1 img {
+    width: 80%;
     /* 부모 요소의 가로 크기에 맞춤 */
     height: 100%;
     /* 부모 요소의 세로 크기에 맞춤 */

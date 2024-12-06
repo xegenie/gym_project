@@ -84,8 +84,6 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
     String username = "";
     boolean rememberId = false;
     if(cookie != null){
-        log.info("CookieName : " + cookie.getName() );
-        log.info("CookieValue : " + cookie.getValue() );
         username = cookie.getValue();
         rememberId = true;
     }
@@ -121,7 +119,6 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
     @PostMapping("/join")
     public String joinPro(Users user, HttpServletRequest request) throws Exception {
         log.info(":::::::::: 회원 가입 처리 ::::::::::");
-        log.info("user : " + user);
         String plainPassword = user.getPassword();
         // 회원 가입 요청
       
