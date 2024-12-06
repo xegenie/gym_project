@@ -108,10 +108,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- PlanController -->
     <!-- 사용자 예약 조회 -->
     <select id="selectByStartEnd">
-      SELECT *
-      FROM reservation
-      WHERE user_no = #{userNo}
-      AND rv_date BETWEEN #{startTime} AND #{endTime}
-      AND enabled = 1
+      SELECT r.*, tu.name as trainerName
+      FROM reservation r
+      LEFT JOIN users tu on r.trainer_no = tu.no
+      WHERE r.user_no = #{userNo}
+      AND r.rv_date BETWEEN #{startTime} AND #{endTime}
+      AND r.enabled = 1
     </select>
 </mapper>

@@ -192,6 +192,13 @@
       </div>
     </div>
   </div>
+  <script th:inline="javascript">
+    var planEvents = /*[[${planEvents}]]*/ [];
+    console.log(planEvents);
+
+    var reservationEvents = /*[[${reservationEvents}]]*/ [];
+    console.log("reservationEvents:" + reservationEvents);
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
