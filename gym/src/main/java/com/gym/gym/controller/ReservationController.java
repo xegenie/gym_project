@@ -15,6 +15,7 @@ import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Reservation;
+import com.gym.gym.domain.Users;
 import com.gym.gym.service.ReservationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,6 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    // 트레이너 리스트  
-    // @GetMapping("/user/trainerList")
-    // public String trainerList() {
-    //     return "/user/reservation/trainerList";
-    // }
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
@@ -54,22 +50,41 @@ public class ReservationController {
         model.addAttribute("option", option);
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
-
+        
         String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/list")
-                            // .queryParam("page", page.getPage())
-                            .queryParam("keyword", option.getKeyword())
-                            .queryParam("code", option.getCode())
-                            .queryParam("rows", page.getRows())
-                            .queryParam("orderCode", option.getOrderCode())
-                            .build()
-                            .toString();
+        // .queryParam("page", page.getPage())
+        .queryParam("keyword", option.getKeyword())
+        .queryParam("code", option.getCode())
+        .queryParam("rows", page.getRows())
+        .queryParam("orderCode", option.getOrderCode())
+        .build()
+        .toString();
         model.addAttribute("pageUrl", pageUrl);
         return "/admin/reservation/list";
     }
-
+    
     // 관리자 캘린더 화면
     @GetMapping("/admin/reservation/calendar")
-    public String adminCalendar() {
+    public String adminCalendar(Model model, @ModelAttribute Option option, @ModelAttribute Page page) throws Exception {
+        
+        List<Users> trainerUsers = reservationService.trainerUsers();
+        List<Reservation> reservationList = reservationService.list(option, page);
+        
+        // List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        // model.addAttribute("sortByTrainer", sortByTrainer);
+        model.addAttribute("trainerUsers", trainerUsers);
+        model.addAttribute("reservationList", reservationList);
+        model.addAttribute("option", option);
+        
+        String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/calendar")
+        // .queryParam("page", page.getPage())
+        .queryParam("keyword", option.getKeyword())
+        // .queryParam("code", option.getCode())
+        // .queryParam("rows", page.getRows())
+        // .queryParam("orderCode", option.getOrderCode())
+        .build()
+        .toString();
+        model.addAttribute("pageUrl", pageUrl);
         return "/admin/reservation/calendar";
     }
     

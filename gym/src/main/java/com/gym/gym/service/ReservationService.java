@@ -3,9 +3,12 @@ package com.gym.gym.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Reservation;
+import com.gym.gym.domain.Users;
 
 public interface ReservationService {
     
@@ -20,6 +23,12 @@ public interface ReservationService {
 
     // 예약 취소(수정)
     public int cancel(Reservation reservation) throws Exception;
+
+    // 트레이너 리스트
+    public List<Users> trainerUsers() throws Exception;
+
+    // 트레이너별 예약 목록
+    public List<Reservation> sortByTrainer(@Param("option") Option option) throws Exception;
 
     public int count(Option option) throws Exception;
 

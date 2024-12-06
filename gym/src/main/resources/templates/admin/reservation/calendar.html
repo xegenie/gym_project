@@ -17,12 +17,26 @@
 
     <div class="main">
       <div class="inner">
-        <div class="title">
+
+        <div class="calendar-title">
           <h2>월별 PT 예약 일정</h2>
         </div>
 
+        <!-- 트레이너 선택 -->
+         <form class="filter" action="/admin/reservation/calendar" method="get" id="form">
+           <div class="trainerSelect">
+             <select id="trainerList" name="keyword" th:value="option.keyword">
+               <option value="2" th:selected="${option.keyword == 전체}">전체</option>
+               <option th:each="trainerList : ${trainerUsers}" 
+                   th:value="${trainerList.no}" 
+                   th:text="${trainerList.name}"></option>
+             </select>
+           </div>
+         </form>
+
         <div class="calendar-wrap">
           <div id="calendar"></div>
+          
         </div>
         <div id="timeSelectionModal">
           <div class="modal-container">
