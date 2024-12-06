@@ -65,23 +65,16 @@ public class ReservationController {
     
     // 관리자 캘린더 화면
     @GetMapping("/admin/reservation/calendar")
-    public String adminCalendar(Model model, @ModelAttribute Option option, @ModelAttribute Page page) throws Exception {
+    public String adminCalendar(Model model, @ModelAttribute Option option) throws Exception {
         
         List<Users> trainerUsers = reservationService.trainerUsers();
-        List<Reservation> reservationList = reservationService.list(option, page);
-        
-        // List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
-        // model.addAttribute("sortByTrainer", sortByTrainer);
+        List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        model.addAttribute("sortByTrainer", sortByTrainer);
         model.addAttribute("trainerUsers", trainerUsers);
-        model.addAttribute("reservationList", reservationList);
         model.addAttribute("option", option);
         
         String pageUrl =  UriComponentsBuilder.fromPath("/admin/reservation/calendar")
-        // .queryParam("page", page.getPage())
         .queryParam("keyword", option.getKeyword())
-        // .queryParam("code", option.getCode())
-        // .queryParam("rows", page.getRows())
-        // .queryParam("orderCode", option.getOrderCode())
         .build()
         .toString();
         model.addAttribute("pageUrl", pageUrl);
