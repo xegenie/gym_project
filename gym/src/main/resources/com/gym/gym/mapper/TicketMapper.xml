@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="allList" resultType="Ticket">
         SELECT *
         FROM ticket
+        WHERE name LIKE CONCAT ('%', #{keyword}, '%')
     </select>
 
     <select id="ptList" resultType="Ticket">

@@ -26,9 +26,9 @@ public class TicketController {
     @Autowired private TicketService ticketService;
 
     @GetMapping("/list")
-    public String list(Model model) throws Exception {
+    public String list(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword) throws Exception {
 
-        List<Ticket> ticketList = ticketService.allList();
+        List<Ticket> ticketList = ticketService.allList(keyword);
         
         model.addAttribute("ticketList", ticketList);
 
@@ -50,11 +50,14 @@ public class TicketController {
             return "/admin/ticket/insert/?error";
         }
         
-        return "/admin/ticket/list";
+        return "redirect:/admin/ticket/list";
     }
     
     @GetMapping("/update")
-    public String update() {
+    public String update(Model model, @RequestParam("no") int no) throws Exception {
+
+        model.addAttribute("ticket", ticketService.select(no));
+
         return "/admin/ticket/update";
     }
     
@@ -70,16 +73,20 @@ public class TicketController {
         return "/admin/ticket/list";
     }
     
-    @GetMapping("/delete")
-    public String delete(@RequestParam("no") int no) throws Exception {
+    @PostMapping("/delete")
+    public String delete(@RequestParam("ticketNos") List<Integer> ticketNos) throws Exception {
 
-        int result = ticketService.delete(no);
+        int result = 0;
+
+        for (int ticketNo : ticketNos) {
+            result = ticketService.delete(ticketNo);
+        }
     
         if ( result == 0 ) {
             return "/admin/ticket/delete/?error";
         }
 
-        return "/admin/ticket/list";
+        return "redirect:/admin/ticket/list";
     }
     
     

@@ -9,7 +9,7 @@ import com.gym.gym.domain.Ticket;
 @Mapper
 public interface TicketMapper {
 
-    public List<Ticket> allList() throws Exception;
+    public List<Ticket> allList(String keyword) throws Exception;
 
     public List<Ticket> normalList() throws Exception;
 
