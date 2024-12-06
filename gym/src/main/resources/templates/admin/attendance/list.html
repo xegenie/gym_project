@@ -10,24 +10,25 @@
     <link rel="stylesheet" href="/css/attendance/list.css">
 </head>
 
-<body>
+<body style="background-color: #E7ECEF;;">
     <!-- 공통 헤더 추가 -->
-    <th:block th:replace="~{fragment/header::header}"></th:block>
 
     <!-- 출석 인원 -->
-    <p class="attendance-count">
-        <p>출석한 인원 수: <span th:text="${result}"></span>명</p>
-    </p>
-    <br>
-    <button><a href="/">홈으로</a></button>
+
 
     <!-- 출석 내역 표시 -->
-    <h2>출석 내역</h2>
+    <h2 style="color: rgb(0, 0, 0);">출석 내역</h2>
     <!-- 검색 폼 추가 -->
+  
+ 
     <form class="search-form" action="/admin/attendance/search" method="get">
+        <p class="attendance-count" style="margin-left: 10px;">
+            <p class="count">출석한 인원 수: <span th:text="${result}"></span>명</p>
+        </p>
         <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
-        <button type="submit">검색</button>
+        <button type="submit" class="search-btn">검색</button>
     </form>
+    
 
     <table class="attendance-table">
         <thead>
@@ -87,7 +88,6 @@
     <br>
 
     <!-- 공통 푸터 추가 -->
-    <th:block th:replace="~{fragment/footer::footer}"></th:block>
 
     <!-- 공통 스크립트 추가 -->
     <th:block th:replace="~{fragment/script::script}"></th:block>

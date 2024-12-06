@@ -35,7 +35,7 @@ h2, h3 {
 
 .search-form {
     margin-bottom: 20px;
-    text-align: right; /* 검색 폼을 오른쪽으로 정렬 */
+    text-align: right; 
 }
 
 .search-form input[type="text"] {
@@ -49,7 +49,7 @@ h2, h3 {
 
 .search-form button {
     padding: 10px 20px;
-    background-color: #008CBA; /* 버튼 배경색 */
+    background-color: #748b92; /* 버튼 배경색 */
     color: white;
     border: none;
     cursor: pointer;
@@ -61,6 +61,13 @@ h2, h3 {
 .search-form button:hover {
     background-color: #005f73; /* 호버 시 버튼 배경색 */
 }
+
+.search-btn{
+    background-color: #333;
+}
+
+
+
 
 /* 페이지네이션 스타일 */
 .pagination {
@@ -90,6 +97,8 @@ h2, h3 {
     border: 1px solid #008CBA;
 }
 
-.attendance-count{
-    margin-top: 10px;
+.attendance-count .count{
+   justify-content: center;
 }
+
+
