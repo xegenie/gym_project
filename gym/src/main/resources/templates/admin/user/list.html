@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>유저 관리</title>
+    <link rel="stylesheet" href="/css/trainer/adminList.css">
 </head>
 
 <body>
@@ -18,28 +19,77 @@
         <div class="main">
             <div class="inner">
                 <div class="title">
-                    <h2>PT 예약 목록</h2>
+                    <h2>유저 목록</h2>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-            
-                    <form action="list" method="get" id="form" class="d-flex gap-2">
-            
-                        <input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요" class="form-control"
-                            th:value="${param.keyword}">
-                        <button type="submit" class="btn btn-secondary" style="width: 200px;">검색</button>
-                        <select name="rows" id="rows" class="form-select w-auto">
-                            <option value="10" th:selected="${rows == 10}">10개</option>
-                            <option value="20" th:selected="${rows == 20}">20개</option>
-                            <option value="40" th:selected="${rows == 40}">40개</option>
-                            <option value="60" th:selected="${rows == 60}">60개</option>
-                        </select>
-            
+                <div class="search-container">
+                    <form class="search" action="/admin/trainer/list" method="get" id="form">
+                        <input type="text" name="keyword" placeholder="등록명으로 검색" th:value="${param.keyword}" />
+                        <button type="submit">검색</button>
                     </form>
                 </div>
-            
-                <h1>유저 관리</h1>
-                <table class="table table-bordered text-center" border="1">
+
+                <div class="list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>등록명</th>
+                                <th>이름(ID)</th>
+                                <th>소개</th>
+                                <th>관리중인 회원 수</th>
+                                <th>비고</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:if="${userList.isEmpty()}">
+                            <tr>
+                                <td colspan="6">조회된 데이터가 없습니다.</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:each="user : ${userList}">
+                            <tr>
+                                <td th:text="${user.no}"></td>
+                                <td><a th:href="|read?no=${user.no}|" th:text="${user.id}"></a></td>
+                                <td th:text="${user.name}"></td>
+                                <td>
+                                    <!-- 권한에 따른 표시 -->
+                                    <span th:switch="${user.userAuth}">
+                                        <span th:case="'ROLE_ADMIN'">관리자</span>
+                                        <span th:case="'ROLE_USER'">회원</span>
+                                        <span th:case="'ROLE_TRAINER'">트레이너</span>
+                                        <span th:case="*">기타</span> <!-- 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
+                                    </span>
+                                </td>
+                                <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}">
+                                    <td><a class="updateBtn" th:href="|update?no=${user.no}|">수정</a></td>
+                                </th:block>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <a th:href="@{${pageUrl}(page=${page.first})}" class="first">≪</a>
+                    <th:block th:if="${page.page != page.first}">
+                        <a th:href="@{${pageUrl}(page=${page.prev})}" class="prev">＜</a>
+                    </th:block>
+                    <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
+                        <th:block th:if="${page.page == no}">
+                            <a class="active" th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a>
+                        </th:block>
+                        <th:block th:if="${page.page != no}">
+                            <a th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a>
+                        </th:block>
+                    </th:block>
+                    <th:block th:if="${page.page != page.last}">
+                        <a th:href="@{${pageUrl}(page=${page.next})}" class="next">＞</a>
+                    </th:block>
+                    <a th:href="@{${pageUrl}(page=${page.last})}" class="first">≫</a>
+                </div>
+                <!-- <table class="table table-bordered text-center" border="1">
                     <thead class="table-light">
                         <tr>
                             <th>번호</th>
@@ -61,14 +111,14 @@
                                 <td th:text="${user.no}"></td>
                                 <td><a th:href="|read?no=${user.no}|" th:text="${user.id}"></a></td>
                                 <td th:text="${user.name}"></td>
-                                <td>
+                                <td> -->
                                     <!-- 권한에 따른 표시 -->
-                                    <span th:switch="${user.userAuth}">
+                                    <!-- <span th:switch="${user.userAuth}">
                                         <span th:case="'ROLE_ADMIN'">관리자</span>
                                         <span th:case="'ROLE_USER'">회원</span>
-                                        <span th:case="'ROLE_TRAINER'">트레이너</span>
-                                        <span th:case="*">기타</span> <!-- 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
-                                    </span>
+                                        <span th:case="'ROLE_TRAINER'">트레이너</span> -->
+                                        <!-- <span th:case="*">기타</span> 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
+                                    <!-- </span>
                                 </td>
                                 <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}">
@@ -77,68 +127,11 @@
                             </tr>
                         </th:block>
                     </tbody>
-                </table>
+                </table> -->
             
-                <div>
-                    <!-- 처음 -->
-                    <a th:href="@{'?page=' + ${page.first}}">[처음]</a>
-                    <!-- 이전 -->
-                     <th:block th:if="${page.page !=page.first}">
-                       <a th:href="@{ '?page=' + ${page.prev}}">[이전]</a>
-            
-                      </th:block>
-                    <!-- 페이지 번호 -->
-                      
-            
-                    <!-- 
-                        #numbers/sequence(시작, 끝)
-                        : 시작번호부터 끝번호 까지 리스트를 생성
-                        -->
-                        <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
-                        <!-- 현재페이지 -->
-                         <th:block th:if="${page.page == no}">
-                            <b><span th:text="${no}"></span></b>
-                         </th:block>
-                         <th:block th:if="${page.page != no}">
-                              <a th:href="@{'?page=' + ${no}}" th:text="${no}"></a>
-            
-            
-                            </th:block>
-                            
-                        </th:block>
-                        <!-- 다음 -->
-                        <th:block th:if="${page.page !=page.last}">
-                         <a th:href="@{'?page=' + ${page.next}}">[다음]</a>
-                        </th:block>
-                        <!-- 마지막 -->
-                        <a th:href="@{'?page=' + ${page.last}}">[마지막]</a>
-            
-                </div>
-                <!-- 해당 영역에 콘텐츠 추가하시면 됩니다. 추가하는 콘텐츠의 css는 따로 만드시면 됩니다. -->
-
             </div>
         </div>
     </div>
-
-
-    <script>
-        // 필터 - 개수 변경 시 이벤트
-        document.addEventListener("DOMContentLoaded",function(){
-            const $rows = document.getElementById('rows')
-            const $form = document.getElementById('form')
-            const $orderCode = document.getElementById('order-code')
-  
-            $rows.addEventListener('change', function(){
-                $form.submit()
-  
-            })
-            $orderCode.addEventListener('change', function() {
-                $form.submit()
-                
-            })
-  
-        })
-      </script>
 
 </body>
 </html>
