@@ -269,13 +269,13 @@ public class UserController {
             if (result > 0) {
                 user.setCode(null);
                 userService.codeInsert(user);
-                return "/login";
+                return "redirect:info";
             }
         }
         redirectAttributes.addFlashAttribute("error", "");
         user.setCode(null);
         userService.codeInsert(user);
-        return "redirect:/info";
+        return "/index";
     }
 
 }

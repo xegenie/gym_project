@@ -66,7 +66,7 @@
       const phone1 = document.getElementById('phone1').value;
       const phone2 = document.getElementById('phone2').value;
       const phone3 = document.getElementById('phone3').value;
-      const phone = `${phone1}-${phone2}-${phone3}`;  // 연락처 합치기
+      const phone = `${phone1}${phone2}${phone3}`;  // 연락처 합치기
 
       // 이메일과 연락처 값을 폼의 숨겨진 필드에 설정
       document.getElementById('email').value = email;

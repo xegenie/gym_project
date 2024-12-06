@@ -161,7 +161,6 @@ public String login(@CookieValue(value = "remember-id", required = false) Cookie
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
         // 사용 가능한 아이디입니다.
-        log.info("사용 가능한 아이디 입니다." + id);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
