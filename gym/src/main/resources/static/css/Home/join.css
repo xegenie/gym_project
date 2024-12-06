@@ -100,13 +100,17 @@ label {
 }
 
 .input-group button:hover {
-    background-color: #0056b3;
+    background-color: #444;
+    color: white;
 }
 
 .d-grid {
     margin-top: 20px;
 }
 
+.items{
+    transform: translateX(13%);
+}
 
 
 .d-grid .btn-primary {
@@ -146,8 +150,9 @@ label {
 }
 
 .input-group-id button {
-    background-color:#9FD0D5 ;
+    background-color:ffffff ;
     font-weight: bold;
+    border: none;
     height: 40px;
     margin-right: 55px;
     width: 20%;
@@ -282,9 +287,24 @@ span {
     font-weight: bold; /* 클릭된 라벨 굵게 */
 }
 
-/* 날짜 입력 필드와 label 스타일링 */
-input[type="date"]:focus {
-    border-color: #4CAF50;  /* 포커스 시 테두리 색상 변경 */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);  /* 포커스 시 그림자 효과 */
+
+
+/* 계정찾기 css */
+
+
+.findPassword {
+    margin-top: 50px;
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 기본 텍스트 색상과 동일하게 */
+    padding: 5px 10px; /* 버튼 느낌의 패딩 */
+    color: white; /* 텍스트 색상 */
+    border-radius: 8px; /* 둥근 모서리 */
+    display: inline-block; /* 버튼처럼 보이도록 */
+    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
+/* 호버 효과 */
+.findPassword:hover {
+    text-shadow: 2px 2px 2px  rgb(218, 197, 197);
+    color: white; /* 텍스트 색상 유지 */
+}

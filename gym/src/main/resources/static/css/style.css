@@ -144,14 +144,6 @@ body {
 
 
 
-.container {
-    border: 1px solid black;
-    min-height: 300px;
-    margin: 0 auto;
-    padding: 12px;
-    width: 1320px;
-}
-
 
 .footer{
     height: 100px;
