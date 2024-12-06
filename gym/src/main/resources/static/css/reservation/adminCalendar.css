@@ -108,3 +108,12 @@
     border-radius: 5px;
     background-color: #fff;
   }
+
+  .daily-reservationList {
+    width: 100px;
+    height: 100px;
+  }
+
+  .daily-reservationList span {
+    color: #000;
+  }
