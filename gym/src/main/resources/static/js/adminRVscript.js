@@ -14,23 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
 function showTimeSelectionModal(selectedDate) {
   var modal = document.getElementById("timeSelectionModal");
   var dateDisplay = document.getElementById("selectedDate");
-  // var timeButtonsContainer = document.getElementById("timeButtons");
 
-  // 모달에 선택된 날짜 표시
   dateDisplay.textContent = `${selectedDate}`;
 
-  // timeButtonsContainer.innerHTML = "";
-  // for (let hour = 10; hour <= 21; hour++) {
-  //   let button = document.createElement("button");
-  //   button.textContent = `${hour}:00`;
-  //   button.onclick = function () {
-  //     selectTime(selectedDate, `${hour}:00`);
-  //   };
-  //   button.style.margin = "5px";
-  //   button.style.padding = "10px 20px";
-  //   button.style.cursor = "pointer";
-  //   timeButtonsContainer.appendChild(button);
-  // }
 
   modal.style.display = "block";
 }
@@ -70,3 +56,7 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
+const trainerList = document.getElementById("trainerList")
+trainerList.addEventListener("change", () => {
+  const selectedTrainer = trainerList.value;
+})
