@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <th:block th:replace="~{fragment/link::link}"></th:block>
+    <!-- <th:block th:replace="~{fragment/link::link}"></th:block> -->
 
     <link rel="stylesheet" href="/css/home/join.css">
+    <script src="/js/join.js"></script>
 </head>
 <body>
     <th:block th:replace="~{fragment/header::header}"></th:block>
@@ -15,7 +16,7 @@
     <div class="top">
 
     </div>
-    <div class="container col-12 col-lg-4" id="contain-box">
+    <div class="container1 col-12 col-lg-4" id="contain-box">
         <div class="px-4 py-5 mt-5 text-center">
             <img class="FITlogo" src="img/logo2.png" alt="">
             <h1 class="joins">회원 가입</h1>
@@ -24,11 +25,13 @@
         <!-- 회원가입 영역 -->
         <main class="form-signin login-box w-100 m-auto" >
             <form id="form" action="/join" method="post" class="needs-validation" onsubmit="return checkSubmit(event)">
-                <!-- CSRF TOKEN -->
+                
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden" id="email" name="email" />
+                <input type="hidden" id="phone" name="phone" />
                 <div class="centerdhkwnj">
-                    <div class="input-group my-2">
-                        <label for="username">아이디</label>
+                    <div class="input-group my-2" id="box-id">
+                        <label for="id">아이디</label>
                         <div class="input-group-id">
                             <input type="text" class="form-control" id="id" name="id" placeholder="아이디" autofocus>
                             <button type="button" onclick="checkId()" class="btn btn-outline-secondary">중복확인</button>
@@ -37,49 +40,83 @@
                     
                 <div class="input-group my-2">
                     <label for="password">비밀번호</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="6자 이상 비밀번호">
                 </div>
                 <div class="input-group my-2">
                     <label for="passwordCheck">비밀번호 확인</label>
-                    <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인">
+                    <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="6자 이상 비밀번호 확인">
                 </div>
-                <div class="input-group my-2">
+                <br>
+                <div class="input-group my-2" >
                     <label for="name">이름</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="이름">
                 </div>
-                <div class="input-group my-2">
-                    <label for="birth">생일</label>
-                    <input type="text" class="form-control" id="birth" name="birth" placeholder="생일">
-                </div>
-                <div class="input-group my-2">
-                    <label for="gender">성별</label>
-                    <input type="text" class="form-control" id="gender" name="gender" placeholder="성별">
-                </div>
-
-                <div class="input-group my-2">
-                    <label for="email">이메일</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요" autofocus="">
-                </div>
-                <div class="input-group my-2">
-                    <label for="phone">연락처</label>
-                    <input type="text" class="form-control" id="phone" name="phone" placeholder="연락처를 입력해주세요.">
-                </div>
-
-                <div class="input-group my-2">
-                    <label for="question">질문</label>
-                    <input type="text" class="form-control" id="question" name="question" value="강아지 이름은?" placeholder="질문">
+                
+                <div class="input-group my-2 gender-group">
+                    <div class="gender-options"  style=" margin-bottom: 20px; margin-top: 20px;">
+                        <label for="gender"  style="margin-left: 0;">성별</label>
+                        <input type="radio" id="male" name="gender" value="남자">
+                        <label for="male">남자</label>
+                        <input type="radio" id="female" name="gender" value="여자">
+                        <label for="female">여자</label>
+                    </div>
                 </div>
                 
+                
+                
                 <div class="input-group my-2">
+                    <label for="birth">생일</label>
+                    <input type="input" class="form-control" id="birth" name="birth" placeholder="주민번호 앞번호 8자를 입력해주세요.">
+                </div>
+                
+                <div class="input-group my-2 email-group">
+                    <label for="email">이메일</label>
+                    <div class="email-row">
+                        <input type="text" class="form-control" id="email-id" name="email1" placeholder="아이디">
+                        <span>@</span>
+                        <select class="form-control" id="email-domain" name="email2" style="width: 40%; cursor: pointer;" >
+                            <option value="naver.com" >naver.com</option>
+                            <option value="naver.com">gmail.com</option>
+                            <option value="naver.com">nate.com</option>
+                            <option value="naver.com">daum.net</option>
+                            <option value="naver.com">hanmail.net</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group my-2 phone-group">
+                    <label for="phone">연락처</label>
+                    <div class="phone-row">
+                        <input type="text" class="form-control" id="phone1" name="phone1" placeholder="010">
+                        <span>-</span>
+                        <input type="text" class="form-control" id="phone2" name="phone2" placeholder="1234">
+                        <span>-</span>
+                        <input type="text" class="form-control" id="phone3" name="phone3" placeholder="5678">
+                    </div>
+                </div>
+                
+                
+                <br>
+                <div class="input-group my-2">
+                    <label for="question">질문</label>
+                    <select class="form-control"  name="question" id="question">
+                        <option value="강아지 이름은?">강아지 이름은?</option>
+                        <option value="졸업한 초등학교는?">졸업한 초등학교는?</option>
+                        <option value="내 보물 1호는?">내 보물 1호는?</option>
+                        <option value="내 별명은?">내 별명은?</option>
+
+                    </select>
+                </div>
+                
+                <div class="input-group my-2" style="margin-bottom: 20px;">
                     <label for="answer">답변</label>
                     <input type="text" class="form-control" id="answer" name="answer" placeholder="답변">
                 </div>
             </div>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-lg btn-primary w-100 py-2" type="submit">회원가입</button>
-                    <a href="/" class="btn btn-lg btn-success w-100 py-2">메인</a>
-                </div>
-            </form>
+                    <button class="btn-join"  type="submit">회원가입</button>
+                </form>
+            </div>
         </main>
 
     </div>
@@ -90,90 +127,7 @@
     </div>
     <!-- bootstrap js -->
 
-    <script>
-        // 💍 CRSF TOKEN
-        const csrfToken = "[[${_csrf.token}]]"
-
-        /*
-            아이디 중복 확인
-        */
-        async function checkId() {
-            const username = document.getElementById("id").value;
-
-            // null 또는 undefined
-            if (!username) {
-                alert("아이디를 입력해주세요");
-                return;
-            }
-
-            try {
-                const response = await fetch(`/check/${username}`, {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                });
-
-                if (response.ok) {
-                    const result = await response.text();
-                    let boxId = document.getElementById('box-id');
-                    if (result === 'true') {
-                        alert('사용 가능한 아이디입니다.');
-                        boxId.classList.remove('needs-validation');
-                        boxId.classList.add('was-validated');
-                        return true;
-                    } else {
-                        alert('중복된 아이디입니다.');
-                        boxId.classList.remove('was-validated');
-                        boxId.classList.add('needs-validation');
-                    }
-                    return false;
-                } else {
-                    alert('아이디 중복 확인 중 오류가 발생했습니다.');
-                    return false;
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('아이디 중복 확인 중 오류가 발생했습니다.');
-                return false;
-            }
-        }
-
-        /*
-            제출 확인
-            - 아이디 중복 체크, 비밀번호 확인, 빈 칸 검사
-        */
-        async function checkSubmit(event) {
-            event.preventDefault();  // 폼 제출 방지
-
-            // 아이디 중복 체크
-            const isIdAvailable = await checkId();
-            if (!isIdAvailable) {
-                return;
-            }
-
-            // 비밀번호 확인
-            const password = document.getElementById("password").value;
-            const passwordCheck = document.getElementById("passwordCheck").value;
-            if (password !== passwordCheck) {
-                alert("비밀번호가 일치하지 않습니다.");
-                return;
-            }
-
-            // 필수 입력 항목 체크
-            const requiredFields = ['id', 'password', 'passwordCheck', 'name', 'birth', 'gender', 'email', 'phone', 'question', 'answer'];
-            for (let field of requiredFields) {
-                const fieldValue = document.getElementById(field).value;
-                if (!fieldValue) {
-                    alert(`${document.querySelector(`[for=${field}]`).textContent}을(를) 입력해주세요.`);
-                    return;
-                }
-            }
-
-            // 모든 유효성 검사 통과 시 폼 제출
-            document.getElementById("form").submit();
-        }
-    </script>
+   
     <th:block th:replace="~{fragment/footer::footer}"></th:block>
     <th:block th:replace="~{fragment/script::script}"></th:block>    
 </body>

@@ -168,14 +168,9 @@ public class UserController {
             @RequestParam("phone") String phone, @RequestParam("question") String question,
             @RequestParam("answer") String answer) throws Exception {
 
-        log.info(name + "이름");
-        log.info(phone + "전화번호");
-        log.info(question + "질문");
-        log.info(answer + "답변");
         // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
         Users foundUser = userService.findUserByDetails(name, phone, question, answer);
 
-        log.info(foundUser + "아이디찾기");
         if (foundUser != null && foundUser.getId() != null) {
             model.addAttribute("user", foundUser);
             model.addAttribute("no", 1);

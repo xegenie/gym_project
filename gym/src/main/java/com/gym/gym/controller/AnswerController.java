@@ -52,7 +52,6 @@ public class AnswerController {
     @GetMapping
     public String answerList(Model model, @RequestParam("boardNo") Long boardNo) throws Exception {
         List<Answer> answerList = answerService.listByParent(boardNo);
-        log.info("이름왜 안넘어옴?" + answerList);
         model.addAttribute("answerList", answerList);
         return "user/answer/list";
     }
@@ -84,7 +83,6 @@ public class AnswerController {
     @PutMapping("")
     public String updateAnswer(@RequestBody Answer answer) throws Exception {
         int result = answerService.update(answer);
-        log.info("결과나옴?" + result + answer);
         if(result > 0){
             return "SUCCESS";
         }

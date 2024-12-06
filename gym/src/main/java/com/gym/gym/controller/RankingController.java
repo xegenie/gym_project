@@ -45,10 +45,6 @@ public class RankingController {
             }
             page.setIndex((page.getPage() - 1) * page.getRows());
 
-            // 로그로 페이지 값 확인
-            log.info("page.index: " + page.getIndex());
-            log.info("page.rows: " + page.getRows());
-            log.info("page.page: " + page.getPage());
 
             // 출석 랭킹 서비스 호출
             rankingList = rankingService.getAttendanceRanking(option, page);

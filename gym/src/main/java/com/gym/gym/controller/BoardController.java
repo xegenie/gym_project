@@ -43,7 +43,6 @@ public class BoardController {
     public String list(Model model,
     @ModelAttribute Option option, 
     @ModelAttribute Page page) throws Exception {
-        log.info("리스트 왜 안옴");
         List<Board> boardList = boardService.list(option, page);
         model.addAttribute("boardList", boardList);
         model.addAttribute("option", option);
@@ -67,11 +66,9 @@ public class BoardController {
     public String select(@AuthenticationPrincipal CustomUser authuser, Model model, @RequestParam("no") Long no)
             throws Exception {
         // 게시글 조회
-        log.info("board왜 안들어옴" + no);
         Board board = boardService.select(no);
         Answer answer = answerService.select(no);
         List<Answer> answerList = answerService.listByParent(no);
-        log.info("board왜 안안안" + board);
         model.addAttribute("answerList", answerList);
         model.addAttribute("board", board);
 
@@ -90,7 +87,6 @@ public class BoardController {
     @PostMapping("/insert")
     public String insertPost(@AuthenticationPrincipal CustomUser authuser,
             Board board) throws Exception {
-        log.info("baord : " + board);
 
         board.setUserNo(authuser.getUser().getNo());
         int result = boardService.insert(board);
@@ -120,7 +116,6 @@ public class BoardController {
         System.out.println("Principal:asdfasdf " + principal);
 
         Board board = boardService.select(no);
-        log.info("보드번호" + board.getUserNo() + "어서어엉" + user.getNo());
         model.addAttribute("board", board);
 
         return "user/board/update";
