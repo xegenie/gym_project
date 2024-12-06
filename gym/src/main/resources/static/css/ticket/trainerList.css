@@ -38,10 +38,9 @@ a:hover {
 
 h1 { 
     font-size: 60px;
-    color: #9FD0D5;
-    font-weight: bolder;
+    color: #fff;
     margin: auto;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+    font-weight: bold;
 }
 
 .img {

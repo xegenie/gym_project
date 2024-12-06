@@ -12,10 +12,9 @@ h1 {
 
 
 .title { 
-    color: #9FD0D5;
+    color: #fff;
     font-weight: bolder;
     margin: auto;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
 }
 
 .button {
