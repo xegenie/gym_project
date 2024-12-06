@@ -136,7 +136,7 @@ button.delete:hover {
 }
 
 .button-tr button {
-    float: right;
+    border-radius: 8px;
 }
 
 /* 공통 입력 폼 컨테이너 스타일 */

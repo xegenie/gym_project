@@ -5,14 +5,6 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-image: url('background.png'); /* 배경 이미지 경로 */
-    background-size: cover;
-    background-color: #0f0f0f;
-}
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -104,6 +96,8 @@ body {
     z-index: 999;
     transition: transform 0.3s ease-in-out; /* 부드러운 애니메이션 */
 }
+
+
 
 .menu.open {
     transform: translateX(0); /* 화면 안으로 슬라이드 */
