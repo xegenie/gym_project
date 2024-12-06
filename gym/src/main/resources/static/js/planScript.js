@@ -5,6 +5,9 @@ const monthNames = [
 
 let currentDate = new Date();
 
+let calendar;
+
+// 메인 캘린더
 function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -61,6 +64,7 @@ function renderCalendar(date) {
     datesElement.appendChild(btn);
   }
 
+  miniCalendarClickEvents();
 }
 
 function setupDropdown(buttonId, optionsId) {
@@ -86,6 +90,14 @@ function setupDropdown(buttonId, optionsId) {
       options.style.display = "none";
     }
   });
+}
+
+function formatDate(date) {
+
+  const dayNames = ["일", "월", "화", "수", "목", "금", "토"]; // 요일 목록
+  const formattedDate = `${date.getMonth() + 1}/${date.getDate()}(${dayNames[date.getDay()]})`;
+
+  return formattedDate;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -124,71 +136,120 @@ document.addEventListener("DOMContentLoaded", function () {
   //메인 캘린더
   var calendarEl = document.getElementById("calendar");
 
-  var calendar = new FullCalendar.Calendar(calendarEl, {
+  calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
       showDateSelected(info.dayEl, info.date);
-    },
-    datesSet: function (info) {
-      console.log('New date range: '+ info.startStr+ ' to '+ info.endStr);
-      var startStr = info.startStr;  // 예: "2024-12-01"
-
-      const datePart = startStr.split('T')[0];
-        
-      // 연도, 월, 일 추출
-      const [year, month, day] = datePart.split('-').map(num => parseInt(num, 10));
-
-      console.log("year: " + year);
-      console.log("month: " + month);
-      console.log("day: " + day);
-
-      var url = `/user/schedule/plan/${year}/${month}/${day}`;
-
-      fetchData(url);
     }
+    
   });
 
-  function fetchData(url) {
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Fetched data:'+data);
-      })
-      .catch((error) => {
-        console.error('Fetch error:'+ error);
-      });
-  }
-  
   calendar.render();
-
-  document.querySelector('.fc-next-button').addEventListener('click', () => {
-    const currentStartDate = calendar.getDate(); // 현재 달력의 시작 날짜
-    console.log('Current start date:', currentStartDate);
   
-    // URL 생성
-    const year = currentStartDate.getFullYear();
-    const month = currentStartDate.getMonth() + 1; // 0부터 시작하므로 +1
-    const day = 1; // 월의 첫 번째 날로 설정
-    const url = `/user/schedule/plan/${year}/${month}/${day}`;
-  
-    fetchData(url);
-  });
 });
 
+// 미니 캘린더 날짜 클릭했을 때
+function miniCalendarClickEvents() {
+  const dateButtons = document.querySelectorAll(".dates button");
+  dateButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      // 클릭한 날짜의 값 가져오기
+      const selectedDate = this.querySelector("time") 
+        ? this.querySelector("time").textContent 
+        : this.textContent;
+
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1; // JS에서 month는 0부터 시작하므로 +1 필요
+      const day = selectedDate;
+
+      // 선택한 날짜를 완전한 날짜 형식으로 저장
+      const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
+      console.log("Selected Date:", clickedDate);
+
+      const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
+
+      // 변환된 날짜를 HTML 요소에 반영
+      const dateElement = document.querySelector(".set-time-date span");
+      dateElement.textContent = formattedDate;
 
 
+      // GET 요청을 보낼 URL 생성
+      const url = `/user/schedule/plan/${year}/${month}/${day}`;
+      console.log("Request URL:", url);
 
+      // XMLHttpRequest 객체 생성
+      const xhr = new XMLHttpRequest();
+
+      // 요청 초기화
+      xhr.open("GET", url, true);
+
+      // 요청 상태 변화 이벤트 처리
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            // 요청 성공
+            const response = JSON.parse(xhr.responseText); // 응답 데이터를 JSON으로 파싱
+            console.log("Response Data:", response);
+            // 응답 데이터를 처리하는 로직 추가
+
+            const comment = response.comment;
+            const planList = response.planList;
+            const reservationList = response.reservationList;
+
+            console.log("Comment:", comment);
+            console.log("Plan List:", planList);
+            console.log("Reservation List:", reservationList);
+
+            // 분리된 데이터를 사용해 HTML을 업데이트
+            updateThymeleafTemplate({ comment, planList, reservationList });
+
+            calendar.gotoDate(clickedDate);
+          } else {
+            // 요청 실패
+            console.error("Error with the GET request:", xhr.status, xhr.statusText);
+          }
+        }
+      };
+
+      // 요청 전송
+      xhr.send();
+
+      // 필요한 작업 수행
+      window.selectedDate = clickedDate; // 전역 변수로 저장
+      console.log("miniCalendarClickEvents selectedDate: "+ selectedDate);
+    });
+  });
+}
+
+// 비동기 응답을 받았을 때 
+function updateThymeleafTemplate({ comment, planList, reservationList }) {
+
+  // Comment Section 업데이트
+  const commentDateElement = document.querySelector(".comment-content .comment-date span");
+  const commentContentElement = document.querySelector(".comment-content .comment-c .cContent");
+  const dietContentElement = document.querySelector(".comment-content .comment-c .fContent");
+
+  if (comment) {
+    // 날짜 형식 변환 (한국어 요일 출력)
+    const date = new Date(comment.commentDate);
+    const formattedDate = formatDate(date);
+
+    // 데이터 설정
+    commentDateElement.textContent = formattedDate;
+    commentContentElement.textContent = comment.ccontent || "";
+    dietContentElement.textContent = comment.fcontent || "";
+  } else {
+    // 데이터가 없을 때 빈 내용 설정
+    commentDateElement.textContent = "";
+    commentContentElement.textContent = "";
+    dietContentElement.textContent = "";
+  }
+  console.log("updateThymeleaf selectedDate: "+ selectedDate);
+}
+
+
+// 메인 캘린더 날짜 클릭 시
 function showDateSelected(selectedCell, selectedDate) {
 
   if (selectedCell.classList.contains("focused-day")) {

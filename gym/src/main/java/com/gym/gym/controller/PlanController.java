@@ -6,9 +6,12 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -78,8 +81,11 @@ public class PlanController {
     @ResponseBody
     @GetMapping("/plan/{year}/{month}/{day}")
     // @PreAuthorize("hasRole('USER')")
-    public String listByDate(@PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("day") int day,
-                             @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
+    public ResponseEntity<Map<String, Object>> listByDate(
+                            @PathVariable("year") int year, 
+                            @PathVariable("month") int month, 
+                            @PathVariable("day") int day,
+                            @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, day); // 월은 0부터 시작하므로 -1 필요
@@ -99,12 +105,13 @@ public class PlanController {
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
-        model.addAttribute("planList", planList);
-        // model.addAttribute("commentList", commentList);
-        model.addAttribute("comment", comment);
-        model.addAttribute("reservationList", reservationList);
+        Map<String,Object> response = new HashMap<>();
 
-        return "/user/plan/plan";
+        response.put("planList", planList);
+        response.put("comment", comment);
+        response.put("reservationList", reservationList);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/insert")

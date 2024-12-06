@@ -15,7 +15,7 @@
   <script src="/js/planScript.js"></script>
 </head>
 
-<body style="overflow-x: hidden; padding-top: 50px;">
+<body style="overflow-x: hidden; padding-top: 80px;">
   <th:block th:replace="~{fragment/header::header}"></th:block>
   <div>
     <div class="row d-flex flex-nowrap px-3">
@@ -29,9 +29,9 @@
         <div class="cal-container">
           <div class="calendar">
             <div class="month">
-              <a href="#" class="nav prev"><i class="fas fa-angle-left"></i></a>
+              <a class="nav prev"><i class="fas fa-angle-left"></i></a>
               <div><span class="current-month"></span> <span class="year"></span></div>
-              <a href="#" class="nav next"><i class="fas fa-angle-right"></i></a>
+              <a class="nav next"><i class="fas fa-angle-right"></i></a>
             </div>
             <div class="days">
               <span>Mon</span>
@@ -52,7 +52,10 @@
             </div>
             <div class="comment-content">
               <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span></p>
-              <p class="comment-c"><span th:text="${comment.cContent}"></span><br><span th:text="${comment.fContent}"></span></p>
+              <p class="comment-c">
+                <span class="cContent" th:text="${comment.cContent}"></span><br>
+                <span class="fContent" th:text="${comment.fContent}"></span>
+              </p>
             </div>
           </div>
         </div>
@@ -81,7 +84,7 @@
         <div class="set-time">
           <p><i class="fa-regular fa-clock"></i></p>
           <div class="set-time-date">
-            12/4 (수)
+            <span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span>
           </div>
           <div class="set-time-drops">
             <div class="dropdown">
