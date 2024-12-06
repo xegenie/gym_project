@@ -168,6 +168,11 @@ public class UserController {
             @RequestParam("phone") String phone, @RequestParam("question") String question,
             @RequestParam("answer") String answer) throws Exception {
 
+            log.info("이름" + name);
+            log.info("번호" + phone);
+            log.info("질문" + question);
+            log.info("답변" + answer);
+
         // 이름, 전화번호, 질문, 답변을 기준으로 사용자 찾기
         Users foundUser = userService.findUserByDetails(name, phone, question, answer);
 
