@@ -15,7 +15,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> allList() throws Exception {
-        return ticketMapper.allList();
+        return ticketMapper.allList("");
+    }
+
+    @Override
+    public List<Ticket> allList(String keyword) throws Exception {
+        return ticketMapper.allList(keyword);
     }
 
     @Override

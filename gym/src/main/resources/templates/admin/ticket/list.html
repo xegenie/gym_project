@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>트레이너 목록</title>
+    <title>이용권 목록</title>
     <!-- css -->
     <link rel="stylesheet" href="/css/ticket/adminList.css">
 </head>
 
 <body>
 
-        <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
 
     <div class="container">
 
@@ -24,27 +24,85 @@
                 </div>
 
                 <div class="search-container">
-                    <form class="search" action="/admin/trainer/list" method="get" id="form">
+                    <form class="search" action="/admin/ticket/list" method="get" id="form">
                         <input type="text" name="keyword" placeholder="검색어를 입력해주세요" th:value="${param.keyword}" />
                         <button type="submit">검색</button>
                     </form>
                 </div>
 
                 <div class="list">
-                    <table>
-                        <tbody>
-                            <tr th:each="trainer : ${trainerList}">
-                                <td th:text="${trainer.no}"></td>
-                                <td th:text="${trainer.name}+'('+${trainer.userId}+')'"></td>
-                                <td th:text="${trainer.simpleInfo}"></td>
-                                <td th:text="${trainer.userCount}"></td>
-                                <td>
-                                    <a href="/admin/trainer/insert">수정</a>
-                                    <a href="/admin/trainer/delete">삭제</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="ticket">
+                        <div style="width: 100%; border-bottom: 1px solid #bbb;">
+                            <label for="" id="normal">일반 이용권</label>
+                        </div>
+                        <form action="/admin/ticket/delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <div class="items">
+
+                                <div th:if="${ticketList.?[type == '일반']?.size() == 0}" style="text-align: center; line-height: 500px; color: #777;">
+                                    조회된 이용권이 없습니다.
+                                </div>
+                                
+                                <div th:each="ticket : ${ticketList}" th:if="${ticket.type == '일반'}">
+                                    <div class="ticket-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" class="ticket-checkbox" name="ticketNos" th:value="${ticket.no}">
+                                        </div>
+                                        <div class="ticket-content">
+                                            <span class="ticket-name" th:text="${ticket.name}"></span>
+                                            <span class="ticket-info" th:text="${ticket.info}"></span>
+                                            <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                                        </div>
+                                        <div style="width: 69px;">
+                                            <a class="updateBtn" th:href="@{/admin/ticket/update(no=${ticket.no})}">수정</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="delete">
+                                <button type="submit" class="deleteBtn">삭제</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="ticket">
+                        <div style="width: 100%; border-bottom: 1px solid #bbb;">
+                            <label for="" id="pt">PT 이용권</label>
+                        </div>
+                        
+                        <form action="/admin/ticket/delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <div class="items">
+
+                                <div th:if="${ticketList.?[type == 'PT']?.size() == 0}" style="text-align: center; line-height: 500px; color: #777;">
+                                    조회된 이용권이 없습니다.
+                                </div>
+                                
+                                <div th:each="ticket : ${ticketList}" th:if="${ticket.type == 'PT'}">
+                                    <div class="ticket-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" class="ticket-checkbox" name="ticketNos" th:value="${ticket.no}">
+                                        </div>
+                                        <div class="ticket-content">
+                                            <span class="ticket-name" th:text="${ticket.name}"></span>
+                                            <span class="ticket-info" th:text="${ticket.info}"></span>
+                                            <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                                        </div>
+                                        <div style="width: 69px;">
+                                            <a class="updateBtn" th:href="@{/admin/ticket/update(no=${ticket.no})}">수정</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="delete">
+                                <button type="submit" class="deleteBtn">삭제</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    
                 </div>
 
                 <!-- <div class="pagination">
