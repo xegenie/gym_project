@@ -26,8 +26,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             u.no = tp.trainer_no
         WHERE 
             tp.name LIKE CONCAT('%', #{keyword}, '%')
-        <!-- LIMIT #{page.index}, #{page.rows} -->
+        LIMIT #{page.index}, #{page.rows}
     </select>
+
+    <!-- 데이터 갯수 -->
+    <select id="count" resultType="int">
+        SELECT 
+            COUNT(*)
+        FROM 
+            trainer_profile tp
+        JOIN 
+            files f 
+        ON 
+            tp.no = f.profile_no
+        LEFT JOIN 
+            users u 
+        ON 
+            u.no = tp.trainer_no
+        WHERE 
+            tp.name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
 
 
     <!-- 연결된 트레이너 번호로 조회 -->

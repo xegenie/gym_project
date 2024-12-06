@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gym.gym.domain.Files;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.mapper.TrainerProfileMapper;
@@ -24,7 +25,7 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
 
     @Override
     public List<TrainerProfile> list() throws Exception {
-        return trainerProfileMapper.list("");
+        return trainerProfileMapper.list("", new Page());
     }
 
     @Override
@@ -87,14 +88,25 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
     }
 
     @Override
-    public List<TrainerProfile> list(String keyword) throws Exception {
-        return trainerProfileMapper.list(keyword);
+    public List<TrainerProfile> list(String keyword, Page page) throws Exception {
+        
+        int total = count(keyword);
+        page.setTotal(total);
+
+        return trainerProfileMapper.list(keyword, page);
     }
 
     @Override
     public List<Users> trainerUsers() throws Exception {
         List<Users> trainUsers = trainerProfileMapper.trainerUsers();
         return trainUsers;
+    }
+
+    @Override
+    public int count(String keyword) throws Exception {
+        int total = trainerProfileMapper.count(keyword);
+
+        return total;
     }
 
     

@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.Files;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
@@ -50,10 +52,13 @@ public class TrainerProfileController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword)
+    public String list(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword, Page page)
             throws Exception {
-        List<TrainerProfile> trainerList = trainerProfileService.list(keyword);
+        List<TrainerProfile> trainerList = trainerProfileService.list(keyword, page);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
         model.addAttribute("trainerList", trainerList);
+        
         return "/admin/trainer/list";
     }
 

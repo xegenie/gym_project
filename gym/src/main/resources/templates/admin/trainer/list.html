@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>트레이너 목록</title>
     <!-- css -->
-    <link rel="stylesheet" href="/css/ticket/adminList.css">
+    <link rel="stylesheet" href="/css/trainer/adminList.css">
 </head>
 
 <body>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
     <div class="container">
-
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
-
+        
         <div class="main">
             <div class="inner">
                 <div class="title">
@@ -22,7 +22,7 @@
 
                 <div class="search-container">
                     <form class="search" action="/admin/trainer/list" method="get" id="form">
-                        <input type="text" name="keyword" placeholder="트레이너 이름" th:value="${param.keyword}" />
+                        <input type="text" name="keyword" placeholder="등록명으로 검색" th:value="${param.keyword}" />
                         <button type="submit">검색</button>
                     </form>
                 </div>
@@ -59,7 +59,7 @@
                     </table>
                 </div>
 
-                <!-- <div class="pagination">
+                <div class="pagination">
                     <a th:href="@{${pageUrl}(page=${page.first})}" class="first">≪</a>
                     <th:block th:if="${page.page != page.first}">
                         <a th:href="@{${pageUrl}(page=${page.prev})}" class="prev">＜</a>
@@ -76,7 +76,7 @@
                         <a th:href="@{${pageUrl}(page=${page.next})}" class="next">＞</a>
                     </th:block>
                     <a th:href="@{${pageUrl}(page=${page.last})}" class="first">≫</a>
-                </div> -->
+                </div>
 
             </div>
         </div>

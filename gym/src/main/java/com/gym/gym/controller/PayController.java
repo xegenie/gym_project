@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.service.BuyListService;
@@ -61,10 +62,10 @@ public class PayController {
 
     // 트레이너 목록
     @GetMapping("/ticket/trainerList")
-    public String trainerList(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword)
+    public String trainerList(Model model)
             throws Exception {
 
-        List<TrainerProfile> trainerList = trainerProfileService.list(keyword);
+        List<TrainerProfile> trainerList = trainerProfileService.list();
 
         model.addAttribute("trainerList", trainerList);
 

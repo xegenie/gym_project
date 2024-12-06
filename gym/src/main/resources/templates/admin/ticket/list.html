@@ -10,6 +10,9 @@
 </head>
 
 <body>
+
+        <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
+
     <div class="container">
 
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
@@ -29,15 +32,6 @@
 
                 <div class="list">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>트레이너명(id)</th>
-                                <th>소개</th>
-                                <th>관리중인 회원 수</th>
-                                <th>비고</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr th:each="trainer : ${trainerList}">
                                 <td th:text="${trainer.no}"></td>
