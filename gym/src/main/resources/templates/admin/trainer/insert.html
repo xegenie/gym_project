@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>트레이너 등록</title>
     <!-- css -->
-    <link rel="stylesheet" href="/css/ticket/adminInsert.css">
+    <link rel="stylesheet" href="/css/trainer/adminInsert.css">
 </head>
 
 <body>
+        <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
     <div class="container">
-
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
 
         <div class="main">
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="form">
-                    <form action="/admin/trainer/insert" method="POST" enctype="multipart/form-data">
+                    <form class="form-inner" action="/admin/trainer/insert" method="POST" enctype="multipart/form-data">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <div class="file-upload">
                             <div class="file-upload-box">
