@@ -1,96 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>출석 내역</title>
-    <!-- 공통 링크 추가 -->
-    <th:block th:replace="~{fragment/link::link}"></th:block>
+<body>
     <link rel="stylesheet" href="/css/attendance/list.css">
-</head>
 
-<body style="background-color: #E7ECEF;;">
-    <!-- 공통 헤더 추가 -->
+    <!-- 관리자헤더 프라그먼트 -->
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
+    <!-- 관리자페이지 메인콘텐츠 영역 틀 예시 -->
+    <div class="container">
+        <!-- 전체 컨테이너 영역 속 사이드바, 메인콘텐츠 영역 display flex 로 가로 배치 -->
+        <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
 
-    <!-- 출석 인원 -->
+        <div class="main">
+            <div class="inner">
+                <div class="title" style="height: 100px;">
+                    <!-- 출석 내역 표시 -->
+                    <h2 style="color: rgb(0, 0, 0);">출석 내역</h2>
+                    <!-- 검색 폼 추가 -->
+                </div>
 
 
-    <!-- 출석 내역 표시 -->
-    <h2 style="color: rgb(0, 0, 0);">출석 내역</h2>
-    <!-- 검색 폼 추가 -->
-  
- 
-    <form class="search-form" action="/admin/attendance/search" method="get">
-        <p class="attendance-count" style="margin-left: 10px;">
-            <p class="count">출석한 인원 수: <span th:text="${result}"></span>명</p>
-        </p>
-        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
-        <button type="submit" class="search-btn">검색</button>
-    </form>
-    
 
-    <table class="attendance-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>아이디</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>핸드폰 번호</th>
-                <th>입장 시각</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- 출석 내역이 비어있는 경우 메시지 표시 -->
-            <th:block th:if="${attendanceList.isEmpty()}">
-                <tr>
-                    <td colspan="6" align="center">출석 이용자가 없습니다.</td>
-                </tr>
-            </th:block>
+                <body style="background-color: #E7ECEF;;">
 
-            <!-- 출석 내역 출력 -->
-            <tr th:each="attendance : ${attendanceList}">
-                <td th:text="${attendance.userNo}"></td>
-                <td th:text="${attendance.users.id}"></td>
-                <td th:text="${attendance.users.name}"></td>
-                <td th:text="${attendance.users.email}"></td>
-                <td th:text="${attendance.users.phone}"></td>
-                <td th:text="${#dates.format(attendance.checkTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            </tr>
-        </tbody>
-    </table>
 
-    <!-- 페이지네이션 -->
-    <div class="pagination">
-        <a th:href="@{${pageUrl} + '&page=' + ${page.first}}" class="first">[처음]</a>
-        
-        <th:block th:if="${page.page != page.first}">
-            <a th:href="@{${pageUrl} + '&page=' + ${page.prev}}" class="prev">[이전]</a>
-        </th:block>
-        
-        <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
-            <th:block th:if="${page.page == no}">
-                <a class="active" th:text="${no}"></a>
-            </th:block>
-            <th:block th:if="${page.page != no}">
-                <a th:href="@{${pageUrl} + '&page=' + ${no}}" th:text="${no}"></a>
-            </th:block>
-        </th:block>
-        
-        <th:block th:if="${page.page != page.last}">
-            <a th:href="@{${pageUrl} + '&page=' + ${page.next}}" class="next">[다음]</a>
-        </th:block>
-        
-        <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" class="last">[마지막]</a>
+
+                    <form class="search-form" action="/admin/attendance/search" method="get">
+
+                        <!-- 출석 인원 -->
+
+                        <p class="attendance-count" style="margin-left: 10px;">
+                            <p class="count">출석한 인원 수: <span th:text="${result}"></span>명</p>
+                        </p>
+                        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
+                        <button type="submit" class="search-btn">검색</button>
+                    </form>
+
+                    <div class="list">
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>이메일</th>
+                                    <th>핸드폰 번호</th>
+                                    <th>입장 시각</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 출석 내역이 비어있는 경우 메시지 표시 -->
+                                <th:block th:if="${attendanceList.isEmpty()}">
+                                    <tr>
+                                        <td colspan="6" align="center">출석 이용자가 없습니다.</td>
+                                    </tr>
+                                </th:block>
+
+                                <!-- 출석 내역 출력 -->
+                                <tr th:each="attendance : ${attendanceList}">
+                                    <td th:text="${attendance.userNo}"></td>
+                                    <td th:text="${attendance.users.id}"></td>
+                                    <td th:text="${attendance.users.name}"></td>
+                                    <td th:text="${attendance.users.email}"></td>
+                                    <td th:text="${attendance.users.phone}"></td>
+                                    <td th:text="${#dates.format(attendance.checkTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                
+                    <!-- 페이지네이션 -->
+                    <div class="pagination">
+                        <a th:href="@{${pageUrl} + '&page=' + ${page.first}}" class="first">[처음]</a>
+                        
+                        <th:block th:if="${page.page != page.first}">
+                            <a th:href="@{${pageUrl} + '&page=' + ${page.prev}}" class="prev">[이전]</a>
+                        </th:block>
+                        
+                        <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
+                            <th:block th:if="${page.page == no}">
+                                <a class="active" th:text="${no}"></a>
+                            </th:block>
+                            <th:block th:if="${page.page != no}">
+                                <a th:href="@{${pageUrl} + '&page=' + ${no}}" th:text="${no}"></a>
+                            </th:block>
+                        </th:block>
+                        
+                        <th:block th:if="${page.page != page.last}">
+                            <a th:href="@{${pageUrl} + '&page=' + ${page.next}}" class="next">[다음]</a>
+                        </th:block>
+                        
+                        <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" class="last">[마지막]</a>
+                    </div>
+                
+                    <br>
+                
+            
+                </body>
+           
+            </body>
+
+        </div>
     </div>
-
-    <br>
-
-    <!-- 공통 푸터 추가 -->
-
-    <!-- 공통 스크립트 추가 -->
-    <th:block th:replace="~{fragment/script::script}"></th:block>
-</body>
-
-</html>
+</div>
