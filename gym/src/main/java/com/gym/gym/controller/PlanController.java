@@ -70,10 +70,39 @@ public class PlanController {
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
-        model.addAttribute("planList", planList);
+        List<Map<String, Object>> planEvents = new ArrayList<>();
+        for (Plan plan : planList) {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", plan.getPlanName());
+            event.put("start", plan.getPlanTime());
+            event.put("end", plan.getPlanEnd());
+            event.put("description", plan.getPlanContent());
+            event.put("color","#FEBC6E");
+            event.put("type", "plan");
+            
+            planEvents.add(event);
+        }
+
+        List<Map<String, Object>> reservationEvents = new ArrayList<>();
+        for (Reservation rv : reservationList) {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", rv.getTrainerName() + "PT");
+            event.put("start", rv.getRvDate());
+            event.put("end", CalcOneHourLater(rv.getRvDate()));
+            event.put("description", "");
+            event.put("color","#64CBFF");
+            event.put("type", "reservation");
+
+            reservationEvents.add(event);
+        }
+
+        // model.addAttribute("planList", planList);
         // model.addAttribute("commentList", commentList);
         model.addAttribute("comment", comment);
-        model.addAttribute("reservationList", reservationList);
+        // model.addAttribute("reservationList", reservationList);
+
+        model.addAttribute("planEvents", planEvents);
+        model.addAttribute("reservationEvents", reservationEvents);
 
         return "/user/plan/plan";
     }
@@ -163,6 +192,17 @@ public class PlanController {
         Date resetDate = calendar.getTime();
 
         return resetDate;
+    }
+
+    public Date CalcOneHourLater(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.add(Calendar.HOUR, 1);
+
+        Date oneHourLater = calendar.getTime();
+
+        return oneHourLater;
     }
 
 }

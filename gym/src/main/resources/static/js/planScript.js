@@ -7,7 +7,7 @@ let currentDate = new Date();
 
 let calendar;
 
-// 메인 캘린더
+// 미니 캘린더
 function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -134,14 +134,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   //메인 캘린더
+
   var calendarEl = document.getElementById("calendar");
 
+  var formattedEvents = [planEvents, reservationEvents].flatMap(events =>
+    events.map(event => ({
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      description: event.description,
+      color: event.color,
+      type: event.type
+    }))
+  );
+
+  console.log(formattedEvents);
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
       showDateSelected(info.dayEl, info.date);
-    }
+    },
+    events: formattedEvents
     
   });
 
