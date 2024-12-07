@@ -163,6 +163,10 @@ h2, h3 {
     background-color: #008CBA;
 }
 
+.count{
+   float: left;
+   margin-left: 53px;
+}
 
 
 
