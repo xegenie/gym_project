@@ -29,6 +29,17 @@ body {
 
 }
 
+
+.container1 .main-image2 {
+    position: relative;
+    overflow: hidden; 
+}
+
+
+
+
+
+
 .userCount, .userCount2 {
     position: absolute;
     top: 10%;
@@ -176,43 +187,8 @@ html {
 }
 
 
-
-/* 애니메이션 효과 */
-@keyframes zoomIn {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes bounceIn {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-    }
-    40% {
-        transform: translate(-50%, -45%) scale(1.1);
-    }
-    60% {
-        transform: translate(-50%, -47%) scale(1.05);
-    }
-}
-
 .container3 {
-    background-color: #000;
+    background-color: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -228,7 +204,7 @@ html {
 
 .youtube-container {
     position: relative;
-    width: 80%;
+    width: 60%;
     max-width: 1200px;
     height: 700px;
     margin: 20px 0;
@@ -243,7 +219,6 @@ html {
     font-size: 2rem;
     color: #fff;
     margin-bottom: 20px;
-    animation: fadeIn 2s ease-in-out 1;
     margin-left: 0;
     
 }
@@ -261,12 +236,11 @@ html {
     color: #fff;
     margin-bottom: 20px;
     text-align: center;
-    animation: fadeIn 2s ease-in-out 1;
 }
 
 .map-container {
     position: relative;
-    width: 80%;
+    width: 60%;
     max-width: 1200px;
     height: 700px;
     margin: 20px 0;
@@ -279,10 +253,20 @@ html {
 
 .container1 img {
     width: 100%;
-    height: auto; /* 비율 유지 */
-    object-fit: cover; /* 이미지가 잘리더라도 꽉 차게 유지 */
+    height: auto; 
+    object-fit: cover; 
 }
 
+/* 불투명하다가 */
+.main-image2 {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+/* 화면에 보이면 나오게 */
+.visible {
+    opacity: 1;
+}
 
 
 /* 반응형 */
@@ -290,28 +274,61 @@ html {
     .userCount, .userCount2 {
         font-size: 6vw;
     }
-
+    
     .centerLogo img {
         width: 50vw;
     }
-
+    
     .youtube-container, .map-container {
         width: 95%;
         height: auto;
     }
-
+    
     .youtube-container iframe, .map-container iframe {
         height: auto;
     }
-
+    
     .container1 img {
         width: 100%;
-        height: auto; /* 높이는 자동 조정 */
+        height: auto; 
     }
-
+    
     .location-info{
-        width: 100px;
+        width: 100;
         height: auto;
     }
-   
+    
+    /* 애니메이션 효과 */
+    @keyframes zoomIn {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    @keyframes bounceIn {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        40% {
+            transform: translate(-50%, -45%) scale(1.1);
+        }
+        60% {
+            transform: translate(-50%, -47%) scale(1.05);
+        }
+    }
 }

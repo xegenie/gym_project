@@ -44,7 +44,7 @@
 
             <div class="menu" id="menu">
                 <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
-                <p th:text="${#authentication.name} + ' 님 환영합니다~'"></p> 
+                <p th:text="${#authentication.name} + ' 님 환영합니다~'" style="text-align: center;"></p> 
                 </th:block>
                 <ul>
                     <li><a href="/ranking">출석 랭킹</a></li>
