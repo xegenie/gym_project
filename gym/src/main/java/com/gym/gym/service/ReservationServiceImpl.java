@@ -2,6 +2,7 @@ package com.gym.gym.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
     
     @Override
+    public List<Map<String, Object>> countByDate() throws Exception {
+        return reservationMapper.countByDate();
+    }
+
+    @Override
     public int count(Option option) throws Exception {
         return reservationMapper.count(option);
     }
@@ -71,6 +77,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> selectByStartEnd(int userNo, Date startTime, Date endTime) throws Exception {
         return reservationMapper.selectByStartEnd(userNo, startTime, endTime);
     }
+
 
 
 
