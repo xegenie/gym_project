@@ -1,6 +1,7 @@
 package com.gym.gym.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -69,6 +70,9 @@ public class ReservationController {
         
         List<Users> trainerUsers = reservationService.trainerUsers();
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        List<Map<String, Object>> countByDate = reservationService.countByDate();
+
+        model.addAttribute("countByDate", countByDate);
         model.addAttribute("sortByTrainer", sortByTrainer);
         model.addAttribute("trainerUsers", trainerUsers);
         model.addAttribute("option", option);

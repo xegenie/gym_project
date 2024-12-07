@@ -2,6 +2,7 @@ package com.gym.gym.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +32,9 @@ public interface ReservationMapper {
 
     // 트레이너별 예약 목록
     public List<Reservation> sortByTrainer(@Param("option") Option option) throws Exception;
+
+    // 날짜별 예약 개수
+    public List<Map<String, Object>> countByDate() throws Exception;
 
     public int count(@Param("option") Option option) throws Exception;
 

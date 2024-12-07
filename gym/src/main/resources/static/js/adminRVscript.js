@@ -6,6 +6,32 @@ document.addEventListener("DOMContentLoaded", function () {
     dateClick: function (info) {
       showTimeSelectionModal(info.dateStr);
     },
+    events : function(info, successCallback, failureCallback) {
+      var countByDate = [];
+
+      var events = countByDate.map(function(item) {
+        return {
+          title: item.count + ' 예약',
+          date: item.date,
+          display: 'block'
+        };
+      });
+
+      successCallback(events);
+    },
+    eventRender: function(info) {
+      var event = info.event;
+      var count = event.title.split(' ')[0];
+      var date = info.event.startStr.slice(0, 10);
+
+      var dateCell = document.querySelector('.fc-day[data-date="' + date + '"]');
+      if (dateCell) {
+        var countByDateDiv = document.createElement('div');
+        countByDateDiv.classList.add('reservation-count');
+        countByDateDiv.textContent = count;
+        dateCell.appendChild(countByDateDiv);
+      }
+    }
   });
 
   calendar.render();
