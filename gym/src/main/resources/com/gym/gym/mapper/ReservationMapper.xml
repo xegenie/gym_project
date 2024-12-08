@@ -6,12 +6,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace="매퍼 인터페이스 경로" -->
 <mapper namespace="com.gym.gym.mapper.ReservationMapper">
 
-    <!-- 날짜별 예약 개수 조회 -->
-    <select id="countByDate" resultType="map">
-      SELECT DATE(rv_date) as date, COUNT(*) as count
-      FROM reservation
-      GROUP BY DATE(rv_date)
-    </select>
 
 
     <!-- 예약 등록 -->
@@ -20,6 +14,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       values (#{userNo}, #{trainerNo}, #{rvDate})
     </insert>
 
+    <!-- 날짜별 예약 개수 조회 -->
+    <select id="countByDate" resultType="map">
+      SELECT DATE(rv_date) as date, COUNT(*) as count
+      FROM reservation
+      GROUP BY DATE(rv_date)
+    </select>
+    
     <!-- 트레이너별 예약 목록 조회 -->
     <select id="sortByTrainer">
         SELECT r.*, u.name as userName, u.id as userId, tu.name as trainerName
