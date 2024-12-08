@@ -36,6 +36,7 @@
         <!-- 두 번째 섹션 -->
         <div class="container1" style="background-color: black;">
             <img src="img/메인2.png" alt="메인 이미지" class="main-image2">
+            
         </div>
 
 
@@ -109,8 +110,8 @@
 
             function topFunction() {
                 // 최상단으로 스크롤 이동
-                document.body.scrollTop = 0; 
-                document.documentElement.scrollTop = 0; 
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
 
             }
 
@@ -119,16 +120,16 @@
                     if (entry.isIntersecting) {
                         // 화면에 보이면 'visible' 클래스 추가
                         entry.target.classList.add('visible');
-                       
+
                     }
                 });
             }, {
-                threshold: 0.5 
+                threshold: 0.5
             });
 
             // 애니메이션 효과를 줄 이미지 선택
             const target = document.querySelector('.main-image2');
-            observer.observe(target); 
+            observer.observe(target);
         </script>
     </body>
 

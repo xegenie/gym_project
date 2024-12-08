@@ -1,6 +1,8 @@
 package com.gym.gym.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gym.gym.domain.QRcode;
+import com.gym.gym.domain.Users;
 import com.gym.gym.service.QRCodeGenerator;
 
 @Controller
@@ -21,24 +25,28 @@ public class QRCodeController {
 
     @PostMapping
     public ResponseEntity<byte[]> generateQRCode() {
-        String qrText = "https://example.com"; // QR 코드에 포함할 텍스트 예시
+        // QRcode 객체 생성
+        QRcode qrCode = new QRcode();
 
-        // QR 코드 이미지를 생성하여 ByteArray로 변환
+        Users users = new Users();
+
+        qrCode.setNo(8989);  // 예시 값 
+        qrCode.setUserNo(123);
+        qrCode.setUuid(UUID.randomUUID().toString());
+        qrCode.setCreatedAt(new Date());
+
         ByteArrayOutputStream qrCodeOutputStream = new ByteArrayOutputStream();
         try {
-            qrCodeGenerator.generateQRCodeImage(qrText, qrCodeOutputStream);
+            qrCodeGenerator.generateQRCodeImage(qrCode, qrCodeOutputStream);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
-        // 이미지 데이터 바이트 배열로 반환
         byte[] imageBytes = qrCodeOutputStream.toByteArray();
 
-        // HTTP 응답에 이미지 데이터와 함께 200 OK 상태 코드 반환
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.IMAGE_PNG)
                 .body(imageBytes);
     }
 }
-
