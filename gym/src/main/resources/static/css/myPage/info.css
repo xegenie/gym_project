@@ -43,6 +43,9 @@ body {
     background-color: #7e57c2;
     color: rgb(255, 255, 255);
 }
+
+
+
 .info-table {
     border-radius: 3px;
     overflow: hidden;
@@ -82,6 +85,7 @@ body {
     font-weight: bold; /* 글씨 두껍게 */
    
 }
+
 
 
 .main-text {
