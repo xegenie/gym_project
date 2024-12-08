@@ -10,7 +10,7 @@ import lombok.Data;
 @Alias("QRcode")
 public class QRcode {
     
-    private int no;
+    private long no;
     private int userNo;
     private String uuid;
     private Date createdAt;

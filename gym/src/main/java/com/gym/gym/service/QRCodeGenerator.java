@@ -5,6 +5,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.gym.gym.domain.QRcode;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -14,12 +15,14 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service  // 이 어노테이션 추가
+@Service
 public class QRCodeGenerator {
 
-    public void generateQRCodeImage(String text, OutputStream outputStream) throws WriterException, IOException {
-        int width = 300;  // QR 코드 이미지의 가로 크기
-        int height = 300; // QR 코드 이미지의 세로 크기
+    public void generateQRCodeImage(QRcode qrCode, OutputStream outputStream) throws WriterException, IOException {
+        String qrText = createQRText(qrCode);  // QR 코드에 포함할 텍스트 생성
+
+        int width = 500;  // QR 코드 이미지의 가로 크기
+        int height = 500; // QR 코드 이미지의 세로 크기
         String fileType = "png";  // 이미지 파일 타입
 
         // QR 코드 생성에 필요한 옵션들
@@ -28,7 +31,7 @@ public class QRCodeGenerator {
 
         // QR 코드 생성기
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height, hintMap);
+        BitMatrix bitMatrix = qrCodeWriter.encode(qrText, BarcodeFormat.QR_CODE, width, height, hintMap);
 
         // BitMatrix를 BufferedImage로 변환
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -43,5 +46,10 @@ public class QRCodeGenerator {
 
         // 이미지를 outputStream으로 출력
         javax.imageio.ImageIO.write(image, fileType, outputStream);
+    }
+
+    private String createQRText(QRcode qrCode) {
+        return String.format("https://example.com?qrcodeId=%d&userNo=%d&uuid=%s&createdAt=%tF",
+                             qrCode.getNo(), qrCode.getUserNo(), qrCode.getUuid(), qrCode.getCreatedAt());
     }
 }
