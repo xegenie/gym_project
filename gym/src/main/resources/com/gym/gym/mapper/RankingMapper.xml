@@ -17,7 +17,7 @@
         JOIN users u ON a.user_no = u.no
         GROUP BY a.user_no
         ORDER BY attendanceCount DESC
-        LIMIT #{page.index}, 10;
+        LIMIT #{page.index}, 20;
     </select>
 
     <!-- 출석 랭킹 총 개수 -->
