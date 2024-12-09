@@ -151,11 +151,65 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log(formattedEvents);
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
+    customButtons: {
+      myCustomPrevButton: {
+        icon: 'chevron-left',
+        click: function() {
+          var currentDateFull = calendar.getDate(); // Calendar 인스턴스에서 getDate 호출
+          console.log("Current date:", currentDateFull);
+
+          var prevMonth = new Date(currentDateFull.getFullYear(), currentDateFull.getMonth() - 1, 1);
+          calendar.gotoDate(prevMonth); // Calendar 인스턴스에서 gotoDate 호출
+          console.log("Next month:", prevMonth);
+
+          const setYearP = prevMonth.getFullYear();
+          const setMonthP = prevMonth.getMonth()+1;
+          const setDayP = prevMonth.getDate();
+
+          changeDate(setYearP, setMonthP, setDayP);
+
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          renderCalendar(currentDate);
+        }
+      },
+      myCustomNextButton: {
+        icon: 'chevron-right',
+        click: function() {
+          var currentDateFull = calendar.getDate(); // Calendar 인스턴스에서 getDate 호출
+          console.log("Current date:", currentDateFull);
+
+          var nextMonth = new Date(currentDateFull.getFullYear(), currentDateFull.getMonth() + 1, 1);
+          calendar.gotoDate(nextMonth); // Calendar 인스턴스에서 gotoDate 호출
+          console.log("Next month:", nextMonth);
+
+          const setYearN = nextMonth.getFullYear();
+          const setMonthN = nextMonth.getMonth()+1;
+          const setDayN = nextMonth.getDate();
+
+          changeDate(setYearN, setMonthN, setDayN);
+
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          renderCalendar(currentDate);
+        }
+      }
+    },
+    headerToolbar: {
+      left: 'title',
+      right: 'today myCustomPrevButton,myCustomNextButton'
+    },
+    locale: 'ko',
+    events: formattedEvents,
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
       showDateSelected(info.dayEl, info.date);
-    },
-    events: formattedEvents
+      const formattedDate = formatDate(info.date); // 예: '12/06(Wed)'
+
+      // 변환된 날짜를 HTML 요소에 반영
+      const dateElement = document.querySelector(".set-time-date span");
+      dateElement.textContent = formattedDate;
+
+      inputSchedule.style.display = 'block';
+    }
     
   });
 
@@ -216,7 +270,7 @@ function miniCalendarClickEvents() {
             console.log("Reservation Events:", reservationEvents);
 
             // 분리된 데이터를 사용해 HTML을 업데이트
-            updateThymeleafTemplate({ comment, planEvents, reservationEvents });
+            updateThymeleafTemplate(comment);
 
             calendar.gotoDate(clickedDate);
           } else {
@@ -236,8 +290,82 @@ function miniCalendarClickEvents() {
   });
 }
 
-// 비동기 응답을 받았을 때 
-function updateThymeleafTemplate({ comment, planList, reservationList }) {
+
+// 캘린더 첫번째 날을 이용해서 1일 구하기
+function getNextOrCurrentFirstDay(date) {
+  // 주어진 날짜가 1일이면 그대로 반환
+  if (date.getDate() === 1) {
+      return date;
+  }
+
+  // 그렇지 않으면 다음 달의 1일로 설정
+  const year = date.getFullYear();
+  const month = date.getMonth(); // 현재 월
+  return new Date(year, month + 1, 1); // 다음 달의 1일
+}
+
+// 날짜에 맞춰 일정 가져오기
+function changeDate(year, month, day) {
+
+  // 선택한 날짜를 완전한 날짜 형식으로 저장
+  const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
+  console.log("Selected Date:", clickedDate);
+
+  const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
+
+  // 변환된 날짜를 HTML 요소에 반영
+  const dateElement = document.querySelector(".set-time-date span");
+  dateElement.textContent = formattedDate;
+
+
+  // GET 요청을 보낼 URL 생성
+  const url = `/user/schedule/plan/${year}/${month}/${day}`;
+  console.log("Request URL:", url);
+
+  // XMLHttpRequest 객체 생성
+  const xhr = new XMLHttpRequest();
+
+  // 요청 초기화
+  xhr.open("GET", url, true);
+
+  // 요청 상태 변화 이벤트 처리
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // 요청 성공
+        const response = JSON.parse(xhr.responseText); // 응답 데이터를 JSON으로 파싱
+        console.log("Response Data:", response);
+        // 응답 데이터를 처리하는 로직 추가
+
+        const comment = response.comment;
+        const planEvents = response.planEvents;
+        const reservationEvents = response.reservationEvents;
+
+        console.log("Comment:", comment);
+        console.log("Plan Events:", planEvents);
+        console.log("Reservation Events:", reservationEvents);
+
+        // 분리된 데이터를 사용해 HTML을 업데이트
+        updateThymeleafTemplate(comment);
+
+        calendar.gotoDate(clickedDate);
+      } else {
+        // 요청 실패
+        console.error("Error with the GET request:", xhr.status, xhr.statusText);
+      }
+    }
+  };
+
+  // 요청 전송
+  xhr.send();
+
+  // 필요한 작업 수행
+  window.selectedDate = clickedDate; // 전역 변수로 저장
+  console.log("miniCalendarClickEvents selectedDate: "+ selectedDate);
+}
+
+// 비동기 응답을 받았을 때 comment html에 보이게 하기 
+function updateThymeleafTemplate(comment) {
 
   // Comment Section 업데이트
   const commentDateElement = document.querySelector(".comment-content .comment-date span");
