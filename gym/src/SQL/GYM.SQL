@@ -41,14 +41,16 @@ CREATE TABLE `ticket` (
     `name` VARCHAR(100) NOT NULL,
     `price` INT NOT NULL,
     `info` VARCHAR(100) NOT NULL,
-    `type` VARCHAR(100) NOT NULL
+    `type` VARCHAR(100) NOT NULL,
+    `months` INT NOT NULL,
+    `pt_count` INT NULL
 );
 
 DROP TABLE IF EXISTS `buy_list`;
 
 CREATE TABLE `buy_list` (
     `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `t_no` INT NOT NULL,
+    `ticket_no` INT NOT NULL,
     `user_no` INT NOT NULL,
     `trainer_no` INT NOT NULL,
     `pt_count` INT NULL,

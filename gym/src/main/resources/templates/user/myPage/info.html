@@ -145,8 +145,7 @@
                             <td class="buttons" colspan="2">
                                 <div style="float: left;">
                                     <button type="button" class="delete" onclick="remove()">탈퇴하기</button>
-                                    <a href="changePw">비밀번호 수정</a>
-                                    <button type="button" class="change-password" onclick="showPasswordChangeForm()">비밀번호 수정</button>
+                                    <button type="button" class="change-password" onclick="PasswordChange()">비밀번호 수정</button>
                                 </div>
                                 <button style="float: right;" type="submit">수정완료</button>
                             </td>
@@ -171,6 +170,12 @@
     <!-- 스크립트 -->
     <th:block th:replace="~{fragment/script::script}"></th:block>
     <script>
+
+
+function PasswordChange() {
+        window.location.href = 'changePw'; // changePw 페이지로 이동
+    }
+
         const buttons = document.querySelectorAll('.button-group button');
         buttons.forEach(button => {
             button.addEventListener('click', () => {
