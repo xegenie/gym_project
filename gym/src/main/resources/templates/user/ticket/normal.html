@@ -14,47 +14,137 @@
     <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
 
-<body>
+<body class="fullBody">
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
     <div style="height: 100px;"></div>
 
-    <div class="ticket-container">
-        <div class="card">
-            <div class="hr">
-                <span>일반 이용권 구매</span>
-            </div>
+        <div class="ticket-container">
+            <div class="card">
+                <div class="hr">
+                    <span>일반 이용권 구매</span>
+                </div>
 
-            <form action="/user/pay/paing" method="POST">
-                <div class="ticket d-flex flex-column align-items-center">
-                    <div class="item" th:each="ticket : ${ticketList}">
-                        <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
-                            <div class="checkbox">
-                                <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
-                            </div>
-                            <div class="ticket-content d-flex flex-column">
-                                <span class="ticket-name" th:text="${ticket.name}"></span>
-                                <span class="ticket-info" th:text="${ticket.info}"></span>
-                                <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                <form action="" method="POST">
+                    <!-- 유저 정보 -->
+                    <input type="hidden" name="name" th:value="${user.name}">
+                    <input type="hidden" name="tel" th:value="${user.phone}">
+                    <input type="hidden" name="email" th:value="${user.email}">
+
+                    <div class="ticket d-flex flex-column align-items-center">
+                        <div class="item" th:each="ticket : ${ticketList}">
+                            <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
+                                <div class="checkbox">
+                                    <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
+                                </div>
+                                <div class="ticket-content d-flex flex-column">
+                                    <span class="ticket-name" th:text="${ticket.name}"></span>
+                                    <span class="ticket-info" th:text="${ticket.info}"></span>
+                                    <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="button">
-                    <button type="submit" class="btn btn-success">결제하기</button>
-                </div>
+                    <div class="button">
+                        <button onclick="requestPay()" class="btn btn-success">결제하기</button>
+                    </div>
 
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 
-    </div>
 
-    <div class="footer" style="padding-top: 200px;">
         <th:block th:replace="~{fragment/footer::footer}"></th:block>
         <th:block th:replace="~{fragment/script::script}"></th:block>
-    </div>
+
+     <!-- 1️⃣ 포트원 라이브러리 추가  -->
+     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+     <script>
+        // 모든 체크박스를 선택할 때, 하나만 선택되도록 설정
+        document.querySelectorAll('.ticket-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // 다른 체크박스는 모두 해제
+                document.querySelectorAll('.ticket-checkbox').forEach(function(otherCheckbox) {
+                    if (otherCheckbox !== checkbox) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            });
+        });
+
+         // 2️⃣  객체 초기화 하기
+         var IMP = window.IMP; 
+         IMP.init('가맹점 식별코드') 
+         
+         var today = new Date();   
+         var hours = today.getHours(); // 시
+         var minutes = today.getMinutes();  // 분
+         var seconds = today.getSeconds();  // 초
+         var milliseconds = today.getMilliseconds();
+         var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+ 
+         
+         // 3️⃣ 결제 요청하기
+         function requestPay() {
+             // 1. 체크된 상품 정보 가져오기
+            let checkedTickets = document.querySelectorAll('.ticket-checkbox:checked'); // 체크된 체크박스 선택
+            let selectedProducts = [];
+
+            checkedTickets.forEach(ticket => {
+                let ticketContainer = ticket.closest('.item'); // 체크박스가 속한 부모 요소
+                let ticketName = ticketContainer.querySelector('.ticket-name').innerText; // 상품 이름
+                let ticketPrice = ticketContainer.querySelector('.ticket-price').innerText.replace('원', '').replace(',', ''); // 상품 가격
+
+                selectedProducts.push({ name: ticketName, price: ticketPrice });
+            });
+
+            // 2. 체크된 상품 확인
+            if (selectedProducts.length === 0) {
+                alert('상품을 선택하세요.');
+                return;
+            }
+
+            // 예제: 첫 번째 상품으로 결제 요청 (필요하면 다중 결제로 확장 가능)
+            let productName = selectedProducts[0].name; // 첫 번째 상품명
+            let price = selectedProducts[0].price;     // 첫 번째 상품 가격
+ 
+             // 결제 정보 가져오기
+            //  let productName = document.getElementById('productName').value
+            //  let price = document.getElementById('price').value
+             let name = document.getElementById('name').value
+             let tel = document.getElementById('tel').value
+             let email = document.getElementById('email').value
+ 
+             IMP.request_pay({
+                 pg : 'kcp',                                 // PG사
+                 pay_method : 'card',                        // 결제방식
+                 merchant_uid: "IMP"+makeMerchantUid,        // 주문번호(상품ID)
+                 name : productName,                         // 상품명
+                 amount : price,                              // 결제금액
+                 buyer_email : email,                        // 결제자 이메일
+                 buyer_name : name,                          // 결제자 이름
+                 buyer_tel : tel,                            // 결제자 전화번호
+                 buyer_addr : address,                       // 결제자 주소
+                 buyer_postcode : postcode,                   // 결제자 우편번호
+                 // m_redirect_url : "success"          //  "리디렉션 URL", (리디렉션 방식의 경우 callback은 실행되지 않습니다.)
+             }, function (rsp) { // callback
+                 if (rsp.success) {
+                     // 결제 성공
+                     console.log(rsp);
+                     // 결제 완료 페이지로 이동
+                     location.href = '/user/pay/payResult?result=ok&proudctId=' + ("IMP"+makeMerchantUid)
+ 
+                     // 또는 ajax 요청 처리 후 이동
+                 } else {
+                     // 결제 실패
+                     console.log(rsp);
+                 }
+             });
+         }
+     </script>
+
 </body>
 
 </html>
