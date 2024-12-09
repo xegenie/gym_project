@@ -16,14 +16,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 날짜별 예약 개수 조회 -->
     <select id="countByDate" resultType="map">
-      SELECT DATE(rv_date) as date, COUNT(*) as count
+      SELECT DATE(rv_date) as date, COUNT(*) as count, trainer_no
       FROM reservation
-      GROUP BY DATE(rv_date)
+      where 1=1
+        <if test="option.keyword != null and option.keyword != ''">
+          and trainer_no = #{option.keyword}
+        </if>
+      GROUP BY DATE(rv_date), trainer_no
     </select>
     
     <!-- 트레이너별 예약 목록 조회 -->
     <select id="sortByTrainer">
-        SELECT r.*, u.name as userName, u.id as userId, tu.name as trainerName
+        SELECT r.*, u.name as userName, u.id as userId, tu.name as trainerName, COUNT(*) as count
         FROM reservation r
         LEFT JOIN users u ON r.user_no = u.no
         LEFT JOIN users tu ON r.trainer_no = tu.no
@@ -33,8 +37,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           where ua.auth = 'ROLE_TRAINER'
         )
         <if test="option.keyword != null and option.keyword != ''">
-          and tu.name = #{option.keyword}
+          and r.trainer_no = #{option.keyword}
         </if>
+        and r.enabled = 1
+        GROUP BY r.no, u.name, u.id, tu.name
     </select>
 
     <!-- 트레이너인 유저리스트 -->

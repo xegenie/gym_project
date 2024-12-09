@@ -64,8 +64,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
     
     @Override
-    public List<Map<String, Object>> countByDate() throws Exception {
-        return reservationMapper.countByDate();
+    public List<Map<String, Object>> countByDate(Option option) throws Exception {
+        return reservationMapper.countByDate(option);
     }
 
     @Override
