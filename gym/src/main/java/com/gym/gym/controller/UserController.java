@@ -42,6 +42,7 @@ public class UserController {
     @GetMapping("/user/myPage/info")
     public String myPage(Model model, @AuthenticationPrincipal CustomUser authuser) throws Exception {
         Long no = authuser.getUser().getNo();
+        
         Users user = userService.select(no);
         model.addAttribute("user", user);
         return "/user/myPage/info";
@@ -258,31 +259,39 @@ public class UserController {
         return "/user/myPage/changePw";
     }
 
-    // 회원정보 수정 비밀번호 변경 처리
-    @PostMapping("/user/myPage/changePw")
-    public String changePw( @RequestParam("password") String password, 
-                            @RequestParam("newPassword") String newPassword,  @AuthenticationPrincipal CustomUser authuser,RedirectAttributes redirectAttributes, Model model) throws Exception {
-                                String code = UUID.randomUUID().toString().substring(0, 6);
-        Users user = userService.select(authuser.getNo());
-             user.setCode(code);
-             userService.codeInsert(user);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+   // 회원정보 수정 비밀번호 변경 처리
+@PostMapping("/user/myPage/changePw")
+public String changePw(@RequestParam("password") String password, 
+                        @RequestParam("newPassword") String newPassword,  
+                        @AuthenticationPrincipal CustomUser authuser,
+                        RedirectAttributes redirectAttributes, Model model) throws Exception {
+    String code = UUID.randomUUID().toString().substring(0, 6);
 
-        if (encoder.matches(password, user.getPassword())) {
-            String encodedNewPassword = encoder.encode(newPassword);
-            user.setPassword(encodedNewPassword);
-            
-          int result = userService.passwordUpdate(user);
-            if (result > 0) {
-                user.setCode(null);
-                userService.codeInsert(user);
-                return "redirect:info";
-            }
+    Users user = userService.select(authuser.getNo());
+    user.setCode(code);
+    userService.codeInsert(user);
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    if (encoder.matches(password, user.getPassword())) {
+        String encodedNewPassword = encoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+        
+        int result = userService.passwordUpdate(user);
+        if (result > 0) {
+            user.setCode(null);
+            userService.codeInsert(user);
+            model.addAttribute("message", "비밀번호 수정 성공");
+            return "redirect:info";
         }
-        redirectAttributes.addFlashAttribute("error", "");
-        user.setCode(null);
-        userService.codeInsert(user);
-        return "/index";
     }
+
+    user.setCode(null);
+    userService.codeInsert(user);
+    model.addAttribute("message", "비밀번호 수정 실패");
+    return "redirect:info";
+}
+
+
+
 
 }

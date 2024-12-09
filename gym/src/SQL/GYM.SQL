@@ -53,11 +53,12 @@ CREATE TABLE `buy_list` (
     `ticket_no` INT NOT NULL,
     `user_no` INT NOT NULL,
     `trainer_no` INT NOT NULL,
-    `pt_count` INT NULL,
+    -- `pt_count` INT NULL,
     `buy_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_date` TIMESTAMP NOT NULL,
     `canceled_at`	TIMESTAMP	NULL,
-	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상'
+	`status`	VARCHAR(10)	NOT NULL	DEFAULT '정상',
+    `start_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 DROP TABLE IF EXISTS `trainer_profile`;
