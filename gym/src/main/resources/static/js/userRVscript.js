@@ -20,6 +20,7 @@ function showTimeSelectionModal(selectedDate) {
   dateDisplay.textContent = `${selectedDate}`;
 
   timeButtonsContainer.innerHTML = "";
+  
   for (let hour = 10; hour <= 21; hour++) {
     let button = document.createElement("button");
     button.textContent = `${hour}:00`;

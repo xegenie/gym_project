@@ -27,6 +27,9 @@
     <!-- 예약 모달 -->
     <div id="timeSelectionModal">
       <div class="modal-container">
+        <th:block th:each="reservation : ${sortByTrainer}">
+          <div th:text="${reservation.trainerNo}"></div>
+        </th:block>
         <div class="modal-info">
           <h3>예약 시간 선택</h3>
           <p id="selectedDate"></p>
