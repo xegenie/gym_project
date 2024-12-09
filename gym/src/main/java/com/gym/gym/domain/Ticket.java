@@ -10,5 +10,7 @@ public class Ticket {
     private int price;
     private String info;
     private String type;
+    private int months;
+    private int ptCount;
     
 }

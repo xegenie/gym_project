@@ -165,6 +165,8 @@ input[type="checkbox"] {
     padding: 40px 0 40px 0;
 }
 
-.pt-count-row-show {
-    display: table-row;
+#ptCountRow {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 적절한 간격 추가 */
 }
