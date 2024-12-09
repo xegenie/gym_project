@@ -61,9 +61,10 @@ public class PayController {
         model.addAttribute("ticketList", ticketList);
 
         // 유저 조회
-        Users user = userService.select(userDetails.getNo());
-        model.addAttribute("user", user);
-
+        if (userDetails != null) {
+            Users user = userService.select(userDetails.getNo());
+            model.addAttribute("user", user);
+        }
         return "/user/ticket/normal";
     }
 

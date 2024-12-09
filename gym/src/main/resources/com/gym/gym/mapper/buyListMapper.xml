@@ -25,7 +25,7 @@
         JOIN 
             Ticket t 
         ON 
-            b.t_no = t.no
+            b.ticket_no = t.no
     </select>
 
     <select id="listByUser" parameterType="Long" resultType="BuyList">
@@ -48,7 +48,7 @@
         JOIN 
             Ticket t 
         ON 
-            b.t_no = t.no
+            b.ticket_no = t.no
         WHERE 
             b.user_no = #{userNo}
     </select>
@@ -61,7 +61,7 @@
     </update>
 
     <insert id="insert">
-        INSERT INTO buy_list (t_no, user_no, trainer_no, pt_count, end_date)
+        INSERT INTO buy_list (ticket_no, user_no, trainer_no, pt_count, end_date)
         VALUES (#{ticket_no}, #{user_no}, #{trainer_no}, #{pt_count}, #{end_date})
     </insert>
 

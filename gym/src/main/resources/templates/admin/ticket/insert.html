@@ -83,32 +83,40 @@
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="display: flex; align-items: center; height: 55px;">
                                 <th>타입</th>
-                                <td style="width: 300px;">
-                                    <select name="type" id="typeInput">
+                                <td style="width: 300px; display: flex; gap: 15px; align-items: center;">
+                                    <select name="type" id="typeInput" style="max-height: 30px;"
+                                        onchange="ptCountRow()">
                                         <option value="일반">일반</option>
                                         <option value="PT">PT</option>
                                     </select>
-                            
+
                                     <!-- 횟수 항목을 타입 td 안에 배치 -->
                                     <div id="ptCountRow" style="display: none;">
-                                        <select name="ptCount" onchange="ptCountInput()" id="ptCountInput">
+                                        <select name="ptCount" onchange="ptCountInput()" id="ptCountInput"
+                                            style="margin-bottom: 14px;">
                                             <option value="1">1회</option>
+                                            <option value="1">3회</option>
                                             <option value="5">5회</option>
+                                            <option value="5">7회</option>
                                             <option value="10">10회</option>
+                                            <option value="10">15회</option>
                                             <option value="20">20회</option>
+                                            <option value="20">25회</option>
                                             <option value="30">30회</option>
+                                            <option value="30">35회</option>
                                             <option value="40">40회</option>
+                                            <option value="40">45회</option>
                                             <option value="50">50회</option>
-                                            <option value="custom">직접입력</option>
                                         </select>
-                                        <input type="number" id="customCount" name="ptCount" placeholder="직접 입력" 
-                                            style="display:none; width: 100px; font-size: 14px; margin-left: 10px;" onchange="ptCountInput()" />
+                                        <input type="number" id="customCount" name="ptCount" placeholder="직접 입력"
+                                            style="display:none; width: 100px; font-size: 14px; margin-left: 10px;"
+                                            onchange="ptCountInput()" />
                                     </div>
                                 </td>
                             </tr>
-                            
+
                             <tr style="display: flex; justify-content: end;">
                                 <td colspan="2">
                                     <button type="submit">등록</button>
@@ -130,7 +138,7 @@
             const priceInput = document.getElementById('priceInput').value;
 
             // 가격 포맷팅
-            const formattedPrice = priceInput ? 
+            const formattedPrice = priceInput ?
                 `${Number(priceInput).toLocaleString()} 원` :
                 "가격";
 
@@ -141,37 +149,55 @@
         function monthsInput() {
             const selectInput = document.getElementById('monthsInput');
             const customInput = document.getElementById('customMonth');
-            console.log('monthsInput 호출:', selectInput.value); // 디버깅 로그
 
             if (selectInput.value === 'custom') {
                 customInput.style.display = 'inline'; // '직접입력'을 선택하면 입력란 보이기
+                const monthsValue = customInput.value;
+                document.querySelector('input[name="months"]').value = monthsValue; // 'months' 필드에 int 값 설정
+                console.log('months : ' + monthsValue)
             } else {
                 customInput.style.display = 'none'; // '직접입력' 아니면 숨기기
+                const monthsValue = parseInt(selectInput.value, 10); // 선택된 값을 int로 변환
+                document.querySelector('input[name="months"]').value = monthsValue; // 'months' 필드에 int 값 설정
+                console.log('months : ' + monthsValue)
             }
         }
 
-        // PT 타입일 때 횟수 선택과 직접입력 표시
-        function ptCountInput() {
+
+        // PT 타입 일 때 횟수 선택
+        function ptCountRow() {
             const typeInput = document.getElementById('typeInput');
             const ptCountRow = document.getElementById('ptCountRow');
-            const ptCountInput = document.getElementById('ptCountInput');
-            const customCountInput = document.getElementById('customCount');
-            console.log('ptCountInput 호출:', typeInput.value); // 디버깅 로그
-
             if (typeInput.value === 'PT') {
                 ptCountRow.style.display = 'table-row';
-
-                // '직접입력' 옵션 처리
-                if (ptCountInput.value === 'custom') {
-                    customCountInput.style.display = 'inline'; // '직접입력' 선택 시 입력 필드 표시
-                } else {
-                    customCountInput.style.display = 'none'; // '직접입력'이 아니면 숨기기
-                }
             } else {
                 ptCountRow.style.display = 'none'; // 다른 타입 선택 시 숨기기
-                customCountInput.style.display = 'none'; // '직접입력' 숨김
             }
         }
+
+        // 횟수 직접입력 표시
+        function ptCountInput() {
+            const ptCountInput = document.getElementById('ptCountInput');
+            const customCountInput = document.getElementById('customCount');
+
+            // '직접입력' 옵션 처리 ( 포기 )
+            if (ptCountInput.value === 'custom') {
+                customCountInput.style.display = 'inline'; // '직접입력' 선택 시 입력 필드 표시
+                // 직접 입력한 값이 있을 경우 그 값을 사용
+                const ptCountValue = customCountInput.value; // customCount에서 입력된 값을 가져오기
+                document.querySelector('input[name="ptCount"]').value = ptCountValue; // 'ptCount' 필드에 int 값 설정
+                console.log('ptCount : ' + ptCountValue);
+            } else {
+                customCountInput.style.display = 'none'; // '직접입력'이 아니면 숨기기
+                const ptCountValue = parseInt(ptCountInput.value, 10); // 선택된 값을 int로 변환
+                document.querySelector('input[name="ptCount"]').value = ptCountValue; // 'ptCount' 필드에 int 값 설정
+                console.log('ptCount : ' + ptCountValue);
+            }
+        }
+
+
+
+
 
         // 페이지 로딩 시 초기화
         window.onload = function () {

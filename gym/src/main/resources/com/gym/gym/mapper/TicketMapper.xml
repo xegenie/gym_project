@@ -34,8 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 등록 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO ticket ( name, price, info, type )
-        VALUES ( #{name}, #{price}, #{info}, #{type} )
+        INSERT INTO ticket ( name, price, info, type, months, pt_count )
+        VALUES ( #{name}, #{price}, #{info}, #{type}, #{months}, #{ptCount} )
     </insert>
 
     <!-- 수정 -->
@@ -45,6 +45,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               ,price = #{price}
               ,info = #{info}
               ,type = #{type}
+              ,months = #{months}
+              ,pt_count = #{ptCount}
         WHERE no = #{no}
     </update>
 

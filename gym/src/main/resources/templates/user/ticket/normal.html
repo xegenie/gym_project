@@ -17,27 +17,30 @@
 <body class="fullBody">
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
-        <div class="ticket-container">
-            <div class="card">
-                <div class="hr">
-                    <span>일반 이용권 구매</span>
-                </div>
+    <div class="ticket-container" style="margin-top: 150px; margin-bottom: 100px;">
+        <div class="card">
+            <div class="hr">
+                <span>일반 이용권 구매</span>
+            </div>
 
-                    <!-- 유저 정보 -->
-                    <input type="hidden" name="name" th:value="${user.name}">
-                    <input type="hidden" name="tel" th:value="${user.phone}">
-                    <input type="hidden" name="email" th:value="${user.email}">
+            <!-- 유저 정보 -->
+            <div id="userStatus" th:data-user="${user != null ? 'true' : 'false'}" style="display: none;"></div>
 
-                    <div class="ticket d-flex flex-column align-items-center">
-                        <div class="item" th:each="ticket : ${ticketList}">
-                            <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
-                                <div class="checkbox">
-                                    <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
-                                </div>
-                                <div class="ticket-content d-flex flex-column">
-                                    <span class="ticket-name" th:text="${ticket.name}"></span>
-                                    <span class="ticket-info" th:text="${ticket.info}"></span>
-                                    <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
+            <input type="hidden" name="name" th:value="${user != null ? user.name : ''}">
+            <input type="hidden" name="tel" th:value="${user != null ? user.phone : ''}">
+            <input type="hidden" name="email" th:value="${user != null ? user.email : ''}">
+
+            <div class="ticket d-flex flex-column align-items-center">
+                <div class="item" th:each="ticket : ${ticketList}">
+                    <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
+                        <div class="checkbox">
+                            
+                            <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
+                        </div>
+                        <div class="ticket-content d-flex flex-column">
+                            <span class="ticket-name" th:text="${ticket.name}"></span>
+                            <span class="ticket-info" th:text="${ticket.info}"></span>
+                            <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +87,15 @@
          
          // 3️⃣ 결제 요청하기
          function requestPay() {
+            // user 상태 확인
+            var userStatus = document.getElementById('userStatus').getAttribute('data-user');
+                if (userStatus === 'false') {
+                    // 로그인되지 않은 경우 로그인 페이지로 이동
+                    alert('로그인이 필요합니다.');
+                    location.href = '/login'; // 로그인 페이지로 리디렉션
+                    return;
+                }
+
             let checkedTicket = document.querySelector('.ticket-checkbox:checked');
             if (!checkedTicket) {
                 alert('상품을 선택하세요.');
