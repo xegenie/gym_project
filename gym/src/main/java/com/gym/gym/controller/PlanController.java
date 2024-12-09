@@ -73,6 +73,7 @@ public class PlanController {
         List<Map<String, Object>> planEvents = new ArrayList<>();
         for (Plan plan : planList) {
             Map<String, Object> event = new HashMap<>();
+            event.put("id", plan.getNo());
             event.put("title", plan.getPlanName());
             event.put("start", plan.getPlanTime());
             event.put("end", plan.getPlanEnd());
@@ -86,6 +87,7 @@ public class PlanController {
         List<Map<String, Object>> reservationEvents = new ArrayList<>();
         for (Reservation rv : reservationList) {
             Map<String, Object> event = new HashMap<>();
+            event.put("id", rv.getNo());
             event.put("title", rv.getTrainerName() + "PT");
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
@@ -119,9 +121,13 @@ public class PlanController {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, day); // 월은 0부터 시작하므로 -1 필요
         Date date = calendar.getTime();
+        System.out.println("선택날짜(date): "+date);
 
         Date commentDate = DayFirst(date);
+        System.out.println("선택날짜 0시0분(commentDate): " + commentDate);
+
         List<Date> dates = MonthFirstLast(date);
+        System.out.println("선택날짜의 달 첫, 마지막 날: "+ dates);
 
         Date startDate = dates.get(0);
         Date endDate = dates.get(1);
@@ -133,10 +139,15 @@ public class PlanController {
         // List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
+        
+        System.out.println("planList: " + planList);
+        System.out.println("comment: " + comment);
+        System.out.println("reservationList: "+ reservationList);
 
         List<Map<String, Object>> planEvents = new ArrayList<>();
         for (Plan plan : planList) {
             Map<String, Object> event = new HashMap<>();
+            event.put("id", plan.getNo());
             event.put("title", plan.getPlanName());
             event.put("start", plan.getPlanTime());
             event.put("end", plan.getPlanEnd());
@@ -150,6 +161,7 @@ public class PlanController {
         List<Map<String, Object>> reservationEvents = new ArrayList<>();
         for (Reservation rv : reservationList) {
             Map<String, Object> event = new HashMap<>();
+            event.put("id", rv.getNo());
             event.put("title", rv.getTrainerName() + "PT");
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
@@ -163,9 +175,9 @@ public class PlanController {
         Map<String,Object> response = new HashMap<>();
 
         // response.put("planList", planList);
-        response.put("planEvents", planEvents);
-        response.put("comment", comment);
         // response.put("reservationList", reservationList);
+        response.put("comment", comment);
+        response.put("planEvents", planEvents);
         response.put("reservationEvents", reservationEvents);
 
         return ResponseEntity.ok(response);
@@ -182,27 +194,30 @@ public class PlanController {
     
     public List<Date> MonthFirstLast(Date date) {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
+    
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
-
+    
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
         LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
-
-        int firstDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue();
-
-        LocalDate calendarStartDate = firstDayOfMonth.minusDays(firstDayOfWeek % 7);
-
-        LocalDate calendarEndDate = lastDayOfMonth.plusDays(42 - (firstDayOfWeek + lastDayOfMonth.getDayOfMonth() - 1) % 7 - 1);
-
+    
+        // 이번 달의 첫째 날의 요일 (일요일 = 0, 월요일 = 1, ...)
+        int firstDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue() % 7;
+    
+        // 캘린더 시작 날짜: 이번 달 첫째 주의 일요일
+        LocalDate calendarStartDate = firstDayOfMonth.minusDays(firstDayOfWeek);
+    
+        // 캘린더 종료 날짜: 마지막 주의 토요일
+        LocalDate calendarEndDate = calendarStartDate.plusDays(41);
+    
         Date startDate = Date.from(calendarStartDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()); // 00:00:00
         Date endDate = Date.from(calendarEndDate.atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant()); 
-
-        List<Date> dates = new ArrayList<Date>();
+    
+        List<Date> dates = new ArrayList<>();
         dates.add(startDate);
         dates.add(endDate);
-
+    
         return dates;
     }
 
