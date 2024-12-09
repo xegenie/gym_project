@@ -134,11 +134,39 @@ public class PlanController {
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
+        List<Map<String, Object>> planEvents = new ArrayList<>();
+        for (Plan plan : planList) {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", plan.getPlanName());
+            event.put("start", plan.getPlanTime());
+            event.put("end", plan.getPlanEnd());
+            event.put("description", plan.getPlanContent());
+            event.put("color","#FEBC6E");
+            event.put("type", "plan");
+            
+            planEvents.add(event);
+        }
+
+        List<Map<String, Object>> reservationEvents = new ArrayList<>();
+        for (Reservation rv : reservationList) {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", rv.getTrainerName() + "PT");
+            event.put("start", rv.getRvDate());
+            event.put("end", CalcOneHourLater(rv.getRvDate()));
+            event.put("description", "");
+            event.put("color","#64CBFF");
+            event.put("type", "reservation");
+
+            reservationEvents.add(event);
+        }
+
         Map<String,Object> response = new HashMap<>();
 
-        response.put("planList", planList);
+        // response.put("planList", planList);
+        response.put("planEvents", planEvents);
         response.put("comment", comment);
-        response.put("reservationList", reservationList);
+        // response.put("reservationList", reservationList);
+        response.put("reservationEvents", reservationEvents);
 
         return ResponseEntity.ok(response);
     }

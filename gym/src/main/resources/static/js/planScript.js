@@ -208,15 +208,15 @@ function miniCalendarClickEvents() {
             // 응답 데이터를 처리하는 로직 추가
 
             const comment = response.comment;
-            const planList = response.planList;
-            const reservationList = response.reservationList;
+            const planEvents = response.planEvents;
+            const reservationEvents = response.reservationEvents;
 
             console.log("Comment:", comment);
-            console.log("Plan List:", planList);
-            console.log("Reservation List:", reservationList);
+            console.log("Plan Events:", planEvents);
+            console.log("Reservation Events:", reservationEvents);
 
             // 분리된 데이터를 사용해 HTML을 업데이트
-            updateThymeleafTemplate({ comment, planList, reservationList });
+            updateThymeleafTemplate({ comment, planEvents, reservationEvents });
 
             calendar.gotoDate(clickedDate);
           } else {
