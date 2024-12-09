@@ -36,6 +36,43 @@ body {
 }
 
 
+.icon {
+    position: absolute;
+    top: -6%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding: 10px;
+    animation: fadeIn 2s ease-in-out 1;
+}
+
+
+.status-icon {
+    display: inline-block;
+    padding: 10px 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+
+.low {
+    background-color: green; /* 여유 */
+}
+
+.normal {
+    background-color: yellow; /* 보통 */
+    color: black; /* 텍스트 색상 */
+}
+
+.high {
+    background-color: red; /* 포화 */
+}
+
+
+
 
 
 
@@ -54,14 +91,21 @@ body {
 }
 
 .userCount {
-    font-size: 3vw;
+    font-size: 2vw;
     top: 25%;
 }
 
 .userCount2 {
-    font-size: 3vw;
+    font-size: 2vw;
     top: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    
 }
+
 
 .centerLogo {
     position: absolute;

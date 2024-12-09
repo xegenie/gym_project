@@ -42,6 +42,6 @@ public interface AttendanceService {
     int getAttendanceCountByUserNo(int userNo) throws Exception; // 여기에 추가
 
     // 출석 인원수 조회
-    public int listCount() throws Exception;
+     int listCount() throws Exception;
     
 }

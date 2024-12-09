@@ -63,6 +63,14 @@ public class AttendanceController {
         return "admin/attendance/list";
     }
 
+    // 출석 체크 페이지를 보여주는 GET 요청 처리
+    @GetMapping("/check")
+    public String showCheckPage(@RequestParam("qrcodeId") String qrcodeId, @RequestParam("uuid") String uuid, Model model) {
+        model.addAttribute("qrcodeId", qrcodeId);
+        model.addAttribute("uuid", uuid);
+        return "check";
+    }
+
     // 출석 체크 (등록)
     @PostMapping("/check")
     public String insertAttendance(@ModelAttribute Attendance attendance, Model model) {
