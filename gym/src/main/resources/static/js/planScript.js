@@ -100,6 +100,14 @@ function formatDate(date) {
   return formattedDate;
 }
 
+function formatTime(date) {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? '오후' : '오전';
+  const formattedHours = hours % 12 || 12; // 12시간제로 변환
+  return `${ampm} ${formattedHours}:${minutes.toString().padStart(2, '0')}`;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // 이전/다음 버튼 이벤트 추가
   document.querySelector(".prev").addEventListener("click", () => {
@@ -115,14 +123,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // 초기 렌더링
   renderCalendar(currentDate);
 
-  // 드롭다운 설정
-  setupDropdown("dropdown-button-1", "options-1");
-  setupDropdown("dropdown-button-2", "options-2");
-
   // modal
   const inputSchedule = document.querySelector('.input-schedule');
+  const planModal = document.querySelector('.exercise-bymyself');
+  const reservationModal = document.querySelector('.exercise-pt');
+
   const inputScheduleOpen = document.querySelector('.upd-schedule');
+  
   const inputScheduleClose = document.querySelector('.input-schedule-close');
+  const planModalClose = document.querySelector('.exercise-bymyself-close');
+  const reservationModalClose = document.querySelector('.exercise-pt-close');
 
   inputScheduleOpen.addEventListener('click', function () {
     inputSchedule.style.display = 'block';
@@ -131,6 +141,14 @@ document.addEventListener("DOMContentLoaded", function () {
   inputScheduleClose.addEventListener('click', function () {
     inputSchedule.style.display = 'none';
   });
+
+  planModalClose.addEventListener('click', function() {
+    planModal.style.display = 'none';
+  })
+
+  reservationModalClose.addEventListener('click', function() {
+    reservationModal.style.display = 'none';
+  })
 
 
   //메인 캘린더
@@ -195,13 +213,14 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     headerToolbar: {
       left: 'title',
-      right: 'today myCustomPrevButton,myCustomNextButton'
+      right: 'myCustomPrevButton,myCustomNextButton'
     },
     locale: 'ko',
     events: formattedEvents,
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
       showDateSelected(info.dayEl, info.date);
+      currentDate = info.date;
       const formattedDate = formatDate(info.date); // 예: '12/06(Wed)'
 
       // 변환된 날짜를 HTML 요소에 반영
@@ -209,11 +228,45 @@ document.addEventListener("DOMContentLoaded", function () {
       dateElement.textContent = formattedDate;
 
       inputSchedule.style.display = 'block';
+
+      console.log("currentDate: "+ currentDate);
+    },
+    eventClick: function(info){
+      const eventType = info.event.extendedProps.type;
+      
+      document.querySelectorAll('.pop-up').forEach(modal => {
+        modal.style.display = 'none';
+      });
+
+      if (eventType == 'plan') {
+        
+        planModal.style.display = 'block';
+
+        planModal.querySelector('.popup-title').textContent = info.event.title || '운동 계획';
+        planModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+        planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
+        planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
+        planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';
+      } else if (eventType === 'reservation') {
+        
+      reservationModal.style.display = 'block';
+
+      // Reservation 모달 데이터 업데이트
+      reservationModal.querySelector('.popup-title').textContent = info.event.title || 'PT 예약';
+      reservationModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+      reservationModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
+      reservationModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
+      reservationModal.querySelector('.trainer-name').textContent = info.event.extendedProps.description|| '트레이너 정보 없음';
+      }
     }
     
   });
 
   calendar.render();
+
+   // 드롭다운 설정
+   setupDropdown("dropdown-button-start", "options-start");
+   setupDropdown("dropdown-button-end", "options-end");
   
 });
 
@@ -234,6 +287,9 @@ function miniCalendarClickEvents() {
       // 선택한 날짜를 완전한 날짜 형식으로 저장
       const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
       console.log("Selected Date:", clickedDate);
+
+      currentDate = clickedDate;
+      console.log("currentDate: "+ currentDate);
 
       const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
 
@@ -310,6 +366,8 @@ function changeDate(year, month, day) {
   // 선택한 날짜를 완전한 날짜 형식으로 저장
   const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
   console.log("Selected Date:", clickedDate);
+  currentDate = clickedDate;
+  console.log("currentDate: "+ currentDate);
 
   const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
 
@@ -405,4 +463,23 @@ function showDateSelected(selectedCell, selectedDate) {
 
   // 클릭된 셀에 focus 스타일 추가
   selectedCell.classList.add("focused-day");
+}
+
+function setTime(type, element) {
+  const timeString = element.getAttribute('value'); // 예: "06:00"
+  const period = type === 'start' ? 'planTime' : 'planEnd'; // 시작/종료 구분
+
+  // currentDate 사용 (기존의 전역 변수)
+  const baseDate = new Date(currentDate); // currentDate를 기준으로 날짜 생성
+  baseDate.setHours(0, 0, 0, 0); // 시간을 0으로 초기화
+
+  // 시간 계산
+  const [hours, minutes] = timeString.split(':').map(Number); // "06:00" → [6, 0]
+  const fullDate = new Date(baseDate); // 기본 날짜에 시간 적용
+  fullDate.setHours(hours, minutes, 0); // 시:분:초 설정
+
+  // planTime 혹은 planEnd에 값을 설정
+  document.getElementById(period).value = fullDate.toISOString(); // ISO 형식으로 저장
+
+  console.log(`${period}:`, fullDate);
 }

@@ -91,7 +91,7 @@ public class PlanController {
             event.put("title", rv.getTrainerName() + "PT");
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
-            event.put("description", "");
+            event.put("description", rv.getTrainerName());
             event.put("color","#64CBFF");
             event.put("type", "reservation");
 
@@ -165,7 +165,7 @@ public class PlanController {
             event.put("title", rv.getTrainerName() + "PT");
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
-            event.put("description", "");
+            event.put("description", rv.getTrainerName());
             event.put("color","#64CBFF");
             event.put("type", "reservation");
 
@@ -184,7 +184,8 @@ public class PlanController {
     }
 
     @PostMapping("/insert")
-    public String insert(Plan plan) throws Exception {
+    public String insert(Plan plan, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        plan.setUserNo(userDetails.getNo().intValue());
         int result = planService.insert(plan);
         if (result>0) {
             return "redirect:/user/schedule/plan";
@@ -198,9 +199,9 @@ public class PlanController {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
     
-        YearMonth yearMonth = YearMonth.of(year, month);
+        // YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
-        LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
+        // LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
     
         // 이번 달의 첫째 날의 요일 (일요일 = 0, 월요일 = 1, ...)
         int firstDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue() % 7;

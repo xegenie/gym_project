@@ -165,12 +165,21 @@
   }
 
 .pop-up{
-    width: 350px;
-    height: 350px;
-    background-color: #F3F3F3;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow:1px 1px 5px rgba(10, 10, 10, 0.3);
+  width: 350px;
+  height: 350px;
+  background-color: #F3F3F3;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow:1px 1px 5px rgba(10, 10, 10, 0.3);
+}
+
+.exercise-bymyself,
+.exercise-pt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
 
 .pop-up .popup-type {
