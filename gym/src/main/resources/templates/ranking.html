@@ -32,7 +32,7 @@
             </div>
 
             <br><br>
-            <table class="attendance-table">
+            <table class="attendance-table" style="font-size: large;">
                 <thead>
                     <tr>
                         <th>랭킹</th>
@@ -63,8 +63,10 @@
                 </tbody>
             </table>
 
+
+            
             <!-- 페이지네이션 -->
-            <div class="pageNav">
+            <div class="pageNav" style="margin-bottom: 100px; gap: 20px;">
                 <!-- [처음] -->
                 <a th:href="@{${pageUrl} + '&page=' + ${page.first}}" style="color: aliceblue;">[처음]</a>
                 <!-- [이전] -->
