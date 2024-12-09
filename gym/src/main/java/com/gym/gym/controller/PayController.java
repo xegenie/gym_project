@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
-import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
+import com.gym.gym.domain.Users;
 import com.gym.gym.service.BuyListService;
 import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
+import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,9 @@ public class PayController {
     private TrainerProfileService trainerProfileService;
     @Autowired
     private TicketService ticketService;
-
+    @Autowired
+    private UserService userService;
+    
     // 이용권 선택
     @GetMapping("/ticket/choice")
     public String choice(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
@@ -52,10 +55,14 @@ public class PayController {
 
     // 일반 이용권
     @GetMapping("/ticket/normal")
-    public String normal(Model model) throws Exception {
+    public String normal(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         // 티켓 조회
         List<Ticket> ticketList = ticketService.normalList();
         model.addAttribute("ticketList", ticketList);
+
+        // 유저 조회
+        Users user = userService.select(userDetails.getNo());
+        model.addAttribute("user", user);
 
         return "/user/ticket/normal";
     }
