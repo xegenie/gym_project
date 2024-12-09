@@ -34,7 +34,7 @@ public interface ReservationMapper {
     public List<Reservation> sortByTrainer(@Param("option") Option option) throws Exception;
 
     // 날짜별 예약 개수
-    public List<Map<String, Object>> countByDate() throws Exception;
+    public List<Map<String, Object>> countByDate(@Param("option") Option option) throws Exception;
 
     public int count(@Param("option") Option option) throws Exception;
 

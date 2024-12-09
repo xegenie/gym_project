@@ -13,8 +13,11 @@
 .fc-dayGridMonth-view {
     background-color: #fff;
 }
+.fc-daygrid-day-frame {
+    height: 100px !important;
+}
 .fc-daygrid-day {
-    cursor: pointer;
+    /* cursor: pointer; */
     transition: background-color 0.3s;
   }
   
@@ -141,3 +144,15 @@
     background-color: #f5f5f5; 
 }
 
+
+.reservation-count {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 3px;
+  z-index: 10;
+}

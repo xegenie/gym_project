@@ -1,52 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  const trainerList = document.getElementById("trainerList")
+  trainerList.addEventListener("change", () => {
+    const selectedTrainer = trainerList.value;
+  })
+
+
   var calendarEl = document.getElementById("calendar");
+  
+  var formattedEvents = reservationEvents.map(event => ({
+    title: event.title,
+    start: event.start,
+    end: event.end,
+    description: event.description,
+    color: event.color,
+    textColor: event.textColor,
+    type: event.type,
+    display: "block"
+    }));
 
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    dateClick: function (info) {
-      showTimeSelectionModal(info.dateStr);
-    },
-    events : function(info, successCallback, failureCallback) {
-      var countByDate = [];
+    console.log(formattedEvents);
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      dateClick: function (info) {
+        showTimeSelectionModal(info.dateStr);
+      },
+      events: formattedEvents,
+      displayEventTime: false,
+      dayMaxEventRows: 3,
+      eventDidMount: function(info) {
+          var eventEl = info.el;
+          eventEl.style.cursor = 'pointer';
 
-      var events = countByDate.map(function(item) {
-        return {
-          title: item.count + ' 예약',
-          date: item.date,
-          display: 'block'
-        };
-      });
-
-      successCallback(events);
-    },
-    eventRender: function(info) {
-      var event = info.event;
-      var count = event.title.split(' ')[0];
-      var date = info.event.startStr.slice(0, 10);
-
-      var dateCell = document.querySelector('.fc-day[data-date="' + date + '"]');
-      if (dateCell) {
-        var countByDateDiv = document.createElement('div');
-        countByDateDiv.classList.add('reservation-count');
-        countByDateDiv.textContent = count;
-        dateCell.appendChild(countByDateDiv);
+          var event = info.event;
+          var count = event.title.split(' ')[0];
+          var date = info.event.startStr.slice(0, 10);
+        
+          var dateCell = document.querySelector('.fc-day[data-date="' + date + '"]');
+          if (dateCell) {
+              var countByDateDiv = document.createElement('div');
+              countByDateDiv.classList.add('reservation-count');
+              countByDateDiv.textContent = count;
+              dateCell.appendChild(countByDateDiv);
+            }
+          },
+          eventClick: function (info) {
+            window.location.href = '/user/schedule/plan';
+          }
+        });
+        
+        calendar.render();
+    });
+      
+      
+      
+      function showTimeSelectionModal(selectedDate) {
+        var modal = document.getElementById("timeSelectionModal");
+        var dateDisplay = document.getElementById("selectedDate");
+        
+        dateDisplay.textContent = `${selectedDate}`;
+        
+        
+        modal.style.display = "block";
       }
-    }
-  });
-
-  calendar.render();
-});
-
-function showTimeSelectionModal(selectedDate) {
-  var modal = document.getElementById("timeSelectionModal");
-  var dateDisplay = document.getElementById("selectedDate");
-
-  dateDisplay.textContent = `${selectedDate}`;
-
-
-  modal.style.display = "block";
-}
-
+      
 function closeModal() {
   var modal = document.getElementById("timeSelectionModal");
   modal.style.display = "none";
@@ -82,7 +99,3 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
-const trainerList = document.getElementById("trainerList")
-trainerList.addEventListener("change", () => {
-  const selectedTrainer = trainerList.value;
-})

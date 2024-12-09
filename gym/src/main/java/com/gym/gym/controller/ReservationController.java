@@ -1,5 +1,10 @@
 package com.gym.gym.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +68,18 @@ public class ReservationController {
         model.addAttribute("pageUrl", pageUrl);
         return "/admin/reservation/list";
     }
+
+    public Date CalcOneHourLater(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.add(Calendar.HOUR, 1);
+
+        Date oneHourLater = calendar.getTime();
+
+        return oneHourLater;
+    }
+
     
     // 관리자 캘린더 화면
     @GetMapping("/admin/reservation/calendar")
@@ -70,8 +87,37 @@ public class ReservationController {
         
         List<Users> trainerUsers = reservationService.trainerUsers();
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
-        List<Map<String, Object>> countByDate = reservationService.countByDate();
+        List<Map<String, Object>> countByDate = reservationService.countByDate(option);
 
+
+
+        List<Map<String, Object>> reservationEvents = new ArrayList<>();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        for (Reservation rv : sortByTrainer) {
+
+            Map<String, Object> event = new HashMap<>();
+            String formattedTime = timeFormat.format(rv.getRvDate());
+
+            event.put("title", formattedTime + " " + rv.getUserName() + "님");
+            event.put("start", rv.getRvDate());
+            event.put("end", CalcOneHourLater(rv.getRvDate()));
+            event.put("description", "");
+            event.put("color", "lightblue");
+            event.put("textColor", "#333");
+            event.put("type", "reservation");
+
+            reservationEvents.add(event);
+        }
+
+        // List<Map<String, Object>> countByDateData = new ArrayList<>();
+        // for (Map<String, Object> count : countByDate) {
+        //     Map<String, Object> event = new HashMap<>();
+        //     event.put("title", count.size());
+
+        //     countByDateData.add(event);
+        // }
+
+        model.addAttribute("reservationEvents", reservationEvents);
         model.addAttribute("countByDate", countByDate);
         model.addAttribute("sortByTrainer", sortByTrainer);
         model.addAttribute("trainerUsers", trainerUsers);
@@ -82,6 +128,8 @@ public class ReservationController {
         .build()
         .toString();
         model.addAttribute("pageUrl", pageUrl);
+
+        System.out.println("Selected keyword: " + option.getKeyword());
         return "/admin/reservation/calendar";
     }
     
