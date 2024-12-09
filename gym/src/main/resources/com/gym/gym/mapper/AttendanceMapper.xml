@@ -58,9 +58,15 @@
     </resultMap>
 
     <!-- 출석 체크 (등록) -->
-    <insert id="insertAttendance">
-        INSERT INTO attendance (qrId, userNo, checkTime)
-        VALUES(#{qrId}, #{userNo}, #{checkTime})
+    <insert id="insertAttendance" parameterType="map">
+            INSERT INTO attendance (qr_id, user_no)
+            SELECT #{qrId}, #{userNo}
+            WHERE NOT EXISTS (
+            SELECT 1
+            FROM attendance
+            WHERE user_no = #{userNo}
+            AND DATE(check_time) = CURDATE()
+    )
     </insert>
 
     <!-- 유저 검색 -->
@@ -85,14 +91,9 @@
 
 
 
-  <!-- 출석 인원 -->
-<select id="listCount" resultType="int">
-    SELECT IFNULL(COUNT(*), 0) FROM attendance
-</select>
-
-
-
-
-
+    <!-- 출석 인원 -->
+    <select id="listCount" resultType="int" >
+        SELECT COUNT(*) FROM attendance
+    </select>
 
 </mapper>

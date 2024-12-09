@@ -34,4 +34,6 @@ public interface AttendanceMapper {
 
     // 출석 인원
     public int listCount() throws Exception;
+
+    public boolean insertAttendance(String qrId, int userNo);
 }
