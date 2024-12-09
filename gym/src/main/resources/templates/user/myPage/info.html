@@ -54,22 +54,41 @@
             background-color: #0056b3;
         }
     </style>
-      <script>
-        // 비밀번호 수정 성공 또는 실패 시 알림
-        function showMessage() {
-            const message = "${flashAttributes.message}";
-            if (message) {
-                alert(message);
-            }
-        }
-        window.onload = showMessage;
-    </script>
+     
 </head>
 
 <body class="fullBody" style="color: rgb(3, 3, 3); background-color: #252222;">
+
+    <th:block th:if="${mgNo} == 1">
+        <script>
+            // 비밀번호 수정 성공 또는 실패 시 알림
+            function showMessage() {
+       
+         
+                    alert("비밀번호 수정에 성공 했습니다.");
+           
+            }
+            window.onload = showMessage;
+        </script>
+    </th:block>
+    <th:block th:if="${mgNo} == 2">
+        <script>
+            // 비밀번호 수정 성공 또는 실패 시 알림
+            function showMessage() {
+       
+         
+                    alert("비밀번호 수정에 실패 했습니다.");
+           
+            }
+            window.onload = showMessage;
+        </script>
+    </th:block>
+
     <!-- 헤더 -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
     <div class="wrapper" style="margin-top: 80px;">
+
+        <h1 th:text="${mgNo}"></h1>
         <main>
             <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
             <div class="button-group">
@@ -179,6 +198,9 @@
 
     <!-- 스크립트 -->
     <th:block th:replace="~{fragment/script::script}"></th:block>
+
+
+
     <script>
 
 
@@ -210,19 +232,6 @@ function PasswordChange() {
 
 
         
-    
-    // 비밀번호 수정 성공 또는 실패 시 알림
-    function showMessage() {
-        const message = ""; // 혹은 다른 방법으로 서버에서 전달받은 메시지를 받는 방법 사용
-        if (message) {
-            alert(message);
-        }
-    }
-    window.onload = function() {
-        if (location.pathname.includes('/user/myPage/info')) {
-            showMessage(); // 특정 페이지에서만 메시지 확인
-        }
-    };
 
 
 
