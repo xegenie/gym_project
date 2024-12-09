@@ -5,8 +5,6 @@ body {
 .container1 {
     border: none;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
     
 }
 
@@ -28,7 +26,6 @@ h1 {
     border-radius: 5px;
     /* 선택적으로 테두리 둥글게 설정 */
     margin-bottom: 20px;
-    margin-top: 30px;
 }
 
 
@@ -62,7 +59,6 @@ a:active {
 .subbutton {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 50px;
     color: white;
 }
 

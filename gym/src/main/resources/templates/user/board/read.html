@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 상세조회</title>
 </head>
-<body>
+
+<body class="fullBody" >
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+        
+       <div class="top-space"></div>
     <h1>게시글 조회</h1>
     <table border="1">
         <tr>
@@ -263,7 +267,8 @@ function cancelanswer(cancelButton){
 }
 
 </script>
-
+<th:block th:replace="~{fragment/footer::footer}"></th:block>
+<th:block th:replace="~{fragment/script::script}"></th:block>
 </body>
 
 </html>

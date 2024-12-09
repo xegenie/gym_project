@@ -7,13 +7,14 @@ body {
     padding: 0;
 }
 .wrapper {
+    width: 900px;
     max-width: 900px;
     margin: 50px auto;
     background-color: #252222;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    height: 723px;
+    height: 100%;
 }
 .button-group {
     display: flex;

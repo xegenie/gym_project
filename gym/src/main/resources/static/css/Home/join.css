@@ -4,21 +4,15 @@ body {
     margin: 0;
     padding: 0;
     align-items: center;      /* 수직 중앙 정렬 */
-    height: 100vh;            /* 화면 전체 높이 */
 }
 
 .container1 {
-    position: relative;
     width: 760px;
-    left: 50%;
-    transform: translateX(-50%);
     padding: 40px;
     background-color: black;
     color: white;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
-    justify-content: center;  
 }
 
 hr {
@@ -52,7 +46,7 @@ h1 {
 
 
 .top {
-    height: 100px;
+    height: 500px;
 }
 
 label {

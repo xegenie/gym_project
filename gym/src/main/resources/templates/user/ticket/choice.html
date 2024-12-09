@@ -14,7 +14,7 @@
     <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
 
-<body>
+<body class="fullBody">
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
     <div class="container">
@@ -32,12 +32,11 @@
         </div>
 
         <div class="button d-flex gap-5 justify-content-center align-items-center"  style="height: 460px;">
-            <a class="normal rounded-4" href="/user/ticket/normal">일반 이용권 구매</a>
+            <a class="normal rounded-4" href="/user/ticket/normal" >일반 이용권 구매</a>
             <a class="pt rounded-4" href="/user/ticket/trainerList">PT + 이용권 구매</a>
         </div>
     </div>
 
-    <div class="footer-box" style="margin-top: 200px;">
         <th:block th:replace="~{fragment/footer::footer}"></th:block>
         <th:block th:replace="~{fragment/script::script}"></th:block>
     </div>
