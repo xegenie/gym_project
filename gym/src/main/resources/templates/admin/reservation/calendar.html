@@ -43,7 +43,7 @@
           <div id="calendar"></div>
 
         </div>
-        <div id="timeSelectionModal">
+        <!-- <div id="timeSelectionModal">
 
           <div class="modal-container">
 
@@ -54,9 +54,6 @@
 
             <div class="daily-reservationList">
 
-                <!-- <p th:each="count : ${countByDate}">
-                  <span th:text="${count.count} + ' 개'"></span>
-                </p> -->
                   <a th:each="reservation : ${sortByTrainer}" th:href="@{/user/schedule/plan}">
                   <span th:text="${reservation.userName} + ' 회원님'"></span>
                   <span th:text="${#dates.format(reservation.rvDate, 'HH:mm')}"></span>
@@ -65,7 +62,7 @@
             </div>
             <button onclick="closeModal()">Close</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

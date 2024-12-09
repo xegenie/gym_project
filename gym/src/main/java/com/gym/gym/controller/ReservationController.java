@@ -105,17 +105,10 @@ public class ReservationController {
             event.put("color", "lightblue");
             event.put("textColor", "#333");
             event.put("type", "reservation");
+            event.put("user_no", rv.getUserNo());
 
             reservationEvents.add(event);
         }
-
-        // List<Map<String, Object>> countByDateData = new ArrayList<>();
-        // for (Map<String, Object> count : countByDate) {
-        //     Map<String, Object> event = new HashMap<>();
-        //     event.put("title", count.size());
-
-        //     countByDateData.add(event);
-        // }
 
         model.addAttribute("reservationEvents", reservationEvents);
         model.addAttribute("countByDate", countByDate);
@@ -135,7 +128,10 @@ public class ReservationController {
     
     // 예약 등록 화면
     @GetMapping("/user/reservation/reservation")
-    public String insert() {
+    public String insert(Model model, @ModelAttribute Option option) throws Exception {
+        List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        model.addAttribute("sortByTrainer", sortByTrainer);
+        
         return "/user/reservation/reservation";
     }
     
@@ -149,7 +145,7 @@ public class ReservationController {
         reservation.setUserNo(no);
          
         int result = reservationService.insert(reservation);
-
+            
         
         if (result > 0) {
             return "redirect:/user/myPage/ptList";

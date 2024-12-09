@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     color: event.color,
     textColor: event.textColor,
     type: event.type,
+    user_no: event.user_no,
     display: "block"
     }));
 
@@ -32,6 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
           var eventEl = info.el;
           eventEl.style.cursor = 'pointer';
 
+          eventEl.addEventListener("mouseover", function() {
+            eventEl.style.backgroundColor = "deepskyblue"; 
+          });
+
+          eventEl.addEventListener("mouseout", function() {
+            eventEl.style.backgroundColor = "lightblue"; 
+          });
+
           var event = info.event;
           var count = event.title.split(' ')[0];
           var date = info.event.startStr.slice(0, 10);
@@ -45,7 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           },
           eventClick: function (info) {
-            window.location.href = '/user/schedule/plan';
+            var userNo= info.event.extendedProps.user_no;
+            window.location.href = '/user/schedule/plan?=' + userNo;
           }
         });
         
