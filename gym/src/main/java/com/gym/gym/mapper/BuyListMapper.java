@@ -17,4 +17,6 @@ public interface BuyListMapper {
 
     public List<BuyList> listByUser(Long no) throws Exception;
 
+    public BuyList lastBuyList(Long no) throws Exception;
+
 }

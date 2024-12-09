@@ -22,20 +22,26 @@
             <div class="hr">
                 <span>일반 이용권 구매</span>
             </div>
-
+            
             <!-- 유저 정보 -->
             <div id="userStatus" th:data-user="${user != null ? 'true' : 'false'}" style="display: none;"></div>
-
+            
+            <input type="hidden" name="userNo" th:value="${user != null ? user.no : ''}">
             <input type="hidden" name="name" th:value="${user != null ? user.name : ''}">
             <input type="hidden" name="tel" th:value="${user != null ? user.phone : ''}">
             <input type="hidden" name="email" th:value="${user != null ? user.email : ''}">
+            <input type="hidden" name="csrf" th:value="${_csrf.token}" />
 
             <div class="ticket d-flex flex-column align-items-center">
                 <div class="item" th:each="ticket : ${ticketList}">
                     <div class="d-flex align-items-center border-bottom" style="width: 100%; height: 150px;">
                         <div class="checkbox">
-                            
-                            <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}">
+
+                            <input type="checkbox" class="ticket-checkbox" name="ticket" th:value="${ticket.no}" th:data-months="${ticket.months}">
+                            <input type="hidden" name="startDate" th:value="${#dates.format(startDate, 'yyyy-MM-dd HH:mm:ss')}">
+                            <input type="hidden" name="endDate" id="endDate">
+
+
                         </div>
                         <div class="ticket-content d-flex flex-column">
                             <span class="ticket-name" th:text="${ticket.name}"></span>
@@ -89,27 +95,44 @@
          function requestPay() {
             // user 상태 확인
             var userStatus = document.getElementById('userStatus').getAttribute('data-user');
-                if (userStatus === 'false') {
-                    // 로그인되지 않은 경우 로그인 페이지로 이동
-                    alert('로그인이 필요합니다.');
-                    location.href = '/login'; // 로그인 페이지로 리디렉션
-                    return;
-                }
+            if (userStatus === 'false') {
+                alert('로그인이 필요합니다.');
+                location.href = '/login'; // 로그인 페이지로 리디렉션
+                return;
+            }
 
             let checkedTicket = document.querySelector('.ticket-checkbox:checked');
             if (!checkedTicket) {
                 alert('상품을 선택하세요.');
                 return;
             }
-
+            
             let ticketContainer = checkedTicket.closest('.item');
             let productName = ticketContainer.querySelector('.ticket-name').innerText;
             let price = ticketContainer.querySelector('.ticket-price').innerText.replace('원', '').replace(',', '');
-
+            
             let name = document.querySelector('input[name="name"]').value;
             let tel = document.querySelector('input[name="tel"]').value;
             let email = document.querySelector('input[name="email"]').value;
+            let userNo = document.querySelector('input[name="userNo"]').value;
+            let startDate = document.querySelector('input[name="startDate"]').value;
+            let ticketNo = checkedTicket.value; // 선택된 티켓 번호
+            let months = checkedTicket.getAttribute('data-months'); // 티켓에 설정된 months 속성 가져오기
+            months = parseInt(months); // 문자열로 넘어올 수 있기 때문에 정수로 변환
+            
+            // startDate를 Date 객체로 변환
+            let start = new Date(startDate);
+            startDate = new Date(startDate).toISOString();
 
+            // months를 더한 endDate 계산
+            let end = new Date(start.setMonth(start.getMonth() + months));  // startDate에 months를 더함
+            let endDate = end.toISOString();  // ISO 형식으로 변환하여 endDate 설정
+            
+
+            alert('month : '+ months + '\nticketNo : ' + ticketNo + '\nstartDate : ' + startDate + '\nendDate : ' + endDate);
+            
+            document.getElementById('endDate').value = endDate;  // endDate input에 값 설정
+            
             IMP.request_pay({
                 pg: 'html5_inicis',
                 pay_method: 'card',
@@ -121,7 +144,42 @@
                 buyer_tel: tel,
             }, function (rsp) {
                 if (rsp.success) {
-                    location.href = '/user/pay/payResult?result=ok&productId=' + ("IMP" + makeMerchantUid);
+                    var csrfToken = document.querySelector('input[name="csrf"]').value;
+
+                    console.log(JSON.stringify({
+                        ticketNo: ticketNo,
+                        userNo: userNo,
+                        startDate: startDate,
+                        endDate: endDate
+                    }));
+                    
+                    // 결제 성공 시 buyList에 데이터 삽입
+                    fetch('/user/pay/paying', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                        },
+                        body: JSON.stringify({
+                            ticketNo: ticketNo,
+                            userNo: userNo,
+                            startDate: startDate,
+                            endDate: endDate,
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.href = '/user/pay/payResult?result=ok';
+                        } else {
+                            alert('구매 목록에 추가하는데 실패했습니다.');
+                            console.error('Failure data:', data);  // 실패 시 응답 데이터 로그
+                        }
+                    })
+                    .catch(error => {
+                        alert('서버와의 통신에 실패했습니다.');
+                        console.error(error);
+                    });
                 } else {
                     alert('결제가 실패했습니다. 다시 시도해주세요.');
                 }
