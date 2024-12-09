@@ -93,4 +93,11 @@ public class PayController {
         return "/user/ticket/trainerDetail";
     }
 
+    // 결제 페이지
+    @GetMapping("/pay/payResult")
+    public String payResult() {
+        return "/user/pay/payResult";
+    }
+    
+
 }
