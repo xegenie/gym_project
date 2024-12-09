@@ -13,12 +13,12 @@ body {
     padding-bottom: 10px;
 }
 .wrapper {
+    width: 900px;
     max-width: 900px;
     margin: 50px auto;
     background-color: #252222;
     padding: 30px;
     border-radius: 10px;
-    height: 722px;
 }
 .button-group {
     display: flex;
