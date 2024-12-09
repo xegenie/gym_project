@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.QRcode;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.QRCodeGenerator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/generate-qr-code")
 public class QRCodeController {
@@ -24,16 +29,15 @@ public class QRCodeController {
     private QRCodeGenerator qrCodeGenerator;
 
     @PostMapping
-    public ResponseEntity<byte[]> generateQRCode() {
+    public ResponseEntity<byte[]> generateQRCode(@AuthenticationPrincipal CustomUser User) {
         // QRcode 객체 생성
         QRcode qrCode = new QRcode();
 
-        Users users = new Users();
 
-        qrCode.setNo(8989);  // 예시 값 
-        qrCode.setUserNo(123);
+        Long no = User.getNo();
+        log.info(no + "번호임");
+        qrCode.setNo(no);  // 예시 값 
         qrCode.setUuid(UUID.randomUUID().toString());
-        qrCode.setCreatedAt(new Date());
 
         ByteArrayOutputStream qrCodeOutputStream = new ByteArrayOutputStream();
         try {

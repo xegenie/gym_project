@@ -49,7 +49,8 @@ public class QRCodeGenerator {
     }
 
     private String createQRText(QRcode qrCode) {
-        return String.format("https://example.com?qrcodeId=%d&userNo=%d&uuid=%s&createdAt=%tF",
-                             qrCode.getNo(), qrCode.getUserNo(), qrCode.getUuid(), qrCode.getCreatedAt());
+        return String.format("http://localhost:8080/admin/attendance/check?qrcodeId=%d&uuid=%s",
+                             qrCode.getNo(), qrCode.getUuid());
     }
+    
 }

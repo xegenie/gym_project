@@ -7,6 +7,9 @@
     <title>메인화면</title>
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <pointer-particles>
 
@@ -20,11 +23,22 @@
 
         <div class="container" style="height: 1000px; width: 100%;">
             <img src="img/메인.png" alt="메인 이미지" class="main-image zoom-animation">
-            <div class="userCount">실시간 헬스장 이용자 수</div>
+            <div class="icon"> <img src="/img/icon.png" alt="로고" class="logo bounce-animation"></div>
             <div class="userCount">실시간 헬스장 이용자 수</div>
             <div class="userCount2">
-                <span th:text="${result}"></span>명
+                <span th:text="${result}"></span>명 /
+                <span th:if="${result < 10}" class="status-icon low">
+                    여유
+                </span>
+                <span th:if="${result >= 10 and result < 30}" class="status-icon normal ">
+                    보통
+                </span>
+                <span th:if="${result >= 30}" class="status-icon high">
+                    포화
+                </span>
             </div>
+            
+
 
             <div class="centerLogo">
                 <img src="/img/logo.png" alt="로고" class="logo bounce-animation">
@@ -36,7 +50,7 @@
         <!-- 두 번째 섹션 -->
         <div class="container1" style="background-color: black;">
             <img src="img/메인2.png" alt="메인 이미지" class="main-image2">
-            
+
         </div>
 
 
@@ -64,7 +78,7 @@
             </div>
 
 
-            <div class="location-info" style="width: 3000px;">
+            <div class="location-info" style="width: 100%">
                 <h2>핏넥서스 부평점</h2>
                 <p>인천 부평구 경원대로 1366 7층 핏넥서스</p>
                 <ul>
@@ -114,6 +128,10 @@
                 document.documentElement.scrollTop = 0;
 
             }
+
+            window.onload = function() { 
+                window.scrollTo(0, 0); 
+            };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
