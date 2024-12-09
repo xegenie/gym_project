@@ -187,6 +187,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/find")
+    public String getMethodName() {
+        return "/user/find";
+    }
+    
+
     // 비밀번호 찾기페이지 이동
     @GetMapping("/user/findPassword")
     public String findPassword() {
@@ -265,6 +271,7 @@ public class UserController {
         if (encoder.matches(password, user.getPassword())) {
             String encodedNewPassword = encoder.encode(newPassword);
             user.setPassword(encodedNewPassword);
+            
           int result = userService.passwordUpdate(user);
             if (result > 0) {
                 user.setCode(null);
