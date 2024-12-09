@@ -131,10 +131,4 @@ public class HomeController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    /**
-     * 임의 메소드 예제
-     */
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
 }

@@ -6,15 +6,13 @@
     <title>아이디 찾기</title>
     <link rel="stylesheet" href="/css/home/join.css">
 </head>
-<body>
+<body class="fullBody">
     <th:block th:replace="~{fragment/header::header}"></th:block>
     
    
-    <div class="top">
+    <div class="top-space"></div>
 
-    </div>
-
-    <div class="container1 col-12 col-lg-4" id="contain-box">
+    <div class="container1 col-12 col-lg-4" style="margin-top: 50px; margin-bottom: 50px;" id="contain-box">
         <div class="px-4 py-5 mt-5 text-center">
             <img class="FITlogo" src="/img/logo2.png" alt="">
             <h1 class="joins">아이디 찾기</h1>
@@ -70,16 +68,7 @@
     </div>
 
 
-    <div class="top">
-
-    </div>
-
-
-</div>
-<div class="top">
-
-</div>
-
+   
 
     <script>
 
@@ -89,7 +78,7 @@ function validateForm(event) {
     const phone1 = document.getElementById('phone1').value.trim();
     const phone2 = document.getElementById('phone2').value.trim();
     const phone3 = document.getElementById('phone3').value.trim();
-    const phone = `${phone1}-${phone2}-${phone3}`; // 연락처 합치기
+    const phone = `${phone1}${phone2}${phone3}`; // 연락처 합치기
 
     // 폼의 숨겨진 phone 필드에 값 설정
     document.getElementById('phone').value = phone;

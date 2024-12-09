@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보 수정</title>
 </head>
-<body>
+<body class="fullBody" >
     <h1>회원정보</h1>
     <form action="infoUpdate" method="post" id="form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

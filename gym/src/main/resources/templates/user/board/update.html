@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>게시글 수정</h1>
 
+<body class="fullBody" >
+    <th:block th:replace="~{fragment/header::header}"></th:block>
+        
+       <div class="top-space"></div>
+    <h1>게시글 수정</h1>
+<div>
     <form action="update" method="post" id="form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <table border="1">
@@ -53,6 +57,7 @@
         </td>
     </tr>
 </table>
+</div>
 <script>
 
 function remove(){
@@ -63,5 +68,7 @@ function remove(){
     }
 
 </script>
+<th:block th:replace="~{fragment/footer::footer}"></th:block>
+<th:block th:replace="~{fragment/script::script}"></th:block>
 </body>
 </html>
