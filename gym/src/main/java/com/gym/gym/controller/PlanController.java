@@ -206,7 +206,8 @@ public class PlanController {
     }
 
     @PostMapping("/update")
-    public String update(Plan plan, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+    public String update(Plan plan) throws Exception {
+        System.out.println(plan);
         int result = planService.update(plan);
         if (result > 0) {
             return "redirect:/user/schedule/plan";
