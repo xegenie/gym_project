@@ -26,6 +26,9 @@
             Ticket t 
         ON 
             b.ticket_no = t.no
+        WHERE 
+        user.name LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{page.index}, #{page.rows}
     </select>
 
     <select id="listByUser" parameterType="Long" resultType="BuyList">

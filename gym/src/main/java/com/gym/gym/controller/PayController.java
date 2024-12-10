@@ -72,6 +72,19 @@ public class PayController {
         return "/user/ticket/choice";
     }
 
+    
+    // 트레이너 목록
+    @GetMapping("/ticket/trainerList")
+    public String trainerList(Model model)
+    throws Exception {
+
+        List<TrainerProfile> trainerList = trainerProfileService.list();
+
+        model.addAttribute("trainerList", trainerList);
+
+        return "/user/ticket/trainerList";
+    }
+
     // 일반 이용권
     @GetMapping("/ticket/normal")
     public String normal(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
@@ -84,9 +97,9 @@ public class PayController {
             Users user = userService.select(userDetails.getNo());
             model.addAttribute("user", user);
 
+            // 최근 구매내역 전달
             BuyList lastBuy = buyListService.lastBuyList(userDetails.getNo());
             Date startDate = new Date();
-            // 뷰에 해당 정보를 전달
             if (lastBuy != null && !"만료".equals(lastBuy.getStatus())) {
                 startDate = lastBuy.getEndDate(); // 마지막 구매 날짜
                 startDate = addDays(startDate, 1); // 1일 추가
@@ -98,6 +111,37 @@ public class PayController {
         return "/user/ticket/normal";
     }
 
+    // 트레이너 상세
+    @GetMapping("/ticket/trainerDetail")
+    public String trainerDetail(@RequestParam("trainerNo") int trainerNo, Model model
+    , @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        // 트레이너 프로필 정보
+        TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
+        model.addAttribute("trainer", trainerProfile);
+
+        // 티켓 조회
+        List<Ticket> ticketList = ticketService.ptList();
+        model.addAttribute("ticketList", ticketList);
+        
+        // 유저 조회
+        if (userDetails != null) {
+            Users user = userService.select(userDetails.getNo());
+            model.addAttribute("user", user);
+            
+            // 최근 구매내역 전달
+            BuyList lastBuy = buyListService.lastBuyList(userDetails.getNo());
+            Date startDate = new Date();
+            if (lastBuy != null && !"만료".equals(lastBuy.getStatus())) {
+                startDate = lastBuy.getEndDate(); // 마지막 구매 날짜
+                startDate = addDays(startDate, 1); // 1일 추가
+            }
+
+            model.addAttribute("startDate", startDate); // 처리된 날짜를 모델에 담기
+        }
+
+        return "/user/ticket/trainerDetail";
+    }
+    
     // 날짜에 일수를 더하는 메서드
     private Date addDays(Date date, int days) {
         Calendar calendar = Calendar.getInstance();
@@ -105,40 +149,15 @@ public class PayController {
         calendar.add(Calendar.DAY_OF_MONTH, days); // 날짜에 일수를 더함
         return calendar.getTime(); // 수정된 날짜 반환
     }
-
-    // 트레이너 목록
-    @GetMapping("/ticket/trainerList")
-    public String trainerList(Model model)
-            throws Exception {
-
-        List<TrainerProfile> trainerList = trainerProfileService.list();
-
-        model.addAttribute("trainerList", trainerList);
-
-        return "/user/ticket/trainerList";
-    }
-
-    // 트레이너 상세
-    @GetMapping("/ticket/trainerDetail")
-    public String trainerDetail(@RequestParam("trainerNo") int trainerNo, Model model) throws Exception {
-        TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
-
-        model.addAttribute("trainer", trainerProfile);
-
-        // 티켓 조회
-        List<Ticket> ticketList = ticketService.ptList();
-        model.addAttribute("ticketList", ticketList);
-
-        return "/user/ticket/trainerDetail";
-    }
-
+    
     // 구매목록에 추가
     @PostMapping("/pay/paying")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> paying(@RequestBody BuyList buyList) throws Exception {
         // 구매 목록 추가
         buyListService.insert(buyList);
-
+        log.info("buyList : " + buyList);
+        
         // 응답에 success=true를 포함한 JSON 객체 반환
         Map<String, Object> response = new HashMap<>();
         response.put("success", true); // success 필드 설정
@@ -148,7 +167,24 @@ public class PayController {
 
     // 결제 페이지
     @GetMapping("/pay/payResult")
-    public String payResult() {
+    public String payResult(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
+
+        Long no = 0L;
+        List<BuyList> buyList = new ArrayList<>();
+        if (userDetails != null) {
+            no = userDetails.getNo();
+            buyList = buyListService.listByUser(no);
+        }
+        model.addAttribute("buyList", buyList);
+
+        // 정상이면서 제일 오래된 이용권
+        List<BuyList> filteredList = buyList.stream()
+                .filter(b -> "정상".equals(b.getStatus()))
+                .sorted(Comparator.comparing(BuyList::getStartDate)) // 날짜 순으로 정렬
+                .collect(Collectors.toList());
+        BuyList oldestBuyList = filteredList.isEmpty() ? null : filteredList.get(0);
+        
+        model.addAttribute("oldestBuyList", oldestBuyList);
 
         return "/user/pay/payResult";
     }
