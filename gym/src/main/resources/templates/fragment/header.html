@@ -24,7 +24,8 @@
                 <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
 
                     <!-- 헬스장 입장 QR -->
-                    <a href="#" onclick="document.getElementById('qrForm').submit();"><i class="fa-solid fa-bell" style="margin-right: 10px;"></i>헬스장 입장</a>
+                    <a href="#" onclick="document.getElementById('qrForm').submit();"><i class="fa-solid fa-bell"
+                            style="margin-right: 10px;"></i>헬스장 입장</a>
                     <form action="/generate-qr-code" method="post" id="qrForm" style="display:none;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     </form>

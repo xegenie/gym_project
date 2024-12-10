@@ -43,25 +43,25 @@
                         </thead>
                         <tbody>
                             <th:block th:if="${userList.isEmpty()}">
-                            <tr>
-                                <td colspan="6">조회된 데이터가 없습니다.</td>
-                            </tr>
-                        </th:block>
-                        <th:block th:each="user : ${userList}">
-                            <tr>
-                                <td th:text="${user.no}"></td>
-                                <td><a th:href="|read?no=${user.no}|" th:text="${user.id}"></a></td>
-                                <td th:text="${user.name}"></td>
-                                <td>
-                                    <!-- 권한에 따른 표시 -->
-                                    <span th:switch="${user.userAuth}">
-                                        <span th:case="'ROLE_ADMIN'">관리자</span>
-                                        <span th:case="'ROLE_USER'">회원</span>
-                                        <span th:case="'ROLE_TRAINER'">트레이너</span>
-                                        <span th:case="*">기타</span> <!-- 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
-                                    </span>
-                                </td>
-                                <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <tr>
+                                    <td colspan="6">조회된 데이터가 없습니다.</td>
+                                </tr>
+                            </th:block>
+                            <th:block th:each="user : ${userList}">
+                                <tr>
+                                    <td th:text="${user.no}"></td>
+                                    <td><a th:href="|read?no=${user.no}|" th:text="${user.id}"></a></td>
+                                    <td th:text="${user.name}"></td>
+                                    <td>
+                                        <!-- 권한에 따른 표시 -->
+                                        <span th:switch="${user.userAuth}">
+                                            <span th:case="'ROLE_ADMIN'">관리자</span>
+                                            <span th:case="'ROLE_USER'">회원</span>
+                                            <span th:case="'ROLE_TRAINER'">트레이너</span>
+                                            <span th:case="*">기타</span> <!-- 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
+                                        </span>
+                                    </td>
+                                    <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}">
                                     <td><a class="updateBtn" th:href="|update?no=${user.no}|">수정</a></td>
                                 </th:block>

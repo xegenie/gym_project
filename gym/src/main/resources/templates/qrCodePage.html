@@ -56,7 +56,7 @@
             유효시간: <span id="countdown">60</span><span id="unit">초</span>
         </div>
         <div class="url-text">
-            QR 코드 URL: <a th:href="${qrCodeUrl}" target="_blank" th:text="${qrCodeUrl}"></a>  <!-- 하이퍼링크로 URL 출력 -->
+            QR 코드 URL: <a th:href="${qrCodeUrl}" target="_blank" th:text="${qrCodeUrl}"></a> <!-- 하이퍼링크로 URL 출력 -->
         </div>
         <button class="main-button" id="mainButton" onclick="goToMain()">메인으로</button>
     </div>
@@ -77,7 +77,7 @@
                 clearInterval(countdownInterval);
                 countdownElement.textContent = '만료되었습니다.';
                 unitElement.style.display = 'none'; // "초" 숨기기
-                qrCodeContainer.style.display = 'none';  // QR 코드 이미지 숨기기
+                qrCodeContainer.style.display = 'none'; // QR 코드 이미지 숨기기
             }
         }
 
