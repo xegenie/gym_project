@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.Answer;
@@ -121,6 +122,14 @@ public class BoardController {
         return "user/board/update";
     }
 
+    @GetMapping("/answerUpdate")
+    public String answerUpdate(@RequestParam("no") Long no, Model model) throws Exception {
+        Answer answer = answerService.select(no);
+        model.addAttribute("answer", answer);
+        return "user/board/answerUpdate";
+    }
+    
+
     // 수정 처리
     // @PreAuthorize("hasRole('ADMIN') or (#p0 != null and
     // @BoardService.isOwner(#p0, authentication.principal.user.no))")
@@ -146,5 +155,19 @@ public class BoardController {
         }
         return "redirect:/board/update?error&id=" + no;
     }
+
+   
+
+   @PostMapping("/answerUpdate")
+    public String updateAnswer( Answer answer) throws Exception {
+        int result = answerService.update(answer);
+        if(result > 0){
+            return  "redirect:user/board/read";
+
+        }
+        return "redirect:user/board/read";
+
+    }
+
 
 }

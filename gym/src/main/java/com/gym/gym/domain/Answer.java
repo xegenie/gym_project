@@ -16,4 +16,5 @@ public class Answer {
     private Date updatedAt;
     
     private String name;
+    private Board board;
 }

@@ -13,7 +13,7 @@ public interface BoardService {
      public List<Board> list(@Param("option") Option option
                             ,@Param("page") Page page ) throws Exception;
     // 조회
-    public Board select(@Param("no") Long no)throws Exception;
+    public Board select(Long no)throws Exception;
     // 등록
     public int insert(Board board) throws Exception;
     // 수정

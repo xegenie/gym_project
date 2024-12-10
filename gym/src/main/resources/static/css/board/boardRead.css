@@ -30,8 +30,18 @@ body {
     border: none;
     border-radius: 5px;
 }
+.container {
+    text-align: left; /* 부모의 텍스트 정렬 변경 */
+}
 
-input:hover, .btnInput:hover{
+
+h1 {
+    text-align: left;
+    margin-left: 0; /* 여백 제거 */
+    padding-left: 0; /* 패딩 제거 */
+}
+
+.btnInput:hover{
     filter: brightness(90%);
 }
 
@@ -52,8 +62,7 @@ input:hover, .btnInput:hover{
 }
 
 .titleinput{
-    padding: 15px; 
-    font-size: 20px; 
+    font-size: 25px; 
     height: 40px; width: 
     430px; border-radius: 5px; 
     background-color: rgb(183, 185, 187); 
