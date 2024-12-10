@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.Page;
 import com.gym.gym.mapper.BuyListMapper;
-import com.gym.gym.mapper.TrainerProfileMapper;
 
 @Service
 public class BuyListServiceImpl implements BuyListService {
 
     @Autowired private BuyListMapper buyListMapper;
-    @Autowired private TrainerProfileMapper trainerProfileMapper;
 
     @Override
     public int insert(BuyList buyList) throws Exception {
@@ -41,7 +39,7 @@ public class BuyListServiceImpl implements BuyListService {
     }
     @Override
     public int count(String keyword) throws Exception {
-        int total = trainerProfileMapper.count(keyword);
+        int total = buyListMapper.count(keyword);
 
         return total;
     }
@@ -54,6 +52,11 @@ public class BuyListServiceImpl implements BuyListService {
     @Override
     public BuyList lastBuyList(Long no) throws Exception {
         return buyListMapper.lastBuyList(no);
+    }
+
+    @Override
+    public List<BuyList> salesList() throws Exception {
+        return buyListMapper.salesList();
     }
     
 }

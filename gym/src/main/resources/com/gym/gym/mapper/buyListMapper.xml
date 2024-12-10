@@ -30,6 +30,28 @@
         user.name LIKE CONCAT('%', #{keyword}, '%')
         LIMIT #{page.index}, #{page.rows}
     </select>
+    
+    <!-- 페이징 데이터 -->
+    <select id="count" resultType="int">
+        SELECT 
+            COUNT(*)
+        FROM 
+            buy_list b
+        JOIN 
+            users user 
+        ON 
+            b.user_no = user.no
+        LEFT JOIN
+            users trainer
+        ON
+            b.trainer_no = trainer.no
+        JOIN 
+            Ticket t 
+        ON 
+            b.ticket_no = t.no
+        WHERE 
+            user.name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
 
     <select id="listByUser" parameterType="Long" resultType="BuyList">
         SELECT 
@@ -77,5 +99,24 @@
         ORDER BY buy_date DESC LIMIT 1
     </select>
 
+    <!-- 매출 내역 -->
+    <select id="salesList" resultType="BuyList">
+        SELECT 
+            t.no AS ticketNo,
+            t.name AS ticketName,
+            t.price AS ticketPrice,
+            u.name AS trainerName,  -- users 테이블에서 name을 가져옴
+            IFNULL(COUNT(b.no), 0) AS salesCount
+        FROM 
+            Ticket t
+        LEFT JOIN 
+            buy_list b ON b.ticket_no = t.no
+        LEFT JOIN 
+            users u ON b.trainer_no = u.no  -- trainer_no와 users.id를 연결하여 trainerName을 가져옴
+        GROUP BY 
+            t.no, t.name, t.price, u.name  -- GROUP BY에 trainer_no와 trainerName을 추가
+        ORDER BY 
+            t.no ASC
+    </select>
 
 </mapper>

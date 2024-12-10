@@ -21,5 +21,5 @@ public class BuyList {
     private String trainerName;  // 트레이너 이름
     private String ticketName;   // 티켓 이름
     private int ticketPrice;    // 티켓 가격
-    
+    private int salesCount;     // 판매 수량
 }

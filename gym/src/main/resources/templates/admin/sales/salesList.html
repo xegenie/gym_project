@@ -1,11 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>매출 내역</title>
+    <!-- css -->
+    <link rel="stylesheet" href="/css/trainer/adminList.css">
+    <!-- 차트 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
+    <th:block th:replace="~{fragment/adminHeader::adminHeader}"></th:block>
+    <div class="container">
+        <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
+
+        <div class="main">
+            <div class="inner">
+                <div class="title">
+                    <h2>매출 조회</h2>
+                </div>
+
+                <div class="search-container">
+                    <div class="search" style="gap: 10px">
+                        <select name="option" id="option">
+                            <option value="">연도</option>
+                            </th:block>
+                        </select>
+                        <select name="option" id="option">
+                            <option value="">월</option>
+                            </th:block>
+                        </select>
+                        <select name="option" id="option">
+                            <option value="">일</option>
+                            </th:block>
+                        </select>
+                        <button>초기화</button>
+                    </div>
+                </div>
+
+                <div class="list">
+                    <!-- <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>상품명</th>
+                                <th>상품가격</th>
+                                <th>판매 수량</th>
+                                <th>합계</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sale : ${salesList}">
+                                <td th:text="${sale.ticketNo}"></td>
+                                <td th:text="${sale.ticketName}"></td>
+                                <td th:text="${sale.ticketPrice}"></td>
+                                <td th:text="${sale.salesCount}"></td>
+                                <td th:text="${sale.ticketPrice * sale.salesCount}"></td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+                    <div id="chart-container">
+                        <canvas id="myChart" width="800" height="400"></canvas>
+                        <div id="total" style="font-weight: bold; text-align: center; font-size: 18px; margin-top: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // Thymeleaf를 이용해 salesList 데이터를 JavaScript로 전달
+
+        const salesList = /*[[${salesList}]]*/ [];
+        
+        // 차트에 사용될 데이터 준비
+        const labels = salesList.map(item => item.ticketName);  // 상품명
+        const quantities = salesList.map(item => item.salesCount);  // 판매 수량
+        const totalSales = salesList.reduce((acc, item) => acc + (item.ticketPrice * item.salesCount), 0);  // 총 매출 합계
+        
+        // Chart.js 차트 생성
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '판매 수량',
+                    data: quantities,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItem) {
+                                return tooltipItem[0].label; // 상품명
+                            },
+                            label: function(tooltipItem) {
+                                return '수량: ' + tooltipItem.raw; // 판매 수량
+                            }
+                        },
+                        // tooltip 스타일에서 기울임 제거
+                        titleFont: {
+                            style: 'normal' // 기울임 제거
+                        },
+                        bodyFont: {
+                            style: 'normal' // 기울임 제거
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        
+        // 총 합계 표시
+        document.getElementById('total').innerText = `총 매출 금액: ${totalSales} 원`;
+    </script>
+    
     
 </body>
+
 </html>
