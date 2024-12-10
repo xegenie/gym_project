@@ -181,6 +181,12 @@ td {
     animation: fadeOut 2s forwards; /* 페이드 아웃 애니메이션 */
 }
 
+
+.ranking-icon {
+    width: 50px;
+    height: 50px;
+}
+
 @keyframes fadeOut {
     from {
         background-color: #ff0;

@@ -19,9 +19,9 @@
         <where>
             <!-- 같은 달의 출석만 조회 -->
             DATE_FORMAT(a.check_time, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
-            <if test="option.keyword != null and option.keyword != ''">
-                AND u.id LIKE CONCAT('%', #{option.keyword}, '%')
-            </if>
+                <if test="option.keyword != null and option.keyword != ''">
+                    AND u.id LIKE CONCAT('%', #{option.keyword}, '%')
+                </if>
         </where>
         GROUP BY a.user_no
         ORDER BY attendanceCount DESC, attendanceDate ASC;
