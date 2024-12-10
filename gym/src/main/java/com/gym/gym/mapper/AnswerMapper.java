@@ -24,5 +24,4 @@ public Answer select(Long no) throws Exception;
     public int deleteByParent(Long boardNo ) throws Exception;
 
 
-
 }

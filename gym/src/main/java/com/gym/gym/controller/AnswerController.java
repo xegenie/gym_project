@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.Answer;
+import com.gym.gym.domain.Board;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.AnswerService;
+import com.gym.gym.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +37,12 @@ public class AnswerController {
     
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private BoardService boardService;
 
+
+
+    
     @ResponseBody
     @PostMapping("")
     public String answerInsert( @AuthenticationPrincipal CustomUser authuser,@RequestBody Answer answer) throws Exception {
@@ -51,8 +58,11 @@ public class AnswerController {
 
     @GetMapping
     public String answerList(Model model, @RequestParam("boardNo") Long boardNo) throws Exception {
+        log.info(boardNo + " 번호");
         List<Answer> answerList = answerService.listByParent(boardNo);
         model.addAttribute("answerList", answerList);
+        Board board = boardService.select(boardNo);
+        model.addAttribute("board", board);
         return "user/answer/list";
     }
     

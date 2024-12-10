@@ -16,12 +16,13 @@
             <h1>고객문의 게시판</h1>
             <div class="btn-box" >
             <button type="button" class="btnInput" onclick="location.href='boardList'"> 목록 </button>
-            <input type="submit" style="background-color: greenyellow;" class="btnInput" value="등록">
+            <input type="submit" style="background-color: rgb(172, 235, 77);" class="btnInput" value="등록">
         </div>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            <div class="boarder" >
+            <div class="border" >
                 <div class="inputbox1" >
-                    <input type="text" class="titleinput" name="title" placeholder="Q. 문의사항을 알려주세요.">
+                    <label for="" style=" color: black; font-size: 30px; ">Q. </label>
+                    <input type="text" class="titleinput" name="title" placeholder="문의사항을 알려주세요.">
                 </div>
                 <div style="text-align: center; margin-top: 10px;">
                     <textarea class="textareaInput" name="content" rows="5" cols="40"></textarea>
