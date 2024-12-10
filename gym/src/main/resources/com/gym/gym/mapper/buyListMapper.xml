@@ -32,7 +32,6 @@
         SELECT 
             b.*, 
             user.name AS userName, 
-            trainer.name AS trainerName, 
             t.name AS ticketName, 
             t.price AS ticketPrice
         FROM 
@@ -41,10 +40,6 @@
             users user 
         ON 
             b.user_no = user.no
-        JOIN 
-            users trainer
-        ON 
-            b.trainer_no = trainer.no
         JOIN 
             Ticket t 
         ON 
@@ -61,8 +56,17 @@
     </update>
 
     <insert id="insert">
-        INSERT INTO buy_list (ticket_no, user_no, trainer_no, pt_count, end_date)
-        VALUES (#{ticket_no}, #{user_no}, #{trainer_no}, #{pt_count}, #{end_date})
+        INSERT INTO buy_list (ticket_no, user_no, trainer_no, start_date, end_date)
+        VALUES (#{ticketNo}, #{userNo}, #{trainerNo}, #{startDate}, #{endDate})
     </insert>
+    
+    <!-- 가장 최근 구매내역 -->
+    <select id="lastBuyList" resultType="BuyList">
+        SELECT * 
+        FROM buy_list 
+        WHERE user_no = #{userNo} 
+        ORDER BY buy_date DESC LIMIT 1
+    </select>
+
 
 </mapper>

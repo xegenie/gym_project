@@ -1,15 +1,25 @@
 package com.gym.gym.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
@@ -36,7 +46,7 @@ public class PayController {
     private TicketService ticketService;
     @Autowired
     private UserService userService;
-    
+
     // 이용권 선택
     @GetMapping("/ticket/choice")
     public String choice(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
@@ -47,8 +57,17 @@ public class PayController {
             no = userDetails.getNo();
             buyList = buyListService.listByUser(no);
         }
-
         model.addAttribute("buyList", buyList);
+
+        // 정상이면서 제일 오래된 이용권
+        List<BuyList> filteredList = buyList.stream()
+                .filter(b -> "정상".equals(b.getStatus()))
+                .sorted(Comparator.comparing(BuyList::getStartDate)) // 날짜 순으로 정렬
+                .collect(Collectors.toList());
+        BuyList oldestBuyList = filteredList.isEmpty() ? null : filteredList.get(0);
+        
+        model.addAttribute("oldestBuyList", oldestBuyList);
+
 
         return "/user/ticket/choice";
     }
@@ -64,8 +83,27 @@ public class PayController {
         if (userDetails != null) {
             Users user = userService.select(userDetails.getNo());
             model.addAttribute("user", user);
+
+            BuyList lastBuy = buyListService.lastBuyList(userDetails.getNo());
+            Date startDate = new Date();
+            // 뷰에 해당 정보를 전달
+            if (lastBuy != null && !"만료".equals(lastBuy.getStatus())) {
+                startDate = lastBuy.getEndDate(); // 마지막 구매 날짜
+                startDate = addDays(startDate, 1); // 1일 추가
+            }
+
+            model.addAttribute("startDate", startDate); // 처리된 날짜를 모델에 담기
         }
+
         return "/user/ticket/normal";
+    }
+
+    // 날짜에 일수를 더하는 메서드
+    private Date addDays(Date date, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, days); // 날짜에 일수를 더함
+        return calendar.getTime(); // 수정된 날짜 반환
     }
 
     // 트레이너 목록
@@ -94,11 +132,25 @@ public class PayController {
         return "/user/ticket/trainerDetail";
     }
 
+    // 구매목록에 추가
+    @PostMapping("/pay/paying")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> paying(@RequestBody BuyList buyList) throws Exception {
+        // 구매 목록 추가
+        buyListService.insert(buyList);
+
+        // 응답에 success=true를 포함한 JSON 객체 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true); // success 필드 설정
+
+        return ResponseEntity.ok(response);
+    }
+
     // 결제 페이지
     @GetMapping("/pay/payResult")
     public String payResult() {
+
         return "/user/pay/payResult";
     }
-    
 
 }

@@ -15,8 +15,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gym.gym.domain.Attendance;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
+import com.gym.gym.domain.QRcode;
 import com.gym.gym.service.AttendanceService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/admin/attendance")
 public class AttendanceController {
@@ -63,22 +67,29 @@ public class AttendanceController {
         return "admin/attendance/list";
     }
 
-    // 출석 체크 페이지를 보여주는 GET 요청 처리
+    // 출석 체크 페이지를 이동
     @GetMapping("/check")
-    public String showCheckPage(@RequestParam("qrcodeId") String qrcodeId, @RequestParam("uuid") String uuid, Model model) {
+    public String showAttendancePage(@RequestParam("qrcodeId") int qrcodeId, @RequestParam("uuid") String uuid,
+            Model model) {
         model.addAttribute("qrcodeId", qrcodeId);
         model.addAttribute("uuid", uuid);
-        return "check";
+        return "admin/attendance/check";
     }
 
     // 출석 체크 (등록)
+
     @PostMapping("/check")
-    public String insertAttendance(@ModelAttribute Attendance attendance, Model model) {
+    public String insertAttendance(@RequestParam("qrId") String qrId, @RequestParam("userNo") int userNo, Model model) {
+
         try {
+
+            Attendance attendance = new Attendance();
+            attendance.setUserNo(userNo);
+            attendance.setQrId(qrId);
             attendanceService.insertAttendance(attendance);
-            model.addAttribute("successMessage", "출석 체크가 완료되었습니다.");
+
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "출석 체크 중 오류가 발생했습니다.");
+            e.printStackTrace();
         }
         return "redirect:/admin/attendance/list";
     }
@@ -94,20 +105,5 @@ public class AttendanceController {
         }
         return "admin/attendance/list";
     }
-
-
-
-    
-    // 출석 인원 수 
-
-    @GetMapping("/")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
-    
-
-
-
-
 
 }

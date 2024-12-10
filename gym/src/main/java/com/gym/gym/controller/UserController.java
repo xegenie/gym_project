@@ -280,18 +280,18 @@ public String changePw(@RequestParam("password") String password,
         if (result > 0) {
             user.setCode(null);
             userService.codeInsert(user);
-            model.addAttribute("message", "비밀번호 수정 성공");
+            model.addAttribute("mgNo",1);
             return "redirect:info";
         }
     }
 
     user.setCode(null);
     userService.codeInsert(user);
-    model.addAttribute("message", "비밀번호 수정 실패");
+    model.addAttribute("mgNo",2);
     return "redirect:info";
 }
-
-
-
-
 }
+
+
+
+

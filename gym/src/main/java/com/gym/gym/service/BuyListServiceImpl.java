@@ -34,5 +34,10 @@ public class BuyListServiceImpl implements BuyListService {
     public List<BuyList> listByUser(Long no) throws Exception {
         return buyListMapper.listByUser(no);
     }
+
+    @Override
+    public BuyList lastBuyList(Long no) throws Exception {
+        return buyListMapper.lastBuyList(no);
+    }
     
 }
