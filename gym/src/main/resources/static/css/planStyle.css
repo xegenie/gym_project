@@ -1,3 +1,4 @@
+a{cursor: pointer;}
 .first-con{
     background-color: #F3F3F3;
     min-width: 300px; 
@@ -242,7 +243,7 @@
     background-color: #b1e2fa !important;
 } */
 
-
+.pop-up .popup-edit,
 .pop-up .popup-content{
   /* flex: 1; */
   padding: 24px;
@@ -251,7 +252,8 @@
   height: 300px;
 }
 
-.input-schedule .popup-content input{
+.popup-edit input,
+.popup-content input{
   width: 100%;
   height: 36px;
   font-size: 20px;
@@ -261,13 +263,14 @@
   border-top-right-radius: 3px;
 }
 
-.input-schedule .popup-content input:focus{
+.popup-edit input:focus,
+.popup-content input:focus{
   outline: none;
   border-bottom: 2px solid #16ABFF;
   transition: 0.1s;
 }
 
-.input-schedule .set-time{
+.set-time{
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -276,12 +279,12 @@
   align-items: center;
 }
 
-.input-schedule .set-time>p {
+.set-time>p {
   margin: 0;
   align-items: center;
   font-size: 18px;
 }
-.input-schedule .set-time-date{
+.set-time-date{
   margin: 0 auto;
   font-weight: bold;
 }
@@ -308,11 +311,11 @@
 } */
 /* .set-time-drops option{} */
 
-.input-schedule .dropdown{
+.dropdown{
   width: 80px;
   height: 28px;
 }
-.input-schedule .dropdown button{
+.dropdown button{
   margin: 0 auto;
   width: 100%;
   height: 100%;
@@ -323,7 +326,7 @@
 }
 
 /* 커스텀 옵션 컨테이너 */
-.input-schedule .options {
+.options {
   display: none;
   position: absolute;
   top: 100%;
@@ -336,17 +339,18 @@
   z-index: 10;
 }
 
-.input-schedule .options div {
+.options div {
   padding: 5px;
   cursor: pointer;
 }
 
-.input-schedule .dropdown button:hover,
-.input-schedule .options div:hover {
+.dropdown button:hover,
+.options div:hover {
   background-color: #ececec;
 }
 
-.input-schedule .popup-content textarea{
+.popup-edit textarea,
+.popup-content textarea{
   width: 100%;
   height: 115px;
   background-color: #ececec;
@@ -357,19 +361,22 @@
   overflow-y: auto;
 }
 
-.input-schedule .popup-content textarea:focus,
-.input-schedule .popup-content textarea:hover {  
+.popup-edit textarea:focus,
+.popup-edit textarea:hover,  
+.popup-content textarea:focus,
+.popup-content textarea:hover {  
   outline: none;
   background-color: #e0e0e0;
 }
 
-.input-schedule .popup-content .button-container {
+.button-container {
   width: 100%;
   display: flex;
   justify-content: end;
+  gap: 10px;
 }
 
-.input-schedule .popup-content .button-container button{
+.button-container button{
   border: none;
   background-color: #16ABFF;
   color: #fff;
@@ -378,6 +385,15 @@
   font-size: 15px;
 }
 
+#cancelButton{
+  background-color: #c2c2c2;
+  color: #121212;
+}
+#cancelButton:hover{
+  background-color: #acacac;
+}
+
+.exercise-bymyself .popup-edit #updateButton:hover,
 .input-schedule .popup-content .button-container button:hover{
   background-color: #08a1fa;
 }

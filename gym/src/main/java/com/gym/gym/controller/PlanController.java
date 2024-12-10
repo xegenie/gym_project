@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.Comment;
@@ -187,11 +189,32 @@ public class PlanController {
     public String insert(Plan plan, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
         plan.setUserNo(userDetails.getNo().intValue());
         int result = planService.insert(plan);
-        if (result>0) {
+        if (result > 0) {
             return "redirect:/user/schedule/plan";
         } 
         return "redirect:/user/schedule/insert?error";
     }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam("no") String no) throws Exception {
+        int iNo = Integer.parseInt(no); // String을 int로 변환
+        int result = planService.delete(iNo);
+        if (result > 0) {
+            return "redirect:/user/schedule/plan";
+        }
+        return "redirect:/user/schedule/delete?error";
+    }
+
+    @PostMapping("/update")
+    public String update(Plan plan, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        int result = planService.update(plan);
+        if (result > 0) {
+            return "redirect:/user/schedule/plan";
+        } 
+        return "redirect:/user/schedule/insert?error";
+    }
+    
+    
     
     public List<Date> MonthFirstLast(Date date) {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
