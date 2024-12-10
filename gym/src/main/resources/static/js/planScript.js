@@ -294,6 +294,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteButton = planModal.querySelector('.fa-trash-can').closest('a');
         deleteButton.setAttribute('data-event-id', info.event.id);
 
+        const hiddenNoInputs = document.querySelectorAll('.hiddenNo');
+
+        // 선택된 각 요소의 value 속성을 info.event.id 값으로 설정
+        hiddenNoInputs.forEach(input => {
+          input.value = info.event.id;
+          console.log("input.value: " + input.value);
+        });
+
         console.log("info.event.id: " + info.event.id);
         console.log("typeof id: "+typeof(info.event.id));
 

@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 일정 수정 -->
     <update id="update">
-        UPDATE answer
+        UPDATE plan
         SET plan_name = #{planName}
         , plan_time = #{planTime}
         , plan_content = #{planContent}
