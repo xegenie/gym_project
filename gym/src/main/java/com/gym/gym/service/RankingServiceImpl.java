@@ -59,17 +59,31 @@ public class RankingServiceImpl implements RankingService {
         return rankingMapper.getAttendanceRanking();
     }
 
-    @Override public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception { 
-        List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page); 
+    @Override
+    public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception {
+        List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page);
 
-        List<Ranking> sortedList = rankingList.stream() 
-        .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed()) 
-        .collect(Collectors.toList());
+        return rankingList.stream()
+                .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed())
+                .collect(Collectors.toList());
+    }
 
-        for (int i = 0; i < sortedList.size(); i++) { 
-            sortedList.get(i).setRank(i + 1); 
+    @Override
+    public List<Ranking> getAttendanceRanking(Option option, Page page, int lastRank) throws Exception {
+        // 데이터 조회
+        List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page);
+
+        // 출석수 기준 내림차순 정렬
+        List<Ranking> sortedList = rankingList.stream()
+                .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed())
+                .collect(Collectors.toList());
+
+        // 기존 순위에 이어지는 순위 설정
+        for (int i = 0; i < sortedList.size(); i++) {
+            // lastRank를 기준으로 계속 이어지도록 순위 설정
+            sortedList.get(i).setRank(lastRank + i + 1);
         }
+
         return sortedList;
-    
-}
+    }
 }
