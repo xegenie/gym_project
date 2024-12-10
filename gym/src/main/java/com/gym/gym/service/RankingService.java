@@ -34,6 +34,8 @@ public interface RankingService {
     public List<Ranking> getAttendanceRanking() throws Exception;
 
     // 출석 페이징
-    public List<Ranking> getAttendanceRanking(@Param("option")Option option,@Param("page") Page page) throws Exception;
+    public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception;
+
+    List<Ranking> getAttendanceRanking(Option option, Page page, int lastRank) throws Exception;
 
 }

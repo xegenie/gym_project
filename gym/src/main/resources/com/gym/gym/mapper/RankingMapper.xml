@@ -8,25 +8,39 @@
         <result property="attendanceCount" column="attendanceCount" />
     </resultMap>
 
-    <!-- 출석 랭킹 -->
-    <select id="getAttendanceRanking" resultMap="RankingMap">
-        SELECT 
-            u.id AS userId, 
-            COUNT(*) AS attendanceCount
+<!-- 출석 랭킹 조회 -->
+<select id="getAttendanceRanking" resultMap="RankingMap">
+    SELECT 
+        RANK() OVER (
+            ORDER BY COUNT(*) DESC, MAX(a.check_time) ASC
+        ) AS rank,
+        u.id AS userId,
+        COUNT(*) AS attendanceCount,
+        MAX(a.check_time) AS attendanceDate
+    FROM attendance a
+    JOIN users u ON a.user_no = u.no
+    <where>
+        <if test="option.keyword != null and option.keyword != ''">
+            AND u.id LIKE CONCAT('%', #{option.keyword}, '%')
+        </if>
+    </where>
+    GROUP BY a.user_no
+    ORDER BY rank;
+</select>
+
+
+
+
+    
+
+    <!-- 출석 랭킹 총 개수 -->
+  <select id="count" resultType="int">
+    SELECT COUNT(*) 
+    FROM (
+        SELECT COUNT(*) AS attendanceCount
         FROM attendance a
         JOIN users u ON a.user_no = u.no
         GROUP BY a.user_no
-        ORDER BY attendanceCount DESC
-        LIMIT #{page.index}, 15;
-    </select>
-
-    <!-- 출석 랭킹 총 개수 -->
-    <select id="count" resultType="int">
-        SELECT COUNT(*) FROM (
-            SELECT COUNT(*) AS attendanceCount
-            FROM attendance a
-            JOIN users u ON a.user_no = u.no
-            GROUP BY a.user_no
-        ) AS subquery;
-    </select>
+    ) AS subquery;
+</select>
 </mapper>
