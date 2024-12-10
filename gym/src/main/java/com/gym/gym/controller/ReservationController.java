@@ -129,6 +129,7 @@ public class ReservationController {
     // 예약 등록 화면
     @GetMapping("/user/reservation/reservation")
     public String insert(Model model, @ModelAttribute Option option) throws Exception {
+
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
         model.addAttribute("sortByTrainer", sortByTrainer);
         
