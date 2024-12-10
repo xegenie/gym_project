@@ -92,6 +92,22 @@ function setupDropdown(buttonId, optionsId) {
   });
 }
 
+function setDropdownValue(buttonId, optionsId, value) {
+  const dropdownButton = document.getElementById(buttonId);
+  const options = document.getElementById(optionsId);
+
+  console.log("value: " + value);
+
+  const matchingOption = Array.from(options.children).find(option => option.getAttribute("value").trim() === value.trim());
+
+  // console.log("matchingOption(setDropdownValue 안): " + matchingOption);
+  // console.log("matchingOption.getAttribute(value)(setDropdownValue 안): " + matchingOption.getAttribute("value"));
+  if (matchingOption) {
+    console.log("Value: " + matchingOption.getAttribute("value").trim());
+    dropdownButton.textContent = matchingOption.textContent; // 버튼 텍스트 설정
+  }
+}
+
 function formatDate(date) {
 
   const dayNames = ["일", "월", "화", "수", "목", "금", "토"]; // 요일 목록
@@ -106,6 +122,12 @@ function formatTime(date) {
   const ampm = hours >= 12 ? '오후' : '오전';
   const formattedHours = hours % 12 || 12; // 12시간제로 변환
   return `${ampm} ${formattedHours}:${minutes.toString().padStart(2, '0')}`;
+}
+
+function formatTime2(date){
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, '0'); // minutes 값이 1자리일 경우 앞에 0 추가
+  return `${hours}:${minutes}`;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -135,6 +157,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const reservationModalClose = document.querySelector('.exercise-pt-close');
 
   inputScheduleOpen.addEventListener('click', function () {
+    document.querySelectorAll('.pop-up').forEach(modal => {
+      if (modal.classList.contains('exercise-bymyself')) {
+        planClose(modal);  // .exercise-bymyself 클래스를 가진 경우 planClose(planModal) 호출
+      } else {
+        modal.style.display = 'none';  // 그렇지 않으면 modal을 숨김
+      }
+    });
     inputSchedule.style.display = 'block';
   });
 
@@ -143,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   planModalClose.addEventListener('click', function() {
-    planModal.style.display = 'none';
+    planClose(planModal);
   })
 
   reservationModalClose.addEventListener('click', function() {
@@ -157,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var formattedEvents = [planEvents, reservationEvents].flatMap(events =>
     events.map(event => ({
+      id: event.id,
       title: event.title,
       start: event.start,
       end: event.end,
@@ -186,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           changeDate(setYearP, setMonthP, setDayP);
 
-          currentDate.setMonth(currentDate.getMonth() - 1);
+          currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
         }
       },
@@ -206,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           changeDate(setYearN, setMonthN, setDayN);
 
-          currentDate.setMonth(currentDate.getMonth() + 1);
+          currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
         }
       }
@@ -219,6 +249,15 @@ document.addEventListener("DOMContentLoaded", function () {
     events: formattedEvents,
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
+
+      document.querySelectorAll('.pop-up').forEach(modal => {
+        if (modal.classList.contains('exercise-bymyself')) {
+          planClose(modal);  // .exercise-bymyself 클래스를 가진 경우 planClose(planModal) 호출
+        } else {
+          modal.style.display = 'none';  // 그렇지 않으면 modal을 숨김
+        }
+      });
+
       showDateSelected(info.dayEl, info.date);
       currentDate = info.date;
       const formattedDate = formatDate(info.date); // 예: '12/06(Wed)'
@@ -235,7 +274,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const eventType = info.event.extendedProps.type;
       
       document.querySelectorAll('.pop-up').forEach(modal => {
-        modal.style.display = 'none';
+        if (modal.classList.contains('exercise-bymyself')) {
+          planClose(modal);  // .exercise-bymyself 클래스를 가진 경우 planClose(planModal) 호출
+        } else {
+          modal.style.display = 'none';  // 그렇지 않으면 modal을 숨김
+        }
       });
 
       if (eventType == 'plan') {
@@ -247,6 +290,36 @@ document.addEventListener("DOMContentLoaded", function () {
         planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
         planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
         planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';
+
+        const deleteButton = planModal.querySelector('.fa-trash-can').closest('a');
+        deleteButton.setAttribute('data-event-id', info.event.id);
+
+        console.log("info.event.id: " + info.event.id);
+        console.log("typeof id: "+typeof(info.event.id));
+
+        const popupEdit = planModal.querySelector('.popup-edit');
+        const planNameInput = popupEdit.querySelector('input[name="planName"]');
+        const planContentInput = popupEdit.querySelector('textarea[name="planContent"]');
+
+        planNameInput.value = info.event.title || '';
+        planContentInput.value = info.event.extendedProps.description || '';
+
+        console.log("options-edit-start: " + document.getElementById(".options-edit-start"));
+
+        setDropdownValue("dropdown-edit-start", "options-edit-start", formatTime2(info.event.start));
+        setDropdownValue("dropdown-edit-end", "options-edit-end", formatTime2(info.event.end));
+
+        const planTimeInput = popupEdit.querySelector('#planTimeEdit');
+        const planEndInput = popupEdit.querySelector('#planEndEdit');
+
+        console.log("info.event.start:" + info.event.start);
+
+        planTimeInput.value = info.event.start.toISOString();
+        planEndInput.value = info.event.end.toISOString();
+
+        console.log("planTimeInput : " + planTimeInput.value);
+        console.log("planEndTime : " + planEndInput.value);
+
       } else if (eventType === 'reservation') {
         
       reservationModal.style.display = 'block';
@@ -257,6 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
       reservationModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
       reservationModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
       reservationModal.querySelector('.trainer-name').textContent = info.event.extendedProps.description|| '트레이너 정보 없음';
+   
       }
     }
     
@@ -267,6 +341,9 @@ document.addEventListener("DOMContentLoaded", function () {
    // 드롭다운 설정
    setupDropdown("dropdown-button-start", "options-start");
    setupDropdown("dropdown-button-end", "options-end");
+   
+   setupDropdown("dropdown-edit-end", "options-edit-end");
+   setupDropdown("dropdown-edit-start", "options-edit-start");
   
 });
 
@@ -467,11 +544,36 @@ function showDateSelected(selectedCell, selectedDate) {
 
 function setTime(type, element) {
   const timeString = element.getAttribute('value'); // 예: "06:00"
-  const period = type === 'start' ? 'planTime' : 'planEnd'; // 시작/종료 구분
+  
+  switch (type) {
+    case 'start':
+      period = 'planTime';
+      break;
+    case 'end':
+      period = 'planEnd';
+      break;
+    case 'startEdit':
+      period = 'planTimeEdit';
+      break;
+    case 'endEdit':
+      period = 'planEndEdit';
+      break;
+    default:
+      period = null;
+  };
 
-  // currentDate 사용 (기존의 전역 변수)
   const baseDate = new Date(currentDate); // currentDate를 기준으로 날짜 생성
-  baseDate.setHours(0, 0, 0, 0); // 시간을 0으로 초기화
+  if (type === 'startEdit' || type === 'endEdit') {
+    const periodElement = document.getElementById(period); // 해당 요소 가져오기
+    if (periodElement && periodElement.value) {
+      const existingDate = new Date(periodElement.value); // 기존 value 값을 Date로 변환
+      if (!isNaN(existingDate)) {
+        baseDate.setTime(existingDate.getTime()); // baseDate를 기존 날짜로 설정
+      }
+    }
+  } else {
+    baseDate.setHours(0, 0, 0, 0); // start 또는 end의 경우 시간을 0으로 초기화
+  }
 
   // 시간 계산
   const [hours, minutes] = timeString.split(':').map(Number); // "06:00" → [6, 0]
@@ -481,5 +583,87 @@ function setTime(type, element) {
   // planTime 혹은 planEnd에 값을 설정
   document.getElementById(period).value = fullDate.toISOString(); // ISO 형식으로 저장
 
-  console.log(`${period}:`, fullDate);
+  console.log(`${period}(setTime):`, fullDate);
+}
+
+// 일정 삭제
+function deletePlan(element) {
+  const eventId = element.getAttribute('data-event-id');
+
+  if(!eventId) {
+    alert('삭제할 이벤트를 찾을 수 없습니다.');
+    return;
+  }
+
+  const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
+
+  if (isConfirmed) {
+    // 확인을 눌렀다면 폼 제출
+    document.getElementById('eventIdInput').value = eventId;
+    document.getElementById('deleteForm').submit();
+  } else {
+    // 취소를 눌렀다면 아무것도 하지 않음
+    return;
+  }
+}
+
+//일정 수정
+function editPlan() {
+  const editBefore = document.querySelectorAll('.edit-before');
+  const editPopup = document.querySelectorAll('.popup-edit');
+
+  editBefore.forEach((element) => {
+    element.style.display = "none";
+  });
+
+  // popup-edit 표시
+  editPopup.forEach((element) => {
+    element.style.display = "block";
+  });
+
+  document.getElementById('editIcon').style.display = "none";
+  document.getElementById('deleteIcon').style.display = "none";
+
+}
+
+// 일정 수정 취소
+function editCancel(closeSwitch) {
+
+  const editBefore = document.querySelectorAll('.edit-before');
+  const editPopup = document.querySelectorAll('.popup-edit');
+
+  const isConfirmed = window.confirm('수정한 내용이 저장되지 않습니다. 그래도 취소하겠습니까?');
+
+  if(isConfirmed) {
+    document.getElementById('editIcon').style.display = "block";
+    document.getElementById('deleteIcon').style.display = "block";
+
+    editBefore.forEach((element) => {
+      element.style.display = "block";
+    });
+
+    // popup-edit 표시
+    editPopup.forEach((element) => {
+      element.style.display = "none";
+    });
+    if(closeSwitch === true) {
+      const planModal = document.querySelector('.exercise-bymyself');
+      planModal.style.display="none";
+    }
+  }
+
+}
+
+// 일정 수정 중 팝업 닫을 때 세팅
+function planClose(planModal){
+  const editContainer = document.querySelectorAll('.popup-edit');
+  const isEditContainerVisible = Array.from(editContainer).some(
+    (element) => getComputedStyle(element).display === "block"
+  );
+  if(isEditContainerVisible) {
+    editCancel(true);
+  }
+  else {
+    planModal.style.display = 'none';
+  }
 }
