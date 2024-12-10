@@ -45,7 +45,12 @@ public class QRCodeController {
         byte[] imageBytes = qrCodeOutputStream.toByteArray();
         String qrCodeBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
+        // QR 코드 URL을 모델에 추가
+        String qrCodeUrl = String.format("http://localhost:8080/admin/attendance/check?qrcodeId=%d&uuid=%s",
+                                         qrCode.getNo(), qrCode.getUuid());
         model.addAttribute("qrCodeBase64", qrCodeBase64);
-        return "qrCodePage"; 
+        model.addAttribute("qrCodeUrl", qrCodeUrl);  // QR 코드 URL 추가
+
+        return "qrCodePage"; // qrCodePage.html로 반환
     }
 }

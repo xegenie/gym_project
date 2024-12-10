@@ -116,3 +116,76 @@ td {
     position: relative;
     width: 100%;
 }
+
+
+.btn-primary {
+    padding: 10px 20px;
+    margin: 100px 0;
+    font-size: 16px;
+    color: #fff;
+    background-color: #344250;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-left: 100px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.attendance-table {
+    margin-bottom: 40px; /* 푸터와 테이블 사이의 간격 */
+}
+
+.footer {
+    padding-top: 20px;
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    color: aliceblue;
+    margin-top: 20px;
+    margin-bottom: 30px; /* 출석 랭킹과 테이블 사이의 간격 */
+}
+
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.attendance-table {
+    margin-bottom: 40px; /* 푸터와 테이블 사이의 간격 */
+}
+
+.footer {
+    padding-top: 20px;
+}
+
+.text {
+    display: flex;
+    justify-content: center; /* 출석 랭킹 글씨를 가운데로 정렬 */
+    color: aliceblue;
+    margin-top: 20px;
+    margin-bottom: 30px; /* 출석 랭킹과 테이블 사이의 간격 */
+}
+
+
+
+.highlight {
+    background-color: #ff0; /* 하이라이트 배경색 */
+    animation: fadeOut 2s forwards; /* 페이드 아웃 애니메이션 */
+}
+
+@keyframes fadeOut {
+    from {
+        background-color: #ff0;
+    }
+    to {
+        background-color: transparent;
+    }
+}

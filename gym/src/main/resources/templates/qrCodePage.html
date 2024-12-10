@@ -30,6 +30,20 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        .url-text {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .url-text a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        .url-text a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -40,6 +54,9 @@
         </div>
         <div class="timer">
             유효시간: <span id="countdown">60</span><span id="unit">초</span>
+        </div>
+        <div class="url-text">
+            QR 코드 URL: <a th:href="${qrCodeUrl}" target="_blank" th:text="${qrCodeUrl}"></a>  <!-- 하이퍼링크로 URL 출력 -->
         </div>
         <button class="main-button" id="mainButton" onclick="goToMain()">메인으로</button>
     </div>
