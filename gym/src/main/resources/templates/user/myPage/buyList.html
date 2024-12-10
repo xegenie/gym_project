@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,76 +8,59 @@
     <link rel="stylesheet" href="/css/myPage/buyList.css">
     <th:block th:replace="~{fragment/link::link}"></th:block>
 </head>
- <!-- 헤더 -->
- <th:block th:replace="~{fragment/header::header}"></th:block>
-<body class="fullBody"  style="color: rgb(3, 3, 3); background-color: #252222;">
+<!-- 헤더 -->
+<th:block th:replace="~{fragment/header::header}"></th:block>
+
+<body class="fullBody" style="color: rgb(3, 3, 3); background-color: #252222;">
     <div class="wrapper" style="margin-top: 80px;">
         <main>
             <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
             <div class="button-group">
                 <button onclick="window.location.href='/user/myPage/info'">내 정보</button>
-                <button   class="active" onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
+                <button class="active" onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
                 <button onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
                 <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
             </div>
 
-           
-                <main>
-                    <div class="main-text" style="color: #ffffff;">보유중인 이용권</div>
-                    <!-- 이용권 내역을 표시하는 부분 -->
-                    <table class="info-table">
-                        <tr>
-                            <th style="color: rgb(255, 255, 255);">이용권</th>
-                          
-                                <td><span th:text="${buyList}"></span></td>
+
+            <main>
+                <div class="main-text" style="color: #ffffff;">보유중인 이용권</div>
+                <!-- 이용권 내역을 표시하는 부분 -->
+                <table class="info-table">
+                    <tr>
+                        <th style="color: rgb(255, 255, 255);">이용권</th>
+
+                        <td><span th:text="${#lists.size(buyList) > 0 ? buyList[#lists.size(buyList) - 1].ticketName : '없음'}"></span></td>
                            
                         </tr>
                         <tr>
                             <th style="color: rgb(255, 255, 255);">구매일시</th>
-                            <td>2024-11-10</td>
+                            <td> <span th:text="${oldestBuyList != null ? #dates.format(oldestBuyList.startDate, 'yyyy-MM-dd') + '&ensp;&ensp;' : '-'}"></span></td>
                         </tr>
                         <tr>
-                            <th style="color: rgb(255, 255, 255);">유효기간</th>
-                            <td>2025-11-10</td>
+                            <th style="color: rgb(255, 255, 255);">만료일시</th>
+                            <td>  <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].endDate, 'yyyy-MM-dd') : '-'}"></span></td>
                         </tr>
                     </table>
 
-                    <div class="main-text" style="color: #ffffff; margin-top: 100px;">이용권 내역</div>
-                    <table class="info-table2" border="1">
-                        <tr>
-                            <td>번호</td>
-                            <td>이용권</td>
-                            <td>가격</td>
-                            <td>구매일시</td>
-                        </tr>
-                        <tr>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                        </tr>
-                        <tr>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                        </tr>
-                        <tr>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                        </tr>
-                        <tr>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                            <td>zz</td>
-                        </tr>
+                    <div class="main-text" style="color: #ffffff; margin-top: 100px; ">이용권 내역</div>
+                        <table class="info-table2" border="1">
+                            <tr>
+                                <th style="width: 15%; text-align: center;">번호</th>
+                                <th style="width: 35% ; text-align: center;">이용권</th>
+                                <th style="width: 20%; text-align: center;">가격</th>
+                                <th style="width: 30%; text-align: center;">구매일시</th>
+                            </tr>
+                        <th:block th:each="buy:${buyList}">
+                            <tr>
+                                <td th:text="${buy.no}"  style="text-align: center;"></td>
+                                <td th:text="${buy.ticketName}" style="text-align: center;" ></td>
+                                <td th:text="${buy.ticketPrice}" style="text-align: center;"></td>
+                                <td th:text=" ${#dates.format(buy.buyDate, 'yyyy-MM-dd HH:mm:ss')}" style="text-align: center
+                                ;" ></td>
+                            </tr>
+                        </th:block>
                     </table>
-                    
-                    
-
                 </main>
             </div>
         </main>
