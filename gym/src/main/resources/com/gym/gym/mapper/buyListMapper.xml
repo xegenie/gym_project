@@ -51,11 +51,17 @@
             b.user_no = #{userNo}
     </select>
 
-    <update id="update" parameterType="int">
+    <update id="cancel" parameterType="int">
         UPDATE buy_list
         SET status = '환불',
             canceled_at = NOW()
         WHERE no = #{no}
+    </update>
+
+    <update id="statusUpdate">
+        UPDATE buy_list 
+        SET status = '만료' 
+        WHERE end_date &lt; NOW()
     </update>
 
     <insert id="insert">

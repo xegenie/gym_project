@@ -117,3 +117,16 @@ th, td {
 .deleteBtn:hover {
     filter: brightness(90%);
 }
+
+/* ------------------------구매내역 css------------------------ */
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: rgb(0, 197, 0);
+}
+
+.text-blue {
+    color: rgba(0, 110, 255, 0.938);
+}

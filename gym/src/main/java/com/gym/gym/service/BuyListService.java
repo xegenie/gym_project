@@ -9,7 +9,6 @@ import com.gym.gym.domain.Page;
 
 public interface BuyListService {
     
-    public List<BuyList> list() throws Exception;
     public List<BuyList> list(@Param("keyword") String keyword, @Param("page") Page page) throws Exception;
 
     public int insert(BuyList buyList) throws Exception;

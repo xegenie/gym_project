@@ -28,17 +28,16 @@ public class BuyListServiceImpl implements BuyListService {
         return result;
     }
 
-    @Override
-    public List<BuyList> list() throws Exception {
-        return buyListMapper.list("", new Page());
-    }
    @Override
     public List<BuyList> list(String keyword, Page page) throws Exception {
         
         int total = count(keyword);
         page.setTotal(total);
 
-        return buyListMapper.list(keyword, page);
+        List<BuyList> buyList = buyListMapper.list(keyword, page);
+        buyListMapper.statusUpdate();
+
+        return buyList;
     }
     @Override
     public int count(String keyword) throws Exception {

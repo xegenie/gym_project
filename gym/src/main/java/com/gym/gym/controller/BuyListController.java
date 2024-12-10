@@ -11,15 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
-import com.gym.gym.domain.TrainerProfile;
+import com.gym.gym.domain.Page;
 import com.gym.gym.service.BuyListService;
-import com.gym.gym.service.TrainerProfileService;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -47,7 +46,7 @@ public class BuyListController {
 
     // 캔슬
     @PostMapping("/admin/sales/buyList/cancel")
-    public String cancel(int no) throws Exception {
+    public String cancel(@RequestParam("no") int no) throws Exception {
         int result = buyListService.cancel(no);
 
         if (result > 0) {
@@ -59,11 +58,11 @@ public class BuyListController {
 
     // 전체리스트
     @GetMapping("/admin/sales/buyList")
-    public String list(Model model) throws Exception {
+    public String list(Model model, @RequestParam(name = "keyword", defaultValue = "") String keyword, Page page) throws Exception {
 
-        List<BuyList> buyList = buyListService.list();
-        log.info("buyList : " + buyList);
-
+        List<BuyList> buyList = buyListService.list(keyword, page);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
         model.addAttribute("buyList", buyList);
 
         return "/admin/sales/buyList";
