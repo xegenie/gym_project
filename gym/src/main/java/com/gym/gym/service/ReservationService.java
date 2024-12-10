@@ -20,7 +20,7 @@ public interface ReservationService {
     public List<Reservation> list(Option option, Page page) throws Exception;
 
     // 예약 상세 조회
-    public Reservation read(int no) throws Exception;
+    public Reservation findByNo(int no) throws Exception;
 
     // 예약 취소(수정)
     public int cancel(Reservation reservation) throws Exception;

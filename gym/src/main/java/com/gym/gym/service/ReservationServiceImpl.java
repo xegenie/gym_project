@@ -37,8 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
     
     // 예약 조회
     @Override
-    public Reservation read(int no) throws Exception {
-        Reservation reservation = reservationMapper.read(no);
+    public Reservation findByNo(int no) throws Exception {
+        Reservation reservation = reservationMapper.findByNo(no);
         return reservation;
     }
     

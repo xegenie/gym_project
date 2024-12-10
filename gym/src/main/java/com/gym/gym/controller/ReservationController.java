@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.CustomUser;
@@ -157,23 +158,32 @@ public class ReservationController {
     
     // 회원이 예약 취소(수정)
     @PostMapping("/user/myPage/ptList")
-    public String cancelUser(Reservation reservation) throws Exception {
-        // if (reservation.getEnabled() == 1) {
-            int result = reservationService.cancel(reservation);
+    public String cancelUser(@RequestParam("no") int no, Option option, Page page) throws Exception {
+        Reservation reservation =  reservationService.findByNo(no);
+
+        reservation.setCanceledAt(new Date());
+        reservation.setEnabled(0);
+        int result = reservationService.cancel(reservation);
+
             if (result > 0) {
-                return "redirect:/user/myPage/ptList";
+                return "redirect:/user/myPage/ptList?page=" + page.getPage() + "&keyword=" + option.getKeyword() + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
             }
-        // }
         return "redirect:/user/myPage/ptList?error";
     }
 
+    
+
     // 관리자가 예약 취소(수정)
     @PostMapping("/admin/reservation/list")
-    public String cancelAdmin(Reservation reservation, Page page) throws Exception {
+    public String cancelAdmin(@RequestParam("no") int no, Option option, Page page) throws Exception {
+        Reservation reservation =  reservationService.findByNo(no);
+
+        reservation.setCanceledAt(new Date());
+        reservation.setEnabled(0);
         int result = reservationService.cancel(reservation);
-        log.info(page.getPage()+"페이지");
+
         if (result > 0) {
-            return "redirect:/admin/reservation/list?page=" + page.getPage();
+            return "redirect:/admin/reservation/list?page=" + page.getPage() + "&keyword=" + option.getKeyword() + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
         }
         return "redirect:/admin/reservation/list?error";
     }
