@@ -81,9 +81,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <!-- 트레이너가 관리하는 회원 수 -->
-    <select id="userCount" resultType="trainerProfile">
+    <select id="userCount" parameterType="int">
         SELECT trainer_no, COUNT(*) AS count
         FROM buy_list
+        WHERE trainer_no = #{trainerNo}
         GROUP BY trainer_no
     </select>
 

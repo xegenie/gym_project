@@ -41,7 +41,6 @@
                             <input type="hidden" name="startDate" th:value="${#dates.format(startDate, 'yyyy-MM-dd HH:mm:ss')}">
                             <input type="hidden" name="endDate" id="endDate">
 
-
                         </div>
                         <div class="ticket-content d-flex flex-column">
                             <span class="ticket-name" th:text="${ticket.name}"></span>
@@ -129,7 +128,7 @@
             let endDate = end.toISOString();  // ISO 형식으로 변환하여 endDate 설정
             
 
-            alert('month : '+ months + '\nticketNo : ' + ticketNo + '\nstartDate : ' + startDate + '\nendDate : ' + endDate);
+            // alert('month : '+ months + '\nticketNo : ' + ticketNo + '\nstartDate : ' + startDate + '\nendDate : ' + endDate);
             
             document.getElementById('endDate').value = endDate;  // endDate input에 값 설정
             
@@ -146,13 +145,6 @@
                 if (rsp.success) {
                     var csrfToken = document.querySelector('input[name="csrf"]').value;
 
-                    console.log(JSON.stringify({
-                        ticketNo: ticketNo,
-                        userNo: userNo,
-                        startDate: startDate,
-                        endDate: endDate
-                    }));
-                    
                     // 결제 성공 시 buyList에 데이터 삽입
                     fetch('/user/pay/paying', {
                         method: 'POST',

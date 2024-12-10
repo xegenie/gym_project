@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.Files;
 import com.gym.gym.domain.Page;
-import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.FileService;
-import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
 import com.gym.gym.service.UserService;
 
