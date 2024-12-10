@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +7,10 @@
   <link rel="stylesheet" href="/css/reservation/userRVstyle.css">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="/js/userRVscript.js"></script>
-  <script>
-    var sortByTrainer = /*[[${sortByTrainer}]]*/ [];
+  <script th:inline="javascript">
+    const sortByTrainer = /*[[${sortByTrainer}]]*/ [];
+    console.log(sortByTrainer);
+    console.log(sortByTrainer[0].rvDate);
   </script>
 </head>
 <body>
@@ -30,9 +31,6 @@
     <!-- 예약 모달 -->
     <div id="timeSelectionModal">
       <div class="modal-container">
-        <!-- <th:block th:each="reservation : ${sortByTrainer}">
-          <div th:text="${reservation.trainerNo}"></div>
-        </th:block> -->
         <div class="modal-info">
           <h3>예약 시간 선택</h3>
           <p id="selectedDate"></p>
@@ -44,10 +42,8 @@
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <input type="hidden" id="rvDateInput" name="rvDate">     <!-- 예약 날짜 -->
           <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
-              <!-- <li><a th:href="|/user/reservation/reservation?no=${#authentication.principal.trainerNo}|">PT 예약</a></li> -->
               <input type="hidden" name="trainerNo" th:value="${#authentication.principal.trainerNo}">       
           </th:block>
-          <!-- <input type="hidden" name="userNo" value="1"> -->
           <input type="submit" style="display: none;" />
         </form>
       </div>

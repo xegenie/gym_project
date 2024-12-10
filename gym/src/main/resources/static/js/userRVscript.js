@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   calendar.render();
 });
 
+
 function showTimeSelectionModal(selectedDate) {
   var modal = document.getElementById("timeSelectionModal");
   var dateDisplay = document.getElementById("selectedDate");
@@ -25,10 +26,9 @@ function showTimeSelectionModal(selectedDate) {
     let button = document.createElement("button");
     button.textContent = `${hour}:00`;
 
+    let selectedDateTime = new Date(selectedDate + " " + `${hour}:00`);
     let isReserved = sortByTrainer.some(reservation => {
       let reservationDate = new Date(reservation.rvDate);
-      let selectedDateTime = new Date(selectedDate + " " + `${hour}:00`);
-
       return reservationDate.getTime() === selectedDateTime.getTime();
   });
 
@@ -87,5 +87,5 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
-let selectedDateTime = new Date(`${selectedDate} 00:00:00`);
-selectedDate = formatDate(selectedDateTime);
+// let selectedDateTime = new Date(`${selectedDate} 00:00:00`);
+// selectedDate = formatDate(selectedDateTime);
