@@ -22,4 +22,6 @@ public interface BuyListMapper {
 
     public BuyList lastBuyList(Long no) throws Exception;
 
+    public int statusUpdate() throws Exception;
+
 }
