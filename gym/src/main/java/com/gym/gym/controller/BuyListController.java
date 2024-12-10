@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Page;
+import com.gym.gym.domain.Users;
 import com.gym.gym.service.BuyListService;
+import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,8 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BuyListController {
 
-    @Autowired
-    BuyListService buyListService;
+    @Autowired BuyListService buyListService;
+    @Autowired UserService userService;
 
     // 등록
     @GetMapping("/admin/sales/buyList/insert")
@@ -67,6 +70,17 @@ public class BuyListController {
 
         return "/admin/sales/buyList";
     }
+
+    // 매출조회
+    @GetMapping("/admin/sales/salesList")
+    public String salesList(Model model) throws Exception {
+
+        List<BuyList> salesList = buyListService.salesList();
+        model.addAttribute("salesList", salesList);
+
+        return "/admin/sales/salesList";
+    }
+    
 
     // 마이리스트
     @GetMapping("/user/myPage/buyList")

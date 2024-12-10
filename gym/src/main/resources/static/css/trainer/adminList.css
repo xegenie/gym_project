@@ -130,3 +130,11 @@ th, td {
 .text-blue {
     color: rgba(0, 110, 255, 0.938);
 }
+
+select {
+    padding: 5px 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #eee;
+    float: right;
+}

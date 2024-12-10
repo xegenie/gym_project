@@ -31,7 +31,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>번호</th>
+                                <th>No</th>
                                 <th>고객명</th>
                                 <th>상품명</th>
                                 <th>상품가격</th>
@@ -50,10 +50,12 @@
                                 <td th:text="${buyList.ticketPrice}"></td>
                                 <td th:text="${buyList.trainerName ?: '-'}"></td>
                                 <td th:text="${#dates.format( buyList.buyDate, 'yyyy-MM-dd HH:mm:ss' )}"></td>
-                                <td th:text="${buyList.canceledAt != null ? #dates.format(buyList.canceledAt, 'yyyy-MM-dd HH:mm:ss') : #dates.format(buyList.endDate, 'yyyy-MM-dd HH:mm:ss')}"
-                                th:classappend="${buyList.status == '환불' ? 'text-red' : buyList.status == '정상' ? 'text-green' : buyList.status == '만료' ? 'text-blue' : ''}">
-                                ></td>
-                                <td th:text="${buyList.status}" style="font-weight: bold;"
+                                <td 
+                                    th:text="${buyList.canceledAt != null ? #dates.format(buyList.canceledAt, 'yyyy-MM-dd HH:mm:ss') : #dates.format(buyList.endDate, 'yyyy-MM-dd HH:mm:ss')}"
+                                    th:classappend="${buyList.status == '환불' ? 'text-red' : buyList.status == '정상' ? 'text-green' : buyList.status == '만료' ? 'text-blue' : ''}">
+                                </td>
+                                <td 
+                                    th:text="${buyList.status}" style="font-weight: bold;"
                                     th:classappend="${buyList.status == '환불' ? 'text-red' : buyList.status == '정상' ? 'text-green' : buyList.status == '만료' ? 'text-blue' : ''}">
                                 </td>
                                 <td>

@@ -24,4 +24,8 @@ public interface BuyListMapper {
 
     public int statusUpdate() throws Exception;
 
+    public int count(@Param("keyword") String keyword) throws Exception;
+
+    // 매출 내역
+    public List<BuyList> salesList() throws Exception;
 }
