@@ -9,6 +9,7 @@
     <!-- 공통 링크 추가 -->
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <link rel="stylesheet" href="/css/attendance/ranking.css">
+
 </head>
 
 <body class="fullBody">
@@ -22,17 +23,12 @@
 
     <div class="main">
         <div class="content1">
-            <div class="text-rank">나의 순위 :</div>
-
-            <form class="search-form" action="/ranking" method="get">
-                <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value="" />
-                <button type="submit" class="search-btn" style="margin-right: 50px;">검색</button>
-            </form>
-
+            <!-- 나의 순위로 이동하는 버튼 -->
+            <button id="my-ranking-btn" class="btn-primary">나의 랭킹으로 이동</button>
         </div>
         <div class="content2">
             <div class="text">
-                <h1>출석 랭킹</h1>
+                <h1 style="margin-left: -35px;">출석 랭킹</h1>
             </div>
 
             <div class="table-container">
@@ -45,14 +41,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="rank, iterStat : ${rankingList}" 
-                            th:if="${iterStat.index < 20}">
-                            <td th:text="${rank.rank}"></td>
+                        <!-- 동적으로 나의 순위와 다른 회원들의 순위를 출력 -->
+                        <tr th:each="rank : ${rankingList}">
+                            <td th:id="'rank-' + ${rank.userId}" th:text="${rank.rank}"></td>
                             <td th:text="${rank.userId}"></td>
                             <td th:text="${rank.attendanceCount}"></td>
                         </tr>
                     </tbody>
-                    
                 </table>
             </div>
         </div>
@@ -66,6 +61,36 @@
 
     <!-- 공통 스크립트 추가 -->
     <th:block th:replace="~{fragment/script::script}"></th:block>
+
+    <!-- 나의 랭킹으로 이동하는 JavaScript 코드 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Document loaded");
+
+            const myUserId = '[[${user.id}]]'; // Thymeleaf 변수로 사용자 ID 가져오기
+            console.log("로그인한 사용자 ID:", myUserId);
+            
+            document.getElementById('my-ranking-btn').addEventListener('click', function() {
+                console.log("My ranking button clicked");
+
+                const targetRank = document.getElementById(`rank-${myUserId}`);
+                if (!targetRank) {
+                    console.error("Cannot find the rank element with ID: rank-" + myUserId);
+                    alert("나의 랭킹을 찾을 수 없습니다.");
+                    return;
+                }
+
+                console.log("찾은 랭킹 요소:", targetRank);
+                targetRank.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 하이라이트 효과 적용
+                targetRank.classList.add('highlight');
+                setTimeout(() => {
+                    targetRank.classList.remove('highlight');
+                }, 2000); // 2초 후 하이라이트 제거
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -56,31 +56,40 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public List<Ranking> getAttendanceRanking() throws Exception {
-        return rankingMapper.getAttendanceRanking();
+        List<Ranking> rankingList = rankingMapper.getAttendanceRanking();
+        return setRanking(rankingList);
     }
 
     @Override
     public List<Ranking> getAttendanceRanking(Option option, Page page) throws Exception {
         List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page);
-
-        return rankingList.stream()
-                .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed())
-                .collect(Collectors.toList());
+        return setRanking(rankingList);
     }
 
     @Override
     public List<Ranking> getAttendanceRanking(Option option, Page page, int lastRank) throws Exception {
-        // 데이터 조회
         List<Ranking> rankingList = rankingMapper.getAttendanceRanking(option, page);
+        return setRanking(rankingList, lastRank);
+    }
 
-        // 출석수 기준 내림차순 정렬
+    private List<Ranking> setRanking(List<Ranking> rankingList) {
         List<Ranking> sortedList = rankingList.stream()
                 .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed())
                 .collect(Collectors.toList());
 
-        // 기존 순위에 이어지는 순위 설정
         for (int i = 0; i < sortedList.size(); i++) {
-            // lastRank를 기준으로 계속 이어지도록 순위 설정
+            sortedList.get(i).setRank(i + 1);
+        }
+
+        return sortedList;
+    }
+
+    private List<Ranking> setRanking(List<Ranking> rankingList, int lastRank) {
+        List<Ranking> sortedList = rankingList.stream()
+                .sorted(Comparator.comparingInt(Ranking::getAttendanceCount).reversed())
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < sortedList.size(); i++) {
             sortedList.get(i).setRank(lastRank + i + 1);
         }
 
