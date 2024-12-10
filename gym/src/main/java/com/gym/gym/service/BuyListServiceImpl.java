@@ -30,12 +30,12 @@ public class BuyListServiceImpl implements BuyListService {
 
    @Override
     public List<BuyList> list(String keyword, Page page) throws Exception {
+        buyListMapper.statusUpdate();
         
         int total = count(keyword);
         page.setTotal(total);
 
         List<BuyList> buyList = buyListMapper.list(keyword, page);
-        buyListMapper.statusUpdate();
 
         return buyList;
     }
