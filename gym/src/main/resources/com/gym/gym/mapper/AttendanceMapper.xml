@@ -91,9 +91,11 @@
 
 
 
-    <!-- 출석 인원 -->
-    <select id="listCount" resultType="int" >
-        SELECT COUNT(*) FROM attendance
-    </select>
+ <select id="listCount" resultType="int"> <!-- 1시간이 지나면 안셈 -->
+    SELECT COUNT(*)
+    FROM attendance
+    WHERE check_time &gt;= DATE_SUB(NOW(), INTERVAL 1 HOUR);
+</select>
+
 
 </mapper>
