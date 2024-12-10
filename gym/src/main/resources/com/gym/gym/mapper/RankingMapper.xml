@@ -17,6 +17,8 @@
         FROM attendance a
         JOIN users u ON a.user_no = u.no
         <where>
+            <!-- 같은 달의 출석만 조회 -->
+            DATE_FORMAT(a.check_time, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')
             <if test="option.keyword != null and option.keyword != ''">
                 AND u.id LIKE CONCAT('%', #{option.keyword}, '%')
             </if>
@@ -24,6 +26,7 @@
         GROUP BY a.user_no
         ORDER BY attendanceCount DESC, attendanceDate ASC;
     </select>
+
 
     <!-- 출석 랭킹 총 개수 -->
     <select id="count" resultType="int">
