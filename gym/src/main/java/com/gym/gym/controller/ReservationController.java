@@ -33,7 +33,7 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
-
+    
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
@@ -131,6 +131,7 @@ public class ReservationController {
     public String insert(Model model, @ModelAttribute Option option) throws Exception {
 
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        // model.addAttribute("sortByTrainer", new ObjectMapper().writeValueAsString(sortByTrainer));
         model.addAttribute("sortByTrainer", sortByTrainer);
         
         return "/user/reservation/reservation";
