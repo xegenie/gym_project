@@ -20,15 +20,32 @@ function showTimeSelectionModal(selectedDate) {
   dateDisplay.textContent = `${selectedDate}`;
 
   timeButtonsContainer.innerHTML = "";
+  
   for (let hour = 10; hour <= 21; hour++) {
     let button = document.createElement("button");
     button.textContent = `${hour}:00`;
-    button.onclick = function () {
-      selectTime(selectedDate, `${hour}:00`);
-    };
+
+    let isReserved = sortByTrainer.some(reservation => {
+      let reservationDate = new Date(reservation.rvDate);
+      let selectedDateTime = new Date(selectedDate + " " + `${hour}:00`);
+
+      return reservationDate.getTime() === selectedDateTime.getTime();
+  });
+
+    button.disabled = isReserved;
     button.style.margin = "5px";
     button.style.padding = "10px 20px";
-    button.style.cursor = "pointer";
+    button.style.cursor = isReserved ? "not-allowed" : "pointer";
+    button.style.backgroundColor = isReserved ? "gray" : "blue";
+    button.style.color = "white";
+
+    if (!isReserved) {
+      button.onclick = function () {
+        selectTime(selectedDate, `${hour}:00`);
+      };
+    }
+    
+
     timeButtonsContainer.appendChild(button);
   }
 
@@ -70,3 +87,5 @@ function formatDate(date) {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
+let selectedDateTime = new Date(`${selectedDate} 00:00:00`);
+selectedDate = formatDate(selectedDateTime);

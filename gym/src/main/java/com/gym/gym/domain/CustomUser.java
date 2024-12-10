@@ -70,5 +70,10 @@ public class CustomUser implements UserDetails {
     public Long getNo() {
         return user.getNo();  // Users 객체에서 no 값을 반환
     }
+
+    // Users 객체의 trainerNo를 반환하는 메서드 추가
+    public int getTrainerNo() {
+        return user.getTrainerNo();
+    }
     
 }
