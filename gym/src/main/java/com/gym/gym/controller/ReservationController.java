@@ -48,13 +48,14 @@ public class ReservationController {
         List<Reservation> reservationCount = reservationService.userByList(userDetails.getNo(), option, new Page());
         
         
+        log.info("좀 찍혀라 " + reservationCount);
         long disabledCount = reservationService.disabledCount(userDetails.getNo());
         // .filter(reservation -> reservation.getEnabled() == 2)
         // .count();
         
         // 리스트의 마지막 항목
         if (reservationCount.size() > 0) {
-            Reservation lastReservation = reservationCount.get(reservationCount.size() - 1);
+            Reservation lastReservation = reservationCount.get(reservationCount.size());
             int ptCount = lastReservation.getPtCount();
             ptCount -= disabledCount;
             model.addAttribute("ptCount", ptCount);
@@ -152,6 +153,7 @@ public class ReservationController {
     public String insert(@RequestParam("trainerNo") int trainerNo, @AuthenticationPrincipal CustomUser userDetails, Model model, @ModelAttribute Option option, Page page) throws Exception {
 
 
+        List<Reservation> reservationCount = reservationService.userByList(userDetails.getNo(), option, new Page());
         // 트레이너 프로필 정보
         TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
         model.addAttribute("trainer", trainerProfile);
@@ -159,17 +161,20 @@ public class ReservationController {
         log.info("넘어오나" + trainerProfile);
         List<Reservation> reservationList = reservationService.userByList(userDetails.getNo(), option, page);
 
-        long disabledCount = reservationList.stream()
-        .filter(reservation -> reservation.getEnabled() == 2)
-        .count();
-
+        long disabledCount = reservationService.disabledCount(userDetails.getNo());
+        // .filter(reservation -> reservation.getEnabled() == 2)
+        // .count();
+        
         // 리스트의 마지막 항목
-        // if (reservationList.size() > 0) {
-            Reservation lastReservation = reservationList.get(reservationList.size() - 1);
+        if (reservationCount.size() > 0) {
+            Reservation lastReservation = reservationCount.get(reservationCount.size() - 1);
             int ptCount = lastReservation.getPtCount();
             ptCount -= disabledCount;
             model.addAttribute("ptCount", ptCount);
-        // }
+            log.info("피티카운트 : " + ptCount);
+            log.info("disabledCount: " + disabledCount);
+
+        }
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
         
         model.addAttribute("reservationList", reservationList);
