@@ -2,33 +2,25 @@ const monthNames = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-
 let currentDate = new Date();
-
 let calendar;
-
 // 미니 캘린더
 function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
-
   // 업데이트할 요소
   const monthElement = document.querySelector(".current-month");
   const yearElement = document.querySelector(".year");
   const datesElement = document.querySelector(".dates");
-
   // 월과 연도 설정
   monthElement.textContent = monthNames[month];
   yearElement.textContent = year;
-
   // 해당 월의 날짜 계산
   const firstDayOfMonth = new Date(year, month, 1).getDay(); // 월 첫 번째 날 요일
   const lastDateOfMonth = new Date(year, month + 1, 0).getDate(); // 월 마지막 날짜
   const lastDayOfLastMonth = new Date(year, month, 0).getDate(); // 이전 달 마지막 날짜
-
   // 캘린더 초기화
   datesElement.innerHTML = "";
-
   // 이전 달의 날짜 채우기
   const startDay = (firstDayOfMonth === 0 ? 7 : firstDayOfMonth) - 1;
   for (let i = startDay; i > 0; i--) {
@@ -37,13 +29,11 @@ function renderCalendar(date) {
     btn.style.opacity = "0.5"; // 비활성화 효과
     datesElement.appendChild(btn);
   }
-
   // 이번 달 날짜 채우기
   const today = new Date();
   for (let i = 1; i <= lastDateOfMonth; i++) {
     const btn = document.createElement("button");
     btn.innerHTML = `<time>${i}</time>`;
-
     // 오늘 날짜 강조
     if (
       year === today.getFullYear() &&
@@ -54,7 +44,6 @@ function renderCalendar(date) {
     }
     datesElement.appendChild(btn);
   }
-
   // 다음 달 날짜 채우기 (캘린더 채우기 용)
   const remainingCells = 42 - datesElement.children.length; // 6행 * 7열
   for (let i = 1; i <= remainingCells; i++) {
@@ -63,19 +52,15 @@ function renderCalendar(date) {
     btn.style.opacity = "0.5"; // 비활성화 효과
     datesElement.appendChild(btn);
   }
-
   miniCalendarClickEvents();
 }
-
 function setupDropdown(buttonId, optionsId) {
   const dropdownButton = document.getElementById(buttonId);
   const options = document.getElementById(optionsId);
-
   // 드롭다운 버튼 클릭 시 옵션 표시/숨김
   dropdownButton.addEventListener("click", () => {
     options.style.display = options.style.display === "block" ? "none" : "block";
   });
-
   // 옵션 클릭 시 버튼에 값 표시
   options.addEventListener("click", (event) => {
     if (event.target.tagName === "DIV") {
@@ -83,7 +68,6 @@ function setupDropdown(buttonId, optionsId) {
       options.style.display = "none"; // 옵션 숨기기
     }
   });
-
   // 외부 클릭 시 옵션 숨기기
   document.addEventListener("click", (event) => {
     if (!event.target.closest(`#${buttonId}`) && !event.target.closest(`#${optionsId}`)) {
@@ -91,15 +75,11 @@ function setupDropdown(buttonId, optionsId) {
     }
   });
 }
-
 function setDropdownValue(buttonId, optionsId, value) {
   const dropdownButton = document.getElementById(buttonId);
   const options = document.getElementById(optionsId);
-
   console.log("value: " + value);
-
   const matchingOption = Array.from(options.children).find(option => option.getAttribute("value").trim() === value.trim());
-
   // console.log("matchingOption(setDropdownValue 안): " + matchingOption);
   // console.log("matchingOption.getAttribute(value)(setDropdownValue 안): " + matchingOption.getAttribute("value"));
   if (matchingOption) {
@@ -107,15 +87,11 @@ function setDropdownValue(buttonId, optionsId, value) {
     dropdownButton.textContent = matchingOption.textContent; // 버튼 텍스트 설정
   }
 }
-
 function formatDate(date) {
-
   const dayNames = ["일", "월", "화", "수", "목", "금", "토"]; // 요일 목록
   const formattedDate = `${date.getMonth() + 1}/${date.getDate()}(${dayNames[date.getDay()]})`;
-
   return formattedDate;
 }
-
 function formatTime(date) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -123,40 +99,32 @@ function formatTime(date) {
   const formattedHours = hours % 12 || 12; // 12시간제로 변환
   return `${ampm} ${formattedHours}:${minutes.toString().padStart(2, '0')}`;
 }
-
 function formatTime2(date){
   const hours = date.getHours();
   const minutes = date.getMinutes().toString().padStart(2, '0'); // minutes 값이 1자리일 경우 앞에 0 추가
   return `${hours}:${minutes}`;
 }
-
-
 document.addEventListener("DOMContentLoaded", function () {
   // 이전/다음 버튼 이벤트 추가
   document.querySelector(".prev").addEventListener("click", () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar(currentDate);
   });
-
   document.querySelector(".next").addEventListener("click", () => {
     currentDate.setMonth(currentDate.getMonth() + 1);
     renderCalendar(currentDate);
   });
-
   // 초기 렌더링
   renderCalendar(currentDate);
-
   // modal
   const inputSchedule = document.querySelector('.input-schedule');
   const planModal = document.querySelector('.exercise-bymyself');
   const reservationModal = document.querySelector('.exercise-pt');
-
   const inputScheduleOpen = document.querySelector('.upd-schedule');
   
   const inputScheduleClose = document.querySelector('.input-schedule-close');
   const planModalClose = document.querySelector('.exercise-bymyself-close');
   const reservationModalClose = document.querySelector('.exercise-pt-close');
-
   inputScheduleOpen.addEventListener('click', function () {
     document.querySelectorAll('.pop-up').forEach(modal => {
       if (modal.classList.contains('exercise-bymyself')) {
@@ -167,40 +135,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     inputSchedule.style.display = 'block';
   });
-
   inputScheduleClose.addEventListener('click', function () {
-
     inputSchedule.style.display = 'none';
-    cell.classList.remove("focused-day");
   });
-
   planModalClose.addEventListener('click', function() {
     planClose(planModal);
   })
-
   reservationModalClose.addEventListener('click', function() {
     reservationModal.style.display = 'none';
   })
-
-  document.getElementById("set-date").textContent = formatDate(currentDate);
-
   //메인 캘린더
-
   var calendarEl = document.getElementById("calendar");
-
-  var formattedEvents = [planEvents, reservationEvents].flatMap(events =>
-    events.map(event => ({
-      id: event.id,
-      title: event.title,
-      start: event.start,
-      end: event.end,
-      description: event.description,
-      color: event.color,
-      type: event.type
-    }))
-  );
-
-  console.log(formattedEvents);
+  
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     customButtons: {
@@ -209,17 +155,13 @@ document.addEventListener("DOMContentLoaded", function () {
         click: function() {
           var currentDateFull = calendar.getDate(); // Calendar 인스턴스에서 getDate 호출
           console.log("Current date:", currentDateFull);
-
           var prevMonth = new Date(currentDateFull.getFullYear(), currentDateFull.getMonth() - 1, 1);
           calendar.gotoDate(prevMonth); // Calendar 인스턴스에서 gotoDate 호출
           console.log("Next month:", prevMonth);
-
           const setYearP = prevMonth.getFullYear();
           const setMonthP = prevMonth.getMonth()+1;
           const setDayP = prevMonth.getDate();
-
           changeDate(setYearP, setMonthP, setDayP);
-
           currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
         }
@@ -229,17 +171,13 @@ document.addEventListener("DOMContentLoaded", function () {
         click: function() {
           var currentDateFull = calendar.getDate(); // Calendar 인스턴스에서 getDate 호출
           console.log("Current date:", currentDateFull);
-
           var nextMonth = new Date(currentDateFull.getFullYear(), currentDateFull.getMonth() + 1, 1);
           calendar.gotoDate(nextMonth); // Calendar 인스턴스에서 gotoDate 호출
           console.log("Next month:", nextMonth);
-
           const setYearN = nextMonth.getFullYear();
           const setMonthN = nextMonth.getMonth()+1;
           const setDayN = nextMonth.getDate();
-
           changeDate(setYearN, setMonthN, setDayN);
-
           currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
         }
@@ -250,10 +188,27 @@ document.addEventListener("DOMContentLoaded", function () {
       right: 'myCustomPrevButton,myCustomNextButton'
     },
     locale: 'ko',
-    events: formattedEvents,
+    events:  function(fetchInfo, successCallback, failureCallback) {
+      // const events = [
+      //   { id: 1, title: '플랜 1', start: '2025-01-02T09:00:00+09:00', end: '2025-01-02T11:00:00+09:00', description: '플랜 1의 상세 내용', type: 'plan' },
+      //   { id: 2, title: '플랜 2', start: '2025-01-02T12:00:00+09:00', end: '2025-01-02T14:00:00+09:00', description: '플랜 2의 상세 내용', type: 'plan' },
+      // ];
+      var events = [planEvents, reservationEvents].flatMap(events =>
+        events.map(event => ({
+          id: event.id,
+          title: event.title,
+          start: event.start,
+          end: event.end,
+          description: event.description,
+          color: event.color,
+          type: event.type
+        }))
+      );
+      console.log("Loaded events:", events); // 로드된 데이터 확인
+      successCallback(events);
+    },
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
-
       document.querySelectorAll('.pop-up').forEach(modal => {
         if (modal.classList.contains('exercise-bymyself')) {
           planClose(modal);  // .exercise-bymyself 클래스를 가진 경우 planClose(planModal) 호출
@@ -261,22 +216,18 @@ document.addEventListener("DOMContentLoaded", function () {
           modal.style.display = 'none';  // 그렇지 않으면 modal을 숨김
         }
       });
-
       showDateSelected(info.dayEl, info.date);
       currentDate = info.date;
       const formattedDate = formatDate(info.date); // 예: '12/06(Wed)'
-
       // 변환된 날짜를 HTML 요소에 반영
       const dateElement = document.querySelector(".set-time-date span");
       dateElement.textContent = formattedDate;
-
       inputSchedule.style.display = 'block';
-
       console.log("currentDate: "+ currentDate);
     },
     eventClick: function(info){
       const eventType = info.event.extendedProps.type;
-      
+
       document.querySelectorAll('.pop-up').forEach(modal => {
         if (modal.classList.contains('exercise-bymyself')) {
           planClose(modal);  // .exercise-bymyself 클래스를 가진 경우 planClose(planModal) 호출
@@ -288,10 +239,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (eventType == 'plan') {
         
         planModal.style.display = 'block';
-
         planModal.querySelector('.popup-title').textContent = info.event.title || '운동 계획';
         planModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
-        planModal.querySelector('.plan-date-edit').textContent = formatDate(info.event.start);
         planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
         planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
         planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';
@@ -299,15 +248,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteButton = planModal.querySelector('.fa-trash-can').closest('a');
         deleteButton.setAttribute('data-event-id', info.event.id);
 
+        // .hiddenNo
         const hiddenNoInputs = document.querySelectorAll('.hiddenNo');
 
         // 선택된 각 요소의 value 속성을 info.event.id 값으로 설정
         hiddenNoInputs.forEach(input => {
-          input.value = parseInt(info.event.id, 10);
+          input.value = info.event.id;
+          console.log("input.value: " + input.value);
         });
 
         console.log("info.event.id: " + info.event.id);
-        console.log("typeof id: "+typeof(parseInt(info.event.id)));
+        console.log("typeof id: "+typeof(info.event.id));
 
         const popupEdit = planModal.querySelector('.popup-edit');
         const planNameInput = popupEdit.querySelector('input[name="planName"]');
@@ -320,57 +271,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
         setDropdownValue("dropdown-edit-start", "options-edit-start", formatTime2(info.event.start));
         setDropdownValue("dropdown-edit-end", "options-edit-end", formatTime2(info.event.end));
-
         const planTimeInput = popupEdit.querySelector('#planTimeEdit');
         const planEndInput = popupEdit.querySelector('#planEndEdit');
-
         console.log("info.event.start:" + info.event.start);
-
         planTimeInput.value = info.event.start.toISOString();
         planEndInput.value = info.event.end.toISOString();
-
         console.log("planTimeInput : " + planTimeInput.value);
         console.log("planEndTime : " + planEndInput.value);
 
       } else if (eventType === 'reservation') {
         
-      reservationModal.style.display = 'block';
-
-      // Reservation 모달 데이터 업데이트
-      reservationModal.querySelector('.popup-title').textContent = info.event.title || 'PT 예약';
-      reservationModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
-      reservationModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
-      reservationModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
-      reservationModal.querySelector('.trainer-name').textContent = info.event.extendedProps.description|| '트레이너 정보 없음';
-   
+        reservationModal.style.display = 'block';
+        // Reservation 모달 데이터 업데이트
+        reservationModal.querySelector('.popup-title').textContent = info.event.title || 'PT 예약';
+        reservationModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+        reservationModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
+        reservationModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
+        reservationModal.querySelector('.trainer-name').textContent = info.event.extendedProps.description|| '트레이너 정보 없음';
       }
     }
     
   });
-
   calendar.render();
-
-  // 날짜 강조 표시
-  document.addEventListener("click", (event) => {
-    // 클릭된 요소가 .fc-daygrid-day가 아닌 경우
-    if (!event.target.closest(".fc-daygrid-day")
-      && !event.target.closest(".input-schedule")) {
-      document.querySelectorAll(".fc-daygrid-day").forEach((cell) => {
-        cell.classList.remove("focused-day");
-        // inputSchedule.style.display = 'none';
-      });
-    }
-  });
-
-  // 드롭다운 설정
-  setupDropdown("dropdown-button-start", "options-start");
-  setupDropdown("dropdown-button-end", "options-end");
-
-  setupDropdown("dropdown-edit-end", "options-edit-end");
-  setupDropdown("dropdown-edit-start", "options-edit-start");
-
+   // 드롭다운 설정
+   setupDropdown("dropdown-button-start", "options-start");
+   setupDropdown("dropdown-button-end", "options-end");
+   
+   setupDropdown("dropdown-edit-end", "options-edit-end");
+   setupDropdown("dropdown-edit-start", "options-edit-start");
+  
 });
-
 // 미니 캘린더 날짜 클릭했을 때
 function miniCalendarClickEvents() {
   const dateButtons = document.querySelectorAll(".dates button");
@@ -380,35 +310,25 @@ function miniCalendarClickEvents() {
       const selectedDate = this.querySelector("time") 
         ? this.querySelector("time").textContent 
         : this.textContent;
-
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth() + 1; // JS에서 month는 0부터 시작하므로 +1 필요
       const day = selectedDate;
-
       // 선택한 날짜를 완전한 날짜 형식으로 저장
       const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
       console.log("Selected Date:", clickedDate);
-
       currentDate = clickedDate;
       console.log("currentDate: "+ currentDate);
-
       const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
-
       // 변환된 날짜를 HTML 요소에 반영
       const dateElement = document.querySelector(".set-time-date span");
       dateElement.textContent = formattedDate;
-
-
       // GET 요청을 보낼 URL 생성
       const url = `/user/schedule/plan/${year}/${month}/${day}`;
       console.log("Request URL:", url);
-
       // XMLHttpRequest 객체 생성
       const xhr = new XMLHttpRequest();
-
       // 요청 초기화
       xhr.open("GET", url, true);
-
       // 요청 상태 변화 이벤트 처리
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -417,18 +337,14 @@ function miniCalendarClickEvents() {
             const response = JSON.parse(xhr.responseText); // 응답 데이터를 JSON으로 파싱
             console.log("Response Data:", response);
             // 응답 데이터를 처리하는 로직 추가
-
             const comment = response.comment;
             const planEvents = response.planEvents;
             const reservationEvents = response.reservationEvents;
-
             console.log("Comment:", comment);
             console.log("Plan Events:", planEvents);
             console.log("Reservation Events:", reservationEvents);
-
             // 분리된 데이터를 사용해 HTML을 업데이트
             updateThymeleafTemplate(comment);
-
             calendar.gotoDate(clickedDate);
           } else {
             // 요청 실패
@@ -436,57 +352,43 @@ function miniCalendarClickEvents() {
           }
         }
       };
-
       // 요청 전송
       xhr.send();
-
       // 필요한 작업 수행
       window.selectedDate = clickedDate; // 전역 변수로 저장
       console.log("miniCalendarClickEvents selectedDate: "+ selectedDate);
     });
   });
 }
-
-
 // 캘린더 첫번째 날을 이용해서 1일 구하기
 function getNextOrCurrentFirstDay(date) {
   // 주어진 날짜가 1일이면 그대로 반환
   if (date.getDate() === 1) {
       return date;
   }
-
   // 그렇지 않으면 다음 달의 1일로 설정
   const year = date.getFullYear();
   const month = date.getMonth(); // 현재 월
   return new Date(year, month + 1, 1); // 다음 달의 1일
 }
-
 // 날짜에 맞춰 일정 가져오기
 function changeDate(year, month, day) {
-
   // 선택한 날짜를 완전한 날짜 형식으로 저장
   const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
   console.log("Selected Date:", clickedDate);
   currentDate = clickedDate;
   console.log("currentDate: "+ currentDate);
-
   const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
-
   // 변환된 날짜를 HTML 요소에 반영
   const dateElement = document.querySelector(".set-time-date span");
   dateElement.textContent = formattedDate;
-
-
   // GET 요청을 보낼 URL 생성
   const url = `/user/schedule/plan/${year}/${month}/${day}`;
   console.log("Request URL:", url);
-
   // XMLHttpRequest 객체 생성
   const xhr = new XMLHttpRequest();
-
   // 요청 초기화
   xhr.open("GET", url, true);
-
   // 요청 상태 변화 이벤트 처리
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -495,18 +397,14 @@ function changeDate(year, month, day) {
         const response = JSON.parse(xhr.responseText); // 응답 데이터를 JSON으로 파싱
         console.log("Response Data:", response);
         // 응답 데이터를 처리하는 로직 추가
-
         const comment = response.comment;
         const planEvents = response.planEvents;
         const reservationEvents = response.reservationEvents;
-
         console.log("Comment:", comment);
         console.log("Plan Events:", planEvents);
         console.log("Reservation Events:", reservationEvents);
-
         // 분리된 데이터를 사용해 HTML을 업데이트
         updateThymeleafTemplate(comment);
-
         calendar.gotoDate(clickedDate);
       } else {
         // 요청 실패
@@ -514,28 +412,22 @@ function changeDate(year, month, day) {
       }
     }
   };
-
   // 요청 전송
   xhr.send();
-
   // 필요한 작업 수행
   window.selectedDate = clickedDate; // 전역 변수로 저장
   console.log("miniCalendarClickEvents selectedDate: "+ selectedDate);
 }
-
 // 비동기 응답을 받았을 때 comment html에 보이게 하기 
 function updateThymeleafTemplate(comment) {
-
   // Comment Section 업데이트
   const commentDateElement = document.querySelector(".comment-content .comment-date span");
   const commentContentElement = document.querySelector(".comment-content .comment-c .cContent");
   const dietContentElement = document.querySelector(".comment-content .comment-c .fContent");
-
   if (comment) {
     // 날짜 형식 변환 (한국어 요일 출력)
     const date = new Date(comment.commentDate);
     const formattedDate = formatDate(date);
-
     // 데이터 설정
     commentDateElement.textContent = formattedDate;
     commentContentElement.textContent = comment.ccontent || "";
@@ -548,24 +440,18 @@ function updateThymeleafTemplate(comment) {
   }
   console.log("updateThymeleaf selectedDate: "+ selectedDate);
 }
-
-
 // 메인 캘린더 날짜 클릭 시
 function showDateSelected(selectedCell, selectedDate) {
-
   if (selectedCell.classList.contains("focused-day")) {
     selectedCell.classList.remove("focused-day"); // 스타일 제거
     return; // 추가 작업 중단
   }
-
   document.querySelectorAll(".fc-daygrid-day").forEach((cell) => {
     cell.classList.remove("focused-day");
   });
-
   // 클릭된 셀에 focus 스타일 추가
   selectedCell.classList.add("focused-day");
 }
-
 function setTime(type, element) {
   const timeString = element.getAttribute('value'); // 예: "06:00"
   
@@ -585,7 +471,6 @@ function setTime(type, element) {
     default:
       period = null;
   };
-
   const baseDate = new Date(currentDate); // currentDate를 기준으로 날짜 생성
   if (type === 'startEdit' || type === 'endEdit') {
     const periodElement = document.getElementById(period); // 해당 요소 가져오기
@@ -598,29 +483,22 @@ function setTime(type, element) {
   } else {
     baseDate.setHours(0, 0, 0, 0); // start 또는 end의 경우 시간을 0으로 초기화
   }
-
   // 시간 계산
   const [hours, minutes] = timeString.split(':').map(Number); // "06:00" → [6, 0]
   const fullDate = new Date(baseDate); // 기본 날짜에 시간 적용
   fullDate.setHours(hours, minutes, 0); // 시:분:초 설정
-
   // planTime 혹은 planEnd에 값을 설정
   document.getElementById(period).value = fullDate.toISOString(); // ISO 형식으로 저장
-
   console.log(`${period}(setTime):`, fullDate);
 }
-
 // 일정 삭제
 function deletePlan(element) {
   const eventId = element.getAttribute('data-event-id');
-
   if(!eventId) {
     alert('삭제할 이벤트를 찾을 수 없습니다.');
     return;
   }
-
   const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
-
   if (isConfirmed) {
     // 확인을 눌렀다면 폼 제출
     document.getElementById('eventIdInput').value = eventId;
@@ -630,42 +508,31 @@ function deletePlan(element) {
     return;
   }
 }
-
 //일정 수정
 function editPlan() {
   const editBefore = document.querySelectorAll('.edit-before');
   const editPopup = document.querySelectorAll('.popup-edit');
-
   editBefore.forEach((element) => {
     element.style.display = "none";
   });
-
   // popup-edit 표시
   editPopup.forEach((element) => {
     element.style.display = "block";
   });
-
   document.getElementById('editIcon').style.display = "none";
   document.getElementById('deleteIcon').style.display = "none";
-
 }
-
 // 일정 수정 취소
 function editCancel(closeSwitch) {
-
   const editBefore = document.querySelectorAll('.edit-before');
   const editPopup = document.querySelectorAll('.popup-edit');
-
   const isConfirmed = window.confirm('수정한 내용이 저장되지 않습니다. 그래도 취소하겠습니까?');
-
   if(isConfirmed) {
     document.getElementById('editIcon').style.display = "block";
     document.getElementById('deleteIcon').style.display = "block";
-
     editBefore.forEach((element) => {
       element.style.display = "block";
     });
-
     // popup-edit 표시
     editPopup.forEach((element) => {
       element.style.display = "none";
@@ -675,9 +542,7 @@ function editCancel(closeSwitch) {
       planModal.style.display="none";
     }
   }
-
 }
-
 // 일정 수정 중 팝업 닫을 때 세팅
 function planClose(planModal){
   const editContainer = document.querySelectorAll('.popup-edit');
