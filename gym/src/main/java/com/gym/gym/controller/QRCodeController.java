@@ -44,30 +44,29 @@ public class QRCodeController {
 
         BuyList buyList = buyListService.lastBuyList(no);
         // 날짜 가져오기
-        
+
         // 티켓이 없으면
-        if (buyList == null ) {
+        if (buyList == null) {
             model.addAttribute("errorMessage", "티켓이 없거나 만료되었습니다");
-            
-            return "redirect:/";
+
+            return "redirect:/user/ticket/choice";
         }
 
         // 티켓이 만료되었으면
-        else{
+        else {
             LocalDateTime currentDateTime = LocalDateTime.now();
             LocalDateTime endDateTime = buyList.getEndDate().toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
-            if(endDateTime.isBefore(currentDateTime)){
-                return "redirect:/";
-            }
-        }
-        
-        
-                    LocalDateTime currentDateTime = LocalDateTime.now();
-                    LocalDateTime endDateTime = buyList.getEndDate().toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime();
+            if (endDateTime.isBefore(currentDateTime)) {
+                return "redirect:/user/ticket/choice";
+            }
+        }
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime endDateTime = buyList.getEndDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
 
         // 티켓이 있으면서, 티켓 만료기간 남았으면
         if (buyList.getUserNo() == user.getNo() && endDateTime.isAfter(currentDateTime)) {
