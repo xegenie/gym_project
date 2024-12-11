@@ -98,9 +98,14 @@ input{
     font-size: 18px;
 }
 
+a{
+    color: inherit; /* 기존의 색상을 유지 */
+    text-decoration: none; /* 링크에 밑줄을 없앱니다. */
+}
 
 a:hover{
  font-weight: bold;   
+ text-decoration: underline; 
 }
 
 .scButton:hover{
@@ -112,10 +117,17 @@ tr{
    
 }
 
-a {
+.pagetag {
+    padding: 8px 18px 4px 18px;
+    border: 1px solid #000;
+    border-radius: 5px;
     color: inherit; /* 기존의 색상을 유지 */
     text-decoration: none; /* 링크에 밑줄을 없앱니다. */
+    border: 1px solid #3b3b3b;
 }
-a:hover {
-    text-decoration: underline; /* 마우스를 올렸을 때 밑줄 추가 */
+
+.pagetag:hover{
+    background-color: #e6e2e2;
+    color: black;
+    text-decoration: none;
 }

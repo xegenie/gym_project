@@ -29,7 +29,7 @@
                     </form>
                 </div>
 
-                <div class="list">
+                <div class="list" style="margin-bottom: 40px;">
                     <table>
                         <thead>
                             <tr>
@@ -71,7 +71,7 @@
                     </table>
                 </div>
 
-                <div class="pagination">
+                <div class="pagination" style="">
                     <a th:href="@{${pageUrl}(page=${page.first})}" class="first">≪</a>
                     <th:block th:if="${page.page != page.first}">
                         <a th:href="@{${pageUrl}(page=${page.prev})}" class="prev">＜</a>
