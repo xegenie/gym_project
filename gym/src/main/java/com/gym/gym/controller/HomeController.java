@@ -48,23 +48,24 @@ public class HomeController {
             @AuthenticationPrincipal CustomUser authuser,
             Model model, HttpServletRequest request) throws Exception {
 
-        jakarta.servlet.http.HttpSession session = request.getSession();
-        log.info(":::::::::: 메인 화면 ::::::::::");
+                // 출석 인원 조회 추가
+                int result = attendanceService.listCount();
+                model.addAttribute("result", result);
 
-        // 로그인 사용자 정보 추가
-        if (authuser != null) {
+    if(authuser != null){
+        jakarta.servlet.http.HttpSession session = request.getSession();
+    
+        log.info(":::::::::: 메인 화면 ::::::::::");
             Users user = authuser.getUser();
             model.addAttribute("user", user);
-        }
+        
 
-        // 출석 인원 조회 추가
-        int result = attendanceService.listCount();
-        model.addAttribute("result", result);
 
-        if (authuser != null) {
             TrainerProfile trainerProfile = trainerProfileService.selectTrainer(authuser.getTrainerNo());
+            log.info(authuser.getTrainerNo() + "어써어디");
             session.setAttribute("trainerProfile", trainerProfile);
-        }
+            
+    }
 
         return "index";
     }
