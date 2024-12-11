@@ -28,7 +28,7 @@ public interface BuyListMapper {
 
     // 매출 내역
     public List<BuyList> salesList(@Param("trainerNo") Integer trainerNo, 
-                                   @Param("year") Integer year, 
-                                   @Param("month") Integer month, 
-                                   @Param("day") Integer day) throws Exception;
+                                   @Param("startDate") String startDate, 
+                                   @Param("endDate") String endDate 
+                                   ) throws Exception;
 }

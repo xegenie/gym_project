@@ -20,6 +20,6 @@ public interface BuyListService {
     public int count(String keyword) throws Exception;
 
     // 매출 내역
-    public List<BuyList> salesList(Integer trainerName, Integer year, Integer month, Integer day) throws Exception;
+    public List<BuyList> salesList(Integer trainerName, String startDate, String endDate) throws Exception;
 
 }

@@ -111,17 +111,17 @@
             Ticket t
         LEFT JOIN 
             buy_list b ON b.ticket_no = t.no
+            AND (#{startDate} IS NULL OR b.buy_date BETWEEN #{startDate} AND #{endDate})
         LEFT JOIN 
             users u ON b.trainer_no = u.no
         WHERE 
             (#{trainerNo} IS NULL OR u.no = #{trainerNo})
-            AND (#{year} IS NULL OR YEAR(b.buy_date) = #{year})
-            AND (#{month} IS NULL OR MONTH(b.buy_date) = #{month})
-            AND (#{day} IS NULL OR DAY(b.buy_date) = #{day})
         GROUP BY 
             t.no, t.name, t.price, u.name
         ORDER BY 
             t.no ASC
     </select>
+
+
 
 </mapper>
