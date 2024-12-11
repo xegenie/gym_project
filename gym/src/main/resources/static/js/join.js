@@ -86,6 +86,13 @@
           return;
       }
       
+      
+        // 비밀번호 유효성 검사: 길이 6~20자 확인
+        if (newPassword.length < 6 || newPassword.length > 20) {
+            alert("새 비밀번호는 6자 이상 20자 이하여야 합니다.");
+            return false;
+        }
+
       // 성별 체크
       const gender = document.querySelector('input[name="gender"]:checked');
       if (!gender) {

@@ -49,7 +49,7 @@ WHERE no = #{no}
     <!-- 게시글 기준 삭제 -->
 
     <delete id="deleteByParent">
-    DELETE FROM amswer
+    DELETE FROM answer
     WHERE board_no = #{boardNo}
     </delete>
 

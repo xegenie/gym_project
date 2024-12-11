@@ -68,7 +68,6 @@ public class BoardController {
             throws Exception {
         // 게시글 조회
         Board board = boardService.select(no);
-        Answer answer = answerService.select(no);
         List<Answer> answerList = answerService.listByParent(no);
         model.addAttribute("answerList", answerList);
         model.addAttribute("board", board);
@@ -138,9 +137,9 @@ public class BoardController {
         int result = boardService.update(board);
         if (result > 0) {
 
-            return "redirect:boardList";
+            return "redirect:read?no=" + board.getNo();
         }
-        return "redirect:update?error&id=" + board.getNo();
+        return "redirect:update?error&no=" + board.getNo();
     }
 
     // 삭제 처리
@@ -148,12 +147,15 @@ public class BoardController {
     // @BoardService.isOwner(#p0, authentication.principal.user.no))")
     @PostMapping("/delete")
     public String delete(@RequestParam("no") Long no) throws Exception {
-        int result = boardService.delete(no);
-
-        if (result > 0) {
-            return "redirect:boardList";
+        int result1 = answerService.deleteByParent(no);
+        if (result1 > 0) {
+            int result = boardService.delete(no);
+            
+            if (result > 0) {
+                return "redirect:boardList";
+            }
         }
-        return "redirect:/board/update?error&id=" + no;
+            return "redirect:/board/update?error&id=" + no;
     }
 
    
