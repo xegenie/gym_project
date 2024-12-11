@@ -93,7 +93,7 @@ th, td {
 }
 
 button.complete { 
-    background-color: #28a745; 
+    background-color: orange; 
     color: white; 
     border: none; 
     padding: 5px 10px; 
@@ -103,7 +103,7 @@ button.complete {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
 } 
 button.complete:hover { 
-    background-color: #218838;
+    background-color: #FF4500;
 }
 
 .cancel-text {

@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 예약 상세 조회 -->
-    <select id="read" resultType="Reservation">
+    <select id="findByNo" resultType="Reservation">
       select *
       from reservation
       where no = #{no}
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       update reservation
       set enabled = 0,
           canceled_at = now()
-      where no = #{no} and enabled = 1;
+      where no = #{no} and enabled = 1
     </update>
 
     <select id="count" resultType="int">
