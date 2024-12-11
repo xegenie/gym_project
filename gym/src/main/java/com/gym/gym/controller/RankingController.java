@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("")
+// @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class RankingController {
 
     @Autowired
     private RankingService rankingService;
 
     @GetMapping("/ranking")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     public String attendanceRanking(
             @AuthenticationPrincipal CustomUser authuser,
             Model model,
