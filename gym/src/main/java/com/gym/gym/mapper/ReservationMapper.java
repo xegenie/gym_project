@@ -45,9 +45,7 @@ public interface ReservationMapper {
     // 완료 개수 카운트
     public int disabledCount(@Param("no") Long no) throws Exception;
     
-
     public int countByUser(Long no) throws Exception;
-    
 
     public int count(@Param("option") Option option) throws Exception;
 
