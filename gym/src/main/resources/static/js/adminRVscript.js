@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           eventClick: function (info) {
             var userNo= info.event.extendedProps.user_no;
-            window.location.href = '/user/schedule/plan?=' + userNo;
+            window.location.href = '/user/schedule/plan?userNo=' + userNo;
           }
         });
         
