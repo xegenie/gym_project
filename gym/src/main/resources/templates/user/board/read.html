@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 상세조회</title>
+    <title>고객문의 게시판</title>
     <link rel="stylesheet" href="/css/board/boardRead.css">
 </head>
 
@@ -14,17 +14,24 @@
 
        <div class="container">
         <div style="text-align: left; width: 100%;">
-            <h1 style="text-align: left; margin-left: px; font-size: 35px; padding-left: 0;">고객문의 게시판</h1>
+            <h1 style="text-align: left; margin-left: px; font-size: 35px; padding-left: 0; margin-left: 220px;">고객문의 게시판</h1>
         </div>
     
-            <div class="border" style="margin-top: 50px; margin-bottom: 20px;" >
+            <div class="border" style="margin-top: 20px; margin-bottom: 20px;" >
                 <div class="inputbox1" >
                     <label for="" style=" color: black; font-size: 30px;">Q. </label>
                     <input type="text" class="titleinput" name="title" th:value="${board.title}" style=" background-color: white; border: none; font-weight: bold; color: black;" readonly disabled>
                 </div>
+                <div style="display: flex; justify-content: flex-end;">
+                    <h3 style="color: black; margin-right: 70px; margin-bottom: 10px;"  th:text="${board.name} + ' 회원님'" ></h3>
+                </div>
                 <div style="text-align: center; margin-top: 10px;">
                     <textarea class="textareaInput" th:text="${board.content}" style="font-weight: bold; font-size: 18px; color: black;" name="content" rows="5" cols="40" readonly disabled></textarea>
+
                 </div>
+                <div style="display: flex; justify-content: flex-end; margin-right: 30px;">
+          <label style="color: black;" th:text="${#dates.format(board.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></label>
+        </div>
             </div>
         </div>
         <div class="btn-box" style="width: 880px;" >
@@ -50,30 +57,31 @@
         
     
         </section>
+
         <section id="answer-list">
         </section> 
-        
-        <form action="">
-            <div class="border" style="margin-top: 30px; margin-bottom: 20px; height: auto;" >
+        <th:block th:if="${answerList.isEmpty}"> 
+        <form action="" >
+            <div class="border" style="margin-top: 30px; margin-bottom: 20px;" >
                 <div class="inputbox1"  style="display: flex; justify-content: space-between;">
                     <div>
                     <label for="" style="margin-top: 10px; color: black; font-size: 30px;">A. </label>
-                    <input type="text" class="titleinput" name="title" th:value="${board.title}" style=" background-color: white; border: none; font-weight: bold; color: black;">
+                    <input type="text" class="titleinput" name="title" th:value="${board.title}" style=" background-color: white; border: none; font-weight: bold; color: black;" readonly disabled>
                 </div>
             </div>
                     <div style="display: flex; justify-content: flex-end;">
-                    <h3 style="color: black; margin-right: 70px; margin-bottom: 10px;"  th:text="${#authentication.principal.username} + ' 트레이너'"></h3>
+                    <h3 style="color: black; margin-right: 70px; margin-bottom: 10px;"  th:text="${#authentication.principal.user.name} + ' 트레이너'"></h3>
                 </div>
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-                    <textarea class="textareaInput" style=" font-weight: bold; font-size: 18px; color: black;" id="content" name="content" rows="5" cols="40"></textarea>
+                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                    <textarea class="textareaInput" style=" font-weight: bold; font-size: 18px; color: black;" id="content" name="content" rows="5" cols="40" required></textarea>
                 </div>
             </div>
             <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">      
                 <input type="button"  onclick="insertAnswer()" style="background-color: rgb(172, 235, 77);" class="btnInput" value="등록">
             </div>
         </form>
-       
-                 
+    </th:block>
+          
               
 
 <script>
@@ -143,104 +151,122 @@
         }
     }
 
-     // 댓글 삭제
-     function remove(no){
-        let request = new XMLHttpRequest();
+ // 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
+function editAnswer(button, no) {
+    console.log(`editAnswer 호출됨: ${no}`);
+    const $parent = button.closest('.answer-box'); // 수정 버튼이 포함된 div 요소
+    if (!$parent) return console.error('.answer-box못찾음');
 
-            // CSRF 토큰 가져오기
-            const csrfHeader = "[[${_csrf.headerName}]]";
-            const csrfToken = "[[${_csrf.token}]]";
-    
-    request.onreadystatechange = function() {
-        if( request.readyState == request.DONE && request.status == 200){
-            let response = request.responseText
-            alert(response)
-            if(response == 'SUCCESS'){
-                alert('댓글 삭제 성공')
-                location.reload();
-            }
-            else{
-                alert('댓글 삭제 실패')
-            }
-        }
-    }
-    const url = `/answer/${no}`
-    request.open('DELETE',url, true);
-    request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
-    request.send()
-    
-}
+    // textarea 내용 가져오기
+    const textarea = $parent.querySelector('textarea');
+    const titleinput = $parent.querySelector('.titleinput');
+    const title = titleinput.value;
+    const content = textarea.value;
 
+    // 기존 댓글 숨기기
+    $parent.style.display = 'none';
 
-    // 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
-// 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
-function editAnswer(button, no, board) {
-    console.log('editAnswer 호출됨:', no);
-
-    let $table = button.closest('div');
-    if (!$table) {
-        console.error('Table not found');
-        return;
-    }
-
-    // textarea 요소 탐색
-    let contentElement = $table.querySelector('.textareaInput');
-    if (!contentElement) {
-        console.error('Textarea element not found in the table');
-        return;
-    }
-
-    // textarea의 기존 내용 가져오기
-    let content = contentElement.value; // textarea는 value 속성을 사용합니다.
-
-    // 기존 폼 숨기기
-    $table.style.display = 'none';
-
-    // 수정 폼 삽입
-    let updateForm = `
-        <div class="border" style="margin-top: 30px; margin-bottom: 20px;">
-            <input type="hidden" name="no" id="" value="${no}">
-            <textarea class="textareaInput" id="answer-content-${no}" rows="5" cols="40">${content}</textarea>
-            <div style="text-align: right;">
-                <button type="button" onclick="updateAnswer(${no})">저장</button>
+    // 수정 폼 추가
+    const updateForm = `
+    <div class="answer-box" style="margin-bottom: 30px">
+         <div class="border" id="edit-form-${no}" style="margin-top: 30px; margin-bottom: 20px;">
+            <div class="inputbox1" style="display: flex; justify-content: space-between;">
+                <div>
+                    <label for="" style="margin-top: 10px; color: black; font-size: 30px;">A.  </label>
+                    <input type="text" class="titleinput" name="title" value="${title}" style="background-color: white; border: none; font-weight: bold; color: black;">
+                </div>
             </div>
-        </div>
-    `;
-    $table.insertAdjacentHTML('afterend', updateForm);
+            <div style="text-align: center; margin-top: 10px;">
+                <textarea id="edit-content-${no}" class="textareaInput" style="font-weight: bold; font-size: 18px; color: black;" name="content" rows="5" cols="40">${content}</textarea>
+            </div>
+            </div>
+            <div style="text-align: right;">
+                <button type="button" onclick="updateAnswer(${no})"  class="btnInput" style="background-color: rgb(172, 235, 77);" >수정</button>
+                <button type="button" onclick="cancelEdit(${no})" class="btnInput">취소</button>
+            </div>
+    </div>`;
+$parent.insertAdjacentHTML('afterend', updateForm);
+
 }
 
 // 댓글 수정 요청
 function updateAnswer(no) {
-    console.log('수정요청 no' + no)
-    let answerContent = document.getElementById('answer-content-' + no).value; // textarea id를 no에 맞게 변경
-    let data = {
-        'no': no,
-        'content': answerContent
+    console.log(`updateAnswer 호출됨: ${no}`);
+    const content = document.getElementById(`edit-content-${no}`).value;
+
+    const data = {
+        no: no,
+        content: content
+    };
+
+    // CSRF 토큰 가져오기
+    const csrfHeader = "[[${_csrf.headerName}]]";
+    const csrfToken = "[[${_csrf.token}]]";
+
+    const request = new XMLHttpRequest();
+    request.open('PUT', '/answer', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
+    request.send(JSON.stringify(data));
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+            const response = request.responseText;
+            if (response === 'SUCCESS') {
+                alert('댓글 수정 성공');
+                answerList(); // 댓글 목록 갱신
+            } else {
+                alert('댓글 수정 실패');
+            }
+        }
+    };
+}
+
+// 댓글 수정 취소
+function cancelEdit(no) {
+    console.log(`cancelEdit 호출됨: ${no}`);
+    const editForm = document.getElementById(`edit-form-${no}`);
+    if (editForm) editForm.remove();
+    
+    // 원래 댓글 영역 다시 표시
+    const original = document.querySelector(`.border[style*="display: none"]`);
+    if (original) original.style.display = 'block';
+    location.reload();
+}
+
+// 댓글 삭제
+function remove(no) {
+    console.log(`remove 호출됨: ${no}`);
+
+    // 사용자에게 삭제 확인 요청
+    if (!confirm('삭제하시겠습니까?')) {
+        return;
     }
 
     // CSRF 토큰 가져오기
     const csrfHeader = "[[${_csrf.headerName}]]";
     const csrfToken = "[[${_csrf.token}]]";
 
-    let request = new XMLHttpRequest()
-    let url = '/answer'
-    request.open('PUT', url, true)
-    request.setRequestHeader('Content-Type', 'application/json')
+    const request = new XMLHttpRequest();
+    const url = `/answer/${no}`;
+    request.open('DELETE', url, true);
     request.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 추가
-    request.send(JSON.stringify(data))
+    request.send();
 
     request.onreadystatechange = function () {
-        if (request.readyState == request.DONE && request.status == 200) {
-            let response = request.responseText;
-            if (response == 'SUCCESS') {
-                alert('댓글 수정 성공');
-                answerList(); // 수정 후 댓글 목록 새로 고침
+        if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+            const response = request.responseText;
+            if (response === 'SUCCESS') {
+                alert('댓글 삭제 성공');
+                location.reload();
             } else {
-                alert('댓글 수정 실패');
+                alert('댓글 삭제 실패');
             }
         }
-    }
+    };
 }
+
+
 
 </script>
 <th:block th:replace="~{fragment/footer::footer}"></th:block>

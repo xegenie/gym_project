@@ -103,7 +103,7 @@ public class UserController {
         model.addAttribute("option", option);
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
-        String pageUrl = UriComponentsBuilder.fromPath("admin/user/list")
+        String pageUrl = UriComponentsBuilder.fromPath("")
                 .queryParam("keyword", option.getKeyword())
                 .queryParam("code", option.getCode())
                 .queryParam("rows", page.getRows())
