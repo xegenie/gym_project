@@ -19,6 +19,9 @@ public interface ReservationService {
     // 예약 목록
     public List<Reservation> list(Option option, Page page) throws Exception;
 
+    // 유저 예약 목록
+    public List<Reservation> userByList(Long no, Option option, Page page) throws Exception;
+
     // 예약 상세 조회
     public Reservation findByNo(int no) throws Exception;
 
@@ -33,6 +36,9 @@ public interface ReservationService {
 
     // 날짜별 예약 개수
     public List<Map<String, Object>> countByDate(Option option) throws Exception;
+
+    // 완료 개수 카운트
+    public int disabledCount(@Param("no") Long no) throws Exception;
 
     public int count(Option option) throws Exception;
 

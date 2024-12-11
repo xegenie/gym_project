@@ -109,5 +109,10 @@ public class TrainerProfileServiceImpl implements TrainerProfileService {
         return total;
     }
 
+    @Override
+    public TrainerProfile selectTrainer(int trainerNo) throws Exception {
+        return trainerProfileMapper.selectTrainer(trainerNo);
+    }
+
     
 }

@@ -54,6 +54,19 @@ button, .edit-button, .password-button {
 }
 
 
+.pt-count {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+.pt-count-container {
+    width: 125px;
+    height: 40px;
+    color: white;
+}
+
+
+
 .list {
     width: 100%;
     display: flex;
@@ -99,8 +112,14 @@ button.complete:hover {
     font-weight: bold;
     color: #dc3545;
 }
+.ptComplete {
+    font-weight: bold;
+    color: #2a9c1b;
+}
+
 #cancelModal {
     display: none;
+    position: absolute;
     top: 50%; 
     left: 50%;
     transform: translate(-50%, -50%);

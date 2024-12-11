@@ -27,4 +27,6 @@ public interface TrainerProfileMapper {
 
     public int count(@Param("keyword") String keyword) throws Exception;
 
+    public TrainerProfile selectTrainer(@Param("trainerNo") int trainerNo) throws Exception;
+
 }

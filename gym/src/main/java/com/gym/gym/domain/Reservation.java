@@ -23,4 +23,5 @@ public class Reservation {
     private String userId;
     private String trainerName;
     private int count;
+    private int ptCount;
 }

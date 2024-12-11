@@ -24,4 +24,6 @@ public interface TrainerProfileService {
     public List<Users> trainerUsers() throws Exception;
 
     public int count(@Param("keyword") String keyword) throws Exception;
+
+    public TrainerProfile selectTrainer(@Param("trainerNo") int trainerNo) throws Exception;
 }

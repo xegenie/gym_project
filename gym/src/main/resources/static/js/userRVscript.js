@@ -4,7 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     dateClick: function (info) {
-      showTimeSelectionModal(info.dateStr);
+      if (ptCount > 0) {
+        showTimeSelectionModal(info.dateStr);
+      } else {
+        alert("예약 가능 횟수가 부족합니다. 추가로 구매해 주세요.")
+      }
     },
   });
 

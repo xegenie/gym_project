@@ -59,8 +59,9 @@
                 <ul>
                     <li><a href="/ranking">출석 랭킹</a></li>
                     <li><a href="/user/ticket/choice">이용권 구매</a></li>
+                    <th:block sec:authorize="isAnonymous"></th:block>
                     <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
-                        <li><a th:href="|/user/reservation/reservation?no=${#authentication.principal.trainerNo}|">PT 예약</a></li>
+                        <li><a th:href="@{/user/reservation/reservation(trainerNo=${session.trainerProfile.no})}">PT 예약</a></li>
                     </th:block>
                     <li><a href="/user/plan/plan">운동계획표</a></li>
                     <li><a href="/user/board/boardList">문의게시판</a></li>
