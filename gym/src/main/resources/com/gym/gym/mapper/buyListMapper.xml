@@ -91,6 +91,13 @@
         VALUES (#{ticketNo}, #{userNo}, #{trainerNo}, #{startDate}, #{endDate})
     </insert>
     
+    <!-- 담당 트레이너 업데이트 -->
+    <update id="updateTrainer">
+        UPDATE users
+        SET trainer_no = #{trainerNo}
+        WHERE no = #{userNo}
+    </update>
+
     <!-- 가장 최근 구매내역 -->
     <select id="lastBuyList" resultType="BuyList">
         SELECT * 
