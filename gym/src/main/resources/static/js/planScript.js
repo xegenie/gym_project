@@ -130,6 +130,7 @@ function formatTime2(date){
   return `${hours}:${minutes}`;
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
   // 이전/다음 버튼 이벤트 추가
   document.querySelector(".prev").addEventListener("click", () => {
@@ -168,7 +169,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   inputScheduleClose.addEventListener('click', function () {
+
     inputSchedule.style.display = 'none';
+    cell.classList.remove("focused-day");
   });
 
   planModalClose.addEventListener('click', function() {
@@ -179,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reservationModal.style.display = 'none';
   })
 
+  document.getElementById("set-date").textContent = formatDate(currentDate);
 
   //메인 캘린더
 
@@ -287,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         planModal.querySelector('.popup-title').textContent = info.event.title || '운동 계획';
         planModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+        planModal.querySelector('.plan-date-edit').textContent = formatDate(info.event.start);
         planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
         planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
         planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';
@@ -298,12 +303,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 선택된 각 요소의 value 속성을 info.event.id 값으로 설정
         hiddenNoInputs.forEach(input => {
-          input.value = info.event.id;
-          console.log("input.value: " + input.value);
+          input.value = parseInt(info.event.id, 10);
         });
 
         console.log("info.event.id: " + info.event.id);
-        console.log("typeof id: "+typeof(info.event.id));
+        console.log("typeof id: "+typeof(parseInt(info.event.id)));
 
         const popupEdit = planModal.querySelector('.popup-edit');
         const planNameInput = popupEdit.querySelector('input[name="planName"]');
@@ -346,13 +350,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   calendar.render();
 
-   // 드롭다운 설정
-   setupDropdown("dropdown-button-start", "options-start");
-   setupDropdown("dropdown-button-end", "options-end");
-   
-   setupDropdown("dropdown-edit-end", "options-edit-end");
-   setupDropdown("dropdown-edit-start", "options-edit-start");
-  
+  // 날짜 강조 표시
+  document.addEventListener("click", (event) => {
+    // 클릭된 요소가 .fc-daygrid-day가 아닌 경우
+    if (!event.target.closest(".fc-daygrid-day")
+      && !event.target.closest(".input-schedule")) {
+      document.querySelectorAll(".fc-daygrid-day").forEach((cell) => {
+        cell.classList.remove("focused-day");
+        // inputSchedule.style.display = 'none';
+      });
+    }
+  });
+
+  // 드롭다운 설정
+  setupDropdown("dropdown-button-start", "options-start");
+  setupDropdown("dropdown-button-end", "options-end");
+
+  setupDropdown("dropdown-edit-end", "options-edit-end");
+  setupDropdown("dropdown-edit-start", "options-edit-start");
+
 });
 
 // 미니 캘린더 날짜 클릭했을 때
