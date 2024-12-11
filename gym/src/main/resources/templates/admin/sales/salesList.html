@@ -22,24 +22,42 @@
                     <h2>매출 조회</h2>
                 </div>
 
-                <div class="search-container">
-                    <div class="search" style="gap: 10px">
-                        <select name="option" id="option">
-                            <option value="">연도</option>
+                <form action="salesList" method="GET" style="display: flex; justify-content: space-between; margin: 0 40px 40px 100px;">
+                    <div>
+                        <select name="trainerNo">
+                            <option value="">트레이너 이름</option>
+                            <th:block th:each="trainerUser : ${trainerUsers}">
+                                <option th:value="${trainerUser.no}" 
+                                        th:text="${trainerUser.name} + '(' + ${trainerUser.id} + ')'" 
+                                        th:selected="${trainerUser.no == selectedTrainer}"></option>
                             </th:block>
                         </select>
-                        <select name="option" id="option">
-                            <option value="">월</option>
-                            </th:block>
-                        </select>
-                        <select name="option" id="option">
-                            <option value="">일</option>
-                            </th:block>
-                        </select>
-                        <button>초기화</button>
                     </div>
-                </div>
-
+                    <div style="display: flex; gap: 10px;">
+                        <select name="year" id="year">
+                            <option value="">연도</option>
+                            <th:block th:each="year : ${#numbers.sequence(2010, 2025)}">
+                                <option th:value="${year}" th:text="${year}" th:selected="${selectedYear != null and selectedYear == year}"></option>
+                            </th:block>
+                        </select>
+                        <select name="month" id="month">
+                            <option value="">월</option>
+                            <th:block th:each="month : ${#numbers.sequence(1, 12)}">
+                                <option th:value="${month}" th:text="${month + '월'}" th:selected="${selectedMonth != null and selectedMonth == month}"></option>
+                            </th:block>
+                        </select>
+                        <select name="day" id="day">
+                            <option value="">일</option>
+                            <th:block th:each="i : ${#numbers.sequence(1, 31)}">
+                                <option th:value="${i}" th:text="${i + '일'}" th:selected="${i == selectedDay}"></option>
+                            </th:block>
+                        </select>
+                        <button type="submit">검색</button>
+                        <button type="reset">초기화</button>
+                    </div>
+                </form>
+                
+                
                 <div class="list">
                     <!-- <table>
                         <thead>
@@ -62,7 +80,7 @@
                         </tbody>
                     </table> -->
                     <div id="chart-container">
-                        <canvas id="myChart" width="800" height="400"></canvas>
+                        <canvas id="myChart" width="900" height="500"></canvas>
                         <div id="total" style="font-weight: bold; text-align: center; font-size: 18px; margin-top: 10px;"></div>
                     </div>
                 </div>
@@ -126,6 +144,38 @@
         
         // 총 합계 표시
         document.getElementById('total').innerText = `총 매출 금액: ${totalSales} 원`;
+
+        // 월별 일자 표시
+        const yearSelect = document.getElementById('year');
+        const monthSelect = document.getElementById('month');
+        const daySelect = document.getElementById('day');
+
+        // 월별 최대 일 수를 저장하는 배열 (기본값)
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        function updateDays() {
+            const selectedYear = parseInt(yearSelect.value); // 선택된 연도
+            const selectedMonth = parseInt(monthSelect.value); // 선택된 월
+
+            if (!isNaN(selectedYear) && !isNaN(selectedMonth)) {
+                // 윤년 계산
+                const isLeapYear = selectedYear % 4 === 0 && (selectedYear % 100 !== 0 || selectedYear % 400 === 0);
+                const days = selectedMonth === 2 && isLeapYear ? 29 : daysInMonth[selectedMonth - 1];
+
+                // 1일부터 최대 일 수까지 옵션 추가
+                for (let i = 1; i <= days; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i}일`;
+                    daySelect.appendChild(option);
+                }
+            }
+        }
+
+        // 연도나 월이 변경될 때 일 수를 업데이트
+        yearSelect.addEventListener('change', updateDays);
+        monthSelect.addEventListener('change', updateDays);
+
     </script>
     
     

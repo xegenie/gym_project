@@ -19,6 +19,7 @@ import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.BuyListService;
+import com.gym.gym.service.TrainerProfileService;
 import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class BuyListController {
 
     @Autowired BuyListService buyListService;
     @Autowired UserService userService;
+    @Autowired TrainerProfileService trainerProfileService;
 
     // 등록
     @GetMapping("/admin/sales/buyList/insert")
@@ -73,10 +75,21 @@ public class BuyListController {
 
     // 매출조회
     @GetMapping("/admin/sales/salesList")
-    public String salesList(Model model) throws Exception {
+    public String salesList(@RequestParam(value = "trainerNo", required = false) Integer trainerNo,
+                            @RequestParam(value = "year", required = false) Integer year,
+                            @RequestParam(value = "month", required = false) Integer month,
+                            @RequestParam(value = "day", required = false) Integer day, Model model) throws Exception {
 
-        List<BuyList> salesList = buyListService.salesList();
+        List<BuyList> salesList = buyListService.salesList(trainerNo, year, month, day);
         model.addAttribute("salesList", salesList);
+
+        List<Users> trainerUsers = trainerProfileService.trainerUsers();
+        model.addAttribute("trainerUsers", trainerUsers);
+
+        model.addAttribute("selectedTrainer", trainerNo);
+        model.addAttribute("selectedYear", year);
+        model.addAttribute("selectedMonth", month);
+        model.addAttribute("selectedDay", day);
 
         return "/admin/sales/salesList";
     }

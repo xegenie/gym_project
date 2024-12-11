@@ -55,8 +55,8 @@ public class BuyListServiceImpl implements BuyListService {
     }
 
     @Override
-    public List<BuyList> salesList() throws Exception {
-        return buyListMapper.salesList();
+    public List<BuyList> salesList(Integer trainerName, Integer year, Integer month, Integer day) throws Exception {
+        return buyListMapper.salesList(trainerName, year, month, day);
     }
     
 }
