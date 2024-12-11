@@ -2,9 +2,6 @@ label{
     font-size: 30px;
 
 }
-div{
-    margin-bottom: 40px;
-}
 
 .container-form{
     display: flex;
@@ -14,7 +11,7 @@ position: relative;
 left: 23%;
 bottom: 8%;
 width: 600px;
-height: 760px;
+height: 520px;
 background-color: #ffffff;
 border-radius: 2%;
 box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
@@ -35,31 +32,31 @@ box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 input{
-    background-color: rgb(224, 222, 218);
-    border-radius: 8px;
-    font-size: 20px;
-    height: 50px;
-    width: 250px;    
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    height: 30px;
+    width: 200px;    
   padding: 10px;
 }
 
 select{
-height: 50px;
-width: 250px;
-border-radius: 8px;
-font-size: 20px;
+height: 40px;
+width: 100px;
+border-radius: 5px;
+font-size: 15px;
 padding: 10px;
 cursor: pointer;
 
 }
 
 td{
-    font-size: 20px;
+    font-size: 15px;
 }
 
 th{
     width: 200px;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 tr {
@@ -73,11 +70,11 @@ tr {
 }
 
 button{
-    padding: 10px 30px 10px 30px;
+    padding: 5px 20px 5px 20px;
     font-size: 15px;
-    font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
+    
     margin-left: 20px;
 }
 button:hover{
