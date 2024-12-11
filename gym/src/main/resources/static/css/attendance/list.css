@@ -2,15 +2,16 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #E7ECEF; /* 페이지 배경색 */
+    /* padding: 20px; */
+    background-color: #ffffff; /* 페이지 배경색 */
 }
 
 
-.search-container {
+/* .search-container {
     display: flex;
     justify-content: center;
-}
+} */
+ 
 .search {
     width: 1000px;
     height: 30px;
@@ -104,7 +105,7 @@ th, td {
 
 h2, h3 {
     color: #333;
-    text-align: center;
+    text-align: left;
 }
 
 .attendance-count {
