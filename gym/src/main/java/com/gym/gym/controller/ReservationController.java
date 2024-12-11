@@ -22,8 +22,10 @@ import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Reservation;
+import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.ReservationService;
+import com.gym.gym.service.TrainerProfileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,12 +36,34 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private TrainerProfileService trainerProfileService;
     
     
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
-    public String userReservationList(Model model, Option option, Page page) throws Exception {
-        List<Reservation> reservationList = reservationService.list(option, page);
+    public String userReservationList(@AuthenticationPrincipal CustomUser userDetails, Model model, Option option, Page page) throws Exception {
+
+        List<Reservation> reservationCount = reservationService.userByList(userDetails.getNo(), option, new Page());
+        
+        
+        long disabledCount = reservationService.disabledCount(userDetails.getNo());
+        // .filter(reservation -> reservation.getEnabled() == 2)
+        // .count();
+        
+        // 리스트의 마지막 항목
+        if (reservationCount.size() > 0) {
+            Reservation lastReservation = reservationCount.get(reservationCount.size() - 1);
+            int ptCount = lastReservation.getPtCount();
+            ptCount -= disabledCount;
+            model.addAttribute("ptCount", ptCount);
+            log.info("피티카운트 : " + ptCount);
+            log.info("disabledCount: " + disabledCount);
+
+        }
+        
+        List<Reservation> reservationList = reservationService.userByList(userDetails.getNo(), option, page);
         model.addAttribute("reservationList", reservationList);
         model.addAttribute("option", option);
         model.addAttribute("rows", page.getRows());
@@ -88,9 +112,6 @@ public class ReservationController {
         
         List<Users> trainerUsers = reservationService.trainerUsers();
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
-        List<Map<String, Object>> countByDate = reservationService.countByDate(option);
-
-
 
         List<Map<String, Object>> reservationEvents = new ArrayList<>();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -112,7 +133,6 @@ public class ReservationController {
         }
 
         model.addAttribute("reservationEvents", reservationEvents);
-        model.addAttribute("countByDate", countByDate);
         model.addAttribute("sortByTrainer", sortByTrainer);
         model.addAttribute("trainerUsers", trainerUsers);
         model.addAttribute("option", option);
@@ -129,13 +149,33 @@ public class ReservationController {
     
     // 예약 등록 화면
     @GetMapping("/user/reservation/reservation")
-    public String insert(Model model, @ModelAttribute Option option) throws Exception {
+    public String insert(@RequestParam("trainerNo") int trainerNo, @AuthenticationPrincipal CustomUser userDetails, Model model, @ModelAttribute Option option, Page page) throws Exception {
 
+
+        // 트레이너 프로필 정보
+        TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
+        model.addAttribute("trainer", trainerProfile);
+        
+        log.info("넘어오나" + trainerProfile);
+        List<Reservation> reservationList = reservationService.userByList(userDetails.getNo(), option, page);
+
+        long disabledCount = reservationList.stream()
+        .filter(reservation -> reservation.getEnabled() == 2)
+        .count();
+
+        // 리스트의 마지막 항목
+        // if (reservationList.size() > 0) {
+            Reservation lastReservation = reservationList.get(reservationList.size() - 1);
+            int ptCount = lastReservation.getPtCount();
+            ptCount -= disabledCount;
+            model.addAttribute("ptCount", ptCount);
+        // }
         List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
-        // model.addAttribute("sortByTrainer", new ObjectMapper().writeValueAsString(sortByTrainer));
+        
+        model.addAttribute("reservationList", reservationList);
         model.addAttribute("sortByTrainer", sortByTrainer);
         
-        return "/user/reservation/reservation";
+        return "user/reservation/reservation";
     }
     
     // 예약 등록 처리

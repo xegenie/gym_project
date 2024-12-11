@@ -8,7 +8,10 @@
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="/js/userRVscript.js"></script>
   <script th:inline="javascript">
+    
     const sortByTrainer = /*[[${sortByTrainer}]]*/ [];
+    const ptCount = /*[[${ptCount}]]*/ 0;
+
     console.log(sortByTrainer);
     console.log(sortByTrainer[0].rvDate);
   </script>
@@ -21,33 +24,36 @@
     </div>
     <div class="trainer-info">
       <div class="info-container">
-        <img src="/img/sample.jpg" alt="샘플">
-        <h1>마룬5 트레이너</h1> 
+        <!-- <h1 th:text="${trainer.no}"></h1> -->
+        <img th:src="|/img?no=${trainer.no}|" alt="파일 이미지" class="card-img-top">
+        <p th:text="${trainer.detailInfo}"></p>
       </div>
     </div>
   
     <div id="calendar"></div>
   
-    <!-- 예약 모달 -->
-    <div id="timeSelectionModal">
-      <div class="modal-container">
-        <div class="modal-info">
-          <h3>예약 시간 선택</h3>
-          <p id="selectedDate"></p>
+    <th:block th:if="${ptCount > 0}">
+      <div id="timeSelectionModal">
+        <div class="modal-container">
+          <div class="modal-info">
+            <h3>예약 시간 선택</h3>
+            <p id="selectedDate"></p>
+          </div>
+          <div id="timeButtons"></div>
+          <button onclick="closeModal()">Close</button>
+    
+          <form id="reservationForm" action="/user/reservation/reservation" method="POST">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" id="rvDateInput" name="rvDate">
+            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
+                <input type="hidden" name="trainerNo" th:value="${#authentication.principal.trainerNo}">       
+            </th:block>
+            <input type="submit" style="display: none;" />
+          </form>
         </div>
-        <div id="timeButtons"></div>
-        <button onclick="closeModal()">Close</button>
-  
-        <form id="reservationForm" action="/user/reservation/reservation" method="POST">
-          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <input type="hidden" id="rvDateInput" name="rvDate">     <!-- 예약 날짜 -->
-          <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')">
-              <input type="hidden" name="trainerNo" th:value="${#authentication.principal.trainerNo}">       
-          </th:block>
-          <input type="submit" style="display: none;" />
-        </form>
       </div>
-    </div>
+    </th:block>
+    <!-- 예약 모달 -->
   </div>
 
   <th:block th:replace="~{fragment/footer::footer}"></th:block>

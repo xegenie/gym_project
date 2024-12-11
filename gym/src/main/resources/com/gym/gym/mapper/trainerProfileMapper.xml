@@ -96,4 +96,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE a.auth = 'ROLE_TRAINER'
     </select>
 
+    <select id="selectTrainer" resultType="trainerProfile">
+        SELECT tp.no
+        FROM users u
+        JOIN trainer_profile tp ON u.trainer_no = tp.trainer_no
+        WHERE tp.trainer_no = #{trainerNo}
+        GROUP BY tp.no
+    </select>
+
 </mapper>

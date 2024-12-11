@@ -31,6 +31,9 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> list(Option option, Page page) throws Exception {
         int total = count(option);
         page.setTotal(total);
+
+        
+        reservationMapper.ptComplete();
         List<Reservation> reservationList = reservationMapper.list(option, page);
         return reservationList;
     }
@@ -78,7 +81,21 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationMapper.selectByStartEnd(userNo, startTime, endTime);
     }
 
+    @Override
+    public List<Reservation> userByList(Long no, Option option, Page page) throws Exception {
+        
+        int total = reservationMapper.countByUser(no);
+        page.setTotal(total);
 
+        reservationMapper.ptComplete();
+        List<Reservation> reservationList = reservationMapper.userByList(no, option, page);
 
+        return reservationList;
+    }
+
+    @Override
+    public int disabledCount(Long no) throws Exception {
+        return reservationMapper.disabledCount(no);
+    }
 
 }

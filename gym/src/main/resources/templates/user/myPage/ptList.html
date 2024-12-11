@@ -23,6 +23,13 @@
                 <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
             </div>
 
+            <div class="pt-count">
+                <div class="pt-count-container">
+                    <span>남은 PT 횟수 : </span>
+                    <span th:text="${ptCount}"></span>
+                </div>
+            </div>
+
             <div class="list">
                 <table>
                     <thead>
@@ -31,7 +38,7 @@
                             <th>완료 횟수</th>
                             <th>예약 날짜</th>
                             <th>신청 일시</th>
-                            <th>취소 일시</th>
+                            <th>완료/취소 일시</th>
                             <th>상태</th>
                         </tr>
                     </thead>
@@ -40,14 +47,17 @@
                             <td th:text="${reservation.trainerName}"></td>
                             <td th:text="${reservation.trainerNo}"></td>
                             <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
     
                             <td>
                                 <span th:if="${reservation.enabled == 1}">
                                     <button type="button" class="complete" th:data-no="${reservation.no}" onclick="showCancelModal(this)">
                                         취소하기
                                     </button>
+                                </span>
+                                <span th:if="${reservation.enabled == 2}" class="ptComplete">
+                                    완료
                                 </span>
                                 <span th:if="${reservation.enabled == 0}" class="cancel-text">취소</span>
                             </td>
@@ -93,9 +103,6 @@
         </main>
 
     </div>
-    
-    <!-- 스크립트 -->
-    <th:block th:replace="~{fragment/script::script}"></th:block>
     
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
