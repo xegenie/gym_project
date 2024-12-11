@@ -27,5 +27,8 @@ public interface BuyListMapper {
     public int count(@Param("keyword") String keyword) throws Exception;
 
     // 매출 내역
-    public List<BuyList> salesList() throws Exception;
+    public List<BuyList> salesList(@Param("trainerNo") Integer trainerNo, 
+                                   @Param("startDate") String startDate, 
+                                   @Param("endDate") String endDate 
+                                   ) throws Exception;
 }

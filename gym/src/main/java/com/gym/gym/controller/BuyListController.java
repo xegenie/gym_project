@@ -1,5 +1,6 @@
 package com.gym.gym.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.BuyListService;
+import com.gym.gym.service.TrainerProfileService;
 import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class BuyListController {
 
     @Autowired BuyListService buyListService;
     @Autowired UserService userService;
+    @Autowired TrainerProfileService trainerProfileService;
 
     // 등록
     @GetMapping("/admin/sales/buyList/insert")
@@ -73,10 +76,47 @@ public class BuyListController {
 
     // 매출조회
     @GetMapping("/admin/sales/salesList")
-    public String salesList(Model model) throws Exception {
+    public String salesList(@RequestParam(value = "trainerNo", required = false) Integer trainerNo,
+                            @RequestParam(value = "startYear", required = false) Integer startYear,
+                            @RequestParam(value = "startMonth", required = false) Integer startMonth,
+                            @RequestParam(value = "startDay", required = false) Integer startDay,
+                            @RequestParam(value = "endYear", required = false) Integer endYear,
+                            @RequestParam(value = "endMonth", required = false) Integer endMonth,
+                            @RequestParam(value = "endDay", required = false) Integer endDay,
+                            @RequestParam(value = "startDate", required = false) String startDate,
+                            @RequestParam(value = "endDate", required = false) String endDate,
+                            Model model) throws Exception {
 
-        List<BuyList> salesList = buyListService.salesList();
+        LocalDate today = LocalDate.now();
+        if (startYear == null || startMonth == null || startDay == null) {
+            startYear = today.getYear();
+            startMonth = today.getMonthValue();
+            startDay = today.getDayOfMonth();
+        }
+        if (endYear == null || endMonth == null || endDay == null) {
+            endYear = today.getYear();
+            endMonth = today.getMonthValue();
+            endDay = today.getDayOfMonth();
+        }
+    
+        // 문자열로 합쳐서 시작/종료 날짜 생성
+        startDate = String.format("%d-%02d-%02d", startYear, startMonth, startDay);
+        endDate = String.format("%d-%02d-%02d", endYear, endMonth, endDay);
+    
+        model.addAttribute("selectedStartYear", startYear);
+        model.addAttribute("selectedStartMonth", startMonth);
+        model.addAttribute("selectedStartDay", startDay);
+        model.addAttribute("selectedEndYear", endYear);
+        model.addAttribute("selectedEndMonth", endMonth);
+        model.addAttribute("selectedEndDay", endDay);
+
+        List<BuyList> salesList = buyListService.salesList(trainerNo, startDate, endDate);
         model.addAttribute("salesList", salesList);
+
+        List<Users> trainerUsers = trainerProfileService.trainerUsers();
+        model.addAttribute("trainerUsers", trainerUsers);
+
+        model.addAttribute("selectedTrainer", trainerNo);
 
         return "/admin/sales/salesList";
     }
