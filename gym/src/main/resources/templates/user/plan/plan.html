@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="/js/planScript.js"></script>
 </head>
-
 <body style="overflow-x: hidden; padding-top: 80px;">
   <th:block th:replace="~{fragment/header::header}"></th:block>
   <div>
@@ -51,13 +49,11 @@
               <p>trainer’s comment</p>
             </div>
             <div class="comment-content">
-              <th:block th:if="${comment != null && comment.commentDate != null}">
-                <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span></p>
-                <p class="comment-c">
-                  <span class="cContent" th:text="${comment.cContent ?: ''}"></span><br>
-                  <span class="fContent" th:text="${comment.fContent ?: ''}"></span>
-                </p>
-              </th:block>
+              <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span></p>
+              <p class="comment-c">
+                <span class="cContent" th:text="${comment.cContent}"></span><br>
+                <span class="fContent" th:text="${comment.fContent}"></span>
+              </p>
             </div>
           </div>
         </div>
@@ -70,7 +66,6 @@
     </div>
   </div>
   <th:block th:replace="~{fragment/footer::footer}"></th:block>
-
   <!-- 일정 입력 팝업 -->
   <div class="pop-up input-schedule">
     <div class="popup-type">
@@ -79,15 +74,15 @@
       </div>
     </div>
     <div class="popup-content">
-      <form id="insertForm" action="/user/schedule/insert" method="post">
+      <form action="/user/schedule/insert" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div class="popup-title-input">
-          <input type="text" name="planName" placeholder="일정 제목 추가" required>
+          <input type="text" name="planName" placeholder="일정 제목 추가">
         </div>
         <div class="set-time">
           <p><i class="fa-regular fa-clock"></i></p>
           <div class="set-time-date">
-            <span id="set-date"></span>
+            <span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span>
           </div>
           <div class="set-time-drops">
             <div class="dropdown">
@@ -105,28 +100,23 @@
               <button type="button" id="dropdown-button-end">종료 시간</button>
               <div class="options" id="options-end">
                 <div th:each="time, iterStat : ${times24Hour}"
-                 th:text="${times12Hour[iterStat.index]}"
-                 th:value="${time}"
-                 onClick="setTime('end', this)">
-            </div>
+                  th:text="${times12Hour[iterStat.index]}"
+                  th:value="${time}" 
+                  onClick="setTime('end', this)">
+                </div>
               </div>
             </div>
-
           </div>
         </div>
-
         <textarea name="planContent" placeholder="내용 입력"></textarea>
-
         <input type="hidden" name="planTime" id="planTime">
         <input type="hidden" name="planEnd" id="planEnd">
-
         <div class="button-container">
           <button type="submit" id="updPlanButton">저장</button>
         </div>
       </form>
     </div>
   </div>
-
   <!-- 일정 정보 팝업(자율) -->
   <div class="pop-up exercise-bymyself">
     <form id="deleteForm" action="/user/schedule/delete" method="post">
@@ -149,14 +139,13 @@
           12/4 (수)
         </div>
         <div class="plan-time">
-          <p class="plan-start-time">오후 1:00</p>
+          <p class="plan-start-time"></p>
           <p>-</p>
-          <p class="plan-end-time">오후 2:00</p>
+          <p class="plan-end-time"></p>
         </div>
       </div>
       <hr>
-      <div class="plan-detail">
-        - 러닝머신 1시간<br>
+      <div class="plan-detail"><br>
       </div>
     </div>
     <div class="popup-edit" style="display: none;">
@@ -169,53 +158,35 @@
         <div class="set-time">
           <p><i class="fa-regular fa-clock"></i></p>
           <div class="set-time-date">
-            <span class="plan-date-edit"></span>
+            <span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span>
           </div>
           <div class="set-time-drops">
             <div class="dropdown">
               <button type="button" id="dropdown-edit-start">시작 시간</button>
               <div class="options" id="options-edit-start">
-                <div value="6:00" onClick="setTime('startEdit', this)">오전 6:00</div>
-                <div value="6:15" onClick="setTime('startEdit', this)">오전 6:15</div>
-                <div value="6:30" onClick="setTime('startEdit', this)">오전 6:30</div>
-                <div value="6:45" onClick="setTime('startEdit', this)">오전 6:45</div>
-                <div value="7:00" onClick="setTime('startEdit', this)">오전 7:00</div>
-                <div value="7:15" onClick="setTime('startEdit', this)">오전 7:15</div>
-                <div value="7:30" onClick="setTime('startEdit', this)">오전 7:30</div>
-                <div value="7:45" onClick="setTime('startEdit', this)">오전 7:45</div>
-                <div value="8:00" onClick="setTime('startEdit', this)">오전 8:00</div>
-                <div value="8:15" onClick="setTime('startEdit', this)">오전 8:15</div>
-                <div value="8:30" onClick="setTime('startEdit', this)">오전 8:30</div>
-                <div value="8:45" onClick="setTime('startEdit', this)">오전 8:45</div>
+                <div th:each="time, iterStat : ${times24Hour}"
+                   th:text="${times12Hour[iterStat.index]}"
+                   th:value="${time}" 
+                   onClick="setTime('startEdit', this)">
+                </div>
               </div>
             </div>
             <span>-</span>
             <div class="dropdown">
               <button type="button" id="dropdown-edit-end">종료 시간</button>
               <div class="options" id="options-edit-end">
-                <div value="6:00" onClick="setTime('endEdit', this)">오전 6:00</div>
-                <div value="6:15" onClick="setTime('endEdit', this)">오전 6:15</div>
-                <div value="6:30" onClick="setTime('endEdit', this)">오전 6:30</div>
-                <div value="6:45" onClick="setTime('endEdit', this)">오전 6:45</div>
-                <div value="7:00" onClick="setTime('endEdit', this)">오전 7:00</div>
-                <div value="7:15" onClick="setTime('endEdit', this)">오전 7:15</div>
-                <div value="7:30" onClick="setTime('endEdit', this)">오전 7:30</div>
-                <div value="7:45" onClick="setTime('endEdit', this)">오전 7:45</div>
-                <div value="8:00" onClick="setTime('endEdit', this)">오전 8:00</div>
-                <div value="8:15" onClick="setTime('endEdit', this)">오전 8:15</div>
-                <div value="8:30" onClick="setTime('endEdit', this)">오전 8:30</div>
-                <div value="8:45" onClick="setTime('endEdit', this)">오전 8:45</div>
+                <div th:each="time, iterStat : ${times24Hour}"
+                   th:text="${times12Hour[iterStat.index]}"
+                   th:value="${time}" 
+                   onClick="setTime('endEdit', this)">
+                </div>
               </div>
             </div>
-
           </div>
         </div>
-
         <textarea name="planContent" placeholder="내용 입력"></textarea>
-
         <input type="hidden" name="planTime" id="planTimeEdit">
         <input type="hidden" name="planEnd" id="planEndEdit">
-
         <div class="button-container">
           <button type="button" id="cancelButton" onclick="editCancel()">취소</button>
           <button type="submit" id="updateButton">수정</button>
@@ -223,7 +194,6 @@
       </form>
     </div>
   </div>
-
   <!-- 일정 정보 팝업(PT 예약) -->
   <div class="pop-up exercise-pt">
     <div class="popup-type">
@@ -240,25 +210,23 @@
           12/4 (수)
         </div>
         <div class="plan-time">
-          <p class="plan-start-time">오후 1:00</p>
+          <p class="plan-start-time"></p>
           <p>-</p>
-          <p class="plan-end-time">오후 2:00</p>
+          <p class="plan-end-time"></p>
         </div>
       </div>
       <div class="trainer-info">
         <p><i class="fa-solid fa-user"></i></p>
-        <p class="trainer-name">김트너</p>
+        <p class="trainer-name"></p>
       </div>
     </div>
   </div>
   <script th:inline="javascript">
     var planEvents = /*[[${planEvents}]]*/ [];
     console.log(planEvents);
-
     var reservationEvents = /*[[${reservationEvents}]]*/ [];
     console.log("reservationEvents:" + reservationEvents);
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

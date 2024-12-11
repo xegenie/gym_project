@@ -103,6 +103,9 @@ public class PlanController {
             throw new AccessDeniedException("You are not authorized to access this resource.");
         }
         
+        System.out.println("iNo : " + iNo);
+        System.out.println("startDate : " + startDate);
+        System.out.println("endDate : " + endDate);
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
@@ -186,15 +189,19 @@ public class PlanController {
         Date endDate = dates.get(1);
 
         Users user = userDetails.getUser();
-        String userAuth = user.getUserAuth();
+        UserAuth userAuth = userService.selectAuth(user.getNo());
+        System.out.println("userAuth: " + userAuth);
+        String userAuthAuth = userAuth.getAuth();
+        System.out.println("userAuthAuth: " + userAuthAuth);
+        System.out.println("userNo: " + userNo);
 
         int iNo;
         
-        if (userNo != null && (userAuth == "ROLE_ADMIN" || userAuth == "ROLE_TRAINER")) {
+        if (userNo != null && (userAuthAuth.equals("ROLE_ADMIN") || userAuthAuth.equals("ROLE_TRAINER"))) {
             iNo = userNo.intValue();
         } 
         // ADMIN 또는 USER 역할인 경우 userNo 파라미터가 없을 때만 접근
-        else if (userNo == null && (userAuth == "ROLE_ADMIN" || userAuth == "ROLE_USER")) {
+        else if (userNo == null && (userAuthAuth.equals("ROLE_ADMIN") || userAuthAuth.equals("ROLE_USER"))) {
             iNo = userDetails.getNo().intValue();
         } 
         // 위의 조건에 맞지 않으면 403 오류 처리
@@ -202,6 +209,7 @@ public class PlanController {
             throw new AccessDeniedException("You are not authorized to access this resource.");
         }
         
+        System.out.println("iNo : " + iNo);
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
