@@ -36,11 +36,6 @@ public class BuyListController {
     TrainerProfileService trainerProfileService;
 
     // 등록
-    @GetMapping("/admin/sales/buyList/insert")
-    public String insert() {
-        return "/admin/sales/buyList/insert";
-    }
-
     @PostMapping("/admin/sales/buyList/insert")
     public String insert(BuyList buyList) throws Exception {
         int result = buyListService.insert(buyList);

@@ -17,7 +17,9 @@ public class BuyListServiceImpl implements BuyListService {
     @Override
     public int insert(BuyList buyList) throws Exception {
         int result = buyListMapper.insert(buyList);
-        return result;
+        int result2 = buyListMapper.updateTrainer(buyList.getTrainerNo(), buyList.getUserNo());
+
+        return result + result2;
     }
 
     @Override
