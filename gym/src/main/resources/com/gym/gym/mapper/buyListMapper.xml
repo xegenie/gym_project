@@ -118,7 +118,8 @@
             Ticket t
         LEFT JOIN 
             buy_list b ON b.ticket_no = t.no
-            AND (#{startDate} IS NULL OR b.buy_date BETWEEN #{startDate} AND #{endDate})
+             AND (#{startDate} IS NULL OR 
+            (DATE(b.buy_date) BETWEEN DATE(#{startDate}) AND DATE(#{endDate})))
         LEFT JOIN 
             users u ON b.trainer_no = u.no
         WHERE 
