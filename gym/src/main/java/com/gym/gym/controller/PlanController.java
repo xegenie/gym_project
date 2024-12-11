@@ -1,20 +1,25 @@
 package com.gym.gym.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +31,12 @@ import com.gym.gym.domain.Comment;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Plan;
 import com.gym.gym.domain.Reservation;
+import com.gym.gym.domain.UserAuth;
+import com.gym.gym.domain.Users;
 import com.gym.gym.service.CommentService;
 import com.gym.gym.service.PlanService;
 import com.gym.gym.service.ReservationService;
+import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +48,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Controller
-// @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequestMapping("/user/schedule")
 public class PlanController {
     
@@ -53,9 +61,14 @@ public class PlanController {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/plan")
-    // @PreAuthorize("hasRole('USER')")
-    public String list(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
+    public String list(@AuthenticationPrincipal CustomUser userDetails, 
+                       @RequestParam(value = "userNo", required = false) Long userNo,
+                        Model model) throws Exception {
         Date currentDate = new Date();
 
         Date commentDate = DayFirst(currentDate);
@@ -64,11 +77,33 @@ public class PlanController {
         Date startDate = dates.get(0);
         Date endDate = dates.get(1);
 
-        Long no = userDetails.getNo();
-        int iNo = no.intValue();
+        List<String> times24Hour = new ArrayList<>();
+        List<String> times12Hour = new ArrayList<>();
+
+        Users user = userDetails.getUser();
+        UserAuth userAuth = userService.selectAuth(user.getNo());
+        System.out.println("userAuth: " + userAuth);
+        String userAuthAuth = userAuth.getAuth();
+        System.out.println("userAuthAuth: " + userAuthAuth);
+        System.out.println("userNo: " + userNo);
+        // System.out.println("user: " + user);
+        // String userAuth = user.getUserAuth();
+        // List<UserAuth> authList = user.getAuthList();
+        int iNo;
+        
+        if (userNo != null && (userAuthAuth.equals("ROLE_ADMIN") || userAuthAuth.equals("ROLE_TRAINER"))) {
+            iNo = userNo.intValue();
+        } 
+        // ADMIN 또는 USER 역할인 경우 userNo 파라미터가 없을 때만 접근
+        else if (userNo == null && (userAuthAuth.equals("ROLE_ADMIN") || userAuthAuth.equals("ROLE_USER"))) {
+            iNo = userDetails.getNo().intValue();
+        } 
+        // 위의 조건에 맞지 않으면 403 오류 처리
+        else {
+            throw new AccessDeniedException("You are not authorized to access this resource.");
+        }
         
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
-        // List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
 
@@ -100,24 +135,40 @@ public class PlanController {
             reservationEvents.add(event);
         }
 
-        // model.addAttribute("planList", planList);
-        // model.addAttribute("commentList", commentList);
-        model.addAttribute("comment", comment);
-        // model.addAttribute("reservationList", reservationList);
+        for (int i = 6; i <= 22; i++) {
+            for (int j = 0; j < 60; j += 15) {
+                String time24 = String.format("%02d:%02d", i, j);
+                times24Hour.add(time24);
+                
+                // 12시간제 형식으로 변환
+                try {
+                    SimpleDateFormat sdf24 = new SimpleDateFormat("HH:mm", Locale.KOREA);
+                    SimpleDateFormat sdf12 = new SimpleDateFormat("a h:mm", Locale.KOREA);
+                    times12Hour.add(sdf12.format(sdf24.parse(time24)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
+        model.addAttribute("comment", comment);
         model.addAttribute("planEvents", planEvents);
         model.addAttribute("reservationEvents", reservationEvents);
+
+        model.addAttribute("times24Hour", times24Hour);
+        model.addAttribute("times12Hour", times12Hour);
 
         return "/user/plan/plan";
     }
 
     @ResponseBody
     @GetMapping("/plan/{year}/{month}/{day}")
-    // @PreAuthorize("hasRole('USER')")
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     public ResponseEntity<Map<String, Object>> listByDate(
                             @PathVariable("year") int year, 
                             @PathVariable("month") int month, 
                             @PathVariable("day") int day,
+                            @RequestParam(value = "userNo", required = false) Long userNo,
                             @AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         
         Calendar calendar = Calendar.getInstance();
@@ -134,11 +185,24 @@ public class PlanController {
         Date startDate = dates.get(0);
         Date endDate = dates.get(1);
 
-        Long no = userDetails.getNo();
-        int iNo = no.intValue();
+        Users user = userDetails.getUser();
+        String userAuth = user.getUserAuth();
+
+        int iNo;
+        
+        if (userNo != null && (userAuth == "ROLE_ADMIN" || userAuth == "ROLE_TRAINER")) {
+            iNo = userNo.intValue();
+        } 
+        // ADMIN 또는 USER 역할인 경우 userNo 파라미터가 없을 때만 접근
+        else if (userNo == null && (userAuth == "ROLE_ADMIN" || userAuth == "ROLE_USER")) {
+            iNo = userDetails.getNo().intValue();
+        } 
+        // 위의 조건에 맞지 않으면 403 오류 처리
+        else {
+            throw new AccessDeniedException("You are not authorized to access this resource.");
+        }
         
         List<Plan> planList = planService.selectByStartEnd(iNo, startDate, endDate);
-        // List<Comment> commentList = commentService.selectByStartEnd(iNo, startDate, endDate);
         Comment comment = commentService.selectByDate(commentDate, iNo);
         List<Reservation> reservationList = reservationService.selectByStartEnd(iNo, startDate, endDate);
         
@@ -186,6 +250,7 @@ public class PlanController {
     }
 
     @PostMapping("/insert")
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER')")
     public String insert(Plan plan, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
         plan.setUserNo(userDetails.getNo().intValue());
         int result = planService.insert(plan);
@@ -196,6 +261,7 @@ public class PlanController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER')")
     public String delete(@RequestParam("no") String no) throws Exception {
         int iNo = Integer.parseInt(no); // String을 int로 변환
         int result = planService.delete(iNo);
@@ -206,6 +272,7 @@ public class PlanController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER')")
     public String update(Plan plan) throws Exception {
         System.out.println(plan);
         int result = planService.update(plan);
@@ -272,5 +339,4 @@ public class PlanController {
 
         return oneHourLater;
     }
-
 }

@@ -331,7 +331,7 @@ a{cursor: pointer;}
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100px;
+  width: 105px;
   max-height: 140px; /* 보이는 개수 제한 (예: 3개 높이) */
   overflow-y: auto;
   border: 1px solid #ccc;
