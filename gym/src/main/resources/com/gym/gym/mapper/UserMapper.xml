@@ -93,6 +93,7 @@
         UPDATE users
         SET phone = #{phone}
         ,email = #{email}
+        ,name = #{name}
         WHERE no = #{no}
     </update>
 
