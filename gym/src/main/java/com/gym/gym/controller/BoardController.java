@@ -3,6 +3,7 @@ package com.gym.gym.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,6 +77,7 @@ public class BoardController {
     }
 
     // 등록
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @GetMapping("/insert")
     // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public String insert() {
@@ -83,7 +85,7 @@ public class BoardController {
     }
 
     // 등록처리
-
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("/insert")
     public String insertPost(@AuthenticationPrincipal CustomUser authuser,
             Board board) throws Exception {
@@ -120,7 +122,7 @@ public class BoardController {
 
         return "user/board/update";
     }
-
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('TRAINER')")
     @GetMapping("/answerUpdate")
     public String answerUpdate(@RequestParam("no") Long no, Model model) throws Exception {
         Answer answer = answerService.select(no);

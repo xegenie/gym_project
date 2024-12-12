@@ -11,6 +11,10 @@
 <body class="fullBody">
     <th:block th:replace="~{fragment/header::header}"></th:block>
     
+    <script th:if="${message != null}" th:inline="javascript">
+        alert([[${message}]]);
+    </script>
+
     <div class="top-space"></div>
     <div class="container1" id="contain-box" style="margin:25px 0;">
         <div class="px-4 py-5 mt-5 text-center">

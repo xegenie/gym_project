@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,6 +89,7 @@ public class PayController {
     }
 
     // 일반 이용권
+   
     @GetMapping("/ticket/normal")
     public String normal(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
         // 티켓 조회
@@ -153,6 +155,7 @@ public class PayController {
     }
     
     // 구매목록에 추가
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("/pay/paying")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> paying(@AuthenticationPrincipal CustomUser userDetails, @RequestBody BuyList buyList) throws Exception {
