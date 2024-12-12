@@ -7,6 +7,9 @@
     <title>예약 목록</title>
     <link rel="stylesheet" href="/css/myPage/ptList.css">
     <th:block th:replace="~{fragment/link::link}"></th:block>
+    <script th:if="${message != null}" th:inline="javascript">
+        alert([[${message}]]);
+    </script>
 </head>
 
 <!-- 헤더 -->

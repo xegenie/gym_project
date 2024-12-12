@@ -89,16 +89,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               GROUP BY b.user_no
           ) ptSum ON ptSum.user_no = r.user_no
       where
-          u.id LIKE CONCAT('%', #{keyword}, '%')
+          (u.id LIKE CONCAT('%', #{keyword}, '%')
           OR u.name LIKE CONCAT('%', #{keyword}, '%')
-          OR tu.name LIKE CONCAT('%', #{keyword}, '%')
-          <if test="option.orderCode == 0">
-            ORDER BY r.created_at DESC
+          OR tu.name LIKE CONCAT('%', #{keyword}, '%'))
+          <if test="option.code == 1">
+            AND r.enabled = 2
           </if>
-          <if test="option.orderCode == 1">
-            ORDER BY r.rv_date ASC
+          <if test="option.code == 2">
+            AND r.enabled = 1
           </if>
-          LIMIT #{page.index}, #{page.rows}
+          <if test="option.code == 3">
+            AND r.enabled = 0
+          </if>
+        <if test="option.orderCode == 0">
+          ORDER BY r.created_at DESC
+        </if>
+        <if test="option.orderCode == 1">
+          ORDER BY r.rv_date ASC
+        </if>
+        LIMIT #{page.index}, #{page.rows}
     </select>
 
     <!-- 예약 상세 조회 -->
@@ -121,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       update reservation
       set enabled = 2,
           canceled_at = DATE_ADD(rv_date, INTERVAL 1 HOUR)
-      where rv_date &lt; now()
+      where rv_date &lt; DATE_ADD(now(), INTERVAL 1 HOUR)
     </update>
 
     <!-- 전체 카운트 -->
@@ -131,9 +140,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       LEFT JOIN users u ON r.user_no = u.no
       LEFT JOIN users tu ON r.trainer_no = tu.no
       where
-          u.id LIKE CONCAT('%', #{keyword}, '%')
+          (u.id LIKE CONCAT('%', #{keyword}, '%')
           OR u.name LIKE CONCAT('%', #{keyword}, '%')
-          OR tu.name LIKE CONCAT('%', #{keyword}, '%')
+          OR tu.name LIKE CONCAT('%', #{keyword}, '%'))
+          <if test="option.code == 1">
+            AND r.enabled = 2
+          </if>
+          <if test="option.code == 2">
+            AND r.enabled = 1
+          </if>
+          <if test="option.code == 3">
+            AND r.enabled = 0
+          </if>
     </select>
 
     <!-- 유저별 카운트 -->

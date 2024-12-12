@@ -205,7 +205,7 @@ public class ReservationController {
 
     // 회원이 예약 취소(수정)
     @PostMapping("/user/myPage/ptList")
-    public String cancelUser(@RequestParam("no") int no, Option option, Page page) throws Exception {
+    public String cancelUser(RedirectAttributes redirectAttributes, @RequestParam("no") int no, Option option, Page page) throws Exception {
         Reservation reservation = reservationService.findByNo(no);
 
         reservation.setCanceledAt(new Date());
@@ -213,6 +213,7 @@ public class ReservationController {
         int result = reservationService.cancel(reservation);
 
         if (result > 0) {
+            redirectAttributes.addFlashAttribute("message", "예약이 취소되었습니다.");
             return "redirect:/user/myPage/ptList?page=" + page.getPage() + "&keyword=" + option.getKeyword()
                     + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
         }
