@@ -61,30 +61,13 @@
 
 <body class="fullBody" style="color: rgb(3, 3, 3); background-color: #252222;">
 
-    <th:block th:if="${mgNo} == 1">
-        <script>
-            // 비밀번호 수정 성공 또는 실패 시 알림
-            function showMessage() {
 
+      
+    <script th:if="${message != null}" th:inline="javascript">
+        alert([[${message}]]);
+    </script>
+     
 
-                alert("비밀번호 수정에 성공 했습니다.");
-
-            }
-            window.onload = showMessage;
-        </script>
-    </th:block>
-    <th:block th:if="${mgNo} == 2">
-        <script>
-            // 비밀번호 수정 성공 또는 실패 시 알림
-            function showMessage() {
-
-
-                alert("비밀번호 수정에 실패 했습니다.");
-
-            }
-            window.onload = showMessage;
-        </script>
-    </th:block>
 
     <!-- 헤더 -->
     <th:block th:replace="~{fragment/header::header}"></th:block>
@@ -92,6 +75,9 @@
 
         <h1 th:text="${mgNo}"></h1>
         <main>
+            <th:block th:if="${param.error}">
+            <p class="text-center text-danger">게정내용 변경을 실패했습니다..</p>
+        </th:block>
             <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
             <div class="button-group">
                 <button class="active" onclick="window.location.href='/user/myPage/info'">내 정보</button>
@@ -145,6 +131,7 @@
                         <tr>
                             <th style="color: black;">이름</th>
                             <td><label type="text" th:text="${user.name}" name="name"></td>
+                                <input type="hidden" name="name" th:value="${user.name}" id="">
                         </tr>
                         <tr>
                             <th style="color: black;">생일</th>
@@ -159,7 +146,7 @@
                             <td>
                                 <div class="input-container">
                                     <i class="fa-solid fa-phone input-icon"></i>
-                                    <input type="text" th:value="${user.phone}" name="phone" class="styled-input"
+                                    <input type="text" th:value="${user.phone}" name="phone" class="styled-input" pattern="010\d{8}" title="010이 포함된 11자리 숫자여야 합니다."
                                         placeholder="연락처를 입력하세요">
                                 </div>
                             </td>

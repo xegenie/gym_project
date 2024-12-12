@@ -17,8 +17,9 @@
     <th:block th:replace="~{fragment/header::header}"></th:block>
 
 
-    <script th:if="${error != null}">
-        alert('비밀번호 변경에 실패했습니다. 비밀번호를 확인해 주세요.');
+    
+    <script th:if="${message != null}" th:inline="javascript">
+        alert([[${message}]]);
     </script>
     
     <div class="container1 col-12 col-md-6 col-lg-4">
