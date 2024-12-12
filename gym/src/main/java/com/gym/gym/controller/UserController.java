@@ -238,9 +238,10 @@ public class UserController {
         if (result > 0) {
             user.setCode(null);
             userService.codeInsert(user);
+            redirectAttributes.addFlashAttribute("message", "비밀번호 변경이 완료됐습니다.");
             return "redirect:/login";
         }
-        redirectAttributes.addFlashAttribute("error", "");
+        redirectAttributes.addFlashAttribute("message", "비밀번호 찾기 실패 다시 시도해주세요.");
         user.setCode(null);
         userService.codeInsert(user);
         return "redirect:/login";
@@ -273,14 +274,14 @@ public String changePw(@RequestParam("password") String password,
         if (result > 0) {
             user.setCode(null);
             userService.codeInsert(user);
-            model.addAttribute("mgNo",1);
+            redirectAttributes.addFlashAttribute("message", "비밀번호 변경이 완료됐습니다.");
             return "redirect:info";
         }
     }
 
     user.setCode(null);
     userService.codeInsert(user);
-    model.addAttribute("mgNo",2);
+    redirectAttributes.addFlashAttribute("message", "비밀번호 변경 실패!");
     return "redirect:info";
 }
 }
