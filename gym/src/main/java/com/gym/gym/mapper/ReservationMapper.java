@@ -47,7 +47,7 @@ public interface ReservationMapper {
     
     // 전체 예약 카운트
     // public int count(@Param("option") Option option) throws Exception;
-    public int count(@Param("keyword") String keyword) throws Exception;
+    public int count(@Param("option") Option option, @Param("keyword") String keyword) throws Exception;
 
     // 유저별 예약 카운트
     public int countByUser(Long no) throws Exception;
