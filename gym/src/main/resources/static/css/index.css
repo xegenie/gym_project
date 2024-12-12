@@ -45,7 +45,7 @@ body {
     padding: 10px;
     animation: fadeIn 2s ease-in-out 1;
     height: 10px;
-    z-index: 100000;
+    z-index: 1;
 }
 
 
