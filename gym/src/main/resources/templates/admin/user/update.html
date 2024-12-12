@@ -39,8 +39,13 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>생년월일 :</th>
+                        <td style="width: 300px;" th:text="${user.birth}"> 
+                        </td>
+                    </tr>
+                    <tr>
                         <th>이름 :</th>
-                        <td style="width: 300px;" th:text="${user.name}"> 
+                        <td style="width: 300px;"> <input type="text" name="name" th:value="${user.name}" id="name">
                         </td>
                     </tr>
                     <tr>
@@ -52,15 +57,9 @@
         
                     </tr>
                     <tr>
-                        <th>생년월일 :</th>
-                        <td style="width: 300px;"> 
-                            <input type="text" th:value="${user.birth}" name="birth">
-                        </td>
-                    </tr>
-                    <tr>
                         <th>연락처 :</th>
                         <td style="width: 300px;"> 
-                            <input type="text" th:value="${user.phone}" name="phone"></input>
+                            <input type="text" th:value="${user.phone}" name="phone" pattern="\d{11}" ></input>
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +97,9 @@
                 form.submit() // 요청 전송
 
             }
-        </script>
+
+    </script>
+
 </body>
 
 </html>
