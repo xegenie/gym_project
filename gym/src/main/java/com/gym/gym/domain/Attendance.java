@@ -11,7 +11,7 @@ import lombok.Data;
 public class Attendance {
 
     private String qrId; // QR 코드 ID
-    private int userNo; // 회원 번호
+    private Long userNo; // 회원 번호
     private Date checkTime; // 출석 시간
     private Users users; // Users 객체 (회원 정보)
     private int attendanceCount; // 출석 횟수

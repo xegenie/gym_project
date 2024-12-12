@@ -98,13 +98,17 @@ public class BuyListController {
         return "/admin/sales/salesList";
     }
 
+
     // 마이 리스트
     @GetMapping("/user/myPage/buyList")
-    public String listByUser(@AuthenticationPrincipal CustomUser userDetails, Model model) throws Exception {
+    public String listByUser(@AuthenticationPrincipal CustomUser userDetails, Model model, Page page) throws Exception {
+         page.setRows(5);
         Long no = (userDetails != null) ? userDetails.getNo() : 0L;
-        List<BuyList> buyList = (no > 0) ? buyListService.listByUser(no) : new ArrayList<>();
+        List<BuyList> buyList = (no > 0) ? buyListService.listByUser(no, page) : new ArrayList<>();
 
         model.addAttribute("buyList", buyList);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
 
         List<BuyList> filteredList = buyList.stream()
                 .filter(b -> "정상".equals(b.getStatus()))

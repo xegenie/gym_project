@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
+import com.gym.gym.domain.Page;
 import com.gym.gym.domain.Ticket;
 import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
@@ -56,7 +57,7 @@ public class PayController {
         List<BuyList> buyList = new ArrayList<>();
         if (userDetails != null) {
             no = userDetails.getNo();
-            buyList = buyListService.listByUser(no);
+            buyList = buyListService.listByUser(no, new Page());
         }
         model.addAttribute("buyList", buyList);
 
@@ -185,7 +186,7 @@ public class PayController {
         List<BuyList> buyList = new ArrayList<>();
         if (userDetails != null) {
             no = userDetails.getNo();
-            buyList = buyListService.listByUser(no);
+            buyList = buyListService.listByUser(no, new Page());
         }
         model.addAttribute("buyList", buyList);
 

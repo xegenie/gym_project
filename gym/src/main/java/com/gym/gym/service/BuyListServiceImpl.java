@@ -3,16 +3,23 @@ package com.gym.gym.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.gym.gym.domain.BuyList;
+import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Page;
 import com.gym.gym.mapper.BuyListMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @Service
 public class BuyListServiceImpl implements BuyListService {
 
-    @Autowired private BuyListMapper buyListMapper;
+    @Autowired
+    private BuyListMapper buyListMapper;
 
     @Override
     public int insert(BuyList buyList) throws Exception {
@@ -28,10 +35,10 @@ public class BuyListServiceImpl implements BuyListService {
         return result;
     }
 
-   @Override
+    @Override
     public List<BuyList> list(String keyword, Page page) throws Exception {
         buyListMapper.statusUpdate();
-        
+
         int total = count(keyword);
         page.setTotal(total);
 
@@ -39,6 +46,7 @@ public class BuyListServiceImpl implements BuyListService {
 
         return buyList;
     }
+
     @Override
     public int count(String keyword) throws Exception {
         int total = buyListMapper.count(keyword);
@@ -47,8 +55,16 @@ public class BuyListServiceImpl implements BuyListService {
     }
 
     @Override
-    public List<BuyList> listByUser(Long no) throws Exception {
-        return buyListMapper.listByUser(no);
+    public List<BuyList> listByUser(Long no, Page page) throws Exception {
+        
+        int total = countByUser(no);
+        page.setTotal(total);
+       
+        
+        return buyListMapper.listByUser(no, page);
+    }
+    public int countByUser(Long no) throws Exception {
+        return buyListMapper.countByUser(no);
     }
 
     @Override
@@ -60,5 +76,5 @@ public class BuyListServiceImpl implements BuyListService {
     public List<BuyList> salesList(Integer trainerName, String startDate, String endDate) throws Exception {
         return buyListMapper.salesList(trainerName, startDate, endDate);
     }
-    
+
 }

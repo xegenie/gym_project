@@ -4,29 +4,27 @@
 <mapper namespace="com.gym.gym.mapper.AttendanceMapper">
 
     <!-- 출석 내역 조회 -->
-    <select id="list" resultMap="AttendanceWithUserMap">
-        SELECT 
-            a.qr_id AS qrId,
-            a.user_no AS userNo,
-            a.check_time AS checkTime,
-            u.no AS userNo, 
-            u.id AS userId,
-            u.name AS userName,
-            u.email AS userEmail,
-            u.phone AS userPhone
-        FROM attendance a
-        INNER JOIN users u ON a.user_no = u.no
-        <where>
-            <!-- 검색어와 필터 옵션을 적용 -->
-            <if test="option.keyword != null and option.keyword != ''">
-                AND u.name LIKE CONCAT('%', #{option.keyword}, '%')
+    <select id="list" resultMap="AttendanceWithUserMap"> 
+    SELECT
+     a.qr_id AS qrId, 
+     a.user_no AS userNo,
+      a.check_time AS checkTime, 
+      u.no AS userNo,
+       u.id AS userId, 
+       u.name AS userName, 
+       u.email AS userEmail, 
+       u.phone AS userPhone 
+       FROM attendance a 
+       INNER JOIN users u ON a.user_no = u.no
+    WHERE 
+            a.user_no = u.no 
+            AND
+            <if test="option.code == 0">
+                 u.id LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.name LIKE CONCAT('%', #{option.keyword}, '%')
+            OR u.phone LIKE CONCAT('%', #{option.keyword}, '%')
             </if>
-            <if test="option.code != 0">
-                AND a.some_column = #{option.code}  <!-- 필요에 맞는 조건 추가 -->
-            </if>
-        </where>
-        ORDER BY a.check_time DESC  <!-- 정렬 옵션 추가 -->
-        LIMIT #{page.index}, #{page.rows}  <!-- 페이징 -->
+            LIMIT #{page.index}, #{page.rows}    
     </select>
 
     <!-- 데이터 개수 조회 -->

@@ -11,7 +11,7 @@ import lombok.Data;
 public class QRcode {
     
     private long no;
-    private int userNo;
+    private Long userNo;
     private String uuid;
     private Date createdAt;
     
