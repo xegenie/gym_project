@@ -20,6 +20,7 @@
       <div class="card first-con px-3 py-4">
         <p class="text-center fw-semibold m-0" style="font-size: 32px;">운동 계획표</p>
         <hr>
+        <input type="hidden" id="userAuth" th:value="${userAuthAuth}">
         <div sec:authorize="hasRole('ROLE_USER')">
           <div class="d-flex justify-content-end">
             <button type="button" class="p-3 border rounded-4 bg-white upd-schedule"><i class="fa-solid fa-plus"></i> 일정
@@ -52,19 +53,43 @@
           </div>
         </div>
         <div class="comment-container pt-4">
-          <div class="comment">
-            <div class="comment-title">
-              <p>trainer’s comment</p>
-            </div>
-            <div class="comment-content">
-              <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}"></span></p>
-              <p class="comment-c">
-                <span class="cContent" th:text="${comment.cContent}"></span><br>
-                <span class="fContent" th:text="${comment.fContent}"></span>
-              </p>
-            </div>
-          </div>
+          <form action="/user/schedule/comment/update" method="post" id="updateCommentForm">
+            <div class="comment">
+              <div class="comment-title">
+                <p>trainer’s comment</p>
+              </div>
+              <div class="comment-content">
+                  <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}" ></span></p>
+                  <input type="hidden" th:value="comment.commentDate" name="commentDate" id="commentDate">
+                <div class="comment-c comment-detail">
+                  <span><b>코멘트</b></span><br>
+                  <span class="cContent" th:text="${comment.cContent}"></span><br><br>
+                  <span><b>식단</b></span><br>
+                  <span class="fContent" th:text="${comment.fContent}"></span>
+                </div>
+                <div class="comment-c comment-edit" style="display:none;">
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" th:value="${comment.no}" name="no" id="commentNo">
+                  <input type="hidden" th:value="${comment.userNo}" name="userNo" id="userNo">
+                  <span><b>코멘트</b></span><br>
+                  <textarea class="cContent" th:text="${comment.cContent}" name="cContent"></textarea><br>
+                  <span><b>추천 식단</b></span><br>
+                  <textarea class="fContent" th:text="${comment.fContent}" name="fContent"></textarea>
+                </div>
+              </div>
+            </div> <!-- comment 끝 -->
+            <div class="comment-btn-container button-container pt-2">
+              <button type="button" id="editCommentButton">comment 입력</button>
+              <div class="comment-edit" style="display: none;">
+                <button type="button" id="cancelEditComment">취소</button>
+                <button type="submit" id="updateCommentButton">수정</button>
+                <button type="button" id="insertCommentButton" onclick="insertComment()">저장</button>
+              </div>
+            </div>   
+            <!-- comment-btn-container 끝 -->
+          </form>
         </div>
+        <!-- comment-container 끝 -->
       </div>
       <div class="card flex-grow-1 flex-shrink-1">
         <div class="container flex-grow-1 flex-shrink-1 border-0">

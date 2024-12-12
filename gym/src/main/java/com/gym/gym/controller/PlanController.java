@@ -2,11 +2,9 @@ package com.gym.gym.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +12,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -154,12 +149,20 @@ public class PlanController {
             }
         }
 
+        if(comment == null){
+            comment = new Comment();
+            comment.setCommentDate(commentDate);
+            comment.setUserNo(iNo);
+        }
+
         model.addAttribute("comment", comment);
         model.addAttribute("planEvents", planEvents);
         model.addAttribute("reservationEvents", reservationEvents);
 
         model.addAttribute("times24Hour", times24Hour);
         model.addAttribute("times12Hour", times12Hour);
+
+        model.addAttribute("userAuthAuth", userAuthAuth);
 
         return "/user/plan/plan";
     }
@@ -248,8 +251,12 @@ public class PlanController {
 
         Map<String,Object> response = new HashMap<>();
 
-        // response.put("planList", planList);
-        // response.put("reservationList", reservationList);
+        if(comment == null){
+            comment = new Comment();
+            comment.setCommentDate(commentDate);
+            comment.setUserNo(iNo);
+        }
+
         response.put("comment", comment);
         response.put("planEvents", planEvents);
         response.put("reservationEvents", reservationEvents);
@@ -289,8 +296,40 @@ public class PlanController {
         } 
         return "redirect:/user/schedule/insert?error";
     }
+
+    @PostMapping("/comment/update")
+    @PreAuthorize(" hasRole('TRAINER')")
+    public String updateComment(Comment comment, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        comment.setTrainerNo(userDetails.getNo().intValue());
+        System.out.println("comment: " + comment);
+
+        int result = commentService.updateByNo(comment);
+        if (result > 0) {
+            return "redirect:/user/schedule/plan?userNo="+comment.getUserNo();
+        } 
+        return "redirect:/user/schedule/comment/update?error";
+    }
     
-    
+    @PostMapping("/comment/insert")
+    @PreAuthorize(" hasRole('TRAINER')")
+    public String insertComment(Comment comment, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        comment.setTrainerNo(userDetails.getNo().intValue());
+        System.out.println("comment: " + comment);
+
+        // Date commentDate = comment.getCommentDate();
+        // LocalDate localDate = commentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // int year = localDate.getYear();
+        // int month = localDate.getMonthValue(); // 1~12
+        // int day = localDate.getDayOfMonth();
+
+        int result = commentService.insert(comment);
+        if (result > 0) {
+            return "redirect:/user/schedule/plan/?userNo="+comment.getUserNo();
+            // return "redirect:/user/schedule/plan/"+year+"/"+month+"/"+day+"?userNo="+comment.getUserNo();
+        } 
+        return "redirect:/user/schedule/comment/insert?error";
+    }
     
     public List<Date> MonthFirstLast(Date date) {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

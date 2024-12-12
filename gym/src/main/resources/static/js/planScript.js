@@ -105,7 +105,61 @@ function formatTime2(date){
   return `${hours}:${minutes}`;
 }
 document.addEventListener("DOMContentLoaded", function () {
-  // 이전/다음 버튼 이벤트 추가
+  // 권한 처리 위한 변수
+  const userAuth = document.getElementById('userAuth').value;
+  const editIcon = document.getElementById('editIcon');
+  const deleteIcon = document.getElementById('deleteIcon');
+
+  // 코멘트 설정을 위한 변수
+  const editCommentButton = document.getElementById('editCommentButton');
+  const cancelEditComment = document.getElementById('cancelEditComment');
+ 
+  const updateCommentButton = document.getElementById('updateCommentButton');
+  const insertCommentButton = document.getElementById('insertCommentButton');
+  const cContent = document.querySelector(".comment-content .comment-c .cContent");
+  const fContent = document.querySelector(".comment-content .comment-c .fContent");
+
+  const commentDetail = document.querySelector(".comment-detail");
+  const commentEdits = document.querySelectorAll(".comment-edit");
+  
+  // 코멘트 버튼 안보이게 하기
+  if(userAuth === 'ROLE_USER') {
+    editCommentButton.style.display = 'none';
+  }
+
+  if(userAuth === 'ROLE_TRAINER') {
+    editIcon.style.display = 'none';
+    deleteIcon.style.display = 'none';
+  }
+
+  // 코멘트 입력 버튼 눌렀을 때
+  editCommentButton.addEventListener("click", () => {
+    commentDetail.style.display='none';
+    editCommentButton.style.display='none';
+    commentEdits.forEach(edit => {
+      edit.style.display='block';
+    });
+
+    // 북마크
+    if(document.getElementById('commentNo').value === '0'){
+      updateCommentButton.style.display = 'none';
+      console.log("updateCommentButton.style.display = none");
+    } else {
+      insertCommentButton.style.display ='none';
+      console.log("insertCommentButton.style.display ='none';")
+    }
+  });
+
+  // 코멘트 취소버튼 눌렀을 때
+  cancelEditComment.addEventListener("click", () => {
+    commentDetail.style.display='block';
+    editCommentButton.style.display='block';
+    commentEdits.forEach(edit => {
+      edit.style.display='none';
+    });
+  });
+
+  // 미니 캘린더 이전/다음 버튼 이벤트 추가
   document.querySelector(".prev").addEventListener("click", () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar(currentDate);
@@ -114,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentDate.setMonth(currentDate.getMonth() + 1);
     renderCalendar(currentDate);
   });
-  // 초기 렌더링
+  // 미니 캘린더 초기 렌더링
   renderCalendar(currentDate);
   // modal
   const inputSchedule = document.querySelector('.input-schedule');
@@ -189,10 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     locale: 'ko',
     events:  function(fetchInfo, successCallback, failureCallback) {
-      // const events = [
-      //   { id: 1, title: '플랜 1', start: '2025-01-02T09:00:00+09:00', end: '2025-01-02T11:00:00+09:00', description: '플랜 1의 상세 내용', type: 'plan' },
-      //   { id: 2, title: '플랜 2', start: '2025-01-02T12:00:00+09:00', end: '2025-01-02T14:00:00+09:00', description: '플랜 2의 상세 내용', type: 'plan' },
-      // ];
       var events = [planEvents, reservationEvents].flatMap(events =>
         events.map(event => ({
           id: event.id,
@@ -216,13 +266,15 @@ document.addEventListener("DOMContentLoaded", function () {
           modal.style.display = 'none';  // 그렇지 않으면 modal을 숨김
         }
       });
-      showDateSelected(info.dayEl, info.date);
+      //showDateSelected(info.dayEl, info.date);
       currentDate = info.date;
       const formattedDate = formatDate(info.date); // 예: '12/06(Wed)'
       // 변환된 날짜를 HTML 요소에 반영
       const dateElement = document.querySelector(".set-time-date span");
       dateElement.textContent = formattedDate;
-      inputSchedule.style.display = 'block';
+      if(userAuth === 'ROLE_USER') {
+        inputSchedule.style.display = 'block';
+      }
       console.log("currentDate: "+ currentDate);
     },
     eventClick: function(info){
@@ -299,13 +351,29 @@ document.addEventListener("DOMContentLoaded", function () {
    
    setupDropdown("dropdown-edit-end", "options-edit-end");
    setupDropdown("dropdown-edit-start", "options-edit-start");
+
+
   
 });
 // 미니 캘린더 날짜 클릭했을 때
 function miniCalendarClickEvents() {
   const dateButtons = document.querySelectorAll(".dates button");
+
+  const commentDetail = document.querySelector(".comment-detail");
+  const commentEdits = document.querySelectorAll(".comment-edit");
+
   dateButtons.forEach((btn) => {
     btn.addEventListener("click", function () {
+
+      commentDetail.style.display='block';
+
+      if(userAuth==='ROLE_TRAINER'){
+        editCommentButton.style.display='block';
+        commentEdits.forEach(edit => {
+          edit.style.display='none';
+        });
+      }
+
       // 클릭한 날짜의 값 가져오기
       const selectedDate = this.querySelector("time") 
         ? this.querySelector("time").textContent 
@@ -313,52 +381,15 @@ function miniCalendarClickEvents() {
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth() + 1; // JS에서 month는 0부터 시작하므로 +1 필요
       const day = selectedDate;
-      // 선택한 날짜를 완전한 날짜 형식으로 저장
-      const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
-      console.log("Selected Date:", clickedDate);
-      currentDate = clickedDate;
-      console.log("currentDate: "+ currentDate);
-      const formattedDate = formatDate(clickedDate); // 예: '12/06(Wed)'
-      // 변환된 날짜를 HTML 요소에 반영
-      const dateElement = document.querySelector(".set-time-date span");
-      dateElement.textContent = formattedDate;
-      // GET 요청을 보낼 URL 생성
-      const url = `/user/schedule/plan/${year}/${month}/${day}`;
-      console.log("Request URL:", url);
-      // XMLHttpRequest 객체 생성
-      const xhr = new XMLHttpRequest();
-      // 요청 초기화
-      xhr.open("GET", url, true);
-      // 요청 상태 변화 이벤트 처리
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            // 요청 성공
-            const response = JSON.parse(xhr.responseText); // 응답 데이터를 JSON으로 파싱
-            console.log("Response Data:", response);
-            // 응답 데이터를 처리하는 로직 추가
-            const comment = response.comment;
-            const planEvents = response.planEvents;
-            const reservationEvents = response.reservationEvents;
-            console.log("Comment:", comment);
-            console.log("Plan Events:", planEvents);
-            console.log("Reservation Events:", reservationEvents);
-            // 분리된 데이터를 사용해 HTML을 업데이트
-            updateThymeleafTemplate(comment);
-            calendar.gotoDate(clickedDate);
-          } else {
-            // 요청 실패
-            console.error("Error with the GET request:", xhr.status, xhr.statusText);
-          }
-        }
-      };
-      // 요청 전송
-      xhr.send();
+
+      changeDate(year, month, day);
+
       // 필요한 작업 수행
-      window.selectedDate = clickedDate; // 전역 변수로 저장
-      console.log("miniCalendarClickEvents selectedDate: "+ selectedDate);
+      // window.selectedDate = new Date(year, month - 1, day); // 전역 변수로 저장
+      // console.log("miniCalendarClickEvents selectedDate: " + window.selectedDate);
     });
   });
+
 }
 // 캘린더 첫번째 날을 이용해서 1일 구하기
 function getNextOrCurrentFirstDay(date) {
@@ -373,6 +404,9 @@ function getNextOrCurrentFirstDay(date) {
 }
 // 날짜에 맞춰 일정 가져오기
 function changeDate(year, month, day) {
+  // 권한 변수
+  const userAuthUrl = document.getElementById('userAuth').value;
+
   // 선택한 날짜를 완전한 날짜 형식으로 저장
   const clickedDate = new Date(year, month - 1, day); // month는 0-indexed
   console.log("Selected Date:", clickedDate);
@@ -383,7 +417,15 @@ function changeDate(year, month, day) {
   const dateElement = document.querySelector(".set-time-date span");
   dateElement.textContent = formattedDate;
   // GET 요청을 보낼 URL 생성
-  const url = `/user/schedule/plan/${year}/${month}/${day}`;
+  let url = `/user/schedule/plan/${year}/${month}/${day}`;
+  
+  if(userAuthUrl === 'ROLE_TRAINER') {
+    const URLParams = new URLSearchParams(window.location.search);
+    const userNo = URLParams.get("userNo");
+    console.log("userNo:", userNo);
+
+    url = `/user/schedule/plan/${year}/${month}/${day}?userNo=${userNo}`;
+  }
   console.log("Request URL:", url);
   // XMLHttpRequest 객체 생성
   const xhr = new XMLHttpRequest();
@@ -403,7 +445,13 @@ function changeDate(year, month, day) {
         console.log("Comment:", comment);
         console.log("Plan Events:", planEvents);
         console.log("Reservation Events:", reservationEvents);
+
         // 분리된 데이터를 사용해 HTML을 업데이트
+        console.log("changeDate() comment: " + comment);
+        console.log("changeDate() comment.no: " + comment.no);
+        console.log("changeDate() comment.userNo: " + comment.userNo);
+        document.getElementById('commentNo').value = comment.no;
+        document.getElementById('userNo').value = comment.userNo;
         updateThymeleafTemplate(comment);
         calendar.gotoDate(clickedDate);
       } else {
@@ -424,19 +472,31 @@ function updateThymeleafTemplate(comment) {
   const commentDateElement = document.querySelector(".comment-content .comment-date span");
   const commentContentElement = document.querySelector(".comment-content .comment-c .cContent");
   const dietContentElement = document.querySelector(".comment-content .comment-c .fContent");
+
+  const cContentEdit = document.querySelector(".comment-content .comment-edit .cContent");
+  const fContentEdit = document.querySelector(".comment-content .comment-edit .fContent");
   if (comment) {
     // 날짜 형식 변환 (한국어 요일 출력)
     const date = new Date(comment.commentDate);
     const formattedDate = formatDate(date);
     // 데이터 설정
     commentDateElement.textContent = formattedDate;
+    console.log("updateThymeleafTemplate comment.commentDate: " + comment.commentDate);
+    console.log("typeof: updateThymeleafTemplate comment.commentDate: " + typeof(comment.commentDate));
+    document.getElementById('commentDate').value = new Date(comment.commentDate);
     commentContentElement.textContent = comment.ccontent || "";
     dietContentElement.textContent = comment.fcontent || "";
+    
+    cContentEdit.textContent = comment.ccontent || "";
+    fContentEdit.textContent = comment.fcontent || "";
   } else {
     // 데이터가 없을 때 빈 내용 설정
     commentDateElement.textContent = "";
     commentContentElement.textContent = "";
     dietContentElement.textContent = "";
+    
+    cContentEdit.textContent = "";
+    fContentEdit.textContent = "";
   }
   console.log("updateThymeleaf selectedDate: "+ selectedDate);
 }
@@ -555,4 +615,11 @@ function planClose(planModal){
   else {
     planModal.style.display = 'none';
   }
+}
+
+function insertComment() {
+  const form = document.getElementById('updateCommentForm');
+  form.action = "/user/schedule/comment/insert";
+
+  form.submit();
 }
