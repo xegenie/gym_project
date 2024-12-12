@@ -1,4 +1,5 @@
 a{cursor: pointer;}
+textarea{resize: none;}
 .first-con{
     background-color: #F3F3F3;
     min-width: 300px; 
@@ -164,6 +165,28 @@ a{cursor: pointer;}
     font-size: 18px;
     font-weight: bold;
   }
+
+  .comment-detail .cContent,
+  .comment-detail .fContent {
+    white-space: pre-line;
+  }
+
+  .comment-btn-container button:hover {
+    background-color: #08a1fa;
+  }
+
+  .comment-edit textarea {
+    width: 100%;
+    background-color: #fff;
+    border: none;
+  }
+
+  .comment-edit textarea:focus,
+  .comment-edit textarea:hover{
+    outline: none;
+    background-color: #eeeeee;
+  }
+
 
 .pop-up{
   width: 350px;
