@@ -1,7 +1,5 @@
 package com.gym.gym.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.CustomUser;
-import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.AttendanceService;
-import com.gym.gym.service.TrainerProfileService;
 import com.gym.gym.service.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -35,8 +31,6 @@ public class HomeController {
     @Autowired
     private AttendanceService attendanceService;
 
-    @Autowired
-    private TrainerProfileService trainerProfileService;
 
     /**
      * 메인 화면
@@ -46,24 +40,21 @@ public class HomeController {
     @GetMapping("/")
     public String home(
             @AuthenticationPrincipal CustomUser authuser,
-            Model model, HttpServletRequest request) throws Exception {
+            Model model) throws Exception {
 
-                // 출석 인원 조회 추가
-                int result = attendanceService.listCount();
-                model.addAttribute("result", result);
+        // 출석 인원 조회 추가
+        int result = attendanceService.listCount();
+        model.addAttribute("result", result);
 
-    if(authuser != null){
-        jakarta.servlet.http.HttpSession session = request.getSession();
-    
-        log.info(":::::::::: 메인 화면 ::::::::::");
-            Users user = authuser.getUser();
-            model.addAttribute("user", user);
+        if(authuser != null){
         
-            TrainerProfile trainerProfile = trainerProfileService.selectTrainer(authuser.getTrainerNo());
-            session.setAttribute("trainerProfile", trainerProfile);
-    }
+            log.info(":::::::::: 메인 화면 ::::::::::");
+                Users user = authuser.getUser();
+                model.addAttribute("user", user);
 
-        return "index";
+        }
+
+            return "index";
     }
 
     /**

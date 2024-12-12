@@ -21,4 +21,5 @@ public class TrainerProfile {
     private int userCount;
     private String userId;
     private String userName;
+    private Long userNo;
 }

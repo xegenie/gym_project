@@ -31,6 +31,7 @@ import com.gym.gym.service.TicketService;
 import com.gym.gym.service.TrainerProfileService;
 import com.gym.gym.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -153,7 +154,7 @@ public class PayController {
     // 구매목록에 추가
     @PostMapping("/pay/paying")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> paying(@RequestBody BuyList buyList) throws Exception {
+    public ResponseEntity<Map<String, Object>> paying(@AuthenticationPrincipal CustomUser userDetails, @RequestBody BuyList buyList) throws Exception {
         // 구매 목록 추가
         buyListService.insert(buyList);
         log.info("buyList : " + buyList);
@@ -161,7 +162,18 @@ public class PayController {
         // 응답에 success=true를 포함한 JSON 객체 반환
         Map<String, Object> response = new HashMap<>();
         response.put("success", true); // success 필드 설정
+        
+        if(userDetails != null){
+            // 로그인된 유저에 트레이너 넘버 저장
+            userDetails.getUser().setTrainerNo(buyList.getTrainerNo());
+            log.info("트레이너넘버 확인 " + userDetails.getUser().getTrainerNo());
 
+            
+            // jakarta.servlet.http.HttpSession session = request.getSession();
+            // log.info(":::::::::: 결제 화면 ::::::::::");
+            //     TrainerProfile trainerProfile = trainerProfileService.selectTrainer(buyList.getTrainerNo());
+            //     session.setAttribute("trainerProfile", trainerProfile);
+        }
         return ResponseEntity.ok(response);
     }
 
