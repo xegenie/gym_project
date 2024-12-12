@@ -40,22 +40,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 사용자의 예약 목록 -->
     <select id="userByList" resultType="Reservation">
       SELECT 
-          r.*, 
+          r.*,
           u.name AS userName, 
           u.id AS userId, 
           tu.name AS trainerName,
-          ptSum.ptCount
+          ptSum.ptCount AS ptCount
       FROM 
-          reservation r
-          JOIN users u ON r.user_no = u.no
-          LEFT JOIN users tu ON r.trainer_no = tu.no
-          LEFT JOIN (
-              SELECT b.user_no, SUM(t.pt_count) AS ptCount
-              FROM buy_list b
-              JOIN ticket t ON t.no = b.ticket_no
-              GROUP BY b.user_no
-          ) ptSum ON ptSum.user_no = r.user_no
-      where
+         users u
+      LEFT JOIN reservation r ON r.user_no = u.no
+      LEFT JOIN users tu ON r.trainer_no = tu.no
+      LEFT JOIN (
+          SELECT b.user_no, SUM(t.pt_count) AS ptCount
+          FROM buy_list b
+          JOIN ticket t ON t.no = b.ticket_no
+          GROUP BY b.user_no
+        ) ptSum ON ptSum.user_no = u.no
+      WHERE
         u.no = #{no}
       LIMIT #{page.index}, #{page.rows}
     </select>
@@ -66,6 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       JOIN users u ON r.user_no = u.no
       WHERE u.no = #{no} AND r.enabled = 2
     </select>
+
+    
 
     <!-- 예약 목록 전체 조회 -->
     <select id="list" resultType="Reservation">
@@ -86,18 +88,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               GROUP BY b.user_no
           ) ptSum ON ptSum.user_no = r.user_no
       where
-          <if test="option.code == 0">
-                u.id LIKE CONCAT('%', #{option.keyword}, '%')
-                OR u.name LIKE CONCAT('%', #{option.keyword}, '%')
-                OR tu.name LIKE CONCAT('%', #{option.keyword}, '%')
+          u.id LIKE CONCAT('%', #{keyword}, '%')
+          OR u.name LIKE CONCAT('%', #{keyword}, '%')
+          OR tu.name LIKE CONCAT('%', #{keyword}, '%')
+          <if test="option.orderCode == 0">
+            ORDER BY r.created_at DESC
           </if>
-      <if test="option.orderCode == 0">
-        ORDER BY r.created_at DESC
-      </if>
-      <if test="option.orderCode == 1">
-        ORDER BY r.rv_date ASC
-      </if>
-      LIMIT #{page.index}, #{page.rows}
+          <if test="option.orderCode == 1">
+            ORDER BY r.rv_date ASC
+          </if>
+          LIMIT #{page.index}, #{page.rows}
     </select>
 
     <!-- 예약 상세 조회 -->
@@ -126,7 +126,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 전체 카운트 -->
     <select id="count" resultType="int">
       select count(*)
-      from reservation
+      from reservation r
+      LEFT JOIN users u ON r.user_no = u.no
+      LEFT JOIN users tu ON r.trainer_no = tu.no
+      where
+          u.id LIKE CONCAT('%', #{keyword}, '%')
+          OR u.name LIKE CONCAT('%', #{keyword}, '%')
+          OR tu.name LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
     <!-- 유저별 카운트 -->

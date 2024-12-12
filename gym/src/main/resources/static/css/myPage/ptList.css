@@ -64,6 +64,11 @@ button, .edit-button, .password-button {
     height: 40px;
     color: white;
 }
+.disabled-count {
+    width: 140px;
+    height: 40px;
+    color: white;
+}
 
 
 

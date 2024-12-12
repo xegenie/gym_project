@@ -19,7 +19,7 @@ public interface ReservationMapper {
     public int insert(Reservation reservation) throws Exception;
 
     // 예약 목록
-    public List<Reservation> list(@Param("option") Option option, @Param("page") Page page) throws Exception;
+    public List<Reservation> list(@Param("keyword") String keyword, @Param("option") Option option, @Param("page") Page page) throws Exception;
 
     // 유저 예약 목록
     public List<Reservation> userByList(@Param("no") Long no, @Param("option") Option option, @Param("page") Page page) throws Exception;
@@ -45,9 +45,13 @@ public interface ReservationMapper {
     // 완료 개수 카운트
     public int disabledCount(@Param("no") Long no) throws Exception;
     
+    // 전체 예약 카운트
+    // public int count(@Param("option") Option option) throws Exception;
+    public int count(@Param("keyword") String keyword) throws Exception;
+
+    // 유저별 예약 카운트
     public int countByUser(Long no) throws Exception;
 
-    public int count(@Param("option") Option option) throws Exception;
 
     public List<Reservation> selectByStartEnd (@Param("userNo")int userNo, @Param("startTime")Date startTime, @Param("endTime")Date endTime) throws Exception;
 }

@@ -17,7 +17,7 @@ public interface ReservationService {
     public int insert(Reservation reservation) throws Exception;
 
     // 예약 목록
-    public List<Reservation> list(Option option, Page page) throws Exception;
+    public List<Reservation> list(String keyword, Option option, Page page) throws Exception;
 
     // 유저 예약 목록
     public List<Reservation> userByList(Long no, Option option, Page page) throws Exception;
@@ -40,7 +40,8 @@ public interface ReservationService {
     // 완료 개수 카운트
     public int disabledCount(@Param("no") Long no) throws Exception;
 
-    public int count(Option option) throws Exception;
+    // public int count(@Param("option") Option option) throws Exception;
+    public int count(String keyword) throws Exception;
 
     public List<Reservation> selectByStartEnd (int userNo, Date startTime, Date endTime) throws Exception;
 
