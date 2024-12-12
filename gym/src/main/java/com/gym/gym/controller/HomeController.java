@@ -41,17 +41,7 @@ public class HomeController {
     public String home(
             @AuthenticationPrincipal CustomUser authuser,
             Model model) throws Exception {
-
-
-        if(authuser.getTrainerNo() > 0){
-            log.info("sadaf" + authuser);
-            TrainerProfile trainerProfile = trainerProfileService.selectTrainer(authuser.getTrainerNo());
-            log.info(authuser.getTrainerNo() + "어써어디");
-            session.setAttribute("trainerProfile", trainerProfile);
-        }
-            
-    }
-
+                
         // 출석 인원 조회 추가
         int result = attendanceService.listCount();
         model.addAttribute("result", result);
