@@ -87,6 +87,7 @@ public class HomeController {
     @GetMapping("/join")
     public String join() {
         log.info(":::::::::: 회원 가입 화면 ::::::::::");
+        
         return "join";
     }
 
