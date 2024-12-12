@@ -325,7 +325,7 @@ public class PlanController {
 
         int result = commentService.insert(comment);
         if (result > 0) {
-            return "redirect:/user/schedule/plan/?userNo="+comment.getUserNo();
+            return "redirect:/user/schedule/plan?userNo="+comment.getUserNo();
             // return "redirect:/user/schedule/plan/"+year+"/"+month+"/"+day+"?userNo="+comment.getUserNo();
         } 
         return "redirect:/user/schedule/comment/insert?error";
