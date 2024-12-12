@@ -16,22 +16,31 @@
                     <!-- 검색 폼 추가 -->
                 </div>
 
+                <!-- 검색 -->
 
+                    <form action="/admin/attendance/list" method="get" id="form" class="search">
+                        <!-- <select name="code">
+                            <option value="0" th:selected="${option.code == 0}">전체</option>
+                            <option value="1" th:selected="${option.code == 1}">제목</option>
+                            <option value="2" th:selected="${option.code == 2}">내용</option>
+                            <option value="3" th:selected="${option.code == 3}">제목+내용</option>
+                            <option value="4" th:selected="${option.code == 4}">작성자</option>
+                        </select> -->
+                        <input type="text" name="keyword" placeholder="검색어를 입력해주세요." th:value="${ param.keyword }">
+                        <input type="submit" value="검색" class="button" >
 
+                        <!-- <select name="rows" id="rows">
+                            <option value="10" th:selected="${rows == 10}">10개씩보기</option>
+                            <option value="30" th:selected="${rows == 30}">30개씩보기</option>
+                            <option value="50" th:selected="${rows == 50}">50개씩보기</option>
+                            <option value="100" th:selected="${rows == 100}">100개씩보기</option>
+                        </select> -->
 
-
-
-                    <form class="search-form" action="/admin/attendance/search" method="get">
-
-                        <!-- 출석 인원 -->
-
-                        <!-- <p class="attendance-count">
-                            <p class="count">출석한 인원 수: <span th:text="${result}"></span>명</p>
-                        </p> -->
-                        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" />
-                        <button type="submit" class="search-btn" style="margin-right: 50px;">검색</button>
+                        <!-- <select name="orderCode" id="order-code">
+                            <option value="0" th:selected="${option.orderCode == 0}">최신순</option>
+                            <option value="1" th:selected="${option.orderCode == 1}">제목순</option>
+                        </select> -->
                     </form>
-
                     <div class="list">
                         <table class="attendance-table">
                             <thead>

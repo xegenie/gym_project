@@ -36,4 +36,7 @@ public interface AttendanceMapper {
     public int listCount() throws Exception;
 
     public boolean insertAttendance(String qrId, int userNo);
+
+    // UUID 존재 확인 ㅋ
+    public int checkUuidExists(@Param("userNo") Long userNo);
 }

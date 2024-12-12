@@ -4,14 +4,19 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gym.gym.domain.BuyList;
 import com.gym.gym.domain.CustomUser;
@@ -37,8 +42,13 @@ public class QRCodeController {
         QRcode qrCode = new QRcode();
 
         Long no = user.getNo();
-        qrCode.setNo(no); // Users 테이블에서 no 받은 후 Qrcode에 세팅
+        log.info(no + "유저번호");
+        qrCode.setUserNo(no); // Users 테이블에서 no 받은 후 Qrcode에 세팅
         qrCode.setUuid(UUID.randomUUID().toString());
+
+        qrCodeGenerator.QRinsert(qrCode);
+
+        model.addAttribute("qrCode", qrCode);
 
         // 유저가 티켓 보유 중일 시에만 QR페이지 이동
 
@@ -85,7 +95,7 @@ public class QRCodeController {
 
             // QR 코드 URL을 모델에 추가
             String qrCodeUrl = String.format("http://192.168.30.63:8080/admin/attendance/check?qrcodeId=%d&uuid=%s",
-                    qrCode.getNo(), qrCode.getUuid());
+                    no, qrCode.getUuid());
             model.addAttribute("qrCodeBase64", qrCodeBase64);
             model.addAttribute("qrCodeUrl", qrCodeUrl); // QR 코드 URL 추가
 
@@ -94,4 +104,23 @@ public class QRCodeController {
 
         return "redirect:/index";
     }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResponseEntity<String> deleteQRCode(@RequestBody Map<String, String> request) {
+        String uuid = request.get("uuid");
+        if (uuid == null || uuid.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid UUID");
+        }
+
+        try {
+            qrCodeGenerator.deleteQRcode(uuid); // QR 코드 삭제
+            log.info("QR 코드 삭제 성공: UUID = {}", uuid);
+            return ResponseEntity.ok("QR 코드가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            log.error("QR 코드 삭제 실패: UUID = {}", uuid, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("QR 코드 삭제 실패");
+        }
+    }
+
 }

@@ -44,25 +44,47 @@
                     </table>
 
                     <div class="main-text" style="color: #ffffff; margin-top: 100px; ">이용권 내역</div>
-                        <table class="info-table2" border="1">
-                            <tr>
-                                <th style="width: 15%; text-align: center;">번호</th>
-                                <th style="width: 35% ; text-align: center;">이용권</th>
-                                <th style="width: 20%; text-align: center;">가격</th>
-                                <th style="width: 30%; text-align: center;">구매일시</th>
-                            </tr>
-                        <th:block th:each="buy:${buyList}">
-                            <tr>
-                                <td th:text="${buy.no}"  style="text-align: center;"></td>
-                                <td th:text="${buy.ticketName}" style="text-align: center;" ></td>
-                                <td th:text="${buy.ticketPrice}" style="text-align: center;"></td>
-                                <td th:text=" ${#dates.format(buy.buyDate, 'yyyy-MM-dd HH:mm:ss')}" style="text-align: center
-                                ;" ></td>
-                            </tr>
-                        </th:block>
-                    </table>
-                </main>
+                      <table class="info-table2" border="1">
+                                <tr>
+                                    <th style="width: 15%; text-align: center;">번호</th>
+                                    <th style="width: 35% ; text-align: center;">이용권</th>
+                                    <th style="width: 20%; text-align: center;">가격</th>
+                                    <th style="width: 30%; text-align: center;">구매일시</th>
+                                </tr>
+                            <th:block th:each="buy:${buyList}">
+                                <tr>
+                                    <td th:text="${buy.no}"  style="text-align: center;"></td>
+                                    <td th:text="${buy.ticketName}" style="text-align: center;" ></td>
+                                    <td th:text="${buy.ticketPrice}" style="text-align: center;"></td>
+                                    <td th:text=" ${#dates.format(buy.buyDate, 'yyyy-MM-dd HH:mm:ss')}" style="text-align: center;" ></td>
+                                </tr>
+                            </th:block>
+                        </table>
             </div>
+
+             <!-- 페이지네이션 -->
+             <div class="pagination">
+                <a th:href="@{${pageUrl}(page=${page.first})}" class="first">≪</a>
+                <th:block th:if="${page.page != page.first}">
+                    <a th:href="@{${pageUrl}(page=${page.prev})}" class="prev">＜</a>
+                </th:block>
+                <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
+                    <th:block th:if="${page.page == no}">
+                        <a class="active" th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a>
+                    </th:block>
+                    <th:block th:if="${page.page != no}">
+                        <a th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${page.page != page.last}">
+                    <a th:href="@{${pageUrl}(page=${page.next})}" class="next">＞</a>
+                </th:block>
+                <a th:href="@{${pageUrl}(page=${page.last})}" class="first">≫</a>
+            </div>
+
+
+
+
         </main>
     </div>
     <!-- 푸터 -->

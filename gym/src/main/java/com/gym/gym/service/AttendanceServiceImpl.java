@@ -5,16 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.zxing.qrcode.encoder.QRCode;
 import com.gym.gym.domain.Attendance;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
+import com.gym.gym.domain.QRcode;
 import com.gym.gym.mapper.AttendanceMapper;
+import com.gym.gym.mapper.QRcodeMapper;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
 
     @Autowired
     private AttendanceMapper attendanceMapper;
+
+    @Autowired
+    private QRcodeMapper qRcodeMapper;
 
     // 유저 출석 내역 조회
     @Override
@@ -33,7 +39,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     public List<Attendance> getAttendanceByUserNo(int userNo) throws Exception {
         return attendanceMapper.getAttendanceByUserNo(userNo);
     }
-
 
     // AttendanceServiceImpl.java 수정
     @Override
@@ -87,7 +92,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.listCount();
     }
 
+    @Override
+    public QRcode selectQRcode(Long userNo) throws Exception {
+        QRcode qrCode = qRcodeMapper.selectQRcode(userNo);
+        return qrCode;
 
-
- 
+    }
 }

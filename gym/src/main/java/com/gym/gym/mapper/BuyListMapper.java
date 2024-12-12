@@ -19,13 +19,15 @@ public interface BuyListMapper {
     
     public int cancel(int no) throws Exception;
 
-    public List<BuyList> listByUser(Long no) throws Exception;
+    public List<BuyList> listByUser(@Param("userNo") Long no, @Param("page") Page page) throws Exception;
 
     public BuyList lastBuyList(Long no) throws Exception;
+    
 
     public int statusUpdate() throws Exception;
 
     public int count(@Param("keyword") String keyword) throws Exception;
+    public int countByUser(Long no) throws Exception;
 
     // 매출 내역
     public List<BuyList> salesList(@Param("trainerNo") Integer trainerNo, 

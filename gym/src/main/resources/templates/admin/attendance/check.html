@@ -22,6 +22,8 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            height: 500px;
         }
 
         .btn {
@@ -50,9 +52,9 @@
 
 <body>
     <div class="container">
-        <h1>출석 체크</h1>
-        <p>사용자 번호: <span th:text="${qrcodeId}"></span></p>
-        <p>사용자 UUID: <span th:text="${uuid}"></span></p>
+        <h1 style="margin-top: 100px;">출석 체크</h1>
+        <!-- <p>사용자 번호: <span th:text="${qrcodeId}"></span></p> -->
+        <!-- <p>사용자 UUID: <span th:text="${uuid}"></span></p> -->
         <!-- 출석 확인 버튼 및 폼 -->
         <form action="/admin/attendance/check" method="post">
             <input type="hidden" name="userNo" th:value="${qrcodeId}">

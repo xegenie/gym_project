@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.zxing.qrcode.encoder.QRCode;
 import com.gym.gym.domain.Attendance;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
+import com.gym.gym.domain.QRcode;
 
-@Service
 public interface AttendanceService {
 
     // 출석 내역 조회
@@ -44,6 +45,7 @@ public interface AttendanceService {
     // 출석 인원수 조회
     public int listCount() throws Exception;
 
-    
-    
+    // UUID 체크
+    public QRcode selectQRcode(Long userNo) throws Exception;
+
 }
