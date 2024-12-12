@@ -59,12 +59,8 @@ public class HomeController {
             Users user = authuser.getUser();
             model.addAttribute("user", user);
         
-
-
             TrainerProfile trainerProfile = trainerProfileService.selectTrainer(authuser.getTrainerNo());
-            log.info(authuser.getTrainerNo() + "어써어디");
             session.setAttribute("trainerProfile", trainerProfile);
-            
     }
 
         return "index";
