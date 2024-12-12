@@ -31,19 +31,22 @@ function showTimeSelectionModal(selectedDate) {
     button.textContent = `${hour}:00`;
 
     let selectedDateTime = new Date(selectedDate + " " + `${hour}:00`);
+    // let now = new Da
+
     let isReserved = sortByTrainer.some(reservation => {
       let reservationDate = new Date(reservation.rvDate);
       return reservationDate.getTime() === selectedDateTime.getTime();
   });
+    let isPast = selectedDateTime.getTime() <= new Date().getTime();
 
-    button.disabled = isReserved;
+    button.disabled = isReserved || isPast;
     button.style.margin = "5px";
     button.style.padding = "10px 20px";
-    button.style.cursor = isReserved ? "not-allowed" : "pointer";
-    button.style.backgroundColor = isReserved ? "gray" : "blue";
+    button.style.cursor = (isReserved || isPast) ? "not-allowed" : "pointer";
+    button.style.backgroundColor = isReserved || isPast ? "gray" : "blue";
     button.style.color = "white";
 
-    if (!isReserved) {
+    if (!isReserved && !isPast) {
       button.onclick = function () {
         selectTime(selectedDate, `${hour}:00`);
       };

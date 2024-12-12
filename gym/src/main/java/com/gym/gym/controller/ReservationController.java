@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gym.gym.domain.CustomUser;
@@ -172,7 +173,11 @@ public class ReservationController {
             log.info("피티카운트 : " + ptCount);
             log.info("disabledCount: " + disabledCount);
         }
-        List<Reservation> sortByTrainer = reservationService.sortByTrainer(option);
+        
+        List<Reservation> sortByTrainer = reservationService.sortByTrainer(option)
+                    .stream()
+                    .filter(reservation -> reservation.getTrainerNo() == trainerNo)
+                    .toList();
 
         model.addAttribute("reservationList", reservationList);
         model.addAttribute("sortByTrainer", sortByTrainer);
@@ -216,16 +221,18 @@ public class ReservationController {
 
     // 관리자가 예약 취소(수정)
     @PostMapping("/admin/reservation/list")
-    public String cancelAdmin(@RequestParam("no") int no, Option option, Page page) throws Exception {
+    public String cancelAdmin(RedirectAttributes redirectAttributes, @RequestParam("no") int no, Option option, Page page) throws Exception {
         Reservation reservation = reservationService.findByNo(no);
 
         reservation.setCanceledAt(new Date());
         reservation.setEnabled(0);
         int result = reservationService.cancel(reservation);
 
+        
         if (result > 0) {
+            redirectAttributes.addFlashAttribute("message", "예약이 취소되었습니다.");
             return "redirect:/admin/reservation/list?page=" + page.getPage() + "&keyword=" + option.getKeyword()
-                    + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
+            + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
         }
         return "redirect:/admin/reservation/list?error";
     }
