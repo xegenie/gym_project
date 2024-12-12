@@ -41,7 +41,7 @@
             <th:block th:if="${board.userNo == #authentication.principal.user.no}">
                 <input type="button"  th:onclick="update()" style="background-color: rgb(172, 235, 77);" class="btnInput" value="수정">
             </th:block>
-            <th:block th:unless="${board.userNo == #authentication.principal.user.no}" sec:authorize="hasRole('ROLE_ADMIN')">
+            <th:block th:unless="${board.userNo == #authentication.principal.user.no}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TRAINER')">
                     
                 <input type="button"  th:onclick="update()" style="background-color: rgb(172, 235, 77);" class="btnInput" value="수정">
             </th:block>
@@ -60,7 +60,32 @@
 
         <section id="answer-list">
         </section> 
-        <th:block th:if="${answerList.isEmpty}"> 
+
+
+        <th:block sec="isAnonymous"> 
+            <th:block th:if="${answerList.isEmpty}" sec:authorize="hasAnyRole('ROLE_USER')"> 
+            <div class="border" style="margin-top: 30px; margin-bottom: 20px;" >
+                <div class="inputbox1"  style="display: flex; justify-content: space-between;">
+                    <div>
+                    <label for="" style="margin-top: 10px; color: black; font-size: 30px;">A. </label>
+                    <input type="text" class="titleinput" name="title" th:value="${board.title}" style=" background-color: white; border: none; font-weight: bold; color: black;" readonly disabled>
+                </div>
+            </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                    <h3 style="color: black; margin-right: 70px; margin-bottom: 10px;"  ></h3>
+                </div>
+                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                    <textarea class="textareaInput" style=" font-weight: bold; font-size: 18px; color: black;" id="content" name="content" rows="5" cols="40" readonly disabled></textarea>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">      
+              
+            </div>
+    </th:block>
+</th:block>
+
+
+<th:block th:if="${answerList.isEmpty}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TRAINER')"> 
         <form action="" >
             <div class="border" style="margin-top: 30px; margin-bottom: 20px;" >
                 <div class="inputbox1"  style="display: flex; justify-content: space-between;">
@@ -80,7 +105,7 @@
                 <input type="button"  onclick="insertAnswer()" style="background-color: rgb(172, 235, 77);" class="btnInput" value="등록">
             </div>
         </form>
-    </th:block>
+</th:block>
           
               
 

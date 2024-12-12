@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Users;
@@ -66,7 +67,9 @@ public class HomeController {
     public String login(
             @CookieValue(value = "remember-id", required = false) Cookie cookie,
             Model model,
-            HttpServletRequest request) {
+            HttpServletRequest request,@AuthenticationPrincipal CustomUser user ) {
+
+               if(user == null){
         String username = "";
         boolean rememberId = false;
         if (cookie != null) {
@@ -75,8 +78,9 @@ public class HomeController {
         }
         model.addAttribute("username", username);
         model.addAttribute("rememberId", rememberId);
-
         return "login";
+    }
+    return "index";
     }
 
     /**
@@ -87,7 +91,7 @@ public class HomeController {
     @GetMapping("/join")
     public String join() {
         log.info(":::::::::: 회원 가입 화면 ::::::::::");
-        
+
         return "join";
     }
 
@@ -96,7 +100,7 @@ public class HomeController {
      * 🔗 [POST] - /join
      */
     @PostMapping("/join")
-    public String joinPro(Users user, HttpServletRequest request) throws Exception {
+    public String joinPro(Users user, HttpServletRequest request,  RedirectAttributes redirectAttributes) throws Exception {
         log.info(":::::::::: 회원 가입 처리 ::::::::::");
         String plainPassword = user.getPassword();
 
@@ -111,7 +115,7 @@ public class HomeController {
                 return "redirect:/";
             }
         }
-
+        redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다..");
         // 회원 가입 실패 시
         return "redirect:/join?error";
     }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequestMapping("")
 public class UserController {
 
@@ -39,6 +42,7 @@ public class UserController {
     private UserService userService;
 
     // 마이페이지
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @GetMapping("/user/myPage/info")
     public String myPage(Model model, @AuthenticationPrincipal CustomUser authuser) throws Exception {
         Long no = authuser.getUser().getNo();
@@ -49,6 +53,7 @@ public class UserController {
     }
 
     // 회원 수정 페이지 이동
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @GetMapping("/user/myPage/infoUpdate")
     public String getMethodName(Model model, @AuthenticationPrincipal CustomUser authuser) throws Exception {
         Long no = authuser.getUser().getNo();
@@ -58,19 +63,21 @@ public class UserController {
     }
 
     // 회원 정보 수정 처리
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("/user/myPage/infoUpdate")
-    public String userupdate(Users user) throws Exception {
+    public String userupdate(Users user, RedirectAttributes redirectAttributes) throws Exception {
         int result = userService.update(user);
 
         if (result > 0) {
-
+            redirectAttributes.addFlashAttribute("message", "회원 수정 완료..");
             return "redirect:info";
         }
-
+        redirectAttributes.addFlashAttribute("message", "회원 수정 실패..");
         return "/";
     }
 
     // 회원 탈퇴
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("/user/myPage/delete")
     public String userdelete(@RequestParam("no") Long no, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -90,6 +97,7 @@ public class UserController {
     }
 
     // 유저리스트
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @GetMapping("/admin/user/list")
     public String userlist(Model model
                         ,@ModelAttribute Option option, @ModelAttribute Page page) throws Exception {
@@ -114,6 +122,7 @@ public class UserController {
                         }
 
     // 관리자 : 회원 정보 수정 이동
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @GetMapping("/admin/user/update")
     public String adminUpdate(Model model, @RequestParam("no") Long no) throws Exception {
         Users user = userService.select(no);
@@ -124,8 +133,9 @@ public class UserController {
     }
 
     // 관리자 : 회원 정보 수정 처리
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("admin/user/update")
-    public String adminupdate(Users user, @RequestParam("no") Long no, @RequestParam("auth") String auth)
+    public String adminupdate(Users user, @RequestParam("no") Long no, @RequestParam("auth") String auth, RedirectAttributes redirectAttributes)
             throws Exception {
         int result = userService.update(user);
         UserAuth userAuth = userService.selectAuth(no);
@@ -133,25 +143,26 @@ public class UserController {
         int result2 = userService.updateAuth(userAuth);
 
         if (result > 0) {
-
+            redirectAttributes.addFlashAttribute("message", "회원 수정 완료..");
             return "redirect:list";
         }
-
+        redirectAttributes.addFlashAttribute("message", "회원 수정 실패..");
         return "/";
     }
 
     // 관리자 : 회원 탈퇴
+    @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
     @PostMapping("/admin/user/delete")
-    public String postMethodName(@RequestParam("no") Long no, HttpServletRequest request, HttpServletResponse response)
+    public String postMethodName(@RequestParam("no") Long no, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
             throws Exception {
         int result = userService.deleteAuth(no);
         result = userService.delete(no);
 
         if (result > 0) {
-
+            redirectAttributes.addFlashAttribute("message", "회원 탈퇴 했습니다..");
             return "redirect:list";
         }
-
+        redirectAttributes.addFlashAttribute("message", "회원 탈퇴 실패..");
         // 실패한 경우
         return "redirect:/admin/user/update";
     }
