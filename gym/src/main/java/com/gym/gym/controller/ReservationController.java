@@ -154,15 +154,13 @@ public class ReservationController {
 
         List<Reservation> reservationCount = reservationService.userByList(userDetails.getNo(), option, new Page());
         // 트레이너 프로필 정보
-        TrainerProfile trainerProfile = trainerProfileService.select(trainerNo);
+        TrainerProfile trainerProfile = trainerProfileService.selectTrainer(trainerNo);
         model.addAttribute("trainer", trainerProfile);
 
         log.info("넘어오나" + trainerProfile);
         List<Reservation> reservationList = reservationService.userByList(userDetails.getNo(), option, page);
 
         long disabledCount = reservationService.disabledCount(userDetails.getNo());
-        // .filter(reservation -> reservation.getEnabled() == 2)
-        // .count();
 
         // 리스트의 마지막 항목
         if (reservationCount.size() > 0) {
