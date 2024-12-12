@@ -20,9 +20,17 @@
       <div class="card first-con px-3 py-4">
         <p class="text-center fw-semibold m-0" style="font-size: 32px;">운동 계획표</p>
         <hr>
-        <div class="d-flex justify-content-end">
-          <button type="button" class="p-3 border rounded-4 bg-white upd-schedule"><i class="fa-solid fa-plus"></i> 일정
-            추가</button>
+        <div sec:authorize="hasRole('ROLE_USER')">
+          <div class="d-flex justify-content-end">
+            <button type="button" class="p-3 border rounded-4 bg-white upd-schedule"><i class="fa-solid fa-plus"></i> 일정
+              추가</button>
+          </div>
+        </div>
+        <div sec:authorize="hasRole('ROLE_TRAINER')">
+          <div class="d-flex justify-content-end">
+            <button type="button" class="p-3 border rounded-4 bg-white upd-schedule" style="display: none;"><i class="fa-solid fa-plus"></i> 일정
+              추가</button>
+          </div>
         </div>
         <div class="cal-container">
           <div class="calendar">
