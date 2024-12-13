@@ -103,6 +103,16 @@ body {
   padding-top: 30px;
 }
 
+.info {
+  text-align: center;
+  width: 600px;
+  line-height: 30px;
+  font-weight: bold;
+  white-space: pre-line;
+}
+.info p {
+  height: 300px;
+}
 .fc-daygrid-day {
   cursor: pointer;
   transition: background-color 0.3s;
