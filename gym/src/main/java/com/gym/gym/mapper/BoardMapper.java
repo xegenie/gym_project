@@ -15,6 +15,10 @@ public interface BoardMapper {
 
      public List<Board> list(@Param("option") Option option
                             ,@Param("page") Page page ) throws Exception;
+
+    public List<Board> boardlist(@Param("option") Option option
+    ,@Param("page") Page page ) throws Exception;
+                
     // 조회
     public Board select(@Param("no") Long no)throws Exception;
     // 등록

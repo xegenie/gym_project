@@ -75,6 +75,15 @@ public class BoardServiceImpl implements BoardService {
             return board.getUserNo() == userNo;
         }
 
+    @Override
+    public List<Board> boardlist(Option option, Page page) throws Exception {
+        int total = count(option);
+        page.setTotal(total);
+
+         List<Board> boardList = boardMapper.boardlist(option, page);
+        return boardList;
+    }
+
 }
 
 

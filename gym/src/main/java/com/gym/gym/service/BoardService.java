@@ -12,6 +12,9 @@ import com.gym.gym.domain.Page;
 public interface BoardService {
      public List<Board> list(@Param("option") Option option
                             ,@Param("page") Page page ) throws Exception;
+    // 게시글과 댓글 함께 조회 
+    public List<Board> boardlist(@Param("option") Option option
+    ,@Param("page") Page page ) throws Exception;
     // 조회
     public Board select(Long no)throws Exception;
     // 등록

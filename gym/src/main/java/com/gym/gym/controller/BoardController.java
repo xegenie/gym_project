@@ -45,7 +45,7 @@ public class BoardController {
     public String list(Model model,
     @ModelAttribute Option option, 
     @ModelAttribute Page page) throws Exception {
-        List<Board> boardList = boardService.list(option, page);
+        List<Board> boardList = boardService.boardlist(option, page);
         model.addAttribute("boardList", boardList);
         model.addAttribute("option", option);
         model.addAttribute("rows", page.getRows());

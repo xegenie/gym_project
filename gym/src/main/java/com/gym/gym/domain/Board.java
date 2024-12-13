@@ -15,5 +15,7 @@ public class Board {
     private Date updatedAt;
     private String auth;
     private String name;
+
+    private int hasAnswer;
     
 }
