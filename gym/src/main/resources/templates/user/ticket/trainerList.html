@@ -42,8 +42,8 @@
                         </div>
                         <a class="rounded-3" 
                             th:href="@{/user/ticket/trainerDetail(trainerNo=${trainer.no})}"
-                            th:classappend="${trainer.userCount >= 20} ? 'disabled' : ''" 
-                            th:attrappend="${trainer.userCount >= 20} ? 'disabled' : ''">
+                            th:classappend="${trainer.userCount >= 20} ? 'disabled' : ''"
+                            th:disabled="${trainer.userCount >= 20}">
                             선택
                         </a>                    
                     </div>
