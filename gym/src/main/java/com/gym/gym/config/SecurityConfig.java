@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.gym.gym.security.CustomAccessDeniedHandler;
 import com.gym.gym.security.LoginFailureHandler;
 import com.gym.gym.security.LoginSuccessHandler;
 import com.gym.gym.service.UserDetailServiceImpl;
@@ -42,9 +43,11 @@ public class SecurityConfig {
    @Autowired
    private LoginFailureHandler loginFailureHandler;
 
+      @Autowired
+   private CustomAccessDeniedHandler customAccessDeniedHandler;
 
-//    @Autowired
-//    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+
 
     // 스프링 시큐리티 설정 메소드
     @Bean
@@ -81,12 +84,13 @@ public class SecurityConfig {
                                 .tokenRepository(tokenRepository())
                                 .tokenValiditySeconds(60 * 60 * 24 * 7)); // 7일 유효시간(초단위)
              
-             
+             // 예외처리 페이지
             //   http.exceptionHandling( exception -> exception
-                                        // 예외 처리 페이지 설정
-                                        //.accessDeniedPage("/exception")
-                                        // 접근 거부 처리자 설정
-                                        // .accessDeniedHandler(customAccessDeniedHandler));
+            //                             // 예외 처리 페이지 설정
+            //                             // .accessDeniedPage("/exception")
+            //                             // 접근 거부 처리자 설정
+            //                             .accessDeniedHandler(customAccessDeniedHandler)
+            //                             );
 
 
         http.logout(logout -> logout
