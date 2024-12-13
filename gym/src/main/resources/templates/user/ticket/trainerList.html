@@ -40,7 +40,12 @@
                             <span>함께하는 회원 수 : &ensp;</span>
                             <span th:text="${trainer.userCount ?: 0}"></span>
                         </div>
-                        <a class="rounded-3" th:href="@{/user/ticket/trainerDetail(trainerNo=${trainer.no})}">선택</a>
+                        <a class="rounded-3" 
+                            th:href="@{/user/ticket/trainerDetail(trainerNo=${trainer.no})}"
+                            th:classappend="${trainer.userCount >= 20} ? 'disabled' : ''" 
+                            th:attrappend="${trainer.userCount >= 20} ? 'disabled' : ''">
+                            선택
+                        </a>                    
                     </div>
                 </div>
             </div>

@@ -57,3 +57,9 @@ h1 {
 .userCount {
     font-size: 14px;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;  /* 금지 표시 커서 */
+}
