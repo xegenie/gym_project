@@ -21,7 +21,7 @@
         <div class="main">
             <div class="inner">
                 <div class="title">
-                    <h2>PT 예약 목록</h2>
+                    <h2>PT 예약 및 완료 목록</h2>
                 </div>
                 <div class="search-container">
                     <form class="search" action="/admin/reservation/list" method="get" id="form">
@@ -61,12 +61,22 @@
                                 <td th:text="${reservation.trainerName}"></td>
                                 <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-
+                                <th:block th:if="${reservation.enabled == 2}">
+                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #2a9c1b;"></td>
+                                </th:block>
+                                <th:block th:if="${reservation.enabled == 1}">
+                                    <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                </th:block>
+                                <th:block th:if="${reservation.enabled == 0}">
+                                    <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #dc3545;"></td>
+                                </th:block>
                                 <td>
                                     <span th:if="${reservation.enabled == 1}">
-                                        <button type="button" class="complete" th:data-no="${reservation.no}" onclick="showCancelModal(this)">
-                                            취소하기
+                                        <button type="button" class="complete" th:data-no="${reservation.no}" onclick="showCompleteModal(this)">
+                                            완료
+                                        </button>
+                                        <button type="button" class="cancel" th:data-no="${reservation.no}" onclick="showCancelModal(this)">
+                                            취소
                                         </button>
                                     </span>
                                     <span th:if="${reservation.enabled == 2}" class="ptComplete">
@@ -86,10 +96,8 @@
                     <th:block th:each="no : ${#numbers.sequence(page.start, page.end)}">
                         <th:block th:if="${page.page == no}">
                             <a class="active" th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a>
-                            <!-- <b><span  th:text="${no}"></span></b> -->
                         </th:block>
                         <th:block th:if="${page.page != no}">
-                            <!-- <a th:href="@{${pageUrl}(page=${no})}" th:text="${no}"></a> -->
                             <a th:href="@{${pageUrl} + '&page=' + ${no}}" th:text="${no}"></a>
                         </th:block>
                     </th:block>
@@ -98,12 +106,31 @@
                     </th:block>
                     <a th:href="@{${pageUrl} + '&page=' + ${page.last}}" class="last">마지막</a>
                 </div>
+                <div id="completeModal" class="modal">
+                    <div class="modal-content">
+                        <h3>예약을 완료 처리하시겠습니까?</h3>
+                        <div class="modal-action">
+                            <form id="completeForm" action="/admin/reservation/list" method="post">
+                                <input type="hidden" name="no" id="reservationNo">
+                                <input type="hidden" name="action" value="complete">
+                                <input type="hidden" name="page" th:value="${page.page}">
+                                <input type="hidden" name="keyword" th:value="${option.keyword}">
+                                <input type="hidden" name="orderCode" th:value="${option.orderCode}">
+                                <input type="hidden" name="rows" th:value="${page.rows}">
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                <button type="submit" id="completeYesBtn">예</button>
+                                <button type="button" onclick="closeCompleteModal()">아니오</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div id="cancelModal" class="modal">
                     <div class="modal-content">
                         <h3>예약을 취소하시겠습니까?</h3>
                         <div class="modal-action">
                             <form id="cancelForm" action="/admin/reservation/list" method="post">
-                                <input type="hidden" name="no" id="reservationNo">
+                                <input type="hidden" name="no" id="reservationNo2">
+                                <input type="hidden" name="action" value="cancel">
                                 <input type="hidden" name="page" th:value="${page.page}">
                                 <input type="hidden" name="keyword" th:value="${option.keyword}">
                                 <input type="hidden" name="orderCode" th:value="${option.orderCode}">
@@ -120,18 +147,37 @@
     </div>
 
     <script>
-        function showCancelModal(button) {
+        
+        function showCompleteModal(button) {
             var reservationNo = button.getAttribute("data-no");
             document.getElementById("reservationNo").value = reservationNo;
             
+            var modal = document.getElementById("completeModal");
+            modal.style.display = "block";
+        }
+
+        function showCancelModal(button) {
+            var reservationNo = button.getAttribute("data-no");
+            document.getElementById("reservationNo2").value = reservationNo;
+            
             var modal = document.getElementById("cancelModal");
             modal.style.display = "block";
+        }
+
+        function closeCompleteModal() {
+            var modal = document.getElementById("completeModal");
+            modal.style.display = "none";
         }
 
         function closeCancelModal() {
             var modal = document.getElementById("cancelModal");
             modal.style.display = "none";
         }
+
+        document.getElementById("completeYesBtn").addEventListener("click", function() {
+            var form = document.getElementById("completeForm");
+            form.submit();
+        });
 
         document.getElementById("cancelYesBtn").addEventListener("click", function() {
             var form = document.getElementById("cancelForm");

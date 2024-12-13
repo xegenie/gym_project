@@ -33,12 +33,21 @@ document.addEventListener("DOMContentLoaded", function () {
           var eventEl = info.el;
           eventEl.style.cursor = 'pointer';
 
+          var originalColor = info.event.backgroundColor;
+          var hoverColor;
+
+          if (info.event.extendedProps.type === "completed") {
+            hoverColor = "green"; // 완료 상태 hover 색상
+          } else if (info.event.extendedProps.type === "reservation") {
+              hoverColor = "royalblue"; // 예약 상태 hover 색상
+          }
+
           eventEl.addEventListener("mouseover", function() {
-            eventEl.style.backgroundColor = "deepskyblue"; 
+              eventEl.style.backgroundColor = hoverColor; // hover 시 색상 변경
           });
 
           eventEl.addEventListener("mouseout", function() {
-            eventEl.style.backgroundColor = "lightblue"; 
+              eventEl.style.backgroundColor = originalColor; // 원래 색상 복원
           });
 
           var event = info.event;
