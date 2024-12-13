@@ -57,3 +57,8 @@ h1 {
 .userCount {
     font-size: 14px;
 }
+
+.disabled {
+    pointer-events: none;
+    background-color: #a7a7a7 !important;
+}
