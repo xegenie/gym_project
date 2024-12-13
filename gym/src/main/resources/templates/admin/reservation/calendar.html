@@ -35,6 +35,11 @@
               <option th:each="trainerList : ${trainerUsers}" th:value="${trainerList.no}" th:text="${trainerList.name}"
                 th:selected="${option.keyword == trainerList.no.toString()}"></option>
             </select>
+            <select name="code" id="code" th:value="${option.code}">
+              <option value="0" th:selected="${option.code == 0}">전체</option>
+              <option value="1" th:selected="${option.code == 1}">예약중</option>
+              <option value="2" th:selected="${option.code == 2}">완료건</option>
+            </select>
           </div>
         </form>
 
@@ -44,6 +49,16 @@
       </div>
     </div>
   </div>
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const $code = document.getElementById('code');
+        const $form = document.getElementById('form');
+
+        $code.addEventListener('change', function() {
+            $form.submit();
+        })
+      });
+  </script>
 </body>
 
 </html>

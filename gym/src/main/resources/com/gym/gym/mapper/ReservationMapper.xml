@@ -26,7 +26,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="option.keyword != null and option.keyword != ''">
           and r.trainer_no = #{option.keyword}
         </if>
-        and (r.enabled = 1 or 2)
+        <if test="option.code == 0">
+          and (r.enabled = 1 or 2)
+        </if>
+        <if test="option.code == 1">
+          and r.enabled = 1
+        </if>
+        <if test="option.code == 2">
+          and r.enabled = 2
+        </if>
     </select>
 
     <!-- 트레이너인 유저리스트 -->
@@ -182,6 +190,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       LEFT JOIN users tu on r.trainer_no = tu.no
       WHERE r.user_no = #{userNo}
       AND r.rv_date BETWEEN #{startTime} AND #{endTime}
-      AND r.enabled = 1
+      AND (r.enabled = 1 or 2)
     </select>
 </mapper>
