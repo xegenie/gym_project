@@ -100,7 +100,7 @@ function formatTime(date) {
   return `${ampm} ${formattedHours}:${minutes.toString().padStart(2, '0')}`;
 }
 function formatTime2(date){
-  const hours = date.getHours();
+  const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0'); // minutes 값이 1자리일 경우 앞에 0 추가
   return `${hours}:${minutes}`;
 }
@@ -200,6 +200,18 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   //메인 캘린더
   var calendarEl = document.getElementById("calendar");
+
+  var formattedevents = [planEvents, reservationEvents].flatMap(events =>
+    events.map(event => ({
+      id: event.id,
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      description: event.description,
+      color: event.color,
+      type: event.type
+    }))
+  );
   
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
@@ -218,6 +230,8 @@ document.addEventListener("DOMContentLoaded", function () {
           changeDate(setYearP, setMonthP, setDayP);
           currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
+
+          calendar.refetchEvents();
         }
       },
       myCustomNextButton: {
@@ -232,8 +246,10 @@ document.addEventListener("DOMContentLoaded", function () {
           const setMonthN = nextMonth.getMonth()+1;
           const setDayN = nextMonth.getDate();
           changeDate(setYearN, setMonthN, setDayN);
+          calendar.refetchEvents();
           currentDate.setMonth(currentDate.getMonth());
           renderCalendar(currentDate);
+
         }
       }
     },
@@ -242,21 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
       right: 'myCustomPrevButton,myCustomNextButton'
     },
     locale: 'ko',
-    events:  function(fetchInfo, successCallback, failureCallback) {
-      var events = [planEvents, reservationEvents].flatMap(events =>
-        events.map(event => ({
-          id: event.id,
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          description: event.description,
-          color: event.color,
-          type: event.type
-        }))
-      );
-      console.log("Loaded events:", events); // 로드된 데이터 확인
-      successCallback(events);
-    },
+    events:  formattedevents,
     dateClick: function (info) {
       // showTimeSelectionModal(info.dateStr);
       document.querySelectorAll('.pop-up').forEach(modal => {
@@ -402,6 +404,7 @@ function getNextOrCurrentFirstDay(date) {
   const month = date.getMonth(); // 현재 월
   return new Date(year, month + 1, 1); // 다음 달의 1일
 }
+
 // 날짜에 맞춰 일정 가져오기
 function changeDate(year, month, day) {
   // 권한 변수
@@ -440,16 +443,37 @@ function changeDate(year, month, day) {
         console.log("Response Data:", response);
         // 응답 데이터를 처리하는 로직 추가
         const comment = response.comment;
-        const planEvents = response.planEvents;
-        const reservationEvents = response.reservationEvents;
+        planEvents = response.planEvents;
+        reservationEvents = response.reservationEvents;
         console.log("Comment:", comment);
         console.log("Plan Events:", planEvents);
         console.log("Reservation Events:", reservationEvents);
+
+        formattedevents = [planEvents, reservationEvents].flatMap(events =>
+          events.map(event => ({
+            id: event.id,
+            title: event.title,
+            start: event.start,
+            end: event.end,
+            description: event.description,
+            color: event.color,
+            type: event.type
+          }))
+        );
+
+        console.log("formattedevents: " + formattedevents);
+
+        calendar.removeAllEvents();
+
+        // 새 이벤트 추가
+        calendar.addEventSource(formattedevents);
+
 
         // 분리된 데이터를 사용해 HTML을 업데이트
         console.log("changeDate() comment: " + comment);
         console.log("changeDate() comment.no: " + comment.no);
         console.log("changeDate() comment.userNo: " + comment.userNo);
+
         document.getElementById('commentNo').value = comment.no;
         document.getElementById('userNo').value = comment.userNo;
         updateThymeleafTemplate(comment);
