@@ -82,14 +82,7 @@ INSERT INTO
         `user_no`,
         `check_time`
     )
-VALUES ('QR112345', 10, NOW()),
-    ('QR122346', 10, NOW()),
-    ('QR123347', 10, NOW()),
-    ('QR124348', 10, NOW()),
-    ('QR152349', 10, NOW()),
-    ('QR162350', 10, NOW()),
-    ('QR172351', 10, NOW()),
-    ('QR120354', 10, NOW());
+VALUES ('QR112345', 10, NOW());
 
     INSERT INTO
     `attendance` (
@@ -97,13 +90,7 @@ VALUES ('QR112345', 10, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR12345', 2, NOW()),
-    ('QR1112346', 2, NOW()),
-    ('QR1231147', 2, NOW()),
-    ('QR1232251', 2, NOW()),
-    ('QR1233352', 2, NOW()),
-    ('QR1442353', 2, NOW()),
-    ('QR1552354', 2, NOW());
+VALUES ('QR12345', 2, NOW());
 
     INSERT INTO
     `attendance` (
@@ -111,12 +98,7 @@ VALUES ('QR12345', 2, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR1dsfdsfsd2345', 3, NOW()),
-    ('QR11232346', 3, NOW()),
-    ('QR12342137', 3, NOW()),
-    ('QR12213348', 3, NOW()),
-    ('QR143432349', 3, NOW()),
-    ('QR1742354', 3, NOW());
+VALUES ('QR1dsfdsfsd2345', 3, NOW());
 
     INSERT INTO
     `attendance` (
@@ -124,11 +106,7 @@ VALUES ('QR1dsfdsfsd2345', 3, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR14235235232345', 4, NOW()),
-    ('QR12342342351', 4, NOW()),
-    ('QR2342312352', 4, NOW()),
-    ('QR12242356353', 4, NOW()),
-    ('QR123422354', 4, NOW());
+VALUES ('QR14235235232345', 4, NOW());
 
     INSERT INTO
     `attendance` (
@@ -136,10 +114,7 @@ VALUES ('QR14235235232345', 4, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR1243634622132345', 5, NOW()),
-    ('QR123743352', 5, NOW()),
-    ('QR12332453', 5, NOW()),
-    ('QR1623354', 5, NOW());
+VALUES ('QR1243634622132345', 5, NOW());
 
     INSERT INTO
     `attendance` (
@@ -147,9 +122,7 @@ VALUES ('QR1243634622132345', 5, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR342352212345', 6, NOW()),
-    ('QR1252622353', 6, NOW()),
-    ('QR1223423354', 6, NOW());
+VALUES ('QR342352212345', 6, NOW());
 
     INSERT INTO
     `attendance` (
@@ -157,17 +130,7 @@ VALUES ('QR342352212345', 6, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR122342356345', 7, NOW()),
-    ('QR189872346', 7, NOW()),
-    ('QR123779747', 7, NOW()),
-    ('QR12889876348', 7, NOW()),
-    ('QR1288987246348', 7, NOW()),
-    ('QR124747349', 7, NOW()),
-    ('QR12242350', 7, NOW()),
-    ('QR12242351', 7, NOW()),
-    ('QR12142352', 7, NOW()),
-    ('QR1263346353', 7, NOW()),
-    ('QR12214264354', 7, NOW());
+VALUES ('QR122342356345', 7, NOW());
 
     INSERT INTO
     `attendance` (
@@ -175,8 +138,7 @@ VALUES ('QR122342356345', 7, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR12452345', 8, NOW()),
-    ('QR12325225354', 8, NOW());
+VALUES ('QR12452345', 8, NOW());
 
     INSERT INTO
     `attendance` (
@@ -184,19 +146,7 @@ VALUES ('QR12452345', 8, NOW()),
         `user_no`,
         `check_time`
     )
-VALUES ('QR121412546345', 9, NOW()),
-    ('QR12342141342316', 9, NOW()),
-    ('QR36346316356352347', 9, NOW()),
-    ('QR2525243512348', 9, NOW()),
-    ('QR2436262612349', 9, NOW()),
-    ('QR122142135werwe235350', 9, NOW()),
-    ('QR12241324werwe235351', 9, NOW()),
-    ('QR1224132rwer4235351', 9, NOW()),
-    ('QR12241324rwerwe235351', 9, NOW()),
-    ('QR12241324235351', 9, NOW()),
-    ('QR122523523352', 9, NOW()),
-    ('QR125235235353', 9, NOW()),
-    ('QR1235232354', 9, NOW());
+VALUES ('QR121412546345', 9, NOW());
 
 INSERT INTO
     `attendance` (
@@ -205,7 +155,7 @@ INSERT INTO
         `check_time`
     )
 VALUES 
-    ('QR174574742354', 1, NOW());
+    ('QR174577142354', 1, NOW());
 
 
 
@@ -216,26 +166,7 @@ INSERT INTO
         `user_no`,
         `check_time`
     )
-VALUES ('QR12134134312345', 1, NOW()),
-    ('QR1241414346', 1, NOW()),
-    ('QR12124636213347', 1, NOW()),
-    ('QR12123433534513347', 1, NOW()),
-    ('QR164673432425722347', 1, NOW()),
-    ('QR12123413347', 1, NOW()),
-    ('QR14534543523347', 1, NOW()),
-    ('QR12123347', 1, NOW()),
-    ('QR1213345435435347', 1, NOW()),
-    ('QR1212341131223213347', 1, NOW()),
-    ('QR12123412321133213347', 1, NOW()),
-    ('QR12123411543454523213347', 1, NOW()),
-    ('QR121234365476123213347', 1, NOW()),
-    ('QR121237658784123213347', 1, NOW()),
-    ('QR1212797834123213347', 1, NOW()),
-    ('QR12123079094123213347', 1, NOW()),
-    ('QR1212380-0-4123213347', 1, NOW()),
-    ('QR121213214123213347', 1, NOW()),
-    ('QR121212321231234123213347', 1, NOW()),
-    ('QR12132146462348', 1, NOW());
+VALUES ('QR12134134312345', 1, NOW());
 
 
 

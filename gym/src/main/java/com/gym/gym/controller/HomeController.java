@@ -81,7 +81,7 @@ public class HomeController {
         model.addAttribute("rememberId", rememberId);
         return "login";
     }
-    return "index";
+    return "redirect:/";
     }
 
     /**
