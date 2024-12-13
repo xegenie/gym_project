@@ -55,7 +55,8 @@
                                 <tr>
                                     <td th:text="${buy.no}"  style="text-align: center;"></td>
                                     <td th:text="${buy.ticketName}" style="text-align: center;" ></td>
-                                    <td th:text="${buy.ticketPrice}" style="text-align: center;"></td>
+                                    <!-- <span class="ticket-price" th:text="${#numbers.formatInteger(ticket.price, 3, 'COMMA') + '원'}"></span> -->
+                                    <td th:text="${#numbers.formatInteger(buy.ticketPrice, 3, 'COMMA') + ' 원'}" style="text-align: center;"></td>
                                     <td th:text=" ${#dates.format(buy.buyDate, 'yyyy-MM-dd HH:mm:ss')}" style="text-align: center;" ></td>
                                 </tr>
                             </th:block>
