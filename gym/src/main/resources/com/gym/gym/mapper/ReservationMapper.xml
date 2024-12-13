@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="option.keyword != null and option.keyword != ''">
           and r.trainer_no = #{option.keyword}
         </if>
-        and r.enabled = 1
+        and (r.enabled = 1 or 2)
     </select>
 
     <!-- 트레이너인 유저리스트 -->
@@ -125,13 +125,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where no = #{no} and enabled = 1
     </update>
 
+    <!-- 예약 완료(수정) -->
+    <update id="complete">
+      update reservation
+      set enabled = 2,
+          canceled_at = now()
+      where no = #{no} and enabled = 1
+    </update>
+
     <!-- 예약 완료 -->
-    <update id="ptComplete">
+    <!-- <update id="ptComplete">
       update reservation
       set enabled = 2,
           canceled_at = DATE_ADD(rv_date, INTERVAL 1 HOUR)
       where rv_date &lt; DATE_ADD(now(), INTERVAL 1 HOUR)
-    </update>
+    </update> -->
 
     <!-- 전체 카운트 -->
     <select id="count" resultType="int">

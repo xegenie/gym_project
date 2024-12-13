@@ -90,10 +90,10 @@ th, td {
     padding: 10px; 
     text-align: center; 
     border: 1px solid #ddd; 
-}
+}   
 
 button.complete { 
-    background-color: orange; 
+    background-color: #28a745; 
     color: white; 
     border: none; 
     padding: 5px 10px; 
@@ -103,6 +103,20 @@ button.complete {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
 } 
 button.complete:hover { 
+    background-color: #218838;
+}
+
+button.cancel { 
+    background-color: orange; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
+} 
+button.cancel:hover { 
     background-color: #FF4500;
 }
 
@@ -136,6 +150,21 @@ button.complete:hover {
 }
   
   #cancelModal {
+    display: none;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  #completeModal {
     display: none;
     position: absolute;
     top: 50%; 
