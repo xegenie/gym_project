@@ -112,6 +112,24 @@ public class PayController {
             model.addAttribute("startDate", startDate); // 처리된 날짜를 모델에 담기
         }
 
+        // 보유중인 이용권
+        Long no = 0L;
+        List<BuyList> buyList = new ArrayList<>();
+        if (userDetails != null) {
+            no = userDetails.getNo();
+            buyList = buyListService.listByUser(no, new Page());
+        }
+        model.addAttribute("buyList", buyList);
+
+        // 정상이면서 제일 오래된 이용권
+        List<BuyList> filteredList = buyList.stream()
+                .filter(b -> "정상".equals(b.getStatus()))
+                .sorted(Comparator.comparing(BuyList::getStartDate)) // 날짜 순으로 정렬
+                .collect(Collectors.toList());
+        BuyList oldestBuyList = filteredList.isEmpty() ? null : filteredList.get(0);
+        
+        model.addAttribute("oldestBuyList", oldestBuyList);
+
         return "/user/ticket/normal";
     }
 
@@ -142,6 +160,23 @@ public class PayController {
 
             model.addAttribute("startDate", startDate); // 처리된 날짜를 모델에 담기
         }
+        // 보유중인 이용권
+        Long no = 0L;
+        List<BuyList> buyList = new ArrayList<>();
+        if (userDetails != null) {
+            no = userDetails.getNo();
+            buyList = buyListService.listByUser(no, new Page());
+        }
+        model.addAttribute("buyList", buyList);
+
+        // 정상이면서 제일 오래된 이용권
+        List<BuyList> filteredList = buyList.stream()
+                .filter(b -> "정상".equals(b.getStatus()))
+                .sorted(Comparator.comparing(BuyList::getStartDate)) // 날짜 순으로 정렬
+                .collect(Collectors.toList());
+        BuyList oldestBuyList = filteredList.isEmpty() ? null : filteredList.get(0);
+        
+        model.addAttribute("oldestBuyList", oldestBuyList);
 
         return "/user/ticket/trainerDetail";
     }
