@@ -22,10 +22,11 @@
                 <label style="color: black;" th:text="${#dates.format(answer.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></label>
               </div>
         </div>
-            
+        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TRAINER')">
         <div style="text-align: right;">
             <button type="button" th:onclick="editAnswer(this, [[${answer.no}]]);" class="btnInput" style="margin-right: 10px;">수정</button>
             <button type="button" th:onclick="remove([[${answer.no}]])" style="background-color: rgb(230, 61, 61);" class="btnInput">삭제</button>
         </div>
+    </th:block>
     </div>
 </th:block>

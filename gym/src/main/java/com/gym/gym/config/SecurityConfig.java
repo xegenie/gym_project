@@ -52,8 +52,10 @@ public class SecurityConfig {
 
         // ✅ 인가 설정
         http.authorizeHttpRequests(auth -> auth
-                                    // .requestMatchers("/admin","admin/**").hasAnyRole("ADMIN","TRAINER")
-                                    // .requestMatchers("user", "user/**").hasAnyRole("USER","ADMIN")    
+                                    .requestMatchers("/admin","admin/**").hasAnyRole("ADMIN","TRAINER")
+                                    // .requestMatchers("/user", "user/**").hasAnyRole("USER","ADMIN","TRAINER")    
+                                    .requestMatchers("qrCodePage").hasAnyRole("USER","ADMIN","TRAINER")
+                                    // .requestMatchers("/user/changePassword","/user/find","/user/findId","/user/findPassword").permitAll()
                                     .requestMatchers("/**").permitAll());
 
 
@@ -79,12 +81,12 @@ public class SecurityConfig {
                                 .tokenRepository(tokenRepository())
                                 .tokenValiditySeconds(60 * 60 * 24 * 7)); // 7일 유효시간(초단위)
              
-              // 인증 예외 처리
+             
             //   http.exceptionHandling( exception -> exception
-            //                             // 예외 처리 페이지 설정
-            //                             //.accessDeniedPage("/exception")
-            //                             // 접근 거부 처리자 설정
-            //                             .accessDeniedHandler(customAccessDeniedHandler));
+                                        // 예외 처리 페이지 설정
+                                        //.accessDeniedPage("/exception")
+                                        // 접근 거부 처리자 설정
+                                        // .accessDeniedHandler(customAccessDeniedHandler));
 
 
         http.logout(logout -> logout

@@ -23,9 +23,6 @@
                 <span>일반 이용권 구매</span>
             </div>
             
-            <!-- 유저 정보 -->
-            <div id="userStatus" th:data-user="${user != null ? 'true' : 'false'}" style="display: none;"></div>
-            
             <input type="hidden" name="userNo" th:value="${user != null ? user.no : ''}">
             <input type="hidden" name="name" th:value="${user != null ? user.name : ''}">
             <input type="hidden" name="tel" th:value="${user != null ? user.phone : ''}">
@@ -92,13 +89,6 @@
          
          // 3️⃣ 결제 요청하기
          function requestPay() {
-            // user 상태 확인
-            var userStatus = document.getElementById('userStatus').getAttribute('data-user');
-            if (userStatus === 'false') {
-                alert('로그인이 필요합니다.');
-                location.href = '/login'; // 로그인 페이지로 리디렉션
-                return;
-            }
 
             let checkedTicket = document.querySelector('.ticket-checkbox:checked');
             if (!checkedTicket) {

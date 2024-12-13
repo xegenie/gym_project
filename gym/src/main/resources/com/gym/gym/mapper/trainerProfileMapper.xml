@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectTrainer" resultType="trainerProfile">
-        SELECT tp.no, u.no AS userNo
+        SELECT tp.*, u.no AS userNo
         FROM users u
         JOIN trainer_profile tp ON u.trainer_no = tp.trainer_no
         WHERE tp.trainer_no = #{trainerNo}

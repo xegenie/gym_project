@@ -41,7 +41,7 @@ public interface ReservationService {
     public int disabledCount(@Param("no") Long no) throws Exception;
 
     // public int count(@Param("option") Option option) throws Exception;
-    public int count(String keyword) throws Exception;
+    public int count(Option option, String keyword) throws Exception;
 
     public List<Reservation> selectByStartEnd (int userNo, Date startTime, Date endTime) throws Exception;
 

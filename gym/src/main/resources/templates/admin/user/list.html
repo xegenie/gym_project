@@ -16,6 +16,10 @@
         <!-- 전체 컨테이너 영역 속 사이드바, 메인콘텐츠 영역 display flex 로 가로 배치 -->
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
 
+        <script th:if="${message != null}" th:inline="javascript">
+            alert([[${message}]]);
+        </script>
+
         <div class="main">
             <div class="inner">
                 <div class="title">
