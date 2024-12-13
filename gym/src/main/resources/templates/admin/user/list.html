@@ -64,7 +64,7 @@
                                         </span>
                                     </td>
                                     <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd')}"></td>
-                                <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}"  sec:authorize="hasRole('ROLE_ADMIN')">
+                                <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}" >
                                     <td><a class="updateBtn" th:href="|update?no=${user.no}|">수정</a></td>
                                 </th:block>
                             </tr>
