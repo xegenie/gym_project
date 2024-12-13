@@ -24,9 +24,10 @@
     </div>
     <div class="trainer-info">
       <div class="info-container">
-        <!-- <h1 th:text="${trainer.no}"></h1> -->
         <img style="width: 350px; height: 300px;" th:src="|/img?no=${trainer.no}|" alt="파일 이미지" class="card-img-top">
-        <p th:text="${trainer.detailInfo}"></p>
+        <div class="info">
+          <p th:text="${trainer.detailInfo}"></p>
+        </div>
       </div>
     </div>
   
