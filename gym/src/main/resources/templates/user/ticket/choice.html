@@ -26,7 +26,7 @@
 
                 <span> &ensp;(&ensp; </span>
                 <span th:text="${oldestBuyList != null ? #dates.format(oldestBuyList.startDate, 'yyyy-MM-dd') + '&ensp;~&ensp;' : '-'}"></span>
-                <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].endDate, 'yyyy-MM-dd') : '-'}"></span>
+                <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].endDate, 'yyyy-MM-dd') : ''}"></span>
                 <span> &ensp;) </span>
             </div>
         </div>
