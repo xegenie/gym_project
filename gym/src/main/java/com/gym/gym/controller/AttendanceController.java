@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/admin/attendance")
+@RequestMapping
 public class AttendanceController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class AttendanceController {
      * @param page
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/admin/attendance/list")
     public String list(Model model, Option option, Page page) throws Exception {
         List<Attendance> attendanceList = attendanceService.list(option, page);
         int result = attendanceService.listCount();
@@ -62,15 +62,15 @@ public class AttendanceController {
     }
 
     // 출석 체크 페이지를 이동
-    @GetMapping("/check")
+    @GetMapping("user/attendance/check")
     public String showAttendancePage(@RequestParam("uuid") String uuid,
             Model model) {
         model.addAttribute("uuid", uuid);
-        return "admin/attendance/check";
+        return "user/attendance/check";
     }
 
     // 출석 체크 (등록)
-    @PostMapping("/check")
+    @PostMapping("user/attendance/check")
     public String insertAttendance(@RequestParam("qrId") String qrId, @AuthenticationPrincipal CustomUser user,
             Model model, RedirectAttributes redirectAttributes) throws Exception {
         Long no = user.getNo();
@@ -83,7 +83,7 @@ public class AttendanceController {
         QRcode qRcode = attendanceService.selectQRcode(no);
 
         if (qRcode.getUuid().equals(qrId)) {
-            return "redirect:/admin/attendance/list";
+            return "redirect:/";
         }
 
         // 오류 메시지를 리다이렉트 시 전달

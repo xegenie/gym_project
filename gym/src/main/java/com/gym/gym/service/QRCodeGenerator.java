@@ -62,7 +62,7 @@ public class QRCodeGenerator {
     }
 
     private String createQRText(QRcode qrCode) {
-        return String.format("http://192.168.30.63:8080/admin/attendance/check?qrcodeId=%d&uuid=%s",
+        return String.format("http://192.168.30.63:8080/user/attendance/check?qrcodeId=%d&uuid=%s",
                 qrCode.getNo(), qrCode.getUuid());
     }
 }
