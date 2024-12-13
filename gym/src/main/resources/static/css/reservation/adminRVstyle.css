@@ -174,3 +174,6 @@ button.complete:hover {
   }
   
   
+  .reservation-count {
+        display: none;
+  }

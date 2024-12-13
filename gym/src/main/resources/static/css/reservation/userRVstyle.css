@@ -98,6 +98,7 @@ body {
   justify-content: center;
   margin: 50px auto;
   text-align: center;
+  align-items: center;
 }
 .trainer-info h1 {
   padding-top: 30px;
