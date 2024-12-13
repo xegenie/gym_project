@@ -19,6 +19,16 @@ body {
   font-weight: bold;
   color: #fff;
 }
+.hr2 {
+  height: 28px;
+  line-height: 28px;
+  background-color: #959595;
+  padding: 0 20px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
 
 #calendar {
   width: 850px;
@@ -98,7 +108,6 @@ body {
   justify-content: center;
   margin: 50px auto;
   text-align: center;
-  align-items: center;
 }
 .trainer-info h1 {
   padding-top: 30px;
@@ -110,9 +119,6 @@ body {
   line-height: 30px;
   font-weight: bold;
   white-space: pre-line;
-}
-.info p {
-  height: 300px;
 }
 .fc-daygrid-day {
   cursor: pointer;
