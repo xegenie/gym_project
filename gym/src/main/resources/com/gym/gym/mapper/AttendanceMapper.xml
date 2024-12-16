@@ -65,7 +65,7 @@
             SELECT 1
             FROM attendance
             WHERE user_no = #{userNo}
-            AND DATE(check_time) = CURDATE();
+            AND DATE(check_time) = CURDATE()
     )
     </insert>
 
