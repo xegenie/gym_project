@@ -34,4 +34,6 @@ public interface BuyListMapper {
                                    @Param("startDate") String startDate, 
                                    @Param("endDate") String endDate 
                                    ) throws Exception;
+
+    public List<BuyList> ticketByUser(Long no) throws Exception;
 }

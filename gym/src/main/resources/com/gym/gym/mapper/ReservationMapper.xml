@@ -61,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           SELECT b.user_no, SUM(t.pt_count) AS ptCount
           FROM buy_list b
           JOIN ticket t ON t.no = b.ticket_no
+          WHERE b.status = '정상'
           GROUP BY b.user_no
         ) ptSum ON ptSum.user_no = u.no
       WHERE
@@ -94,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               SELECT b.user_no, SUM(t.pt_count) AS ptCount
               FROM buy_list b
               JOIN ticket t ON t.no = b.ticket_no
+              WHERE b.status = '정상'
               GROUP BY b.user_no
           ) ptSum ON ptSum.user_no = r.user_no
       where

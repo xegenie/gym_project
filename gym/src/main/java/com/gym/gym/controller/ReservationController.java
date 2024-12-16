@@ -27,6 +27,7 @@ import com.gym.gym.domain.TrainerProfile;
 import com.gym.gym.domain.Users;
 import com.gym.gym.service.ReservationService;
 import com.gym.gym.service.TrainerProfileService;
+import com.gym.gym.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +40,9 @@ public class ReservationController {
 
     @Autowired
     private TrainerProfileService trainerProfileService;
+
+    @Autowired
+    private UserService userService;
 
     // 마이페이지 예약 목록 화면
     @GetMapping("/user/myPage/ptList")
@@ -54,12 +58,16 @@ public class ReservationController {
             Reservation lastReservation = reservationCount.get(reservationCount.size() - 1);
             int ptCount = lastReservation.getPtCount();
             ptCount -= disabledCount;
+
+            ptCount = Math.max(ptCount, 0);
+            
             model.addAttribute("disabledCount", disabledCount);
             model.addAttribute("ptCount", ptCount);
             log.info("피티카운트 : " + ptCount);
             log.info("disabledCount: " + disabledCount);
 
         }
+
 
         List<Reservation> reservationList = reservationService.userByList(userDetails.getNo(), option, page);
         log.info("로그찍기 " + reservationList);
@@ -230,6 +238,7 @@ public class ReservationController {
     // 관리자가 예약 취소(수정)
     @PostMapping("/admin/reservation/list")
     public String cancelAdmin(RedirectAttributes redirectAttributes, @RequestParam("action") String action, @RequestParam("no") int no, Option option, Page page) throws Exception {
+
         log.info("no값은 ?" + no);
         Reservation reservation = reservationService.findByNo(no);
         int result = 0;
@@ -238,6 +247,22 @@ public class ReservationController {
             reservation.setEnabled(2);
             reservation.setCanceledAt(new Date());
             result = reservationService.complete(reservation);
+
+            List<Reservation> reservationCount = reservationService.userByList(reservation.getUserNo(), new Option(), new Page());
+            long disabledCount = reservationService.disabledCount(reservation.getUserNo());
+            // 리스트의 마지막 항목
+            if (!reservationCount.isEmpty()) {
+                Reservation lastReservation = reservationCount.get(reservationCount.size() - 1);
+                int ptCount = lastReservation.getPtCount();
+                ptCount -= disabledCount;
+                log.info("피티카운트 : " + ptCount);
+                log.info("disabledCount: " + disabledCount);
+                if (ptCount <= 0) {
+                    Users user = userService.select(reservation.getUserNo());
+                    userService.updateTrainerNo(user.getNo());
+                }
+            }
+
             redirectAttributes.addFlashAttribute("message", "예약이 완료 처리되었습니다.");
         }
         if ("cancel".equals(action)) {

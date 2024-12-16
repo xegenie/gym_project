@@ -190,6 +190,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.count(option);
     }
 
+    @Override
+    public int updateTrainerNo(Long no) throws Exception {
+        return userMapper.updateTrainerNo(no);
+    }
+
 
     
     

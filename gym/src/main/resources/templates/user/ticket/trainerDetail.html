@@ -47,11 +47,10 @@
             <div class="ticket-date d-flex fw-bold justify-content-center align-items-center border-bottom" style="height: 150px;">
                 <span>보유중인 이용권 : &ensp;</span>
                 <span th:text="${#lists.size(buyList) > 0 ? buyList[#lists.size(buyList) - 1].ticketName : '없음'}"></span>
-
-                <span> &ensp;(&ensp; </span>
+                &ensp;(&ensp;
                 <span th:text="${oldestBuyList != null ? #dates.format(oldestBuyList.startDate, 'yyyy-MM-dd') + '&ensp;~&ensp;' : '-'}"></span>
                 <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].endDate, 'yyyy-MM-dd') : ''}"></span>
-                <span> &ensp;) </span>
+                &ensp;)
             </div>
 
                 <div class="ticket d-flex flex-column align-items-center">

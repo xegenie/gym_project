@@ -106,14 +106,18 @@ public class BuyListController {
         Long no = (userDetails != null) ? userDetails.getNo() : 0L;
         List<BuyList> buyList = (no > 0) ? buyListService.listByUser(no, page) : new ArrayList<>();
 
+        List<BuyList> ticketBuyList = buyListService.ticketByUser(no);
+        
+        List<BuyList> filteredList = ticketBuyList.stream()
+        .filter(b -> "정상".equals(b.getStatus()))
+        .sorted(Comparator.comparing(BuyList::getStartDate))
+        .collect(Collectors.toList());
+        
         model.addAttribute("buyList", buyList);
         model.addAttribute("rows", page.getRows());
         model.addAttribute("page", page);
-
-        List<BuyList> filteredList = buyList.stream()
-                .filter(b -> "정상".equals(b.getStatus()))
-                .sorted(Comparator.comparing(BuyList::getStartDate))
-                .collect(Collectors.toList());
+        
+        model.addAttribute("ticketBuyList", ticketBuyList);
 
         model.addAttribute("oldestBuyList", filteredList.isEmpty() ? null : filteredList.get(0));
 

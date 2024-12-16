@@ -27,7 +27,8 @@
                         <select name="trainerNo">
                             <option value="">트레이너 이름</option>
                             <th:block th:each="trainerUser : ${trainerUsers}">
-                                <option th:value="${trainerUser.no}" 
+                                <option th:if="${trainerUser.trainerName != null}"
+                                        th:value="${trainerUser.no}" 
                                         th:text="${trainerUser.trainerName} + '(' + ${trainerUser.id} + ')'" 
                                         th:selected="${trainerUser.no == selectedTrainer}"></option>
                             </th:block>
