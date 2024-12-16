@@ -15,7 +15,12 @@
     <div class="container">
         <!-- 전체 컨테이너 영역 속 사이드바, 메인콘텐츠 영역 display flex 로 가로 배치 -->
         <th:block th:replace="~{fragment/adminSidebar::adminSidebar}"></th:block>
-        
+
+
+        <script th:if="${message != null}" th:inline="javascript">
+            alert(/*[[${message}]]*/);
+        </script>
+
         <div class="main">
             <div class="inner">
                 <div class="title">
@@ -38,6 +43,7 @@
                                 <th>이메일</th>
                                 <th>연락처</th>
                                 <th>권한</th>
+                                <th>담당 트레이너</th>
                                 <th>가입일자</th>
                                 <th>회원수정</th>
                             </tr>
@@ -63,8 +69,11 @@
                                             <span th:case="*">기타</span> <!-- 만약 예상치 못한 권한이 있다면 "기타"로 표시 -->
                                         </span>
                                     </td>
-                                    <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd')}"></td>
-                                <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}" >
+
+                                    <td th:text="${user.trainerNo == null or user.trainerNo == 0 ? '-' : user.trainerName}"></td>
+                                    <td th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <th:block th:unless="${user.userAuth.contains('ROLE_ADMIN')}">
+
                                     <td><a class="updateBtn" th:href="|update?no=${user.no}|">수정</a></td>
                                 </th:block>
                             </tr>

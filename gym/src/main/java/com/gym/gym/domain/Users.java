@@ -29,7 +29,7 @@ public class Users {
     private String  userAuth;
     private List<UserAuth> authList;
 
-
+    private String trainerName;
 
     
 

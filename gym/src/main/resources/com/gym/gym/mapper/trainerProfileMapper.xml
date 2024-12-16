@@ -90,9 +90,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 트레이너인 유저리스트 -->
     <select id="trainerUsers">
-        SELECT *
+        SELECT u.*, tp.name AS trainerName
         FROM users u
         JOIN user_auth a ON u.no = a.user_no
+        JOIN trainer_profile tp ON tp.trainer_no = u.no
         WHERE a.auth = 'ROLE_TRAINER'
     </select>
 

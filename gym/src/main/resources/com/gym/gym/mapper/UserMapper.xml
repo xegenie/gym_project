@@ -58,9 +58,10 @@
     </select>
 
 <select id="list" resultMap="UserMap">
-    SELECT u.*, a.auth as userAuth
+    SELECT u.*, a.auth as userAuth, t.name AS trainerName
     FROM users u
     JOIN user_auth a ON u.no = a.user_no
+    LEFT JOIN trainer_profile t ON t.trainer_no = u.trainer_no
     <where>
         <if test="option.keyword != null and option.keyword != ''">
             AND (
