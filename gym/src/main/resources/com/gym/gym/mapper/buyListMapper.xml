@@ -19,9 +19,9 @@
         ON 
             b.user_no = user.no
         LEFT JOIN
-            users trainer
+            trainer_profile trainer
         ON
-            b.trainer_no = trainer.no
+            b.trainer_no = trainer.trainer_no
         JOIN 
             Ticket t 
         ON 
@@ -98,12 +98,6 @@
             b.user_no = #{userNo}
             LIMIT #{page.index}, 5
     </select>
-
-
-
-
-
-
 
     <update id="cancel" parameterType="int">
         UPDATE buy_list

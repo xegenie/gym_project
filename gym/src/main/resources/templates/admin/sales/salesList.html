@@ -28,7 +28,7 @@
                             <option value="">트레이너 이름</option>
                             <th:block th:each="trainerUser : ${trainerUsers}">
                                 <option th:value="${trainerUser.no}" 
-                                        th:text="${trainerUser.name} + '(' + ${trainerUser.id} + ')'" 
+                                        th:text="${trainerUser.trainerName} + '(' + ${trainerUser.id} + ')'" 
                                         th:selected="${trainerUser.no == selectedTrainer}"></option>
                             </th:block>
                         </select>
@@ -80,26 +80,6 @@
                 
                 
                 <div class="list">
-                    <!-- <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>상품명</th>
-                                <th>상품가격</th>
-                                <th>판매 수량</th>
-                                <th>합계</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="sale : ${salesList}">
-                                <td th:text="${sale.ticketNo}"></td>
-                                <td th:text="${sale.ticketName}"></td>
-                                <td th:text="${sale.ticketPrice}"></td>
-                                <td th:text="${sale.salesCount}"></td>
-                                <td th:text="${sale.ticketPrice * sale.salesCount}"></td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                     <div id="chart-container">
                         <canvas id="myChart" width="900" height="500"></canvas>
                         <div id="total" style="font-weight: bold; text-align: center; font-size: 18px; margin-top: 10px;"></div>
