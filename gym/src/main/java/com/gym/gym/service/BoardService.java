@@ -31,4 +31,8 @@ public interface BoardService {
 
     public Boolean isOwner(Long no, Long boardNo) throws Exception;
 
+    public List<Board> myBoardlist(@Param("option") Option option, @Param("page") Page page,@Param("no") Long no) throws Exception;
+
+    public int countByUserNo(@Param("no") Long no)throws Exception;
+
 }

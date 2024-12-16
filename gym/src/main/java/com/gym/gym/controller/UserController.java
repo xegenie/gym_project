@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gym.gym.domain.Board;
 import com.gym.gym.domain.CustomUser;
 import com.gym.gym.domain.Option;
 import com.gym.gym.domain.Page;
 import com.gym.gym.domain.UserAuth;
 import com.gym.gym.domain.Users;
+import com.gym.gym.service.BoardService;
 import com.gym.gym.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +42,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BoardService boardService;
 
     // 마이페이지
     @PreAuthorize(" hasRole('ADMIN') or hasRole('USER') or hasRole('TRAINER')")
@@ -294,6 +299,31 @@ public String changePw(@RequestParam("password") String password,
     userService.codeInsert(user);
     redirectAttributes.addFlashAttribute("message", "비밀번호 변경 실패!");
     return "redirect:info";
+}
+
+@GetMapping("/user/myPage/myBoardList")
+public String boardList(Model model,
+    @ModelAttribute Option option, 
+    @ModelAttribute Page page, @AuthenticationPrincipal CustomUser user) throws Exception {
+        Long no = user.getNo();
+        List<Board> boardList = boardService.myBoardlist(option, page, no);
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("option", option);
+        model.addAttribute("rows", page.getRows());
+        model.addAttribute("page", page);
+        String pageUrl = UriComponentsBuilder.fromPath("user/board/boardList")
+                .queryParam("keyword", option.getKeyword())
+                .queryParam("code", option.getCode())
+                .queryParam("rows", page.getRows())
+                .queryParam("orderCode", option.getOrderCode())
+                .build()
+                .toUriString();
+
+        model.addAttribute("pageUrl", pageUrl);
+
+        return "user/myPage/myBoardList";
+
+
 }
 }
 
