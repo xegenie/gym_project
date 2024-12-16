@@ -25,6 +25,9 @@ public interface ReservationService {
     // 예약 상세 조회
     public Reservation findByNo(int no) throws Exception;
 
+    // 예약 완료(수정)
+    public int complete(Reservation reservation) throws Exception;
+
     // 예약 취소(수정)
     public int cancel(Reservation reservation) throws Exception;
 

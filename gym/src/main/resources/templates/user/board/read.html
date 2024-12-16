@@ -47,42 +47,27 @@
             </th:block>
             </th:block>
         </div>
-
-
+        <th:block th:unless="${answerList.isEmpty}" sec:authorize="hasAnyRole('ROLE_USER')">
         <div style="text-align: left; width: 860px; margin-top: 20px;">
             <h1 style="text-align: left; margin-left: 0; font-size: 35px; padding-left: 0;">트레이너 답변</h1>
         </div>
+    </th:block>
+    <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TRAINER')">
+        <div style="text-align: left; width: 860px; margin-top: 20px;">
+            <h1 style="text-align: left; margin-left: 0; font-size: 35px; padding-left: 0;">트레이너 답변</h1>
+        </div>
+    </th:block>
     
         <section id="answer-form">
-        
-    
+            
+            
         </section>
-
+        
         <section id="answer-list">
         </section> 
 
 
-        <th:block sec="isAnonymous"> 
-            <th:block th:if="${answerList.isEmpty}" sec:authorize="hasAnyRole('ROLE_USER')"> 
-            <div class="border" style="margin-top: 30px; margin-bottom: 20px;" >
-                <div class="inputbox1"  style="display: flex; justify-content: space-between;">
-                    <div>
-                    <label for="" style="margin-top: 10px; color: black; font-size: 30px;">A. </label>
-                    <input type="text" class="titleinput" name="title" th:value="${board.title}" style=" background-color: white; border: none; font-weight: bold; color: black;" readonly disabled>
-                </div>
-            </div>
-                    <div style="display: flex; justify-content: flex-end;">
-                    <h3 style="color: black; margin-right: 70px; margin-bottom: 10px;"  ></h3>
-                </div>
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                    <textarea class="textareaInput" style=" font-weight: bold; font-size: 18px; color: black;" id="content" name="content" rows="5" cols="40" readonly disabled></textarea>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">      
-              
-            </div>
-    </th:block>
-</th:block>
+       
 
 
 <th:block th:if="${answerList.isEmpty}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TRAINER')"> 
@@ -119,7 +104,7 @@
     
 
 
-    // 댓글 등록
+    // 답변 등록
     function insertAnswer() {
     const boardNo = "[[${board.no}]]";
     let content = document.getElementById('content').value;
@@ -146,13 +131,13 @@
         if (request.readyState == request.DONE && request.status == 200) {
             let response = request.responseText;
             if (response == 'SUCCESS') {
-                console.log('댓글 등록 성공');
+                console.log('답변 등록 성공');
                 location.reload();
 
                 // 입력한 작성자, 내용 비우기
                 document.getElementById('content').value = "";
             } else {
-                console.log('댓글 등록 실패');
+                console.log('답변 등록 실패');
             }
         }
     };
@@ -160,7 +145,7 @@
 
 
 
-    // 댓글 목록
+    //답변 목록
     answerList()
     function answerList(){
         let request = new XMLHttpRequest();
@@ -176,7 +161,7 @@
         }
     }
 
- // 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
+ //답변 [수정] 버튼 클릭 시 - 수정 폼으로 전환
 function editAnswer(button, no) {
     console.log(`editAnswer 호출됨: ${no}`);
     const $parent = button.closest('.answer-box'); // 수정 버튼이 포함된 div 요소
@@ -188,7 +173,7 @@ function editAnswer(button, no) {
     const title = titleinput.value;
     const content = textarea.value;
 
-    // 기존 댓글 숨기기
+    // 기존답변 숨기기
     $parent.style.display = 'none';
 
     // 수정 폼 추가
@@ -214,7 +199,7 @@ $parent.insertAdjacentHTML('afterend', updateForm);
 
 }
 
-// 댓글 수정 요청
+//답변 수정 요청
 function updateAnswer(no) {
     console.log(`updateAnswer 호출됨: ${no}`);
     const content = document.getElementById(`edit-content-${no}`).value;
@@ -238,28 +223,28 @@ function updateAnswer(no) {
         if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
             const response = request.responseText;
             if (response === 'SUCCESS') {
-                alert('댓글 수정 성공');
-                answerList(); // 댓글 목록 갱신
+                alert('답변 수정 성공');
+                answerList(); //답변 목록 갱신
             } else {
-                alert('댓글 수정 실패');
+                alert('답변 수정 실패');
             }
         }
     };
 }
 
-// 댓글 수정 취소
+//답변 수정 취소
 function cancelEdit(no) {
     console.log(`cancelEdit 호출됨: ${no}`);
     const editForm = document.getElementById(`edit-form-${no}`);
     if (editForm) editForm.remove();
     
-    // 원래 댓글 영역 다시 표시
+    // 원래답변 영역 다시 표시
     const original = document.querySelector(`.border[style*="display: none"]`);
     if (original) original.style.display = 'block';
     location.reload();
 }
 
-// 댓글 삭제
+//답변 삭제
 function remove(no) {
     console.log(`remove 호출됨: ${no}`);
 
@@ -282,10 +267,10 @@ function remove(no) {
         if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
             const response = request.responseText;
             if (response === 'SUCCESS') {
-                alert('댓글 삭제 성공');
+                alert('답변 삭제 성공');
                 location.reload();
             } else {
-                alert('댓글 삭제 실패');
+                alert('답변 삭제 실패');
             }
         }
     };

@@ -24,7 +24,7 @@
       <div class="inner">
 
         <div class="calendar-title">
-          <h2>월별 PT 예약 일정</h2>
+          <h2>월별 PT 예약 및 완료 일정</h2>
         </div>
 
         <!-- 트레이너 선택 -->
@@ -35,37 +35,30 @@
               <option th:each="trainerList : ${trainerUsers}" th:value="${trainerList.no}" th:text="${trainerList.name}"
                 th:selected="${option.keyword == trainerList.no.toString()}"></option>
             </select>
+            <select name="code" id="code" th:value="${option.code}">
+              <option value="0" th:selected="${option.code == 0}">전체</option>
+              <option value="1" th:selected="${option.code == 1}">예약중</option>
+              <option value="2" th:selected="${option.code == 2}">완료건</option>
+            </select>
           </div>
         </form>
 
-
         <div class="calendar-wrap">
           <div id="calendar"></div>
-
         </div>
-        <!-- <div id="timeSelectionModal">
-
-          <div class="modal-container">
-
-            <div class="modal-info">
-              <h3 id="selectedDate"></h3>
-              <h4>예약 리스트</h4>
-            </div>
-
-            <div class="daily-reservationList">
-
-                  <a th:each="reservation : ${sortByTrainer}" th:href="@{/user/schedule/plan}">
-                  <span th:text="${reservation.userName} + ' 회원님'"></span>
-                  <span th:text="${#dates.format(reservation.rvDate, 'HH:mm')}"></span>
-                </a>
-
-            </div>
-            <button onclick="closeModal()">Close</button>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const $code = document.getElementById('code');
+        const $form = document.getElementById('form');
+
+        $code.addEventListener('change', function() {
+            $form.submit();
+        })
+      });
+  </script>
 </body>
 
 </html>

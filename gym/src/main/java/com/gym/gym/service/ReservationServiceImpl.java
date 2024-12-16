@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
         page.setTotal(total);
 
         
-        reservationMapper.ptComplete();
+        // reservationMapper.ptComplete();
         List<Reservation> reservationList = reservationMapper.list(keyword, option, page);
         return reservationList;
     }
@@ -45,6 +45,13 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
     
+    // 예약 완료(수정)
+    @Override
+    public int complete(Reservation reservation) throws Exception {
+        int result = reservationMapper.complete(reservation);
+        return result;
+    }
+
     // 예약 취소(수정)
     @Override
     public int cancel(Reservation reservation) throws Exception {
@@ -87,7 +94,7 @@ public class ReservationServiceImpl implements ReservationService {
         int total = reservationMapper.countByUser(no);
         page.setTotal(total);
 
-        reservationMapper.ptComplete();
+        // reservationMapper.ptComplete();
         List<Reservation> reservationList = reservationMapper.userByList(no, option, page);
 
         return reservationList;
@@ -97,5 +104,6 @@ public class ReservationServiceImpl implements ReservationService {
     public int disabledCount(Long no) throws Exception {
         return reservationMapper.disabledCount(no);
     }
+
 
 }

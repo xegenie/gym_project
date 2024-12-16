@@ -51,18 +51,26 @@
                     <td colspan="5">조회된 데이터가 없습니다.</td>
                 </tr>
             </th:block>
-            <th:block th:each="board : ${boardList}">
+            <th:block th:each="board : ${boardList}" th:style="${board.hasAnswer == 1 ? 'color: green; font-weight: bold;' : 'color: red;'}">
                 <tr style="text-align: center; border-bottom: 1px solid white;" class="tabletr">
-                    <td><a class="titlebt" th:href="|read?no=${board.no}|" th:text="${board.title}" ></a></td>
+                    <td>
+                        <a class="titlebt" th:href="|read?no=${board.no}|" th:text="${board.title}"></a>
+                        <th:block th:if="${board.hasAnswer == 1}">
+                        <label>(</label></label><label th:text="${board.hasAnswer == 1 ? '답변 완료' : ''}" style="color: rgb(15, 255, 15);"> </label><label>)</label>
+                    </th:block>
+                    </td>
                     <td th:text="${board.name}"></td>
                     <td th:text="${board.auth == 'ROLE_USER' ? '회원' : (board.auth == 'ROLE_TRAINER' ? '트레이너' : '관리자')}"></td>
                     <td th:text="${#dates.format(board.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
                 </tr>
-                
             </th:block>
+            
         </tbody>
     </table>
     
+       
+ 
+
 </div>
 
 <div class="insert-button" >
@@ -77,8 +85,7 @@
 
           </th:block>
         <!-- 페이지 번호 -->
-          
-
+   
         <!-- 
             #numbers/sequence(시작, 끝)
             : 시작번호부터 끝번호 까지 리스트를 생성

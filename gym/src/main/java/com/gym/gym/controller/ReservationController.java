@@ -120,14 +120,23 @@ public class ReservationController {
             Map<String, Object> event = new HashMap<>();
             String formattedTime = timeFormat.format(rv.getRvDate());
 
-            event.put("title", formattedTime + " " + rv.getUserName() + "님");
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
             event.put("description", "");
-            event.put("color", "lightblue");
-            event.put("textColor", "#333");
-            event.put("type", "reservation");
+            event.put("textColor", "white");
             event.put("user_no", rv.getUserNo());
+            
+            if (rv.getEnabled() == 2) {
+                event.put("title", formattedTime + " " + rv.getUserName() + "님 완료");
+                event.put("color", "#2a9c1b");
+                event.put("type", "completed");
+            } else {
+                event.put("title", formattedTime + " " + rv.getUserName() + "님 예약");
+                event.put("color", "cornflowerblue");
+                event.put("type", "reservation");
+            }
+            
+            
 
             reservationEvents.add(event);
         }
@@ -220,16 +229,25 @@ public class ReservationController {
 
     // 관리자가 예약 취소(수정)
     @PostMapping("/admin/reservation/list")
-    public String cancelAdmin(RedirectAttributes redirectAttributes, @RequestParam("no") int no, Option option, Page page) throws Exception {
+    public String cancelAdmin(RedirectAttributes redirectAttributes, @RequestParam("action") String action, @RequestParam("no") int no, Option option, Page page) throws Exception {
+        log.info("no값은 ?" + no);
         Reservation reservation = reservationService.findByNo(no);
+        int result = 0;
 
-        reservation.setCanceledAt(new Date());
-        reservation.setEnabled(0);
-        int result = reservationService.cancel(reservation);
-
+        if ("complete".equals(action)) {
+            reservation.setEnabled(2);
+            reservation.setCanceledAt(new Date());
+            result = reservationService.complete(reservation);
+            redirectAttributes.addFlashAttribute("message", "예약이 완료 처리되었습니다.");
+        }
+        if ("cancel".equals(action)) {
+            reservation.setCanceledAt(new Date());
+            reservation.setEnabled(0);
+            result = reservationService.cancel(reservation);
+            redirectAttributes.addFlashAttribute("message", "예약이 취소되었습니다.");
+        }
         
         if (result > 0) {
-            redirectAttributes.addFlashAttribute("message", "예약이 취소되었습니다.");
             return "redirect:/admin/reservation/list?page=" + page.getPage() + "&keyword=" + option.getKeyword()
             + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
         }

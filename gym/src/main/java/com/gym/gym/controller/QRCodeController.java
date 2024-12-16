@@ -94,7 +94,7 @@ public class QRCodeController {
             String qrCodeBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
             // QR 코드 URL을 모델에 추가
-            String qrCodeUrl = String.format("http://192.168.30.63:8080/admin/attendance/check?qrcodeId=%d&uuid=%s",
+            String qrCodeUrl = String.format("http://192.168.30.63:8080/user/attendance/check?qrcodeId=%d&uuid=%s",
                     no, qrCode.getUuid());
             model.addAttribute("qrCodeBase64", qrCodeBase64);
             model.addAttribute("qrCodeUrl", qrCodeUrl); // QR 코드 URL 추가

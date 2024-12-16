@@ -27,12 +27,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         log.info(":::::::::: UserDetailServiceImpl ::::::::::");
         log.info("- 사용자 정의 인증을 위해, 사용자 정보 조회");
-        log.info("- username : " + id);
         Users user = null;
         try {
             
             user = userMapper.selectId(id);
-            log.info("- username : " + id);
             
             user = userMapper.select(user.getNo());
             // 👩‍💼 사용자 정보 및 권한 조회

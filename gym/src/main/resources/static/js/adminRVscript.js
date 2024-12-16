@@ -33,12 +33,21 @@ document.addEventListener("DOMContentLoaded", function () {
           var eventEl = info.el;
           eventEl.style.cursor = 'pointer';
 
+          var originalColor = info.event.backgroundColor;
+          var hoverColor;
+
+          if (info.event.extendedProps.type === "completed") {
+            hoverColor = "green"; 
+          } else if (info.event.extendedProps.type === "reservation") {
+              hoverColor = "royalblue";
+          }
+
           eventEl.addEventListener("mouseover", function() {
-            eventEl.style.backgroundColor = "deepskyblue"; 
+              eventEl.style.backgroundColor = hoverColor;
           });
 
           eventEl.addEventListener("mouseout", function() {
-            eventEl.style.backgroundColor = "lightblue"; 
+              eventEl.style.backgroundColor = originalColor;
           });
 
           var event = info.event;
