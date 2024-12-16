@@ -18,6 +18,8 @@ public interface BoardMapper {
 
     public List<Board> boardlist(@Param("option") Option option
     ,@Param("page") Page page ) throws Exception;
+
+    public List<Board> myBoardlist(@Param("option") Option option, @Param("page") Page page,@Param("no") Long no) throws Exception;
                 
     // 조회
     public Board select(@Param("no") Long no)throws Exception;
@@ -32,6 +34,8 @@ public interface BoardMapper {
     public int count(@Param("option")Option option) throws Exception;
 
     public Board select1(@Param("id") String id)throws Exception;
+
+    public int countByUserNo(@Param("no") Long no)throws Exception;
     
     public List<Board> list();
 

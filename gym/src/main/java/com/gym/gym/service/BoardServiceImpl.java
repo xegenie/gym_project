@@ -84,6 +84,22 @@ public class BoardServiceImpl implements BoardService {
         return boardList;
     }
 
+    @Override
+    public List<Board> myBoardlist(Option option, Page page, Long no) throws Exception {
+        int total = countByUserNo(no);
+        page.setTotal(total);
+        
+        List<Board> boardList = boardMapper.myBoardlist(option, page, no);
+        return boardList;
+
+    }
+
+    @Override
+    public int countByUserNo(Long no) throws Exception {
+    
+        return boardMapper.countByUserNo(no);
+    }
+
 }
 
 

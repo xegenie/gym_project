@@ -6,6 +6,21 @@ body {
     padding: 0;
 }
 
+.btn-primary{
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #008CBA;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1); 
+}
+.btn-primary:hover{
+    background-color: #005f73;
+    color: white;
+}
+
 .wrapper {
     width: 900px;
     max-width: 900px;
@@ -170,6 +185,19 @@ button.complete:hover {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.titlebt{
+    color: #012953;
+}
+
+.titlebt:hover{
+    filter: brightness(90%);
+    font-size: 20px;
 }
 
 .pagination a {
