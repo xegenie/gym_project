@@ -145,4 +145,10 @@
         FROM users
     </select>
 
+    <update id="updateTrainerNo">
+        UPDATE users
+        SET trainer_no = NULL
+        WHERE no = #{no}
+    </update>
+
 </mapper>

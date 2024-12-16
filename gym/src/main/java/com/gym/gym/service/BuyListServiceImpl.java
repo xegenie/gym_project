@@ -77,4 +77,9 @@ public class BuyListServiceImpl implements BuyListService {
         return buyListMapper.salesList(trainerName, startDate, endDate);
     }
 
+    @Override
+    public List<BuyList> ticketByUser(Long no) throws Exception {
+        return buyListMapper.ticketByUser(no);
+    }
+
 }

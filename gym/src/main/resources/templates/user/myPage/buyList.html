@@ -30,18 +30,18 @@
                     <tr>
                         <th style="color: rgb(255, 255, 255);">이용권</th>
 
-                        <td><span th:text="${#lists.size(buyList) > 0 ? buyList[#lists.size(buyList) - 1].ticketName : '없음'}"></span></td>
+                        <td><span th:text="${#lists.size(ticketBuyList) > 0 ? ticketBuyList[#lists.size(ticketBuyList) - 1].ticketName : '없음'}"></span></td>
                            
-                        </tr>
-                        <tr>
-                            <th style="color: rgb(255, 255, 255);">구매일시</th>
-                            <td> <span th:text="${oldestBuyList != null ? #dates.format(oldestBuyList.startDate, 'yyyy-MM-dd') + '&ensp;&ensp;' : '-'}"></span></td>
-                        </tr>
-                        <tr>
-                            <th style="color: rgb(255, 255, 255);">만료일시</th>
-                            <td>  <span th:text="${#lists.size(buyList) > 0 ? #dates.format(buyList[#lists.size(buyList) - 1].endDate, 'yyyy-MM-dd') : '-'}"></span></td>
-                        </tr>
-                    </table>
+                    </tr>
+                    <tr>
+                        <th style="color: rgb(255, 255, 255);">구매일시</th>
+                        <td> <span th:text="${oldestBuyList != null ? #dates.format(oldestBuyList.startDate, 'yyyy-MM-dd') + '&ensp;&ensp;' : '-'}"></span></td>
+                    </tr>
+                    <tr>
+                        <th style="color: rgb(255, 255, 255);">만료일시</th>
+                        <td>  <span th:text="${#lists.size(ticketBuyList) > 0 ? #dates.format(ticketBuyList[#lists.size(ticketBuyList) - 1].endDate, 'yyyy-MM-dd') : '-'}"></span></td>
+                    </tr>
+                </table>
 
                     <div class="main-text" style="color: #ffffff; margin-top: 100px; ">이용권 내역</div>
                       <table class="info-table2" border="1">

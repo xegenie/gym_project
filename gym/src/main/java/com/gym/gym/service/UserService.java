@@ -49,5 +49,7 @@ public interface UserService {
 
     public int passwordUpdate(Users user) throws Exception;
 
+    public int updateTrainerNo(Long no) throws Exception;
+
 
 }

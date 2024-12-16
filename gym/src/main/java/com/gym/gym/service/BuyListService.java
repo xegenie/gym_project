@@ -24,4 +24,6 @@ public interface BuyListService {
     // 매출 내역
     public List<BuyList> salesList(Integer trainerName, String startDate, String endDate) throws Exception;
 
+    public List<BuyList> ticketByUser(Long no) throws Exception;
+
 }
