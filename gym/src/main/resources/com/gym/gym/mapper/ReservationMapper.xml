@@ -51,12 +51,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           r.*,
           u.name AS userName, 
           u.id AS userId, 
-          tu.name AS trainerName,
+          tp.name AS trainerName,
           ptSum.ptCount AS ptCount
       FROM 
          users u
       LEFT JOIN reservation r ON r.user_no = u.no
-      LEFT JOIN users tu ON r.trainer_no = tu.no
+      LEFT JOIN trainer_profile tp ON r.trainer_no = tp.trainer_no
       LEFT JOIN (
           SELECT b.user_no, SUM(t.pt_count) AS ptCount
           FROM buy_list b
@@ -84,12 +84,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           r.*, 
           u.name AS userName, 
           u.id AS userId, 
-          tu.name AS trainerName,
+          tp.name AS trainerName,
           ptSum.ptCount
       FROM 
           reservation r
           LEFT JOIN users u ON r.user_no = u.no
-          LEFT JOIN users tu ON r.trainer_no = tu.no
+          LEFT JOIN trainer_profile tp ON r.trainer_no = tp.trainer_no
           LEFT JOIN (
               SELECT b.user_no, SUM(t.pt_count) AS ptCount
               FROM buy_list b
@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       where
           (u.id LIKE CONCAT('%', #{keyword}, '%')
           OR u.name LIKE CONCAT('%', #{keyword}, '%')
-          OR tu.name LIKE CONCAT('%', #{keyword}, '%'))
+          OR tp.name LIKE CONCAT('%', #{keyword}, '%'))
           <if test="option.code == 1">
             AND r.enabled = 2
           </if>

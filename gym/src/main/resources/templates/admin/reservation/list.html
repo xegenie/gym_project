@@ -7,7 +7,7 @@
     <title>예약 목록 관리</title>
     <link rel="stylesheet" href="/css/reservation/adminRVstyle.css">
     <script th:if="${message != null}" th:inline="javascript">
-        alert([[${message}]]);
+        alert(/*[[${message}]]*/);
     </script>
 </head>
 
@@ -62,7 +62,7 @@
                                 <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <th:block th:if="${reservation.enabled == 2}">
-                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #2a9c1b;"></td>
+                                    <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #2a9c1b;"></td>
                                 </th:block>
                                 <th:block th:if="${reservation.enabled == 1}">
                                     <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>

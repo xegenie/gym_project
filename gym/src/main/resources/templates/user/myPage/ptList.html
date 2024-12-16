@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>예약 목록</title>
+    <title>내 예약 목록</title>
     <link rel="stylesheet" href="/css/myPage/ptList.css">
     <th:block th:replace="~{fragment/link::link}"></th:block>
     <script th:if="${message != null}" th:inline="javascript">
-        alert([[${message}]]);
+        alert(/*[[${message}]]*/);
     </script>
 </head>
 
 <!-- 헤더 -->
 <th:block th:replace="~{fragment/header::header}"></th:block>
 
-<body class="fullBody"  style="color: rgb(3, 3, 3); background-color: #252222;">
+<body class="fullBody" style="color: rgb(3, 3, 3); background-color: #252222;">
     <div class="wrapper" style="margin-top: 80px;">
         <main>
             <div class="main-text1" style="color: #9FD0D5;">마이페이지</div>
@@ -23,7 +23,7 @@
                 <button onclick="window.location.href='/user/myPage/info'">내 정보</button>
                 <button onclick="window.location.href='/user/myPage/buyList'">이용권 내역</button>
                 <button class="active" onclick="window.location.href='/user/myPage/ptList'">PT 이용 내역</button>
-                <button onclick="window.location.href='/user/myPage/friendList'">친구 목록</button>
+                <button onclick="window.location.href='/user/myPage/myBoardList'">내 문의사항</button>
             </div>
 
             <div class="pt-count">
@@ -53,8 +53,15 @@
                             <td th:text="${reservation.trainerName}"></td>
                             <td th:text="${#dates.format( reservation.rvDate, 'yyyy-MM-dd HH:mm')}"></td>
                             <td th:text="${#dates.format( reservation.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-    
+                            <th:block th:if="${reservation.enabled == 2}">
+                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #2a9c1b;"></td>
+                            </th:block>
+                            <th:block th:if="${reservation.enabled == 1}">
+                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            </th:block>
+                            <th:block th:if="${reservation.enabled == 0}">
+                                <td th:text="${#dates.format( reservation.canceledAt, 'yyyy-MM-dd HH:mm:ss')}" style="color: #dc3545;"></td>
+                            </th:block>
                             <td>
                                 <span th:if="${reservation.enabled == 1}">
                                     <button type="button" class="complete" th:data-no="${reservation.no}" onclick="showCancelModal(this)">
