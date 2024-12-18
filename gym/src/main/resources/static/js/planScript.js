@@ -276,6 +276,13 @@ document.addEventListener("DOMContentLoaded", function () {
       dateElement.textContent = formattedDate;
       if(userAuth === 'ROLE_USER') {
         inputSchedule.style.display = 'block';
+      } else if (userAuth === 'ROLE_TRAINER') {
+        let clickedDate = info.date;
+        let clickedYear = clickedDate.getFullYear() ;
+        let clickedMonth = clickedDate.getMonth() + 1;
+        let clickedDay = clickedDate.getDate();
+        console.log("날짜:"+ clickedYear+clickedMonth+clickedDay);
+        changeDate(clickedYear, clickedMonth, clickedDay);
       }
       console.log("currentDate: "+ currentDate);
     },

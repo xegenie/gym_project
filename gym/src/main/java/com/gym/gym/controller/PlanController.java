@@ -127,8 +127,12 @@ public class PlanController {
             event.put("start", rv.getRvDate());
             event.put("end", CalcOneHourLater(rv.getRvDate()));
             event.put("description", rv.getTrainerName());
-            event.put("color","#64CBFF");
             event.put("type", "reservation");
+            if (rv.getEnabled() == 2){
+                event.put("color","#64FF98");
+            } else {
+                event.put("color","#64CBFF");
+            }
 
             reservationEvents.add(event);
         }
