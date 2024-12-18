@@ -276,6 +276,13 @@ document.addEventListener("DOMContentLoaded", function () {
       dateElement.textContent = formattedDate;
       if(userAuth === 'ROLE_USER') {
         inputSchedule.style.display = 'block';
+      } else if (userAuth === 'ROLE_TRAINER') {
+        let clickedDate = info.date;
+        let clickedYear = clickedDate.getFullYear() ;
+        let clickedMonth = clickedDate.getMonth() + 1;
+        let clickedDay = clickedDate.getDate();
+        console.log("날짜:"+ clickedYear+clickedMonth+clickedDay);
+        changeDate(clickedYear, clickedMonth, clickedDay);
       }
       console.log("currentDate: "+ currentDate);
     },
@@ -294,7 +301,9 @@ document.addEventListener("DOMContentLoaded", function () {
         
         planModal.style.display = 'block';
         planModal.querySelector('.popup-title').textContent = info.event.title || '운동 계획';
-        planModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+        planModal.querySelectorAll('.plan-date').forEach(element => {
+          element.textContent = formatDate(info.event.start);
+        });
         planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
         planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
         planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';

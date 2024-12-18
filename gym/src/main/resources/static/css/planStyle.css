@@ -232,11 +232,18 @@ textarea{resize: none;}
 }
 .popup-type .icons a {
     color: #444444;
+    width: 32px;
+    height: 32px;
+    display: flex; /* 내부 아이콘을 가운데 정렬 */
+    align-items: center; /* 세로 정렬 */
+    justify-content: center;
     /* font-style: 10px; */
     padding: 4px;
     padding-left: 9px;
     padding-right: 9px;
     border-radius: 50%;
+    transition: background-color 0.3s ease;
+    background-color: transparent;
 }
 
 .exercise-bymyself .popup-type {
@@ -436,7 +443,7 @@ textarea{resize: none;}
   align-items: center;
   font-size: 18px;
 }
-.popup-content .time-info .plan-date{
+.plan-date{
   margin: 0 auto;
   font-weight: bold;
   text-align: center;
