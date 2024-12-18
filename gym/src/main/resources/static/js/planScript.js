@@ -294,7 +294,9 @@ document.addEventListener("DOMContentLoaded", function () {
         
         planModal.style.display = 'block';
         planModal.querySelector('.popup-title').textContent = info.event.title || '운동 계획';
-        planModal.querySelector('.plan-date').textContent = formatDate(info.event.start);
+        planModal.querySelectorAll('.plan-date').forEach(element => {
+          element.textContent = formatDate(info.event.start);
+        });
         planModal.querySelector('.plan-start-time').textContent = formatTime(info.event.start);
         planModal.querySelector('.plan-end-time').textContent = formatTime(info.event.end);
         planModal.querySelector('.plan-detail').textContent = info.event.extendedProps.description || '-';
