@@ -317,6 +317,7 @@ public class PlanController {
     @PostMapping("/comment/insert")
     @PreAuthorize(" hasRole('TRAINER')")
     public String insertComment(Comment comment, @AuthenticationPrincipal CustomUser userDetails) throws Exception {
+        
         comment.setTrainerNo(userDetails.getNo().intValue());
         System.out.println("comment: " + comment);
 
