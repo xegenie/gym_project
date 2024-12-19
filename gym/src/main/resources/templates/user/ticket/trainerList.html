@@ -28,7 +28,7 @@
                         <img th:src="|/img?no=${trainer.no}|" alt="파일 이미지" class="card-img-top">
                     </div>
                     <div class="card-body">
-                        <h5 th:text="${trainer.name}"></h5>
+                        <h5 th:text="${trainer.name + ' 트레이너'}"></h5>
                         <div class="simple d-flex justify-content-center">
                             <span>[&nbsp;</span>
                             <p th:text="${trainer.simpleInfo}"></p>

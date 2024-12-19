@@ -172,3 +172,26 @@ VALUES ('QR12134134312345', 1, NOW());
 
 
 
+INSERT INTO `attendance` (`qr_id`, `user_no`, `check_time`)
+VALUES
+    ('qr_31', 31, NOW()),
+    ('qr_32', 32, NOW()),
+    ('qr_33', 33, NOW()),
+    ('qr_34', 34, NOW()),
+    ('qr_35', 35, NOW()),
+    ('qr_36', 36, NOW()),
+    ('qr_37', 37, NOW()),
+    ('qr_38', 38, NOW()),
+    ('qr_39', 39, NOW()),
+    ('qr_40', 40, NOW()),
+    ('qr_41', 41, NOW()),
+    ('qr_42', 42, NOW()),
+    ('qr_43', 43, NOW()),
+    ('qr_44', 44, NOW()),
+    ('qr_45', 45, NOW()),
+    ('qr_46', 46, NOW()),
+    ('qr_47', 47, NOW()),
+    ('qr_48', 48, NOW()),
+    ('qr_49', 49, NOW()),
+    ('qr_50', 50, NOW()),
+    ('qr_51', 51, NOW());
