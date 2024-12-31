@@ -60,7 +60,7 @@
               </div>
               <div class="comment-content">
                   <p class="comment-date"><span th:text="${#dates.format(comment.commentDate, 'MM/dd(EEE)')}" ></span></p>
-                  <input type="hidden" th:value="comment.commentDate" name="commentDate" id="commentDate">
+                  <input type="hidden" th:value="${#dates.format(comment.commentDate, 'yyyy-MM-dd')}" name="commentDate" id="commentDate">
                 <div class="comment-c comment-detail">
                   <span><b>코멘트</b></span><br>
                   <span class="cContent" th:text="${comment.cContent}"></span><br><br>
