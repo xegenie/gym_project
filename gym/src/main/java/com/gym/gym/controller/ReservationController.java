@@ -273,8 +273,7 @@ public class ReservationController {
         }
         
         if (result > 0) {
-            return "redirect:/admin/reservation/list?page=" + page.getPage() + "&keyword=" + option.getKeyword()
-            + "&orderCode=" + option.getOrderCode() + "&rows=" + page.getRows();
+            return "redirect:/admin/reservation/list";
         }
         return "redirect:/admin/reservation/list?error";
     }
