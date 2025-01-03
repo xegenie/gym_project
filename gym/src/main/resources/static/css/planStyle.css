@@ -187,6 +187,11 @@ textarea{resize: none;}
     background-color: #eeeeee;
   }
 
+  .comment-edit-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
 
 .pop-up{
   width: 350px;

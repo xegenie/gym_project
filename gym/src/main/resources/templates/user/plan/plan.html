@@ -72,18 +72,20 @@
                   <input type="hidden" th:value="${comment.no}" name="no" id="commentNo">
                   <input type="hidden" th:value="${comment.userNo}" name="userNo" id="userNo">
                   <span><b>코멘트</b></span><br>
-                  <textarea class="cContent" th:text="${comment.cContent}" name="cContent"></textarea><br>
+                  <textarea class="cContent cContent-edit" th:text="${comment.cContent}" name="cContent"></textarea><br>
                   <span><b>추천 식단</b></span><br>
-                  <textarea class="fContent" th:text="${comment.fContent}" name="fContent"></textarea>
+                  <textarea class="fContent fContent-edit" th:text="${comment.fContent}" name="fContent"></textarea>
                 </div>
               </div>
             </div> <!-- comment 끝 -->
             <div class="comment-btn-container button-container pt-2">
               <button type="button" id="editCommentButton">comment 입력</button>
               <div class="comment-edit" style="display: none;">
-                <button type="button" id="cancelEditComment">취소</button>
-                <button type="submit" id="updateCommentButton">수정</button>
-                <button type="button" id="insertCommentButton" onclick="insertComment()">저장</button>
+                <div class="comment-edit-container">
+                  <button type="button" id="cancelEditComment">취소</button>
+                  <button type="submit"  id="updateCommentButton">수정</button>
+                  <button type="button" id="insertCommentButton" onclick="insertComment()">저장</button>
+                </div>
               </div>
             </div>   
             <!-- comment-btn-container 끝 -->
