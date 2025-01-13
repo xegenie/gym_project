@@ -118,6 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const insertCommentButton = document.getElementById('insertCommentButton');
   const cContent = document.querySelector(".comment-content .comment-c .cContent");
   const fContent = document.querySelector(".comment-content .comment-c .fContent");
+  const cContentEdit = document.querySelector(".cContent-edit");
+  const fContentEdit = document.querySelector(".fContent-edit");
 
   const commentDetail = document.querySelector(".comment-detail");
   const commentEdits = document.querySelectorAll(".comment-edit");
@@ -139,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
     commentEdits.forEach(edit => {
       edit.style.display='block';
     });
+    updateCommentButton.style.display='block';
+    insertCommentButton.style.display='block';
 
     // 북마크
     if(document.getElementById('commentNo').value === '0'){
@@ -157,6 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
     commentEdits.forEach(edit => {
       edit.style.display='none';
     });
+    // cContentEdit.textContent = '';
+    // fContentEdit.textContent = '';
   });
 
   // 미니 캘린더 이전/다음 버튼 이벤트 추가
@@ -516,7 +522,9 @@ function updateThymeleafTemplate(comment) {
     commentDateElement.textContent = formattedDate;
     console.log("updateThymeleafTemplate comment.commentDate: " + comment.commentDate);
     console.log("typeof: updateThymeleafTemplate comment.commentDate: " + typeof(comment.commentDate));
-    document.getElementById('commentDate').value = new Date(comment.commentDate);
+
+    const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
+    document.getElementById('commentDate').value = localDate;
     commentContentElement.textContent = comment.ccontent || "";
     dietContentElement.textContent = comment.fcontent || "";
     
