@@ -1,6 +1,6 @@
 # 🏋️ **프로젝트 : FIT NEXUS**
 
-![jsp메인](https://chestnut-blinker-ca6.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F8cd794c0-c633-4008-b289-af6deeea8c4d%2Ffe1fbb5b-4dc0-461a-96a4-bcdabb325a44%2Fimage.png?table=block&id=169902bd-b12f-80eb-b7b9-cd98b3b4679a&spaceId=8cd794c0-c633-4008-b289-af6deeea8c4d&width=1420&userId=&cache=v2)
+![메인페이지.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/1e737ee9-7726-4de4-a9a9-64e4fde6c5e3/a2c7e3ca-7f43-42c7-b4f7-65d0198fc5ff/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png)
 
 ---
 
