@@ -1,6 +1,7 @@
 # 🏋️ **프로젝트 : FIT NEXUS**
 
-![메인페이지.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/1e737ee9-7726-4de4-a9a9-64e4fde6c5e3/a2c7e3ca-7f43-42c7-b4f7-65d0198fc5ff/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png)
+![Uploading image.png…]()
+
 
 ---
 
