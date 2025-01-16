@@ -1,8 +1,5 @@
 # 🏋️ **프로젝트 : FIT NEXUS**
-
-![Uploading image.png…]()
-
-
+https://www.notion.so/1692b8cb76648186b5a4c9382396158b?pvs=4#1692b8cb766481fba0c7e2b402c2e47c
 ---
 
 ## 🎥 **프로젝트 발표 영상**  
